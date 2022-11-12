@@ -1,0 +1,106 @@
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+변수 요약
+
+          측도 레    빈도
+역할        벨       개수
+
+ID        NOMINAL      1 
+TARGET    NOMINAL      1 
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+연결 리포트
+
+              Expected
+             Confidence    Confidence    Support              Transaction
+Relations       (%)           (%)          (%)        Lift       Count       Rule                                                           규칙 왼쪽                                     규칙 오른쪽
+
+      3          2.26         45.83        2.26      20.29       11.00       building| & beautiful| ==> beautiful building|NOUN_GROUP       building| & beautiful|                        beautiful building|NOUN_GROUP             
+      3          4.93        100.00        2.26      20.29       11.00       beautiful building|NOUN_GROUP ==> building| & beautiful|       beautiful building|NOUN_GROUP                 building| & beautiful|                    
+      4          3.90         47.83        2.26      12.26       11.00       location| & hotel| & great| ==> great location|NOUN_GROUP      location| & hotel| & great|                   great location|NOUN_GROUP                 
+      4          4.72         57.89        2.26      12.26       11.00       great location|NOUN_GROUP ==> location| & hotel| & great|      great location|NOUN_GROUP                     location| & hotel| & great|               
+      4          3.90         44.44        2.46      11.39       12.00       staff| & location| & great| ==> great location|NOUN_GROUP      staff| & location| & great|                   great location|NOUN_GROUP                 
+      4          5.54         63.16        2.46      11.39       12.00       great location|NOUN_GROUP ==> staff| & location| & great|      great location|NOUN_GROUP                     staff| & location| & great|               
+      3          9.24        100.00        3.90      10.82       19.00       great location|NOUN_GROUP ==> location| & great|               great location|NOUN_GROUP                     location| & great|                        
+      4          9.24        100.00        2.46      10.82       12.00       staff| & great location|NOUN_GROUP ==> location| & great|      staff| & great location|NOUN_GROUP            location| & great|                        
+      4          9.24        100.00        2.26      10.82       11.00       hotel| & great location|NOUN_GROUP ==> location| & great|      hotel| & great location|NOUN_GROUP            location| & great|                        
+      4          2.46         26.67        2.46      10.82       12.00       location| & great| ==> staff| & great location|NOUN_GROUP      location| & great|                            staff| & great location|NOUN_GROUP        
+      3          3.90         42.22        3.90      10.82       19.00       location| & great| ==> great location|NOUN_GROUP               location| & great|                            great location|NOUN_GROUP                 
+      4          2.26         24.44        2.26      10.82       11.00       location| & great| ==> hotel| & great location|NOUN_GROUP      location| & great|                            hotel| & great location|NOUN_GROUP        
+      4          3.49         28.95        2.26       8.29       11.00       room| & friendly| ==> staff| & clean|                          room| & friendly|                             staff| & clean|                           
+      4          7.80         64.71        2.26       8.29       11.00       staff| & clean| ==> room| & friendly|                          staff| & clean|                               room| & friendly|                         
+      4          7.19         57.89        2.26       8.06       11.00       beautiful hotel|NOUN_GROUP ==> staff| & hotel| & beautiful|    beautiful hotel|NOUN_GROUP                    staff| & hotel| & beautiful|              
+      4          3.90         31.43        2.26       8.06       11.00       staff| & hotel| & beautiful| ==> beautiful hotel|NOUN_GROUP    staff| & hotel| & beautiful|                  beautiful hotel|NOUN_GROUP                
+      3         12.53        100.00        2.26       7.98       11.00       helpful staff|NOUN_GROUP ==> staff| & helpful|                 helpful staff|NOUN_GROUP                      staff| & helpful|                         
+      3          2.26         18.03        2.26       7.98       11.00       staff| & helpful| ==> helpful staff|NOUN_GROUP                 staff| & helpful|                             helpful staff|NOUN_GROUP                  
+      2          2.26         17.19        2.26       7.61       11.00       building| ==> beautiful building|NOUN_GROUP                    building|                                     beautiful building|NOUN_GROUP             
+      3          2.26         17.19        2.26       7.61       11.00       building| ==> beautiful| & beautiful building|NOUN_GROUP       building|                                     beautiful| & beautiful building|NOUN_GROUP
+      4          2.26         17.19        2.26       7.61       11.00       hotel| & beautiful| ==> staff| & beautiful hotel|NOUN_GROUP    hotel| & beautiful|                           staff| & beautiful hotel|NOUN_GROUP       
+      3          3.90         29.69        3.90       7.61       19.00       hotel| & beautiful| ==> beautiful hotel|NOUN_GROUP             hotel| & beautiful|                           beautiful hotel|NOUN_GROUP                
+      2         13.14        100.00        2.26       7.61       11.00       beautiful building|NOUN_GROUP ==> building|                    beautiful building|NOUN_GROUP                 building|                                 
+      3         13.14        100.00        2.26       7.61       11.00       beautiful| & beautiful building|NOUN_GROUP ==> building|       beautiful| & beautiful building|NOUN_GROUP    building|                                 
+      3         13.14        100.00        3.90       7.61       19.00       beautiful hotel|NOUN_GROUP ==> hotel| & beautiful|             beautiful hotel|NOUN_GROUP                    hotel| & beautiful|                       
+
+ 
+                                                                                                                                                                                                    규칙
+Rule Item 1                      Rule Item 2                                 Rule Item 3                                 Rule Item 4                                 Rule Item 5                   인덱스
+
+building|                        beautiful|                                  =======================================>    beautiful building|NOUN_GROUP                                                2  
+beautiful building|NOUN_GROUP    =======================================>    building|                                   beautiful|                                                                   1  
+location|                        hotel|                                      great|                                      =======================================>    great location|NOUN_GROUP        4  
+great location|NOUN_GROUP        =======================================>    location|                                   hotel|                                      great|                           3  
+staff|                           location|                                   great|                                      =======================================>    great location|NOUN_GROUP        6  
+great location|NOUN_GROUP        =======================================>    staff|                                      location|                                   great|                           5  
+great location|NOUN_GROUP        =======================================>    location|                                   great|                                                                       7  
+staff|                           great location|NOUN_GROUP                   =======================================>    location|                                   great|                           8  
+hotel|                           great location|NOUN_GROUP                   =======================================>    location|                                   great|                          10  
+location|                        great|                                      =======================================>    staff|                                      great location|NOUN_GROUP        9  
+location|                        great|                                      =======================================>    great location|NOUN_GROUP                                                   11  
+location|                        great|                                      =======================================>    hotel|                                      great location|NOUN_GROUP       12  
+room|                            friendly|                                   =======================================>    staff|                                      clean|                          13  
+staff|                           clean|                                      =======================================>    room|                                       friendly|                       14  
+beautiful hotel|NOUN_GROUP       =======================================>    staff|                                      hotel|                                      beautiful|                      15  
+staff|                           hotel|                                      beautiful|                                  =======================================>    beautiful hotel|NOUN_GROUP      16  
+helpful staff|NOUN_GROUP         =======================================>    staff|                                      helpful|                                                                    17  
+staff|                           helpful|                                    =======================================>    helpful staff|NOUN_GROUP                                                    18  
+building|                        =======================================>    beautiful building|NOUN_GROUP                                                                                           19  
+building|                        =======================================>    beautiful|                                  beautiful building|NOUN_GROUP                                               20  
+hotel|                           beautiful|                                  =======================================>    staff|                                      beautiful hotel|NOUN_GROUP      21  
+hotel|                           beautiful|                                  =======================================>    beautiful hotel|NOUN_GROUP                                                  24  
+beautiful building|NOUN_GROUP    =======================================>    building|                                                                                                               22  
+beautiful|                       beautiful building|NOUN_GROUP               =======================================>    building|                                                                   25  
+beautiful hotel|NOUN_GROUP       =======================================>    hotel|                                      beautiful|                                                                  23  
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+규칙 통계량
+
+MEANS 프로시저
+
+변수        레이블                          최솟값          최댓값            평균
+----------------------------------------------------------------------------------
+EXP_CONF    Expected Confidence(%)       2.2587269      27.3100616       9.4147844
+CONF        Confidence(%)               10.0917431     100.0000000      45.9791785
+SUPPORT     Support(%)                   2.0533881       3.9014374       2.5102669
+LIFT        Lift                         3.6616541      20.2916667       5.3061842
+----------------------------------------------------------------------------------
+ 
+                                                                                                                                                                                                                                                                
+ 
+순차분석 리포트
+
+FREQ 프로시저
+
+                      Relations
+ 
+                                     누적       누적
+SET_SIZE      빈도      백분율       빈도      백분율
+-----------------------------------------------------
+       2          17      8.50           17      8.50
+       3          80     40.00           97     48.50
+       4         103     51.50          200    100.00

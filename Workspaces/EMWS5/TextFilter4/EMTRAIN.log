@@ -1,0 +1,1987 @@
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 21일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "19시48분38초" );
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 분석 로그";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+*------------------------------------------------------------*
+* 분석 로그
+날짜:                2018년 11월 21일
+시간:                19시48분38초
+*------------------------------------------------------------*
+MPRINT(EM_DIAGRAM):    filename O2SDQDPD "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\TextFilter4\EMTRAIN.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   proc printto print=O2SDQDPD new;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _LOG "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\TextFilter4\EMLOG.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 21일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "19시48분38초" );
+MPRINT(EM_DIAGRAM):   file _LOG;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "사용자:                Administrator";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "사이트:                10503192";
+MPRINT(EM_DIAGRAM):   put "플랫폼:            X64_10HOME";
+MPRINT(EM_DIAGRAM):   put "관리 릴리스: 9.04.01M4P110916";
+MPRINT(EM_DIAGRAM):   put "EM 버전:          14.2";
+MPRINT(EM_DIAGRAM):   put "* ";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _LOGIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\TextFilter4\EMTRAIN.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_COPYFILE):   data _null_;
+MPRINT(EM_COPYFILE):   length line $20000;
+MPRINT(EM_COPYFILE):   file _LOG MOD lrecl=20000;
+MPRINT(EM_COPYFILE):   fid=fopen("_LOGIN",'i',20000,'v');
+MPRINT(EM_COPYFILE):   if fid > 0 then do;
+MPRINT(EM_COPYFILE):   do while(^fread(fid));
+MPRINT(EM_COPYFILE):   rlen = frlen(fid);
+MPRINT(EM_COPYFILE):   rc= fget(fid,line,20000);
+MPRINT(EM_COPYFILE):   start = length(line)-length(left(line))+1;
+MPRINT(EM_COPYFILE):   line=strip(line);
+MPRINT(EM_COPYFILE):   put @start line;
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   if fid > 0 then rc=fclose(fid);
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   run;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _LOGIN;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   file _LOG mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   filename _LOGIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\TextFilter4\EMSCORE.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   file _LOG mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _LOGIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\TextFilter4\EMREPORT.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _LOGIN;
+MPRINT(EM_DIAGRAM):    filename _LOG;
+MPRINT(EM_DIAGRAM):    filename _OUT "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\TextFilter4\EMOUTPUT.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 21일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "19시48분38초" );
+MPRINT(EM_DIAGRAM):   file _OUT;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "사용자:                Administrator";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 분석 출력";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _OUTIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\TextFilter4\EMTRAIN.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   ;
+MPRINT(EM_COPYFILE):   data _null_;
+MPRINT(EM_COPYFILE):   length line $20000;
+MPRINT(EM_COPYFILE):   file _OUT MOD lrecl=20000;
+MPRINT(EM_COPYFILE):   fid=fopen("_OUTIN",'i',20000,'v');
+MPRINT(EM_COPYFILE):   if fid > 0 then do;
+MPRINT(EM_COPYFILE):   do while(^fread(fid));
+MPRINT(EM_COPYFILE):   rlen = frlen(fid);
+MPRINT(EM_COPYFILE):   rc= fget(fid,line,20000);
+MPRINT(EM_COPYFILE):   start = length(line)-length(left(line))+1;
+MPRINT(EM_COPYFILE):   line=strip(line);
+MPRINT(EM_COPYFILE):   put @start line;
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   if fid > 0 then rc=fclose(fid);
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   run;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _OUTIN;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   file _OUT mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   put // "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 스코어 출력";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _OUTIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\TextFilter4\EMSCORE.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _OUTIN;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   file _OUT mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   put // "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 리포트 출력";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _OUTIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\TextFilter4\EMREPORT.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _OUTIN;
+MPRINT(EM_DIAGRAM):    filename _OUT;
+MPRINT(EM_DIAGRAM):    filename _emtool_ 'C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\TextFilter4\EMRUNSTATUS.xml' encoding="UTF-8" NOBOM;
+30639      proc freq data=EMWS5.TextFilter4_VariableSet noprint;
+MPRINT(EM_DIAGRAM):    proc freq data=EMWS5.TextFilter4_VariableSet noprint;
+30640      table ROLE*LEVEL/out=WORK.TextFilter4META;
+MPRINT(EM_DIAGRAM):   table ROLE*LEVEL/out=WORK.TextFilter4META;
+30641      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 1개의 관측값을 데이터셋 EMWS5.TEXTFILTER4_VARIABLESET.에서 읽었습니다.
+NOTE: 데이터셋 WORK.TEXTFILTER4META은(는) 1개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: 프로시저 FREQ 실행(총 프로세스 시간):
+      실행 시간           0.07 초
+      cpu 시간            0.07 초
+      
+
+30642      proc print data=WORK.TextFilter4META label noobs;
+MPRINT(EM_DIAGRAM):   proc print data=WORK.TextFilter4META label noobs;
+30643      var ROLE LEVEL COUNT;
+MPRINT(EM_DIAGRAM):   var ROLE LEVEL COUNT;
+30644      label ROLE = "%sysfunc(sasmsg(sashelp.dmine, meta_role_vlabel, NOQUOTE))" LEVEL = "%sysfunc(sasmsg(sashelp.dmine, meta_level_vlabel, NOQUOTE))" COUNT = "%sysfunc(sasmsg(sashelp.dmine, rpt_count_vlabel, NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label ROLE = "역할" LEVEL = "측도 레벨" COUNT = "빈도 개수";
+30645      title9 ' ';
+MPRINT(EM_DIAGRAM):   title9 ' ';
+30646      title10 "%sysfunc(sasmsg(sashelp.dmine, rpt_varSummary_title  , NOQUOTE))";
+MPRINT(EM_DIAGRAM):   title10 "변수 요약";
+MPRINT(EM_DIAGRAM):   run;
+30647      run;
+
+NOTE: 1개의 관측값을 데이터셋 WORK.TEXTFILTER4META.에서 읽었습니다.
+NOTE: 출력 결과 (프로시저: PRINT, 페이지: 3)
+NOTE: 프로시저 PRINT 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.04 초
+      
+
+30648      title10;
+MPRINT(EM_DIAGRAM):   title10;
+30649      %let EMEXCEPTIONSTRING=;
+MPRINT(EM_DIAGRAM):     *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * TextFilter4: Generation of macros and macro variables;
+MPRINT(EM_DIAGRAM):   * To see the code generated, set the EM_DEBUG macro variable to SOURCE or _ALL_;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * TextFilter4: EM Macro Variables and Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   * System Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   length string $2000;
+MPRINT(EM_DIAGRAM):   string = 'DataMining2018';
+MPRINT(EM_DIAGRAM):   call symput('EM_PROJECTNAME', trim(string));
+MPRINT(EM_DIAGRAM):   string = 'Beekman';
+MPRINT(EM_DIAGRAM):   call symput('EM_WSNAME', trim(string));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   * Properties Macro Variables ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Files Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Import Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Export Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Decision Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Statement Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   set EMWS5.TextParsing4_EMINFO;
+MPRINT(EM_DIAGRAM):   where key in('HPDMSAMPLE', 'IDSTABLE');
+MPRINT(EM_DIAGRAM):   if key = 'HPDMSAMPLE' then call symput('_ForceGrid', '1');
+MPRINT(EM_DIAGRAM):   else call symput('_IDS_TABLE', DATA);
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(HPDM_PERFORMANCE):  ;
+PERFORMANCE  DETAILS
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Variable Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * General Variable Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Target Variable Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Input Variable Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Rejected Variable Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Misc Variable Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * End Create EM Macro Variables and Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+31009      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+31010      * TextFilter4: Generation of macros and macro variables;
+MPRINT(EM_DIAGRAM):   * TextFilter4: Generation of macros and macro variables;
+31011      * To see the code generated, set the EM_DEBUG macro variable to SOURCE or _ALL_;
+MPRINT(EM_DIAGRAM):   * To see the code generated, set the EM_DEBUG macro variable to SOURCE or _ALL_;
+31012      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+
+31013      %let EMEXCEPTIONSTRING=;
+31014      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+31015      * TRAIN: TextFilter4;
+MPRINT(EM_DIAGRAM):   * TRAIN: TextFilter4;
+31016      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+31017      %let EM_ACTION = TRAIN;
+31018      %let syscc = 0;
+31019      %macro main();
+31020          %if %upcase("&EM_ACTION") eq "CREATE" %then %do;
+31021              filename temp catalog 'sashelp.emtxtext.filter_create.source';
+31022              %include temp;
+31023              %create();
+31024          %end;
+31025          %if %upcase("&EM_ACTION") eq "TRAIN" %then %do;
+31026              filename temp catalog 'sashelp.emtxtext.filter_train.source';
+31027              %include temp;
+31028              %train();
+31029          %end;
+31030          %if %upcase("&EM_ACTION") eq "SCORE" %then %do;
+31031              filename temp catalog 'sashelp.emtxtext.filter_score.source';
+31032              %include temp;
+31033              %score();
+31034          %end;
+31035          %if %upcase("&EM_ACTION") eq "REPORT" %then %do;
+31036              filename temp catalog 'sashelp.emtxtext.filter_report.source';
+31037              %include temp;
+31038             %report();
+31039          %end;
+31040           %if %upcase(&EM_ACTION) eq OPENTABLE1 %then %do;
+31041             filename temp catalog 'sashelp.emtxtext.filter_actions.source';
+31042             %include temp;
+31043             filename temp;
+31044             %openTable1;
+31045         %end;
+31046      %mend main;
+31047      
+31048      %main();
+MPRINT(EM_DIAGRAM):    
+MPRINT(MAIN):   filename temp catalog 'sashelp.emtxtext.filter_train.source';
+NOTE: %INCLUDE(레벨 1) 파일 TEMP은(는) 파일 SASHELP.EMTXTEXT.FILTER_TRAIN.SOURCE입니다.
+31049     +/* ****************************************************************
+31050     + * Copyright (C) 2009 by SAS Institute Inc., Cary, NC 27513
+31051     + *
+31052     + * Name:             filter_train.sas
+31053     + * Product:          SAS Text Miner
+31054     + * Language:         Sas
+31055     + * Script:
+31056     + *
+31057     + * Usage:
+31058     + *
+31059     + * Purpose:
+31060     + *
+31061     + * History:
+31062     + * 11Aug09 Major rewrite
+31063     + *
+31064     + * Notes:
+31065     + *
+31066     + * Last Modified By:
+31067     + * Last Modified On: Mon Nov 02 14:19:01 2009
+31068     + *
+31069     + * End
+31070     + * ************************************************************** */
+31071     +%macro train();
+31072     +   %global tmutil_memloc last_parse_node last_filter_node last_prescore_node server_err
+31073     +      parsevar EM_SASMSG systmutil systmspell;
+31074     +   %let EM_SASMSG=TMINE;
+31075     +   %let systmutil = ;
+31076     +   %let systmspell = ;
+31077     +   %let syscc=0;
+31078     +    %if ^%symexist(tm_debug) %then %let tm_debug=0;
+31080     +    filename temp catalog 'sashelp.emtxtext.tm_get_last_filter.source';
+31081     +    %include temp;
+31082     +    %tm_get_last_filter(eminfo=&EM_IMPORT_DATA_EMINFO,em_lib=&em_lib,
+31083     +                        em_variableset=&em_data_variableset);
+31084     +   %if &EMEXCEPTIONSTRING ne %then %goto end_filter_train;
+31086     +   %em_getname(key=filter_ids, type=data);
+31087     +   %em_getname(key=doc_ids, type=data);
+31088     +   %em_getname(key=terms_data, type=data);
+31089     +   %em_getname(key=tmconfig, type=data);
+31090     +   %em_getname(key=intersynds, type=data);
+31091     +   %em_getname(key=interdropds, type=data);
+31092     +   %em_getname(key=synonymImport, type=data);
+31094     +   %em_getname(key=terms, type=data);
+31095     +   %em_getname(key=terms_tmf, type=data);
+31096     +   %em_getname(key=term_strings, type=data);
+31097     +   %em_getname(key=searchDS, type=data);
+31098     +   %em_getname(key=expand_searchDS, type=data);
+31099     +   %em_getname(key=tmout, type=data);
+31101     +   /* make sure datasets are inited*/
+31102     +   filename temp catalog 'sashelp.emtxtext.filter_actions.source';
+31103     +   %include temp;
+31104     +   filename temp;
+31105     +   %openTable1();
+31108     +       %if  %length(&EM_PROPERTY_SEARCHPHRASE)>0  %then %do;
+31109     +           data &EM_USER_searchDS;
+31110     +               length query $32000;
+31111     +               query = "&EM_PROPERTY_SEARCHPHRASE";
+31112     +           run;
+31113     +       %end;
+31114     +       %else %do;
+31115     +            data &EM_USER_searchDS;
+31116     +               length query $32000;
+31117     +               query = " ";
+31118     +           run;
+31119     +        %end;
+31121     +       %if ^%sysfunc(exist(&EM_USER_expand_searchDS)) %then %do;
+31122     +           data &EM_USER_expand_searchDS;
+31123     +               length query $32000;
+31124     +               query = " ";
+31125     +           run;
+31126     +       %end;
+31129     +  data _null_;
+31130     +      retain target '';
+31131     +      set &em_data_variableset end=eof;
+31132     +      if upcase(ROLE)='TARGET' and USE in ('D', 'Y') then target = name;
+31133     +      if eof then do;
+31134     +         call symput('target_exists', target);
+31135     +      end;
+31136     +   run;
+31137     +   proc sql noprint;
+31138     +      create table &EM_USER_tmconfig as
+31139     +         select *
+31140     +         from &EM_LIB..&last_filter_node._tmconfig;
+31141     +   quit;
+31143     +   /* get target variable info */
+31144     +    %let targetvar = ;
+31145     +    data _null_;
+31146     +       set &em_data_variableset(where=(ROLE='TARGET' and USE in('Y' 'D')
+31147     +                                       and LEVEL ne 'INTERVAL'));
+31148     +       if _N_=1 then call symput('targetvar', strip(NAME));
+31149     +    run;
+31151     +    %if &target_exists ne and &targetvar= %then
+31152     +        %put %sysfunc(sasmsg(sashelp.tmine, EMTOOL.FILTERTARGET_NOTE, NOQUOTE));
+31155     +   %if %eval(&syscc)>4 %then %goto end_filter_train;
+31157     +     %let tmutil_cellWeight = ;
+31158     +     %let tmutil_termWeight = ;
+31160     +   * cell weights;
+31161     +   %if %upcase(&EM_PROPERTY_cellWeight) eq DEFAULT %then %do;
+31162     +      %if &last_filter_node eq &last_parse_node %then %let tmutil_cellWeight = LOG;
+31163     +      %else %do;
+31164     +         data _NULL_;
+31165     +         set &em_lib..&last_filter_node._tmconfig;
+31166     +         call symput('tmutil_cellweight',cellwgt);
+31167     +         run;
+31168     +         %end;
+31169     +      %end;
+31170     +   %else %let tmutil_cellWeight=&em_property_cellWeight;
+31172     +   *term weights;
+31173     +   %if %kupcase(&EM_PROPERTY_termWeight) eq DEFAULT %then %do;
+31174     +      %if &last_filter_node eq &last_parse_node %then %do ;
+31175     +         %if &targetvar eq %then %let tmutil_termWeight = ENTROPY;
+31176     +         %else %let tmutil_termWeight = MI;
+31177     +         %end;
+31178     +      %else %do;
+31179     +         data _NULL_;
+31180     +            set &em_lib..&last_filter_node._tmconfig;
+31181     +            call symput('tmutil_termweight',termwgt);
+31182     +         run;
+31183     +         %end;
+31184     +      %end;
+31186     +   %else %if %kupcase(&EM_PROPERTY_termWeight) eq MUTUALINFORMATION %then %do;
+31187     +      %if &targetvar eq %then %do;
+31188     +         /* Error condition if user specifies MI without categorical target */
+31189     +         /* Change this later to be non-generic */
+31190     +         %let EMEXCEPTIONSTRING=EMTOOL.INVALID_MI_WEIGHT;
+31191     +         %goto end_filter_train;
+31192     +         %end;
+31193     +      %else %let tmutil_termWeight = MI;
+31194     +      %end;
+31195     +   %else %let tmutil_termWeight=&em_property_termWeight;
+31197     +      * Set config file to contain weightings and target variable used.;
+31198     +      data &EM_USER_tmconfig;
+31199     +         length cellwgt $24 termwgt $24 last_prescore $32;
+31200     +         set &EM_USER_tmconfig;
+31201     +         cellwgt = "&tmutil_cellWeight";
+31202     +         termwgt = "&tmutil_termWeight";
+31203     +         targetvar = "&targetvar";
+31204     +         lastfilternode = "&last_filter_node";
+31205     +         lastparsenode = "&last_parse_node";
+31206     +         last_prescore= "&last_prescore_node";
+31207     +         call symput("indexpath", indexpath);
+31208     +         maxterms = &em_property_maxTerms;
+31209     +         mindocs = &em_property_mindocs;
+31210     +      run;
+31211     +   %if %eval(&syscc)>4 %then %do;
+31212     +      %let  EMEXCEPTIONSTRING = &syscc : &sysmsg;
+31213     +      %goto end_filter_train;
+31214     +   %end;
+31218     +   proc sql noprint;
+31219     +      create view &EM_LIB..&EM_NODEID._Terms_synModified as
+31220     +      select *
+31221     +      from &EM_LIB..&last_filter_node._terms;
+31222     +   quit;
+31224     +   filename temp catalog 'sashelp.emtxtext.filter_syns.source';
+31225     +    %include temp;
+31226     +/* get the import Syn ds ready and
+31227     +   we may need to append some terms to terms table*/
+31231     +    %let numimportsyn=0;
+31232     +    %let term_role_string = termrole;
+31234     +    proc sql noprint;
+31235     +       create table &EM_USER_Synonymimport as
+31236     +       select *
+31237     +       from &EM_USER_Synonymimport
+31238     +       where term ne "";
+31240     +       select count(*) into: numimportsyn
+31241     +       from &EM_USER_Synonymimport;
+31243     +       select tagging into: _taggingon
+31244     +       from &EM_LIB..&EM_NODEID._tmconfig;
+31245     +    quit;
+31247     +    %if &numimportsyn>0  ne %then %do;
+31248     +   /* Check the vars */
+31249     +        %let dsid=%sysfunc(open(&EM_USER_Synonymimport));
+31250     +        %if &dsid ne 0 %then %do;
+31251     +            %let var_term=%sysfunc(varnum(&dsid,term));
+31252     +            %let var_termrole=%sysfunc(varnum(&dsid,termrole));
+31253     +            %if &var_termrole=0 %then %do;
+31254     +                %let var_termrole = %sysfunc(varnum(&dsid,category));
+31255     +                %if &var_termrole >0 %then %let term_role_string=category;
+31256     +            %end;
+31257     +            %let var_parent=%sysfunc(varnum(&dsid,parent));
+31258     +            %let var_parentrole=%sysfunc(varnum(&dsid,parentrole));
+31259     +            %if &var_parentrole=0 and &var_termrole>0 %then %put %sysfunc(SASMSG(sashelp.tmine,EMTOOL.SYN_NO_PR_WARN,NOQUOTE));
+31260     +            %if &_taggingon=Y  AND  &var_termrole=0 AND &var_parentrole>0 %then %put %sysfunc(SASMSG(sashelp.tmine,EMTOOL.SYN_NO_TR_WARN,NOQUOTE));
+31261     +            %if &var_term =0 or &var_parent =0  %then %do;
+31262     +                %let EMEXCEPTIONSTRING=EMTOOL.SAVESYNVARS;
+31263     +                %let rc=%sysfunc(close(&dsid));
+31264     +                %goto end_filter_train;
+31265     +            %end;
+31266     +            %let rc=%sysfunc(close(&dsid));
+31267     +        %end;
+31269     +        %processimportsyn(insyn=&em_user_synonymImport, outterms=&EM_LIB..&EM_NODEID._terms_new_synimport,
+31270     +                          currentterms=&EM_LIB..&last_filter_node._terms );
+31271     +        proc sql undo_policy=none noprint;
+31272     +            select count(*) into: numNonExist
+31273     +            from &EM_LIB..&EM_NODEID._terms_new_synimport;
+31274     +        quit;
+31275     +        %if &numNonExist >0 %then %do;
+31276     +             data &EM_LIB..&EM_NODEID._Terms_synModified/ view=&EM_LIB..&EM_NODEID._Terms_synModified;
+31277     +               set &EM_LIB..&last_filter_node._terms &EM_LIB..&EM_NODEID._terms_new_synimport;
+31278     +            run;
+31279     +        %end;
+31284     +    %end;
+31288     +    /* set up terms strings and initial config table */
+31289     +   proc sql noprint;
+31290     +      create table &em_user_term_strings as
+31291     +         select distinct key, term, role, rolestring, attribute,attrstring from
+31292     +         &EM_LIB..&EM_NODEID._Terms_synModified;
+31293     +      quit;
+31295     +  /* check for empty data*/
+31296     +  proc sql noprint;
+31297     +     select count(*) into: _numdataobs
+31298     +     from &EM_LIB..&last_filter_node._tmout;
+31299     +  quit;
+31301     +  %if &_numdataobs<1 %then %do;
+31302     +      %let syscc=1000;
+31303     +     %let emexceptionstring=exception.server.EMTOOL.FILTER_DATA_ZERO;
+31304     +     %goto  end_filter_train;
+31305     +  %end;
+31309     +   %let tmutil_memloc = ;
+31310     +   proc tmutil data=&EM_LIB..&last_filter_node._tmout
+31311     +      key=&EM_LIB..&EM_NODEID._Terms_synModified
+31312     +      doc=&EM_IMPORT_DATA
+31313     +      %if &targetvar ne %then target=&targetvar;
+31314     +            ;
+31315     +      control init memloc='tmutil_memloc';
+31316     +   run;
+31318     +  %if "%ktrim(&systmutil)" ne "" %then %goto end_filter_train;
+31322     +   * spell check ;
+31323     +   %if %upcase(&EM_PROPERTY_spellCheck) eq Y or %upcase(&EM_PROPERTY_spellCheck) eq TRUE %then %do;
+31324     +      %em_getname(key=spellDS, type=data);
+31326     +     /* Note: for the following macro variables, anything that begins with tmm_
+31327     +      are macro variables that the user may or may not set.  If they are not set,
+31328     +      then they should default to the value given */
+31329     +      %em_checkmacro(name=tmm_minparent, global=Y, value=0);
+31330     +      %em_checkmacro(name=tmm_maxchild, global=Y, value=0);
+31331     +      %em_checkmacro(name=tmm_maxspedis, global=Y, value=15);
+31332     +      %em_checkmacro(name=tmm_multipen, global=Y, value=2);
+31333     +      %em_checkmacro(name=tmm_dictpen, global=Y, value=2);
+31335     +      %if &tmm_minparent eq 0 or &tmm_maxchild eq 0 %then %do;
+31336     +         proc sql noprint; select int(log10(count(*))) into :docobs from &em_import_data; quit;
+31337     +         %if &tmm_minparent eq 0 %then %let tmm_minparent=%eval(&docobs+1);
+31338     +         %if &tmm_maxchild eq 0 %then %let tmm_maxchild=%eval(&docobs+4);
+31339     +         %end;
+31341     +      proc tmspell data=&EM_LIB..&last_filter_node._terms (where=(_ispar ne '+'))
+31342     +         out=&EM_USER_spellDS
+31343     +         %if &em_property_spellDict ne %then dict=&em_property_spellDict;
+31344     +         minparents=&tmm_minparent maxchildren=&tmm_maxchild
+31345     +         maxspedis=&tmm_maxspedis multipen=&tmm_dictpen different role;
+31346     +         run;
+31348     +      /* Add error checking once we know how proc tmspell returns errors */
+31349     +      %if %eval(&syscc)>4 %then %do;
+31350     +         %goto pre_end_filter_train;
+31351     +         %end;
+31355     +      proc sql noprint;
+31356     +         create table &em_user_spellds as
+31357     +            select a.*, b.key as _termnum_,c.key as parent_id
+31358     +            from &EM_USER_spellDS as a,
+31359     +                 &em_user_term_strings as b,
+31360     +                 &em_user_term_strings as c
+31361     +            where a.term=b.term and a.parent=c.term
+31362     +            and a.termrole=b.role and a.parentrole=c.role;
+31364     +         create view _synview as
+31365     +            select _termnum_,parent_id as parent
+31366     +            from &EM_USER_spellDS;
+31367     +         quit;
+31368     +         %if &tm_debug =0  %then %do;
+31369     +            proc sql;
+31370     +               drop table _synview;
+31371     +            quit;
+31372     +         %end;
+31374     +      /* Add labels to spellds */
+31375     +      data &em_user_spellds;
+31376     +         set &em_user_spellds;
+31377     +         label numdocs="%sysfunc(sasmsg(sashelp.tmine, rpt_text_parentndocs_vlabel, NOQUOTE))"
+31378     +               term="%sysfunc(sasmsg(sashelp.tmine, rpt_text_term_vlabel, NOQUOTE))"
+31379     +               childndocs="%sysfunc(sasmsg(sashelp.tmine, rpt_text_numdocs_vlabel, NOQUOTE))"
+31380     +               parent="%sysfunc(sasmsg(sashelp.tmine, rpt_text_parent_vlabel, NOQUOTE))"
+31381     +               termrole="%sysfunc(sasmsg(sashelp.tmine, rpt_text_role_vlabel, NOQUOTE))"
+31382     +               parentrole="%sysfunc(sasmsg(sashelp.tmine, rpt_text_parentrole_vlabel, NOQUOTE))"
+31383     +               minsped="%sysfunc(sasmsg(sashelp.tmine, rpt_text_mindistance_vlabel, NOQUOTE))"
+31384     +               dict="%sysfunc(sasmsg(sashelp.tmine, rpt_text_dictionary_vlabel, NOQUOTE))"
+31385     +               _termnum_="%sysfunc(sasmsg(sashelp.tmine, rpt_text_key_vlabel, NOQUOTE))"
+31386     +               parent_id="%sysfunc(sasmsg(sashelp.tmine, rpt_text_parentid_vlabel, NOQUOTE))"
+31387     +         ;
+31388     +      run;
+31390     +      %if %eval(&syscc)>4 %then %do;
+31391     +         %let  EMEXCEPTIONSTRING = &syscc : &sysmsg;
+31392     +         %goto pre_end_filter_train;
+31393     +         %end;
+31394     +      proc tmutil;
+31395     +         control memloc='tmutil_memloc';
+31396     +         syn syndata=_synview;
+31397     +      run;
+31398     +     %if "%ktrim(&systmutil)" ne "" %then %goto pre_end_filter_train;
+31399     +   %end;/* end spellds*/
+31402     +   * now put in correct term_ids in interdropds and intersynds based on input terms table ;
+31403     +      proc sql undo_policy=none noprint;
+31404     +         create table &em_user_interdropds as
+31405     +            select a.term, a.role, a.keep, a.datetime, b.key as term_id
+31406     +            from &em_user_interdropds as a, &em_user_term_strings as b
+31407     +            where a.term=b.term and a.role=b.role
+31408     +            order by datetime;
+31409     +         create table &em_user_intersynds as
+31410     +            select a.child, a.child_role, a.parent, a.parent_role,a.add,a.datetime,
+31411     +               b.key as child_id,c.key as parent_id
+31412     +            from &EM_USER_intersynDS as a,
+31413     +                 &em_user_term_strings as b,
+31414     +                 &em_user_term_strings as c
+31415     +            where a.child=b.term and a.parent=c.term
+31416     +            and a.child_role=b.role and a.parent_role=c.role
+31417     +            order by datetime;
+31418     +               quit;
+31419     +   %if %eval(&sqlrc) > 4 %then %do;
+31420     +      %let EMEXCEPTIONSTRING=&sqlrc:sysmsg();
+31421     +      %goto pre_end_filter_train;
+31422     +      %end;
+31424     +   * now process intersynds through Proc tmutil;
+31425     +   data _null_;
+31426     +      set &EM_USER_intersynds;
+31427     +      call execute('%change_synonym('||child_id||', '||parent_id||', '||add||')');
+31428     +   run;
+31430     +    %if &numimportsyn>0 %then %do;
+31431     +        %tm_ifnotags(insyn=&em_user_synonymImport, outsyn=_syntemp, currentterms=&EM_LIB..&EM_NODEID._Terms_synModified);
+31433     +        proc sql undo_policy=none noprint;
+31434     +            create table _importsynkey1 as
+31435     +            select a.*,
+31436     +                   b.key as _termnum_,
+31437     +                   c.key as parent_id
+31438     +            from _syntemp a,&em_user_term_strings b,&em_user_term_strings c
+31439     +            where (klowcase(a.term)=b.term)
+31440     +                  %if &var_termrole >0 %then and (klowcase(a.&term_role_string.)=klowcase(b.role) or a.&term_role_string.="");
+31441     +               and
+31442     +                  (klowcase(a.parent)=c.term)
+31443     +                  %if &var_parentrole>0 %then and (klowcase(a.parentrole)=klowcase(c.role)or a.parentrole="");
+31444     +                  /* use termrole as parentrole when termrole specified but not parentrole.*/
+31445     +                  %else %if &var_termrole>0 %then and (klowcase(a.&term_role_string)=klowcase(c.role));
+31446     +                  ;
+31450     +           %if &var_termrole>0 AND  %upcase(&_taggingon) eq N  %then %do;
+31451     +               /*get matches that have no role*/
+31452     +               create table _remainimportsynkey as
+31453     +                   select a.term, a.parent
+31454     +                   from _syntemp a
+31455     +                   /* if parentrole exists it must be blank here*/
+31456     +                   /*%If &var_parentrole>0 %then where a.parentrole="";*/
+31457     +                   except
+31458     +                   select b.term, b.parent
+31459     +                   from  _importsynkey1 b;
+31461     +               select count(*) into: _numObsremain
+31462     +                   from _remainimportsynkey;
+31463     +               %if &_numobsremain>0 %then %do;
+31464     +                   create table _importsynkey2(drop=num1) as
+31465     +                       select a.*,
+31466     +                              b.key as _termnum_,
+31467     +                              c.key as parent_id,
+31468     +                              monotonic() as num1
+31469     +                       from _remainimportsynkey a,&em_user_term_strings b,&em_user_term_strings c
+31470     +                       where (klowcase(a.term)=b.term) and   (klowcase(a.parent)=c.term)
+31471     +                       group by a.term
+31472     +                       having min(num1)=num1
+31473     +                       ;
+31474     +                      create table _importsynkey1 as
+31475     +                        select *
+31476     +                        from _importsynkey1
+31477     +                        outer union corr
+31478     +                        select *
+31479     +                        from _importsynkey2;
+31480     +               %end;
+31483     +            %end;
+31486     +            create table _importsynkey as
+31487     +               select _termnum_,parent_id as parent
+31488     +               from _importsynkey1;
+31489     +        quit;
+31496     +   data &EM_LIB..&EM_NODEID._importsynkey;
+31497     +   set _importsynkey;
+31498     +   run;
+31502     +        %let numimportsyn=0;
+31503     +        proc sql noprint;
+31504     +            select count(*) into :numimportsyn
+31505     +            from _importsynkey;
+31506     +        quit;
+31507     +        %if &numimportsyn>0 %then %do;
+31508     +           proc tmutil;
+31509     +               control memloc='tmutil_memloc';
+31510     +               syn syndata= _importsynkey %if &sysver ^= 9.2 %then force;
+31511     +               ;
+31512     +           run;
+31513     +           %if "%ktrim(&systmutil)" ne "" %then %goto pre_end_filter_train;
+31515     +        %end;
+31516     +        run;
+31517     +   %end;
+31523     +   /* Create terms view that everything else will work off of */
+31524     +   proc sql noprint;
+31525     +      create view &EM_USER_terms_tmf as
+31526     +         select b.key ,
+31527     +           a.term ,
+31528     +           a.role ,
+31529     +           a.rolestring,
+31530     +           a.attribute,
+31531     +           a.attrstring,
+31532     +           b.weight ,
+31533     +           b.freq,
+31534     +           b.numdocs,
+31535     +           b.keep ,
+31536     +           b._ispar ,
+31537     +           b.parent ,
+31538     +           b.parent_id
+31540     +         from &EM_USER_terms_data as b, &em_user_term_strings as a
+31541     +         where  a.key = b.key;
+31542     +      create view &EM_USER_terms as
+31543     +         select * from &EM_USER_terms_tmf where keep='Y' order by key, _ispar;
+31544     +      quit;
+31549     +   /* Process where-phrase */
+31551     +   %let where_phrase=;
+31552     +   %if %nrbquote(&EM_PROPERTY_whereDoc) ne  %then %do;
+31553     +      %let where_phrase=%trim(%nrbquote(&EM_PROPERTY_whereDoc));
+31554     +      %end;
+31555     +   %if %nrbquote(&where_phrase) ne %then %do;
+31556     +      proc sql noprint;
+31557     +            create table &EM_USER_filter_ids as
+31558     +            select _document_
+31559     +            from &EM_IMPORT_DATA
+31560     +            where %unquote(&EM_PROPERTY_whereDoc);
+31561     +      quit;
+31562     +      proc tmutil;
+31563     +         control memloc='tmutil_memloc';
+31564     +         filter docdata=&EM_USER_filter_ids;
+31565     +      run;
+31566     +     %if "%ktrim(&systmutil)" ne "" %then %goto pre_end_filter_score;
+31567     +      %end;
+31568     +   %else %do;
+31569     +      proc sql noprint;
+31570     +            create table &EM_USER_filter_ids as
+31571     +            select _document_
+31572     +               from &EM_IMPORT_DATA;
+31573     +      quit;
+31574     +      %end;
+31576     +      * *** Check to see if there is a search phrase *** ;
+31577     +      %em_getname(key=searchDS, type=data);
+31580     +    /* Now apply filter */
+31581     +    filename temp catalog 'sashelp.emtxtext.tmf_filter_apply.source';
+31582     +    %include temp;
+31583     +   /* Now call %tmf_filter_apply() to apply search phrase and to
+31584     +     apply weights and keep/drop status based on properties, result,
+31585     +     and user modifications */
+31586     +   %tmf_filter_apply(termDS=&EM_LIB..&EM_NODEID._Terms_synModified,
+31587     +                     searchDS=&em_user_searchds,
+31588     +                     interdropDS=&EM_USER_interdropds,
+31589     +                     indexpath=%nrbquote(&indexpath),
+31590     +                     memloc=tmutil_memloc,
+31591     +                     mindocs=&EM_PROPERTY_mindocs,
+31592     +                     cellweight=&tmutil_cellWeight,
+31593     +                     termweight=&tmutil_termweight,
+31594     +                     maxterms=&EM_PROPERTY_maxTerms,
+31595     +                     expand_query_ds=&em_user_expand_searchds,
+31596     +                     filter_ids=&EM_USER_filter_ids,
+31597     +                     doc_ids=&EM_USER_doc_ids,
+31598     +                     prefix=&EM_NODEID);
+31599     +      %if "%ktrim(&EMEXCEPTIONSTRING)" ne "" or "%ktrim(&systmutil)"  ne ""
+31600     +              %then %goto pre_end_filter_train;
+31602     +   * add the info to EMINFO to forward on to other nodes ;
+31603     +   data &EM_DATA_EMINFO;
+31604     +      length TARGET KEY $32 DATA $43;
+31606     +      key="LastTMNode";
+31607     +      data="&EM_NODEID";
+31608     +      output;
+31610     +      key="LastTMNodeType";
+31611     +      data="TextFilter";
+31612     +      output;
+31614     +      key="LastTextFilter";
+31615     +      data="&EM_NODEID";
+31616     +      output;
+31618     +      key="PRESCORECODE";
+31619     +      data="&EM_NODEID";
+31620     +      output;
+31621     +   run;
+31622     +   %em_metachange(name=&EM_NODEID._relevance, role=REJECTED, level=INTERVAL);
+31623     +  %let sysrc=0; %let syscc=0;
+31624     +   %pre_end_filter_train:
+31625     +   /* Terminate proc tmutil on error, saving the current terms table
+31626     +      in terms_data.  If no error, then score action should just take
+31627     +      over where train action left off */
+31628     +   %if "%ktrim(&systmutil)" ne "" or "%ktrim(&EMEXCEPTIONSTRING)" ne "" or
+31629     +       "%ktrim(&systmspell)" ne ""%then %do;
+31630     +      proc tmutil;
+31631     +      control memloc='tmutil_memloc' release;
+31632     +      output key=&EM_USER_terms_data;
+31633     +      run;
+31634     +   %end;
+31636     +  %end_filter_train:
+31637     +    %if ^%symexist(tm_debug) %then %let tm_debug=0;
+31638     +       %if &tm_debug =0  %then %do;
+31639     +          proc sql noprint;
+31640     +            drop table _importsynkey1, _importsynkey2, _remainimportsynkey;
+31641     +         quit;
+31642     +     %end;
+31643     +     %if "%ktrim(&systmspell)" ne "" %then %do;
+31644     +        %let EMEXCEPTIONSTRING = EMTOOL.TMSPELL,&systmspell;
+31645     +        %put emexceptionstring= "&EMEXCEPTIONSTRING";
+31646     +        %let syscc=0;
+31647     +         %end;
+31648     +     %else %if "%ktrim(&systmutil)" ne "" %then %do;
+31649     +        %let EMEXCEPTIONSTRING = EMTOOL.TMUTIL,&systmutil;
+31650     +        %put emexceptionstring= "&EMEXCEPTIONSTRING";
+31651     +        %let syscc=0;
+31652     +         %end;
+31654     +   %endtrain:
+31655     +%mend train;
+31657     +%macro change_synonym(child_id, parent_id, add);
+31658     +   %global tmutil_memloc;
+31660     +   proc tmutil;
+31661     +      control memloc='tmutil_memloc';
+31662     +      syn parent=&parent_id childlist=&child_id
+31663     +      %if &add eq N %then %do;
+31664     +         unset
+31665     +      %end;
+31666     +      ;
+31667     +   run;
+31668     +%mend change_synonym;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(TRAIN):   filename temp catalog 'sashelp.emtxtext.tm_get_last_filter.source';
+NOTE: %INCLUDE(레벨 1) 파일 TEMP은(는) 파일 SASHELP.EMTXTEXT.TM_GET_LAST_FILTER.SOURCE입니다.
+31669     +/* ****************************************************************
+31670     + * Copyright (C) 2009 by SAS Institute Inc., Cary, NC 27513
+31671     + *
+31672     + * Name:             tm_get_last_filter.sas
+31673     + * Product:          SAS Text Miner
+31674     + * Language:         Sas
+31675     + * Script:
+31676     + *
+31677     + * Usage:
+31678     + *
+31679     + * Purpose:  macro to get the last filter node and the last parse node in the
+31680     + *   diagram that corresponds to the current parse variable.  If there is no filter
+31681     + *   node, the filter node is set to the last parse node.
+31682     + *
+31683     + *
+31684     + *
+31685     + * History:
+31686     + * 14Aug09 Initial Coding
+31687     + *
+31688     + * Notes:
+31689     + *    Returns an error in the following cases:
+31690     + *      1. There is no preceding parse node.
+31691     + *      2. There is no parse node with the current parse variable.
+31692     + *
+31693     + * Last Modified By:
+31694     + * Last Modified On: Wed Sep 23 15:35:04 2009
+31695     + *
+31696     + * End
+31697     + * ************************************************************** */
+31698     +%macro tm_get_last_filter(eminfo=,em_lib=, em_variableset=);
+31699     +   %let last_parse_node=;
+31700     +   %let last_filter_node=;
+31701     +   %let last_prescore_node=;
+31702     +   %let server_err=;
+31703     +   %let EMEXCEPTIONSTRING=;
+31704     +   %let syscc=0;
+31705     +
+31706     +    /* verify that setinit for SAS Text Miner is currently active */
+31707     +    %if %sysfunc(sysprod(PRODNUM107)) ne 1 %then %do;
+31708     +       %let EMEXCEPTIONSTRING = EMTOOL.NOTMLICENSE;
+31709     +        %goto end_macro;
+31710     +        %end;
+31711     +
+31712     +
+31713     +    * find last filter or text parse node if no filter node. ;
+31714     +   %if %sysfunc(exist(&eminfo)) %then %do;
+31715     +      proc sql noprint;
+31716     +      select data into :last_parse_node from &eminfo where key="LastTextParsing";
+31717     +         select data into :last_filter_node from &eminfo where key="LastTextFilter";
+31718     +         select data into :last_prescore_node from &eminfo where kupcase(key)="PRESCORECODE";
+31719     +      quit;
+31720     +
+31721     +   %end;
+31722     +
+31723     +   %if &last_parse_node= %then %do;
+31724     +      %let EMEXCEPTIONSTRING = EMTOOL.NOPARSINGNODE;
+31725     +      %goto end_macro;
+31726     +      %end;
+31727     +
+31728     +   %else %if &last_filter_node= %then %let last_filter_node = %ktrim(&last_parse_node);
+31729     +   %else %let last_filter_node = %ktrim(&last_filter_node);
+31730     +   %let last_parse_node = %ktrim(&last_parse_node);
+31731     +
+31732     +   * Check to make sure parse variable is present and still exists;
+31733     +   %let parsevar = ;
+31734     +   proc sql noprint;
+31735     +    select parsevar into :parsevar
+31736     +    from &em_lib..&last_filter_node._tmconfig;
+31737     +    quit;
+31738     +
+31739     +    *check for dropped parsevar on input dataset;
+31740     +       %let parsevarOK= ;
+31741     +       %let parsevarN=%kupcase(%ktrim(&parsevar));
+31742     +       data _null_;
+31743     +         set &em_variableset(where=(kupcase(NAME)="&parsevarN" and USE in('Y' 'D')));
+31744     +         if (ROLE='TEXT' or ROLE='TEXTLOC') then call symput('parsevarOK', strip(ROLE));
+31745     +         run;
+31746     +       %if(&parsevarOK eq ) %then %do;
+31747     +          %let EMEXCEPTIONSTRING = EMTOOL.NOPARSINGVAR;
+31748     +          %goto end_macro;
+31749     +          %end;
+31750     +%end_macro:
+31751     +
+31752     +%mend tm_get_last_filter;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(TM_GET_LAST_FILTER):   * find last filter or text parse node if no filter node. ;
+MPRINT(TM_GET_LAST_FILTER):   proc sql noprint;
+MPRINT(TM_GET_LAST_FILTER):   select data into :last_parse_node from EMWS5.TextParsing4_EMINFO where key="LastTextParsing";
+MPRINT(TM_GET_LAST_FILTER):   select data into :last_filter_node from EMWS5.TextParsing4_EMINFO where key="LastTextFilter";
+NOTE: No rows were selected.
+MPRINT(TM_GET_LAST_FILTER):   select data into :last_prescore_node from EMWS5.TextParsing4_EMINFO where kupcase(key)="PRESCORECODE";
+NOTE: No rows were selected.
+MPRINT(TM_GET_LAST_FILTER):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TM_GET_LAST_FILTER):   * Check to make sure parse variable is present and still exists;
+MPRINT(TM_GET_LAST_FILTER):   proc sql noprint;
+MPRINT(TM_GET_LAST_FILTER):   select parsevar into :parsevar from EMWS5.TextParsing4_tmconfig;
+MPRINT(TM_GET_LAST_FILTER):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TM_GET_LAST_FILTER):   *check for dropped parsevar on input dataset;
+MPRINT(TM_GET_LAST_FILTER):   data _null_;
+MPRINT(TM_GET_LAST_FILTER):   set EMWS5.TextFilter4_VariableSet(where=(kupcase(NAME)="REVIEW" and USE in('Y' 'D')));
+MPRINT(TM_GET_LAST_FILTER):   if (ROLE='TEXT' or ROLE='TEXTLOC') then call symput('parsevarOK', strip(ROLE));
+MPRINT(TM_GET_LAST_FILTER):   run;
+
+NOTE: 1개의 관측값을 데이터셋 EMWS5.TEXTFILTER4_VARIABLESET.에서 읽었습니다.
+      WHERE (KUPCASE(NAME)='REVIEW') and USE in ('D', 'Y');
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):   filename temp catalog 'sashelp.emtxtext.filter_actions.source';
+NOTE: %INCLUDE(레벨 1) 파일 TEMP은(는) 파일 SASHELP.EMTXTEXT.FILTER_ACTIONS.SOURCE입니다.
+31753     +%macro openTable1();
+31754     +/* initiate all possible tables if not already there*/
+31755     +   %em_getname(key=synonymImport, type=data);
+31757     +      /* set a macro for conditional syn action*/
+31758     +      %global tm_parse_action_syn;
+31759     +      %let tm_parse_action_syn=0;
+31761     +   * imported synonym dataset;
+31762     +   %if ^%sysfunc(exist(&em_user_synonymImport)) %then %do;
+31763     +     proc sql;
+31764     +        create table &em_user_synonymImport
+31765     +         (term char(256)
+31766     +label="%sysfunc(sasmsg(sashelp.tmine,rpt_text_syn_term_vlabel, NOQUOTE))",
+31767     +          termrole char(256)
+31768     +label="%sysfunc(sasmsg(sashelp.tmine, rpt_text_syn_termrole_vlabel, NOQUOTE))",
+31769     +          parent char(256)
+31770     +label="%sysfunc(sasmsg(sashelp.tmine, rpt_text_syn_parent_vlabel, NOQUOTE))",
+31771     +          parentrole char(256)
+31772     +label="%sysfunc(sasmsg(sashelp.tmine, rpt_text_syn_parentrole_vlabel, NOQUOTE))"
+31773     +       );
+31775     +       quit;
+31777     +       %if %symexist(em_property_synonymImport) %then %do;
+31778     +          data &em_user_synonymImport;
+31779     +             set &em_user_synonymImport &em_property_synonymImport;
+31780     +          run;
+31781     +       %end;
+31782     +    %end;
+31783     +   /* make sure the dataset is not the old form, otherwise convert*/
+31784     +    %else %do;
+31785     +       %let dsid=%sysfunc(open(&em_user_synonymImport));
+31786     +       %if &dsid ne 0 %then %do;
+31787     +            %let var_numcat=%sysfunc(varnum(&dsid,category));
+31788     +            %let rc=%sysfunc(close(&dsid));
+31791     +            %if &var_numcat >0 %then %do;
+31792     +               /* convert category to termrole and parentrole;*/
+31793     +               data &em_user_synonymImport;
+31794     +                  length termrole $256 parentrole $256;
+31795     +                  set &em_user_synonymImport;
+31796     +                  label termrole="%sysfunc(sasmsg(sashelp.tmine, rpt_text_syn_termrole_vlabel, NOQUOTE))"
+31797     +                        parentrole="%sysfunc(sasmsg(sashelp.tmine, rpt_text_syn_parentrole_vlabel, NOQUOTE))";
+31798     +                  termrole=category;
+31799     +                  parentrole=category;
+31800     +                  drop category;
+31801     +               run;
+31802     +            %end;
+31803     +            %let dsid=%sysfunc(open(&em_user_synonymImport));
+31804     +            %if &dsid ne 0 %then %do;
+31805     +            %let var_numtermrole=%sysfunc(varnum(&dsid,termrole));
+31806     +            %let var_numparentrole=%sysfunc(varnum(&dsid,parentrole));
+31807     +            %let rc=%sysfunc(close(&dsid));
+31808     +            %if &var_numtermrole >0  and &var_numparentrole>0 %then %do;
+31809     +               /* one last check on all data*/
+31810     +               data &em_user_synonymImport;
+31811     +                   set &em_user_synonymImport;
+31812     +                   if klength(parentrole) <= 1 and klength(termrole) > 1 then parentrole=termrole;
+31813     +                   else if klength(termrole) <= 1 and klength(parentrole) > 1 then termrole=parentrole;
+31814     +                run;
+31815     +             %end;
+31816     +            %end;
+31818     +       %end;
+31820     +       /* case issues */
+31827     +  %end;
+31829     +   %let roles='Abbr','Adj','Adv','Aux','Conj','Det','Interj',
+31830     +               'Noun','Num','Part','Pref','Prep','Pron','Prop','Punct','Verb','VerbAdj';
+31831     +   %let entities='PERSON', 'DATE', 'COMPANY', 'PERCENT', 'PROP_MISC', 'TITLE',
+31832     +                 'TIME', 'PHONE', 'INTERNET', 'ORGANIZATION', 'CURRENCY', 'ADDRESS',
+31833     +                 'NOUN_GROUP', 'MEASURE', 'LOCATION', 'SSN', 'TIME_PERIOD';
+31837     +    data &em_user_synonymImport;
+31838     +       set &em_user_synonymImport;
+31839     +       if PROPCASE(termrole) in (&roles)then
+31840     +           termrole=PROPCASE(termrole);
+31841     +       if PROPCASE(parentrole) in (&roles) then
+31842     +           parentrole=PROPCASE(parentrole);
+31844     +       if UPCASE(termrole) in (&entities )then
+31845     +          termrole=UPCASE(termrole);
+31846     +       if UPCASE(parentrole) in (&entities)then
+31847     +           parentrole=UPCASE(parentrole);
+31848     +        run;
+31849     +%mend openTable1;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(TRAIN):   filename temp;
+NOTE: Fileref TEMP을(를) 삭제했습니다.
+MPRINT(OPENTABLE1):  ;
+MPRINT(OPENTABLE1):   * imported synonym dataset;
+MPRINT(OPENTABLE1):   data EMWS5.TextFilter4_synonymImport;
+MPRINT(OPENTABLE1):   set EMWS5.TextFilter4_synonymImport;
+MPRINT(OPENTABLE1):   if klength(parentrole) <= 1 and klength(termrole) > 1 then parentrole=termrole;
+MPRINT(OPENTABLE1):   else if klength(termrole) <= 1 and klength(parentrole) > 1 then termrole=parentrole;
+MPRINT(OPENTABLE1):   run;
+
+NOTE: 0개의 관측값을 데이터셋 EMWS5.TEXTFILTER4_SYNONYMIMPORT.에서 읽었습니다.
+NOTE: 데이터셋 EMWS5.TEXTFILTER4_SYNONYMIMPORT은(는) 0개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(OPENTABLE1):   data EMWS5.TextFilter4_synonymImport;
+MPRINT(OPENTABLE1):   set EMWS5.TextFilter4_synonymImport;
+MPRINT(OPENTABLE1):   if PROPCASE(termrole) in ('Abbr','Adj','Adv','Aux','Conj','Det','Interj', 'Noun','Num','Part','Pref','Prep','Pron','Prop','Punct','Verb','VerbAdj')then termrole=PROPCASE(termrole);
+MPRINT(OPENTABLE1):   if PROPCASE(parentrole) in ('Abbr','Adj','Adv','Aux','Conj','Det','Interj', 'Noun','Num','Part','Pref','Prep','Pron','Prop','Punct','Verb','VerbAdj') then parentrole=PROPCASE(parentrole);
+MPRINT(OPENTABLE1):   if UPCASE(termrole) in ('PERSON', 'DATE', 'COMPANY', 'PERCENT', 'PROP_MISC', 'TITLE', 'TIME', 'PHONE', 'INTERNET', 'ORGANIZATION', 'CURRENCY', 'ADDRESS', 'NOUN_GROUP', 'MEASURE', 'LOCATION', 'SSN', 'TIME_PERIOD' )then 
+termrole=UPCASE(termrole);
+MPRINT(OPENTABLE1):   if UPCASE(parentrole) in ('PERSON', 'DATE', 'COMPANY', 'PERCENT', 'PROP_MISC', 'TITLE', 'TIME', 'PHONE', 'INTERNET', 'ORGANIZATION', 'CURRENCY', 'ADDRESS', 'NOUN_GROUP', 'MEASURE', 'LOCATION', 'SSN', 'TIME_PERIOD')then 
+parentrole=UPCASE(parentrole);
+MPRINT(OPENTABLE1):   run;
+
+NOTE: 0개의 관측값을 데이터셋 EMWS5.TEXTFILTER4_SYNONYMIMPORT.에서 읽었습니다.
+NOTE: 데이터셋 EMWS5.TEXTFILTER4_SYNONYMIMPORT은(는) 0개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):   data EMWS5.TextFilter4_searchDS;
+MPRINT(TRAIN):   length query $32000;
+MPRINT(TRAIN):   query = " ";
+MPRINT(TRAIN):   run;
+
+NOTE: 데이터셋 EMWS5.TEXTFILTER4_SEARCHDS은(는) 1개의 관측값과 1개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.04 초
+      
+
+MPRINT(TRAIN):   data _null_;
+MPRINT(TRAIN):   retain target '';
+MPRINT(TRAIN):   set EMWS5.TextFilter4_VariableSet end=eof;
+MPRINT(TRAIN):   if upcase(ROLE)='TARGET' and USE in ('D', 'Y') then target = name;
+MPRINT(TRAIN):   if eof then do;
+MPRINT(TRAIN):   call symput('target_exists', target);
+MPRINT(TRAIN):   end;
+MPRINT(TRAIN):   run;
+
+NOTE: 1개의 관측값을 데이터셋 EMWS5.TEXTFILTER4_VARIABLESET.에서 읽었습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(TRAIN):   proc sql noprint;
+MPRINT(TRAIN):   create table EMWS5.TextFilter4_tmconfig as select * from EMWS5.TextParsing4_tmconfig;
+NOTE: Table EMWS5.TEXTFILTER4_TMCONFIG created, with 1 rows and 22 columns.
+
+MPRINT(TRAIN):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TRAIN):   data _null_;
+MPRINT(TRAIN):   set EMWS5.TextFilter4_VariableSet(where=(ROLE='TARGET' and USE in('Y' 'D') and LEVEL ne 'INTERVAL'));
+MPRINT(TRAIN):   if _N_=1 then call symput('targetvar', strip(NAME));
+MPRINT(TRAIN):   run;
+
+NOTE: 0개의 관측값을 데이터셋 EMWS5.TEXTFILTER4_VARIABLESET.에서 읽었습니다.
+      WHERE (ROLE='TARGET') and USE in ('D', 'Y') and (LEVEL not = 'INTERVAL');
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(TRAIN):   * cell weights;
+MPRINT(TRAIN):   *term weights;
+MPRINT(TRAIN):   * Set config file to contain weightings and target variable used.;
+MPRINT(TRAIN):   data EMWS5.TextFilter4_tmconfig;
+MPRINT(TRAIN):   length cellwgt $24 termwgt $24 last_prescore $32;
+MPRINT(TRAIN):   set EMWS5.TextFilter4_tmconfig;
+MPRINT(TRAIN):   cellwgt = "LOG";
+MPRINT(TRAIN):   termwgt = "ENTROPY";
+MPRINT(TRAIN):   targetvar = "";
+MPRINT(TRAIN):   lastfilternode = "TextParsing4";
+MPRINT(TRAIN):   lastparsenode = "TextParsing4";
+MPRINT(TRAIN):   last_prescore= "";
+MPRINT(TRAIN):   call symput("indexpath", indexpath);
+MPRINT(TRAIN):   maxterms = .;
+MPRINT(TRAIN):   mindocs = 1;
+MPRINT(TRAIN):   run;
+
+NOTE: 1개의 관측값을 데이터셋 EMWS5.TEXTFILTER4_TMCONFIG.에서 읽었습니다.
+NOTE: 데이터셋 EMWS5.TEXTFILTER4_TMCONFIG은(는) 1개의 관측값과 29개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):   proc sql noprint;
+MPRINT(TRAIN):   create view EMWS5.TextFilter4_Terms_synModified as select * from EMWS5.TextParsing4_terms;
+NOTE: SQL view EMWS5.TEXTFILTER4_TERMS_SYNMODIFIED has been defined.
+MPRINT(TRAIN):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TRAIN):   filename temp catalog 'sashelp.emtxtext.filter_syns.source';
+NOTE: %INCLUDE(레벨 1) 파일 TEMP은(는) 파일 SASHELP.EMTXTEXT.FILTER_SYNS.SOURCE입니다.
+31852     +/* ****************************************************************
+31853     + * Copyright (C) 2009 by SAS Institute Inc., Cary, NC 27513
+31854     + *
+31855     + * Name:             filter_syns.sas
+31856     + * Product:          SAS Text Miner
+31857     + * Language:         Sas
+31858     + * Script:
+31859     + *
+31860     + * Usage:
+31861     + *
+31862     + * Purpose:
+31863     + *
+31864     + * History:
+31865     + * 25July10 Initial Coding
+31866     + *
+31867     + * Notes:
+31868     + *
+31869     + * Last Modified By:
+31870     + * Last Modified On:
+31871     + *
+31872     + * End
+31873     + * ************************************************************** */
+31874     +/*
+31875     + * IMPORTANT NOTE:
+31877     + */
+31879     +/*
+31880     + * %clean_inter_syn
+31881     + *
+31882     + * This macro converts inter_syn from the interactive to the a form
+31883     + * that will work correctly when appended to a previous syn list.
+31884     + * It must take the last entry when duplicate entries are there and
+31885     + * when the last entry is a ADD='N' it must replace that line
+31886     + * with a synonym to itself
+31887     + *
+31888     + * Parameters:
+31889     + *
+31890     + */
+31894     +  %macro clean_inter_syn(data=, out=);
+31896     +  proc sort data=&data out=_dssorted;
+31897     +      by child child_role;
+31898     +  run;
+31900     +  data &out(keep=term termrole parent parentrole);
+31901     +      set _dssorted(rename=(child=term child_role=termrole parent_role=parentrole));
+31902     +      by term;
+31903     +      if Last.term then do;
+31904     +        if add='Y' then output;
+31905     +        else do;
+31906     +           parent=term;
+31907     +           parentrole=termrole;
+31908     +           output;
+31909     +        end;
+31910     +      end;
+31911     +      run;
+31912     +  %mend;
+31914     +/*
+31915     + * %SAVE_SYNONYMS(EM_NODEID, PARENT, CHILDREN);
+31916     + *
+31917     + * This macro appends the changes from the intersyn dataset to a named dataset
+31918     + *
+31919     + *
+31920     + * Parameters:
+31921     + *
+31922     + */
+31924     +%macro save_syns(SYNOUT=);
+31925     +   %local var_num1 var_num2 var_num3 var_num4  dsid;
+31927     +  %let dsid=%sysfunc(open(&SYNOUT));
+31928     +  %if &dsid ne 0 %then %do;
+31929     +      %let var_num1=%sysfunc(varnum(&dsid,term));
+31930     +      %let var_num3=%sysfunc(varnum(&dsid,parent));
+31931     +      %if &var_num1 =0  OR &var_num3 =0 %then %do;
+31932     +          %let EMEXCEPTIONSTRING=exception.server.TEXTAPIJAVA.SYN_MISSINGVARS ;
+31933     +          %let rc=%sysfunc(close(&dsid));
+31934     +          %let syscc=5;
+31935     +          %goto end_save_syns;
+31936     +      %end;
+31937     +      %let rc=%sysfunc(close(&dsid));
+31938     +  %end;
+31939     +  %clean_inter_syn(data=work._interSynDS, out=work._interCSynDS);
+31941     +  data &SYNOUT;
+31942     +      set  work._interCSynDS(keep=term termrole parent parentrole) %if  &DSID > 0 %then &SYNOUT; ;
+31943     +  run;
+31944     +  proc sort data=&SYNOUT nodupkey;
+31945     +      by term termrole;
+31946     +  run;
+31948     +  %end_save_syns:
+31949     +   %if ^%symexist(tm_debug) %then %let tm_debug=0;
+31950     +   %if &tm_debug =0 %then %do;
+31951     +       proc sql;
+31952     +          drop table _dssorted;
+31953     +          drop table _intercsynds;
+31954     +       quit;
+31955     +   %end;
+31956     +%mend save_syns;
+31960     +/**********************************
+31961     +* Manipulate the importsyn dataset
+31962     +*  so it is ready for use
+31963     +***********************************/
+31965     +%macro processimportsyn(insyn=, outterms= , currentterms=);
+31966     +        data &insyn;
+31967     +        set &insyn;
+31968     +           term=lowcase(term);
+31969     +           parent=lowcase(parent);
+31970     +        run;
+31972     +             proc sql undo_policy=none noprint;
+31973     +            create table &outterms  as
+31974     +            select a.parent as term  %if &var_parentrole> 0 and
+31975     +                                          ((a.parentrole=%upcase(a.parentrole) and &_taggingon=N) or
+31976     +                                          &_taggingon=Y)
+31977     +                                          %then , a.parentrole as role;
+31979     +            from &insyn a
+31980     +            except
+31981     +            select b.term as term  %if &var_parentrole> 0 and
+31982     +                                           ((b.parentrole=%upcase(b.parentrole) and &_taggingon=N) or
+31983     +                                            &_taggingon=Y)
+31984     +                                           %then , b.role as role;
+31985     +            from &currentterms b;
+31987     +            select max(b.key) into: maxKey
+31988     +            from &currentterms b;
+31990     +            select count(*) into: numNonExist
+31991     +            from &outterms;
+31992     +       quit;
+31993     +        %let dsid=%sysfunc(open(&outterms));
+31994     +        %if &dsid ne 0 %then %do;
+31995     +            %let var_role=%sysfunc(varnum(&dsid,role));
+31996     +            %let rc =%sysfunc(close(&dsid));
+31997     +        %end;
+31998     +        %if &var_role <= 0 %then %do;
+31999     +             data &outterms;
+32000     +             length role $200 ;
+32001     +             set &outterms;
+32002     +         %end;
+32005     +        %if &numNonExist >0 %then %do;
+32007     +          data &outterms;
+32008     +             length rolestring $200 ;
+32009     +             set &outterms;
+32010     +             TERM=klowcase(term);
+32012     +             select(role);
+32013     +                when('Abbr')        ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_posabbr_value,   NOQUOTE))";
+32014     +                when('Adj')        ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_posadj_value,   NOQUOTE))";
+32015     +                when('Adv')        ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_posadv_value,   NOQUOTE))";
+32016     +                when('Aux')        ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_posaux_value,   NOQUOTE))";
+32017     +                when('Conj')        ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_posconj_value,   NOQUOTE))";
+32018     +                when('Det')        ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_posdet_value,   NOQUOTE))";
+32019     +                when('Interj')        ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_posinterj_value,   NOQUOTE))";
+32020     +                when('Noun')        ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_posnoun_value,   NOQUOTE))";
+32021     +                when('Num')        ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_posnum_value,   NOQUOTE))";
+32022     +                when('Part')        ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_pospart_value,   NOQUOTE))";
+32023     +                when('Pref')        ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_pospref_value,   NOQUOTE))";
+32024     +                when('Prep')        ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_posprep_value,   NOQUOTE))";
+32025     +                when('Pron')        ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_pospron_value,   NOQUOTE))";
+32026     +                when('Prop')        ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_posprop_value,   NOQUOTE))";
+32027     +                when('Punct')        ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_pospunct_value,   NOQUOTE))";
+32028     +                when('Verb')        ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_posverb_value,   NOQUOTE))";
+32029     +                when('VerbAdj')        ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_posverbadj_value,   NOQUOTE))";
+32030     +                when('PERSON')        ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_posperson_value,   NOQUOTE))";
+32031     +                when('ORGANIZATION')  ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_posorganizationerson_value, NOQUOTE))";
+32032     +                when('LOCATION')      ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_poslocation_value, NOQUOTE))";
+32033     +                when('COMPANY')       ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_poscompany_value,  NOQUOTE))";
+32034     +                when('TITLE')         ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_postitle_value,    NOQUOTE))";
+32035     +                when('PHONE')         ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_posphone_value,    NOQUOTE))";
+32036     +                when('DATE')          ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_posdate_value,     NOQUOTE))";
+32037     +                when('TIME')          ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_postime_value,     NOQUOTE))";
+32038     +                when('INTERNET')      ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_posinternet_value, NOQUOTE))";
+32039     +                when('MEASURE')       ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_posmeasure_value,  NOQUOTE))";
+32040     +                when('NOUN_GROUP')    ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_posnoungroup_value,  NOQUOTE))";
+32041     +                when('SSN')           ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_posssn_value,        NOQUOTE))";
+32042     +                when('CURRENCY')      ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_poscurrency_value,   NOQUOTE))";
+32043     +                when('PERCENT')       ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_pospercent_value,    NOQUOTE))";
+32044     +                when('TIME_PERIOD')   ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_postimeperiod_value, NOQUOTE))";
+32045     +                when('PROP_MISC')     ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_pospropmisc_value,   NOQUOTE))";
+32046     +                when('VEHICLE')       ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_posvehicle_value,    NOQUOTE))";
+32047     +                when('ADDRESS')       ROLESTRING= "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_posaddress_value,    NOQUOTE))";
+32048     +                otherwise             ROLESTRING = ROLE;
+32049     +             end;
+32050     +             KEY=_N_+ symget('maxKey');
+32051     +             WEIGHT=0;
+32052     +             FREQ=0;
+32053     +             NUMDOCS=0;
+32054     +             KEEP='Y';
+32055     +          run;
+32057     +        %end;
+32060     +         %if ^%symexist(tm_debug) %then %let tm_debug=0;
+32061     +       %if &tm_debug =0  %then %do;
+32062     +          proc sql noprint;
+32063     +            drop table  _replacetaggedsyns, _keepsyns, _insynid, _replacetaggedsyns1;
+32064     +         quit;
+32065     +     %end;
+32066     +%mend;
+32072     +/***********************
+32073     +* called from train to
+32074     +quickly append version of synonyms that initially are tagless
+32075     +but the terms table has tags
+32076     +*/
+32078     +%macro tm_ifnotags(insyn=, outsyn=, currentterms=);
+32080     +        data _insynid;
+32081     +            retain term parent termrole parentrole;
+32082     +            set &insyn;
+32083     +            _id_=_N_;
+32084     +        run;
+32086     +        proc sort data=&currentterms out=_termsnodup nodupkey;
+32087     +            by key;
+32088     +        run;
+32090     +        proc sql undo_policy=none noprint;
+32091     +          /* if we have tags on the terms table but not on the syn,
+32092     +           we need to grab feasible tags */
+32094     +           create table _keepsyns as
+32095     +               select a.*
+32096     +               from _insynid a
+32097     +               where  a.parentrole = "" and a.termrole="";
+32099     +             create table _replacetaggedsyns1 as
+32100     +           /*     select a.term, a.parent,b.role as termrole,  b.role as parentrole, a._id_*/
+32101     +                select a.term, a.parent,b.role as termrole,  a.parentrole, a._id_
+32102     +                from _keepsyns a inner join _termsnodup b
+32103     +                on a.term=b.term and b.role ne "";
+32104     +             select count(*) into: _addwithrolecount
+32105     +               from _replacetaggedsyns1;
+32107     +               create table _replacetaggedsyns as
+32108     +                    select a.term ,
+32109     +                           a.parent ,
+32110     +                           a.termrole ,
+32111     +                           a.parentrole,
+32112     +                           a._id_
+32113     +                    from _replacetaggedsyns1 a,_keepsyns b
+32114     +                    where a.parent=b.parent
+32115     +                    ;
+32118     +                 create table _savid as
+32119     +                 select a._id_
+32120     +                 from  _insynid a
+32121     +                 EXCEPT
+32122     +                 select b._id_
+32123     +                 from _replacetaggedsyns b;
+32125     +                 create table _reducedsyn as
+32126     +                 select a.*
+32127     +                 from _insynid a inner join _savid b
+32128     +                 on a._id_=b._id_;
+32132     +                 create table &outsyn(drop=_id_)  as
+32133     +                    select a.*
+32134     +                    from _reducedsyn a
+32135     +                    UNION
+32136     +                    select b.*
+32137     +                    from _replacetaggedsyns b
+32138     +                    order by _id_;
+32140     +         %if ^%symexist(tm_debug) %then %let tm_debug=0;
+32141     +       %if &tm_debug =0  %then %do;
+32142     +          proc sql noprint;
+32143     +            drop table  _replacetaggedsyns, _keepsyns, _insynid, _replacetaggedsyns1;
+32144     +         quit;
+32145     +     %end;
+32146     +%mend;
+32150     + /********************************
+32151     + * This macro makes sure  the users newly selected synonyms (newsyns)
+32152     + * is the proper format and then merges it to prevsyn (if supplied) and output
+32153     + * a dataset for view in the importsyn property dialog (outsyn)
+32154     + */
+32156     +%macro makeimportSyn(newsyn=,prevsyn=, outsyn= );
+32157     +   /* new syn maybe of the wrong form*/
+32158     +   /* so reformat it properly*/
+32159     +   options varlenchk=nowarn;
+32161     +   %global tm_parse_action_syn;
+32163     +   %let dsid=%sysfunc(open(&newsyn));
+32164     +   %if &dsid ne 0 %then %do;
+32165     +       %let var_numcat=%sysfunc(varnum(&dsid,category));
+32166     +       %let var_numtermrole=%sysfunc(varnum(&dsid,termrole));
+32167     +       %let var_numparrole=%sysfunc(varnum(&dsid,parentrole));
+32168     +       %let rc=%sysfunc(close(&dsid));
+32169     +       %if &var_numtermrole> 0 or &var_numparrole>0 %then %do;
+32170     +          data _tempsyn;
+32171     +              length term $256 termrole $256 parent $256 parentrole $256;
+32172     +              set &newsyn;
+32173     +              keep term termrole parent parentrole;
+32174     +          run;
+32175     +       %end;
+32177     +       %else %do;
+32178     +            data _tempsyn;
+32179     +                length term $256 termrole $256 parent $256 parentrole $256;
+32180     +                set &newsyn;
+32181     +                /* convert category to termrole and parentrole;*/
+32182     +                %if &var_numcat >0   %then %do;
+32183     +                   termrole=category;
+32184     +                   parentrole=category;
+32185     +                %end;
+32186     +                keep term termrole parent parentrole;
+32187     +             run;
+32188     +        %end;
+32190     +        data &outsyn;
+32191     +           length term $256 termrole $256 parent $256 parentrole $256;
+32192     +           set %if &prevsyn ne %then %do;
+32193     +              &prevsyn
+32194     +              %end;
+32195     +              _tempsyn;
+32196     +        run;
+32197     +        proc sort data=&outsyn nodupkey;
+32198     +        by term termrole;
+32199     +        run;
+32201     +        data &outsyn;
+32202     +           /* retain so that it is ordered first*/
+32203     +           retain _OBSID_;
+32204     +           set &outsyn;
+32205     +           label term="%sysfunc(sasmsg(sashelp.tmine, rpt_text_syn_term_vlabel, NOQUOTE))"
+32206     +                    termrole="%sysfunc(sasmsg(sashelp.tmine, rpt_text_syn_termrole_vlabel, NOQUOTE))"
+32207     +                    parent="%sysfunc(sasmsg(sashelp.tmine, rpt_text_syn_parent_vlabel, NOQUOTE))"
+32208     +                    parentrole="%sysfunc(sasmsg(sashelp.tmine, rpt_text_syn_parentrole_vlabel, NOQUOTE))";
+32209     +           if klength(parentrole) <= 1 and klength(termrole) > 1 then parentrole=termrole;
+32210     +           %if &tm_parse_action_syn=0 %then
+32211     +                 else if klength(termrole) <= 1 and klength(parentrole) > 1 then termrole=parentrole;
+32212     +            ;
+32213     +           _OBSID_=_N_;
+32214     +        run;
+32216     +        proc sql noprint;
+32217     +            drop table _tempsyn;
+32218     +         quit;
+32219     +   %end;
+32220     +%mend;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(TRAIN):   proc sql noprint;
+MPRINT(TRAIN):   create table EMWS5.TextFilter4_synonymImport as select * from EMWS5.TextFilter4_synonymImport where term ne "";
+WARNING: This CREATE TABLE statement recursively references the target table. A consequence of this is a possible data integrity problem.
+NOTE: Table EMWS5.TEXTFILTER4_SYNONYMIMPORT created, with 0 rows and 4 columns.
+
+MPRINT(TRAIN):   select count(*) into: numimportsyn from EMWS5.TextFilter4_synonymImport;
+MPRINT(TRAIN):   select tagging into: _taggingon from EMWS5.TextFilter4_tmconfig;
+MPRINT(TRAIN):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(PROCESSIMPORTSYN):   data EMWS5.TextFilter4_synonymImport;
+MPRINT(PROCESSIMPORTSYN):   set EMWS5.TextFilter4_synonymImport;
+MPRINT(PROCESSIMPORTSYN):   term=lowcase(term);
+MPRINT(PROCESSIMPORTSYN):   parent=lowcase(parent);
+MPRINT(PROCESSIMPORTSYN):   run;
+
+NOTE: 0개의 관측값을 데이터셋 EMWS5.TEXTFILTER4_SYNONYMIMPORT.에서 읽었습니다.
+NOTE: 데이터셋 EMWS5.TEXTFILTER4_SYNONYMIMPORT은(는) 0개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(PROCESSIMPORTSYN):   proc sql undo_policy=none noprint;
+MPRINT(PROCESSIMPORTSYN):   create table EMWS5.TextFilter4_terms_new_synimport as select a.parent as term from EMWS5.TextFilter4_synonymImport a except select b.term as term from EMWS5.TextParsing4_terms b;
+NOTE: Table EMWS5.TEXTFILTER4_TERMS_NEW_SYNIMPORT created, with 0 rows and 1 columns.
+
+MPRINT(PROCESSIMPORTSYN):   select max(b.key) into: maxKey from EMWS5.TextParsing4_terms b;
+MPRINT(PROCESSIMPORTSYN):   select count(*) into: numNonExist from EMWS5.TextFilter4_terms_new_synimport;
+MPRINT(PROCESSIMPORTSYN):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.04 초
+      
+
+MPRINT(PROCESSIMPORTSYN):   data EMWS5.TextFilter4_terms_new_synimport;
+MPRINT(PROCESSIMPORTSYN):   length role $200 ;
+MPRINT(PROCESSIMPORTSYN):   set EMWS5.TextFilter4_terms_new_synimport;
+MPRINT(TRAIN):  ;
+
+NOTE: 변수 role이(가) 초기화되지 않았습니다.
+NOTE: 0개의 관측값을 데이터셋 EMWS5.TEXTFILTER4_TERMS_NEW_SYNIMPORT.에서 읽었습니다.
+NOTE: 데이터셋 EMWS5.TEXTFILTER4_TERMS_NEW_SYNIMPORT은(는) 0개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TRAIN):   proc sql undo_policy=none noprint;
+MPRINT(TRAIN):   select count(*) into: numNonExist from EMWS5.TextFilter4_terms_new_synimport;
+MPRINT(TRAIN):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):   proc sql noprint;
+MPRINT(TRAIN):   create table EMWS5.TextFilter4_term_strings as select distinct key, term, role, rolestring, attribute,attrstring from EMWS5.TextFilter4_Terms_synModified;
+NOTE: Table EMWS5.TEXTFILTER4_TERM_STRINGS created, with 1199 rows and 6 columns.
+
+MPRINT(TRAIN):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.04 초
+      
+
+MPRINT(TRAIN):   proc sql noprint;
+MPRINT(TRAIN):   select count(*) into: _numdataobs from EMWS5.TextParsing4_tmout;
+MPRINT(TRAIN):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):   proc tmutil data=EMWS5.TextParsing4_tmout key=EMWS5.TextFilter4_Terms_synModified doc=EMWS5.TextParsing4_TRAIN ;
+MPRINT(TRAIN):   control init memloc='tmutil_memloc';
+MPRINT(TRAIN):   run;
+
+NOTE: 5348개의 관측값을 데이터셋 EMWS5.TEXTPARSING4_TMOUT.에서 읽었습니다.
+NOTE: 1199개의 관측값을 데이터셋 EMWS5.TEXTPARSING4_TERMS.에서 읽었습니다.
+NOTE: 499개의 관측값을 데이터셋 EMWS5.TEXTPARSING4_TRAIN.에서 읽었습니다.
+NOTE: 프로시저 TMUTIL 실행(총 프로세스 시간):
+      실행 시간           0.10 초
+      cpu 시간            0.11 초
+      
+
+MPRINT(TRAIN):   * spell check ;
+MPRINT(TRAIN):   * now put in correct term_ids in interdropds and intersynds based on input terms table ;
+MPRINT(TRAIN):   proc sql undo_policy=none noprint;
+MPRINT(TRAIN):   create table EMWS5.TextFilter4_interdropds as select a.term, a.role, a.keep, a.datetime, b.key as term_id from EMWS5.TextFilter4_interdropds as a, EMWS5.TextFilter4_term_strings as b where a.term=b.term and a.role=b.role order by datetime;
+NOTE: Table EMWS5.TEXTFILTER4_INTERDROPDS created, with 0 rows and 5 columns.
+
+MPRINT(TRAIN):   create table EMWS5.TextFilter4_intersynds as select a.child, a.child_role, a.parent, a.parent_role,a.add,a.datetime, b.key as child_id,c.key as parent_id from EMWS5.TextFilter4_intersynds as a, EMWS5.TextFilter4_term_strings as b, 
+EMWS5.TextFilter4_term_strings as c where a.child=b.term and a.parent=c.term and a.child_role=b.role and a.parent_role=c.role order by datetime;
+NOTE: Table EMWS5.TEXTFILTER4_INTERSYNDS created, with 0 rows and 8 columns.
+
+MPRINT(TRAIN):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.15 초
+      cpu 시간            0.15 초
+      
+
+MPRINT(TRAIN):   * now process intersynds through Proc tmutil;
+MPRINT(TRAIN):   data _null_;
+MPRINT(TRAIN):   set EMWS5.TextFilter4_intersynds;
+MPRINT(TRAIN):   call execute('%change_synonym('||child_id||', '||parent_id||', '||add||')');
+MPRINT(TRAIN):   run;
+
+NOTE: 다음의 위치에서 숫자형 값이 문자형 값으로 변환되었습니다. (행):(칼럼)
+      496:140   496:156   
+NOTE: 0개의 관측값을 데이터셋 EMWS5.TEXTFILTER4_INTERSYNDS.에서 읽었습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(TRAIN):   proc sql noprint;
+MPRINT(TRAIN):   create view EMWS5.TextFilter4_terms_tmf as select b.key , a.term , a.role , a.rolestring, a.attribute, a.attrstring, b.weight , b.freq, b.numdocs, b.keep , b._ispar , b.parent , b.parent_id from EMWS5.TextFilter4_terms_data as b, 
+EMWS5.TextFilter4_term_strings as a where a.key = b.key;
+NOTE: SQL view EMWS5.TEXTFILTER4_TERMS_TMF has been defined.
+MPRINT(TRAIN):   create view EMWS5.TextFilter4_terms as select * from EMWS5.TextFilter4_terms_tmf where keep='Y' order by key, _ispar;
+NOTE: SQL view EMWS5.TEXTFILTER4_TERMS has been defined.
+MPRINT(TRAIN):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TRAIN):   proc sql noprint;
+MPRINT(TRAIN):   create table EMWS5.TextFilter4_filter_ids as select _document_ from EMWS5.TextParsing4_TRAIN;
+NOTE: Table EMWS5.TEXTFILTER4_FILTER_IDS created, with 499 rows and 1 columns.
+
+MPRINT(TRAIN):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TRAIN):   * *** Check to see if there is a search phrase *** ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):   filename temp catalog 'sashelp.emtxtext.tmf_filter_apply.source';
+NOTE: %INCLUDE(레벨 1) 파일 TEMP은(는) 파일 SASHELP.EMTXTEXT.TMF_FILTER_APPLY.SOURCE입니다.
+32221     +/* ****************************************************************
+32222     + * Copyright (C) 2009 by SAS Institute Inc., Cary, NC 27513
+32223     + *
+32224     + * Name:             tmf_filter_apply.sas
+32225     + * Product:          SAS Text Miner
+32226     + * Language:         Sas
+32227     + * Script:
+32228     + *
+32229     + * Usage:
+32230     + *
+32231     + * Purpose: This applies the where clause and/or search expression, re-applies
+32232     + *    weightings to result, and then determines default keep/drop status
+32233     + *    based on two different criteria.  Finally it applies user-determined
+32234     + *    keep/drop changes, and outputs all results to specified data sets.
+32235     + *
+32236     + * History:
+32237     + * 18Aug09 Initial Coding
+32238     + *
+32239     + * Notes:
+32240     + *
+32241     + * Last Modified By:
+32242     + * Last Modified On: Wed Nov 11 10:40:03 2009
+32243     + *
+32244     + * End
+32245     + * ************************************************************** */
+32246     +%macro tmf_filter_apply(termDS=,searchDS=,interdropDS=,indexpath=,
+32247     +                        memloc=,mindocs=,cellweight=,termweight=,
+32248     +                        maxterms=,expand_query_DS=work._expandquery,
+32249     +                        filter_ids=, doc_ids=work._doc_ids,expandquery=1,prefix=);
+32251     +   %global systmutil;
+32252     +   %global _allminuses;
+32253     +   %let EMEXCEPTIONSTRING=;
+32254     +   %let systmutil=;
+32255     +   %let syscc=0;
+32257     +   * *** search phrase *** ;
+32258     +   %if &searchDS ne %then %do;
+32260     +      * apply a search phrase if one is active;
+32261     +   %let search_phrase_valid = 0;
+32262     +   data _null_;
+32263     +      set &searchDS;
+32264     +      if trim(left(query)) ne "" then call symput("search_phrase_valid", "1");
+32265     +   run;
+32267     +      %if &search_phrase_valid eq 1 %then %do;
+32268     +      filename temp catalog 'sashelp.emtxtext.tmescapeterm.source'; %include temp;
+32269     +      filename temp catalog 'sashelp.emtxtext.tmqueryexpand.source'; %include temp;
+32272     +      /* before we do a query expand, update terms table with new children on it so ># matches*/
+32273     +      proc tmutil;
+32274     +         control memloc='tmutil_memloc' ;
+32275     +         output key=tempsearchterms;
+32276     +      run;
+32278     +      proc sql noprint;
+32279     +      create view tempsearchterms2 as
+32280     +         select b.key ,
+32281     +           a.term ,
+32282     +           a.role ,
+32283     +           a.rolestring,
+32284     +           a.attribute,
+32285     +           a.attrstring,
+32286     +           b.weight ,
+32287     +           b.freq,
+32288     +           b.numdocs,
+32289     +           b.keep ,
+32290     +           b._ispar ,
+32291     +           b.parent ,
+32292     +           b.parent_id
+32294     +         from tempsearchterms as b, &em_user_term_strings as a
+32295     +         where  a.key = b.key;
+32296     +      quit;
+32297     +         %if &expandquery ne 0 %then %do;
+32298     +           %let _allminuses =0;
+32300     +           %tmQueryExpand(inds=&searchds, invar=query,
+32301     +                     outvar=query, outds=&expand_query_DS,
+32302     +                     termds=tempsearchterms2);
+32303     +            %if &syscc > 4 %then %do;
+32304     +               %let EMEXCEPTIONSTRING=EMTOOL.QUERYEXPAND;
+32305     +               %let syscc=0;
+32306     +            %end;
+32307     +            %if &EMEXCEPTIONSTRING ne %then %goto end_macro;
+32308     +         %end;
+32309     +         %else %do;
+32310     +             %let _allminuses=0;
+32312     +             /* need to see if this is a term list or query and set macrovar*/
+32313     +             %let dsid=%sysfunc(open(&expand_query_ds,i));
+32314     +             %if %sysfunc(varnum(&dsid,allminuses)) > 0 %then %do;
+32315     +                  %let _allminuses=1;
+32316     +             %end;
+32317     +             %let closid=%sysfunc(close(&dsid));
+32318     +         %end;
+32320     +          %if &_allminuses = 0 %then %do;
+32321     +              * load the index ;
+32322     +              proc tmutil;
+32323     +                 control memloc="&memloc";
+32324     +                 search load indexpath="&indexpath" querydata=&expand_query_DS;
+32325     +                 output doc=&doc_ids;
+32326     +              run;
+32327     +              data &doc_ids;
+32328     +                 set &doc_ids;
+32329     +                 rename snippet=&prefix._snippet;
+32330     +                 rename relevance=&prefix._relevance;
+32331     +              run;
+32334     +            %if &syscc > 4 %then %do;
+32335     +                %let EMEXCEPTIONSTRING = EMTOOL.TMUTIL,&systmutil;
+32336     +                %put emexceptionstring= "&EMEXCEPTIONSTRING";
+32337     +                %let syscc=0;
+32338     +            %end;
+32339     +          %end;
+32340     +          %else %do;
+32341     +               proc tmutil;
+32342     +                 control memloc="&memloc";
+32343     +                 search load indexpath="&indexpath" querydata=&expand_query_DS comp;
+32344     +                 output doc=&doc_ids;
+32345     +              run;
+32347     +              data &doc_ids;
+32348     +                 length snippet $100;
+32349     +                 set &doc_ids;
+32350     +                 relevance=1;
+32351     +                 snippet="";
+32352     +                 rename snippet=&prefix._snippet;
+32353     +                 rename relevance=&prefix._relevance;
+32354     +              run;
+32355     +          %end;
+32356     +          %if &syscc > 4 %then %do;
+32357     +                %let EMEXCEPTIONSTRING = EMTOOL.TMUTIL,&systmutil;
+32358     +                %put emexceptionstring= "&EMEXCEPTIONSTRING";
+32359     +                %let syscc=0;
+32360     +            %end;
+32361     +          %if "%ktrim(&systmutil)" ne "" %then %goto end_macro;
+32363     +      %end;
+32364     +      /* If no search phrase provided, then copy filter_ids into doc_ids */
+32365     +      %else %do;
+32366     +         data &doc_ids; set &filter_ids; run;
+32367     +       %end;
+32368     +   %end;
+32370     +   * *** weightings *** ;
+32371     +   %if &cellweight ne or &termweight ne %then %do;
+32372     +   proc tmutil;
+32373     +   control memloc="&memloc";
+32374     +         weight
+32375     +            %if &cellweight ne %then cellwgt=&cellWeight;
+32376     +            %if &termweight ne %then termwgt=&termWeight;
+32377     +         ;
+32378     +         run;
+32379     +      %if "%ktrim(&systmutil)" ne "" %then %goto end_macro;
+32380     +      %end;
+32382     +   * min docs ;
+32383     +   * remove all terms that do not have at least minDocs ;
+32384     +   %if &mindocs > 1 %then %do;
+32385     +      proc tmutil;
+32386     +      control memloc="&memloc";
+32387     +      select reduceF = &minDocs;
+32388     +      run;
+32389     +      %if "%ktrim(&systmutil)" ne "" %then %goto end_macro;
+32390     +      %end;
+32392     +   * max terms ;
+32393     +   %if &maxTerms ne and &maxTerms ne . %then %do;
+32394     +      proc tmutil;
+32395     +      control memloc="&memloc";
+32396     +      select reducensqr = &maxTerms;
+32397     +      run;
+32398     +   %if "%ktrim(&systmutil)" ne "" %then %goto end_macro;
+32399     +      %end;
+32401     +     %if &syscc > 4 %then %do;
+32402     +                %let EMEXCEPTIONSTRING = EMTOOL.TMUTIL,&systmutil;
+32403     +                %put emexceptionstring= "&EMEXCEPTIONSTRING";
+32404     +                %let syscc=0;
+32405     +            %end;
+32408     +   * now apply user-specified keep/drop terms *** ;
+32409     +   * data set to track when terms are kept or dropped ;
+32410     +   %if &interdropds ne %then %do;
+32411     +      data _null_;
+32412     +      set &interdropds;
+32413     +      * this is defined at the bottom of this file ;
+32414     +      term_id = trim(left(term_id));
+32415     +      keep_id = trim(left(keep));
+32416     +      call execute('%change_keep_drop('||term_id||', '||keep_id||')');
+32417     +      run;
+32418     +      %end;
+32420     +   %end_macro:
+32421     +%mend tmf_filter_apply;
+32424     +%macro change_keep_drop(term_id, keep_id);
+32425     +   %global tmutil_memloc ;
+32426     +   proc tmutil;
+32427     +      control memloc='tmutil_memloc';
+32428     +      %if %upcase(&keep_id) eq Y %then %do;
+32429     +         select keeplist=&term_id;
+32430     +      %end;
+32431     +      %else %do;
+32432     +         select droplist=&term_id;
+32433     +      %end;
+32434     +   run;
+32435     +%mend change_keep_drop;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(TMF_FILTER_APPLY):   * *** search phrase *** ;
+MPRINT(TMF_FILTER_APPLY):   * apply a search phrase if one is active;
+MPRINT(TMF_FILTER_APPLY):   data _null_;
+MPRINT(TMF_FILTER_APPLY):   set EMWS5.TextFilter4_searchDS;
+MPRINT(TMF_FILTER_APPLY):   if trim(left(query)) ne "" then call symput("search_phrase_valid", "1");
+MPRINT(TMF_FILTER_APPLY):   run;
+
+NOTE: 1개의 관측값을 데이터셋 EMWS5.TEXTFILTER4_SEARCHDS.에서 읽었습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(TMF_FILTER_APPLY):   data EMWS5.TextFilter4_doc_ids;
+MPRINT(TMF_FILTER_APPLY):   set EMWS5.TextFilter4_filter_ids;
+MPRINT(TMF_FILTER_APPLY):   run;
+
+NOTE: 499개의 관측값을 데이터셋 EMWS5.TEXTFILTER4_FILTER_IDS.에서 읽었습니다.
+NOTE: 데이터셋 EMWS5.TEXTFILTER4_DOC_IDS은(는) 499개의 관측값과 1개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TMF_FILTER_APPLY):   * *** weightings *** ;
+MPRINT(TMF_FILTER_APPLY):   proc tmutil;
+MPRINT(TMF_FILTER_APPLY):   control memloc="tmutil_memloc";
+MPRINT(TMF_FILTER_APPLY):   weight cellwgt=LOG termwgt=ENTROPY ;
+MPRINT(TMF_FILTER_APPLY):   run;
+
+NOTE: 프로시저 TMUTIL 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(TMF_FILTER_APPLY):   * min docs ;
+MPRINT(TMF_FILTER_APPLY):   * remove all terms that do not have at least minDocs ;
+MPRINT(TMF_FILTER_APPLY):   * max terms ;
+MPRINT(TMF_FILTER_APPLY):   * now apply user-specified keep/drop terms *** ;
+MPRINT(TMF_FILTER_APPLY):   * data set to track when terms are kept or dropped ;
+MPRINT(TMF_FILTER_APPLY):   data _null_;
+MPRINT(TMF_FILTER_APPLY):   set EMWS5.TextFilter4_interdropds;
+MPRINT(TMF_FILTER_APPLY):   * this is defined at the bottom of this file ;
+MPRINT(TMF_FILTER_APPLY):   term_id = trim(left(term_id));
+MPRINT(TMF_FILTER_APPLY):   keep_id = trim(left(keep));
+MPRINT(TMF_FILTER_APPLY):   call execute('%change_keep_drop('||term_id||', '||keep_id||')');
+MPRINT(TMF_FILTER_APPLY):   run;
+
+NOTE: 다음의 위치에서 숫자형 값이 문자형 값으로 변환되었습니다. (행):(칼럼)
+      119:105   127:139   
+NOTE: 다음의 위치에서 문자형 값이 숫자형 값으로 변환되었습니다. (행):(칼럼)
+      119:95   
+NOTE: 0개의 관측값을 데이터셋 EMWS5.TEXTFILTER4_INTERDROPDS.에서 읽었습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):   * add the info to EMINFO to forward on to other nodes ;
+MPRINT(TRAIN):   data EMWS5.TextFilter4_EMINFO;
+MPRINT(TRAIN):   length TARGET KEY $32 DATA $43;
+MPRINT(TRAIN):   key="LastTMNode";
+MPRINT(TRAIN):   data="TextFilter4";
+MPRINT(TRAIN):   output;
+MPRINT(TRAIN):   key="LastTMNodeType";
+MPRINT(TRAIN):   data="TextFilter";
+MPRINT(TRAIN):   output;
+MPRINT(TRAIN):   key="LastTextFilter";
+MPRINT(TRAIN):   data="TextFilter4";
+MPRINT(TRAIN):   output;
+MPRINT(TRAIN):   key="PRESCORECODE";
+MPRINT(TRAIN):   data="TextFilter4";
+MPRINT(TRAIN):   output;
+MPRINT(TRAIN):   run;
+
+NOTE: 변수 TARGET이(가) 초기화되지 않았습니다.
+NOTE: 데이터셋 EMWS5.TEXTFILTER4_EMINFO은(는) 4개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   length KEY $32 DELETE $1 UNAME $32 ROLE $32 LEVEL $10 ORDER $8 COMMENT $64 LOWERLIMIT 8 UPPERLIMIT 8;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextFilter4_relevance");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("REJECTED");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 1개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(MAIN):  ;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * End TRAIN: TextFilter4;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+32436      *------------------------------------------------------------*;
+32437      * End TRAIN: TextFilter4;
+32438      *------------------------------------------------------------*;
+
+32439      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+32440      * Close any missing semi colons;
+MPRINT(EM_DIAGRAM):   * Close any missing semi colons;
+32441      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+32442      ;
+MPRINT(EM_DIAGRAM):   ;
+32443      ;
+MPRINT(EM_DIAGRAM):   ;
+32444      ;
+MPRINT(EM_DIAGRAM):   ;
+32445      ;
+MPRINT(EM_DIAGRAM):   ;
+32446      quit;
+MPRINT(EM_DIAGRAM):   quit;
+32447      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+32448      * Close any unbalanced quotes;
+MPRINT(EM_DIAGRAM):   * Close any unbalanced quotes;
+32449      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+32450      /*; *"; *'; */
+32451      ;
+MPRINT(EM_DIAGRAM):   ;
+32452      run;
+MPRINT(EM_DIAGRAM):   run;
+32453      quit;
+MPRINT(EM_DIAGRAM):   quit;
+32454      /* Reset EM Options */
+32455      options formchar="|----|+|---+=|-/\<>*";
+MPRINT(EM_DIAGRAM):   options formchar="|----|+|---+=|-/\<>*";
+32456      options nocenter ls=256 ps=10000;
+MPRINT(EM_DIAGRAM):   options nocenter ls=256 ps=10000;
+32457      goptions reset=all device=GIF NODISPLAY;
+MPRINT(EM_DIAGRAM):   goptions reset=all device=GIF NODISPLAY;
+32458      proc sort data=WORK.EM_METACHANGE;
+MPRINT(EM_DIAGRAM):    proc sort data=WORK.EM_METACHANGE;
+32459      by key uname;
+MPRINT(EM_DIAGRAM):   by key uname;
+32460      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 1개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 1개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+32461      filename x "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\TextFilter4\CDELTA_TRAIN.sas";
+MPRINT(EM_DIAGRAM):    filename x "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\TextFilter4\CDELTA_TRAIN.sas";
+32462      data _null_;
+MPRINT(EM_DIAGRAM):   data _null_;
+32463      file x;
+MPRINT(EM_DIAGRAM):   file x;
+32464      put 'if upcase(NAME) = "TEXTFILTER4_RELEVANCE" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTFILTER4_RELEVANCE" then do;';
+32465      put 'ROLE = "REJECTED";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "REJECTED";';
+32466      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+32467      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+32468      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 파일 X:
+      파일 이름=C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\TextFilter4\CDELTA_TRAIN.sas,
+      RECFM=V,LRECL=32767,파일 크기 (바이트)=0,
+      마지막 수정일=2018년 11월 21일 19시48분42초,
+      생성 시간=2018년 11월 21일 19시16분26초
+
+NOTE: 4개의 레코드를 파일 X에 기록했습니다.
+      최소 레코드 길이는 4입니다.
+      최대 레코드 길이는 50입니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+32469      filename x;
+MPRINT(EM_DIAGRAM):   filename x;
+NOTE: Fileref X을(를) 삭제했습니다.
+MPRINT(EM_DIAGRAM):    proc printto;
+MPRINT(EM_DIAGRAM):   run;

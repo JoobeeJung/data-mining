@@ -1,0 +1,150 @@
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 20일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "10시17분37초" );
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 리포트 로그";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+*------------------------------------------------------------*
+* 리포트 로그
+날짜:                2018년 11월 20일
+시간:                10시17분37초
+*------------------------------------------------------------*
+MPRINT(EM_DIAGRAM):    filename O0L2I1BO "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Impt\EMREPORT.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   proc printto print=O0L2I1BO new;
+MPRINT(EM_DIAGRAM):   run;
+35131      %let _nimpute = 0;
+35132      data EMWS6.Impt_RESULT;
+MPRINT(EM_DIAGRAM):    data EMWS6.Impt_RESULT;
+35133      label NAME = "%sysfunc(sasmsg(sashelp.dmine, meta_name_vlabel,        NOQUOTE))" METHOD = "%sysfunc(sasmsg(sashelp.dmine, rpt_imputemethod_vlabel, NOQUOTE))" IMPUTED = "%sysfunc(sasmsg(sashelp.dmine, rpt_imputedvar_vlabel,   NOQUOTE))" INDICATOR
+35133    !  =
+35134         "%sysfunc(sasmsg(sashelp.dmine, rpt_indicatorvar_vlabel, NOQUOTE))" VALUE = "%sysfunc(sasmsg(sashelp.dmine, rpt_imputevalue_vlabel,  NOQUOTE))" ROLE = "%sysfunc(sasmsg(sashelp.dmine, meta_role_vlabel,        NOQUOTE))" LEVEL =
+35135         "%sysfunc(sasmsg(sashelp.dmine, meta_level_vlabel,       NOQUOTE))" LABEL = "%sysfunc(sasmsg(sashelp.dmine, meta_label_vlabel,       NOQUOTE))" TRAIN = "%sysfunc(sasmsg(sashelp.dmine, rpt_missingcount_vlabel, NOQUOTE, TRAIN))";
+MPRINT(EM_DIAGRAM):   label NAME = "변수 이름" METHOD = "결측값 처리 방법" IMPUTED = "결측값 처리된 변수" INDICATOR = "표시자 변수" VALUE = "결측값 처리" ROLE = "역할" LEVEL = "측도 레벨" LABEL = "레이블" TRAIN = "TRAIN에 대한 결측 개수";
+35136      set EMWS6.Impt_META(where=(IMPUTED ne '') keep=NAME METHOD IMP VALUE ROLE NMISS LEVEL LABEL rename=(IMP=IMPUTED NMISS=TRAIN)) end=eof;
+MPRINT(EM_DIAGRAM):   set EMWS6.Impt_META(where=(IMPUTED ne '') keep=NAME METHOD IMP VALUE ROLE NMISS LEVEL LABEL rename=(IMP=IMPUTED NMISS=TRAIN)) end=eof;
+35137      if eof then call symput('_nimpute', '1');
+MPRINT(EM_DIAGRAM):   if eof then call symput('_nimpute', '1');
+35138      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 변수 INDICATOR이(가) 초기화되지 않았습니다.
+NOTE: 7개의 관측값을 데이터셋 EMWS6.IMPT_META.에서 읽었습니다.
+      WHERE IMPUTED not = ' ';
+NOTE: 데이터셋 EMWS6.IMPT_RESULT은(는) 7개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.06 초
+      cpu 시간            0.06 초
+      
+
+35139      proc print data=EMWS6.Impt_RESULT(obs=500) label noobs;
+MPRINT(EM_DIAGRAM):    proc print data=EMWS6.Impt_RESULT(obs=500) label noobs;
+35140      title9 "%sysfunc(sasmsg(sashelp.dmine, rpt_imputationsummary_title, NOQUOTE))";
+MPRINT(EM_DIAGRAM):   title9 "결측값 처리 요약";
+35141      title10 "%sysfunc(sasmsg(sashelp.dmine, rpt_numberobs_title,         NOQUOTE))";
+MPRINT(EM_DIAGRAM):   title10 "관측치 수";
+MPRINT(EM_DIAGRAM):   run;
+35142      run;
+
+NOTE: 7개의 관측값을 데이터셋 EMWS6.IMPT_RESULT.에서 읽었습니다.
+NOTE: 출력 결과 (프로시저: PRINT, 페이지: 8)
+NOTE: 프로시저 PRINT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+35143      proc freq data=EMWS6.Impt_RESULT noprint;
+MPRINT(EM_DIAGRAM):    proc freq data=EMWS6.Impt_RESULT noprint;
+35144      table train /out=WORK.ImptSUMMARY nocum;
+MPRINT(EM_DIAGRAM):   table train /out=WORK.ImptSUMMARY nocum;
+35145      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 7개의 관측값을 데이터셋 EMWS6.IMPT_RESULT.에서 읽었습니다.
+NOTE: 데이터셋 WORK.IMPTSUMMARY은(는) 3개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: 프로시저 FREQ 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.03 초
+      
+
+35146      proc sort data=WORK.ImptSUMMARY NOTHREADS;
+MPRINT(EM_DIAGRAM):   proc sort data=WORK.ImptSUMMARY NOTHREADS;
+35147      by descending TRAIN;
+MPRINT(EM_DIAGRAM):   by descending TRAIN;
+35148      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 3개의 관측값을 데이터셋 WORK.IMPTSUMMARY.에서 읽었습니다.
+NOTE: 데이터셋 WORK.IMPTSUMMARY은(는) 3개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+35149      proc print data=WORK.ImptSUMMARY(obs=100) label;
+MPRINT(EM_DIAGRAM):   proc print data=WORK.ImptSUMMARY(obs=100) label;
+35150      label COUNT = "%sysfunc(sasmsg(sashelp.dmine, rpt_varcount_vlabel,  NOQUOTE))" PERCENT = "%sysfunc(sasmsg(sashelp.dmine, rpt_varpercent_vlabel,  NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label COUNT = "변수 개수" PERCENT = "변수 백분율";
+35151      title9 ' ';
+MPRINT(EM_DIAGRAM):   title9 ' ';
+35152      title10 "%sysfunc(sasmsg(sashelp.dmine, rpt_missingvardistribution_title, NOQUOTE))";
+MPRINT(EM_DIAGRAM):   title10 "변수 분포 분석용 데이터";
+MPRINT(EM_DIAGRAM):   run;
+35153      run;
+
+NOTE: 3개의 관측값을 데이터셋 WORK.IMPTSUMMARY.에서 읽었습니다.
+NOTE: 출력 결과 (프로시저: PRINT, 페이지: 9)
+NOTE: 프로시저 PRINT 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+35154      data EMWS6.Impt_EMSCOREVAR;
+MPRINT(EM_DIAGRAM):    data EMWS6.Impt_EMSCOREVAR;
+35155      length Name $32 formula $70 file $200;
+MPRINT(EM_DIAGRAM):   length Name $32 formula $70 file $200;
+35156      keep NAME Formula file;
+MPRINT(EM_DIAGRAM):   keep NAME Formula file;
+35157      set EMWS6.Impt_META end=eof;
+MPRINT(EM_DIAGRAM):   set EMWS6.Impt_META end=eof;
+35158      *set EMWS6.Impt_RESULT end=eof;
+MPRINT(EM_DIAGRAM):   *set EMWS6.Impt_RESULT end=eof;
+35159      if M ne '' then do;
+MPRINT(EM_DIAGRAM):   if M ne '' then do;
+35160      NAME= M;
+MPRINT(EM_DIAGRAM):   NAME= M;
+35161      file="IMPUTECODE\"!!strip(NAME)!!'.sas';
+MPRINT(EM_DIAGRAM):   file="IMPUTECODE\"!!strip(NAME)!!'.sas';
+35162      output;
+MPRINT(EM_DIAGRAM):   output;
+35163      end;
+MPRINT(EM_DIAGRAM):   end;
+35164      if IMP ne '' then do;
+MPRINT(EM_DIAGRAM):   if IMP ne '' then do;
+35165      NAME= IMP;
+MPRINT(EM_DIAGRAM):   NAME= IMP;
+35166      file="IMPUTECODE\"!!strip(NAME)!!'.sas';
+MPRINT(EM_DIAGRAM):   file="IMPUTECODE\"!!strip(NAME)!!'.sas';
+35167      output;
+MPRINT(EM_DIAGRAM):   output;
+35168      end;
+MPRINT(EM_DIAGRAM):   end;
+35169      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 변수 formula이(가) 초기화되지 않았습니다.
+NOTE: 17개의 관측값을 데이터셋 EMWS6.IMPT_META.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.IMPT_EMSCOREVAR은(는) 24개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(EM_DIAGRAM):    proc printto;
+MPRINT(EM_DIAGRAM):   run;

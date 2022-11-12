@@ -1,0 +1,27 @@
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+스코어 입력 변수
+
+                                                         스코어
+변수 이                                          변수    코드에
+  름        역할     생성자    주석    레이블    숨김     사용
+
+RESPOND    TARGET                                 N        N   
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+스코어 출력 변수
+
+변수 이름              함수              생성자    레이블
+
+EM_CLASSIFICATION      CLASSIFICATION    Score     Prediction for RESPOND            
+EM_EVENTPROBABILITY    PREDICT           Score     Probability for level 1 of RESPOND
+EM_PROBABILITY         PREDICT           Score     Probability of Classification     
+EM_SEGMENT             TRANSFORM         Score     Node                              
+I_RESPOND              CLASSIFICATION    Tree                                        
+P_RESPOND0             PREDICT           Tree                                        
+P_RESPOND1             PREDICT           Tree                                        
+_NODE_                 TRANSFORM         Tree                                        

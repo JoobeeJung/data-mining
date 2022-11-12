@@ -1,0 +1,2340 @@
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 20일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "11시37분20초" );
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 스코어 로그";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+*------------------------------------------------------------*
+* 스코어 로그
+날짜:                2018년 11월 20일
+시간:                11시37분20초
+*------------------------------------------------------------*
+MPRINT(EM_DIAGRAM):    filename O14R5IE1 "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMSCORE.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   proc printto print=O14R5IE1 new;
+MPRINT(EM_DIAGRAM):   run;
+24338      %let EMEXCEPTIONSTRING=;
+24339      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+24340      * SCORE: HPSVM;
+MPRINT(EM_DIAGRAM):   * SCORE: HPSVM;
+24341      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+24342      %let EM_ACTION = SCORE;
+24343      %let syscc = 0;
+24344      %macro main;
+24345      
+24346         %if %upcase(&EM_ACTION) = CREATE %then %do;
+24347             filename temp catalog 'sashelp.hpdm.hpsvm_create.source';
+24348             %include temp;
+24349             filename temp;
+24350             %hpdm_hpsvm_create;
+24351         %end;
+24352      
+24353         %else
+24354         %if %upcase(&EM_ACTION) = TRAIN %then %do;
+24355             filename temp catalog 'sashelp.hpdm.hpsvm_train.source';
+24356             %include temp;
+24357             filename temp;
+24358             %hpdm_hpsvm_train;
+24359         %end;
+24360      
+24361         %else
+24362         %if %upcase(&EM_ACTION) = REPORT %then %do;
+24363             filename temp catalog 'sashelp.hpdm.hpsvm_report.source';
+24364             %include temp;
+24365             filename temp;
+24366             %hpdm_hpsvm_report;
+24367         %end;
+24368      
+24369      
+24370         %else
+24371         %if %upcase(&EM_ACTION) = SCORE %then %do;
+24372             filename temp catalog 'sashelp.hpdm.hpsvm_score.source';
+24373             %include temp;
+24374             filename temp;
+24375             %hpdm_hpsvm_score;
+24376         %end;
+24377      
+24378      
+24379      %mend main;
+24380      
+24381      %main;
+MPRINT(EM_DIAGRAM):    
+MPRINT(MAIN):   filename temp catalog 'sashelp.hpdm.hpsvm_score.source';
+NOTE: %INCLUDE(레벨 1) 파일 TEMP은(는) 파일 SASHELP.HPDM.HPSVM_SCORE.SOURCE입니다.
+24382     +%macro hpdm_hpsvm_score;
+24384     +/* Scoring is different between activeset and interior point methods.
+24385     + * Activeset currently uses proc svmscore, while interior point generates
+24386     + * SAS score code. */
+24388     +%if "%upcase(&EM_PROPERTY_method)" eq "ACTIVESET" %then %do;
+24390     +    %let P1=;
+24391     +    %let P1Label=;
+24392     +    %let P0=;
+24393     +    %let P0Label=;
+24394     +    data _NULL_;
+24395     +        set &EM_DEC_DECMETA(where = (_TYPE_ eq "PREDICTED" or _TYPE_ eq "TARGET"));
+24396     +        retain tevent;
+24397     +        if _N_ eq 1 then do;
+24398     +            tevent = event;
+24399     +        end;
+24400     +        if _N_ > 1 then do;
+24401     +            if level = tevent then do;
+24402     +                call symput('P1',strip(VARIABLE));
+24403     +                call symput('P1Label',strip(LABEL));
+24404     +            end;
+24405     +            else do;
+24406     +                call symput('P0',strip(VARIABLE));
+24407     +                call symput('P0Label',strip(LABEL));
+24408     +            end;
+24409     +        end;
+24410     +    run;
+24412     +    %let EM_SCORECODEFORMAT = PROC;
+24414     +    data _NULL_;
+24415     +        set &EM_USER_SVMINFO(firstobs=7);
+24416     +        if _N_ = 1 then do;
+24417     +            call symput('max',Value);
+24418     +        end;
+24419     +        if _N_ = 2 then do;
+24420     +            call symput('min',Value);
+24421     +        end;
+24422     +    run;
+24424     +    filename flowtemp "&EM_FILE_EMFLOWSCORECODE";
+24425     +    data _NULL_;
+24426     +        file flowtemp;
+24427     +        put '%macro hpsvm_active_score;';
+24428     +        put ' ';
+24429     +        put '%if %sysfunc(exist(work._score_temp)) %then %do;';
+24430     +        put 'proc delete data=work._score_temp;';
+24431     +        put 'run;';
+24432     +        put '%end;';
+24433     +        put ' ';
+24434     +        put '%if %symexist(hpsvm_score_input)=0 %then %let hpsvm_score_input=&em_score_output;';
+24435     +        put '%if %symexist(hpsvm_score_output)=0 %then %let hpsvm_score_output=&em_score_output;';
+24436     +        put ' ';
+24437     +        put 'proc svmscore data=&hpsvm_score_input';
+24438     +        put "infit=&EM_USER_OUTFIT";
+24439     +        put "inclass=&EM_USER_OUTCLASS";
+24440     +        put "inest=&EM_USER_OUTEST";
+24441     +        put 'out=work._outtemp;';
+24442     +        put ' ';
+24443     +        put 'run;';
+24444     +        put ' ';
+24445     +        put 'data work._score_temp;';
+24446     +        put "  minP=put(&min.,16.8);";
+24447     +        put "  maxP=put(&max.,16.8);";
+24448     +        put '  Pred=.;';
+24449     +        put '  set work._outtemp;';
+24450     +        put '  if _P_ ge 0 then do;';
+24451     +        put '    if maxP ne 0 then do;';
+24452     +        put '      Pred = _P_/maxP;';
+24453     +        put '    end;';
+24454     +        put '  end;';
+24455     +        put '  if _P_ < 0 then do;';
+24456     +        put '    if minP ne 0 then do;';
+24457     +        put '      Pred = -_P_/minP;';
+24458     +        put '    end;';
+24459     +        put '  end;';
+24460     +        put '  if Pred ne . then do;';
+24461     +        put '    Pred = (1+Pred)/2;';
+24462     +        put '  end;';
+24463     +        put '  if Pred > 1 then do;';
+24464     +        put '    Pred = 1;';
+24465     +        put '  end;';
+24466     +        put '  if Pred < 0 then do;';
+24467     +        put '     Pred = 0;';
+24468     +        put '  end;';
+24469     +        put "  &P0 = Pred;";
+24470     +        put "  &P1 = 1-Pred;";
+24471     +        put "  Label &P0 = '&P0Label'";
+24472     +        put "  &P1 = '&P1Label';";
+24473     +        put '  drop Pred minP maxP _P_ _Y_ _R_ _F_ _I_;';
+24474     +        put 'run;';
+24475     +        put ' ';
+24476     +        put 'proc delete data=work._outtemp;';
+24477     +        put 'run;';
+24478     +        put ' ';
+24479     +        put 'data &hpsvm_score_output;';
+24480     +        put 'set work._score_temp;';
+24481     +        put '%mend;';
+24482     +        put '%hpsvm_active_score;';
+24483     +    run;
+24485     +    /* generate publish code from flow score code */
+24486     +    filename pubtemp "&EM_FILE_EMPUBLISHSCORECODE";
+24487     +    %em_copyfile(infref=flowtemp, outfref=pubtemp, append=N);
+24489     +    /* deallocate filerefs */
+24490     +    filename flowtemp;
+24491     +    filename pubtemp;
+24492     +%end;
+24494     +%mend hpdm_hpsvm_score;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(MAIN):   filename temp;
+NOTE: Fileref TEMP을(를) 삭제했습니다.
+MPRINT(MAIN):  ;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * End SCORE: HPSVM;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+24495      
+24496      
+24497      *------------------------------------------------------------*;
+24498      * End SCORE: HPSVM;
+24499      *------------------------------------------------------------*;
+
+24500      filename _emscr "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMFLOWSCORE.sas";
+MPRINT(EM_DIAGRAM):    filename _emscr "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMFLOWSCORE.sas";
+24501      data _ScoreTrain/ view=_ScoreTrain;
+MPRINT(EM_DIAGRAM):   data _ScoreTrain/ view=_ScoreTrain;
+24502      set EMWS6.Impt2_TRAIN;
+MPRINT(EM_DIAGRAM):   set EMWS6.Impt2_TRAIN;
+24503      %inc _emscr;
+NOTE: %INCLUDE(레벨 1) 파일 _EMSCR은(는) 파일 C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMFLOWSCORE.sas입니다.
+24504     +*************************************************************;
+MPRINT(EM_DIAGRAM):   *************************************************************;
+24505     +*******       Begin Scoring Code from PROC HPSVM      *******;
+MPRINT(EM_DIAGRAM):   ******* Begin Scoring Code from PROC HPSVM *******;
+24506     +*************************************************************;
+MPRINT(EM_DIAGRAM):   *************************************************************;
+24507     +length _WARN_ $4;
+MPRINT(EM_DIAGRAM):   length _WARN_ $4;
+24508     +label _WARN_ = 'Warnings';
+MPRINT(EM_DIAGRAM):   label _WARN_ = 'Warnings';
+24509     +
+24510     +length _P_ 8;
+MPRINT(EM_DIAGRAM):   length _P_ 8;
+24511     +length _PVAL 8;
+MPRINT(EM_DIAGRAM):   length _PVAL 8;
+24512     +_PVAL=0.0;
+MPRINT(EM_DIAGRAM):   _PVAL=0.0;
+24513     +length _missingflag_ 8;
+MPRINT(EM_DIAGRAM):   length _missingflag_ 8;
+24514     +drop _missingflag_;
+MPRINT(EM_DIAGRAM):   drop _missingflag_;
+24515     +_missingflag_ = 0;
+MPRINT(EM_DIAGRAM):   _missingflag_ = 0;
+24516     +length _unknownflag_ 8;
+MPRINT(EM_DIAGRAM):   length _unknownflag_ 8;
+24517     +drop _unknownflag_;
+MPRINT(EM_DIAGRAM):   drop _unknownflag_;
+24518     +_unknownflag_ = 0;
+MPRINT(EM_DIAGRAM):   _unknownflag_ = 0;
+24519     +length _unknown_ 8;
+MPRINT(EM_DIAGRAM):   length _unknown_ 8;
+24520     +drop _unknown_;
+MPRINT(EM_DIAGRAM):   drop _unknown_;
+24521     +_unknown_ = 0;
+MPRINT(EM_DIAGRAM):   _unknown_ = 0;
+24522     +
+24523     +_missingflag_ = NMISS(
+24524     +    IMP_REP_CLAGE,
+24525     +    IMP_REP_CLNO,
+24526     +    IMP_REP_DEBTINC,
+24527     +    IMP_REP_DELINQ,
+24528     +    IMP_REP_DEROG,
+24529     +    IMP_REP_MORTDUE,
+24530     +    IMP_REP_NINQ,
+24531     +    IMP_REP_VALUE,
+24532     +    IMP_REP_YOJ,
+24533     +    REP_LOAN);
+MPRINT(EM_DIAGRAM):   _missingflag_ = NMISS( IMP_REP_CLAGE, IMP_REP_CLNO, IMP_REP_DEBTINC, IMP_REP_DELINQ, IMP_REP_DEROG, IMP_REP_MORTDUE, IMP_REP_NINQ, IMP_REP_VALUE, IMP_REP_YOJ, REP_LOAN);
+24534     +if _missingflag_ > 0 then
+24535     +  substr(_WARN_, 1, 1) = 'M';
+MPRINT(EM_DIAGRAM):   if _missingflag_ > 0 then substr(_WARN_, 1, 1) = 'M';
+24536     +
+24537     +*****************    class:  IMP_REASON     ********************;
+MPRINT(EM_DIAGRAM):   ***************** class: IMP_REASON ********************;
+24538     +length _NORM8 $ 32;
+MPRINT(EM_DIAGRAM):   length _NORM8 $ 32;
+24539     +%DMNORMCP( IMP_REASON, _NORM8 )
+MPRINT(DMNORMCP):   _NORM8=dmnorm(IMP_REASON,
+MPRINT(DMNORLEN):  32
+MPRINT(DMNORMCP):  );
+MPRINT(EM_DIAGRAM):   drop _NORM8;
+MPRINT(EM_DIAGRAM):   select(_NORM8);
+MPRINT(EM_DIAGRAM):   when('DEBTCON' ) _PVAL = _PVAL + -5.49376913062350E-04;
+MPRINT(EM_DIAGRAM):   when('HOMEIMP' ) _PVAL = _PVAL + 5.49376913113940E-04;
+24540     +drop _NORM8;
+MPRINT(EM_DIAGRAM):   otherwise _unknown_ = 1;
+24541     +select(_NORM8);
+MPRINT(EM_DIAGRAM):   end;
+24542     +  when('DEBTCON' ) _PVAL = _PVAL +   -5.49376913062350E-04;
+MPRINT(EM_DIAGRAM):   if _unknown_ = 1 then do;
+24543     +  when('HOMEIMP' ) _PVAL = _PVAL +    5.49376913113940E-04;
+MPRINT(EM_DIAGRAM):   if MISSING(_NORM8) or _NORM8 = '.' then do;
+24544     +  otherwise _unknown_ = 1;
+MPRINT(EM_DIAGRAM):   _missingflag_ = 1;
+MPRINT(EM_DIAGRAM):   end;
+24545     +end;
+MPRINT(EM_DIAGRAM):   else do;
+24546     +if _unknown_ = 1 then do;
+MPRINT(EM_DIAGRAM):   _unknownflag_ = 1;
+24547     +    if MISSING(_NORM8) or _NORM8 = '.' then do;
+MPRINT(EM_DIAGRAM):   end;
+24548     +        _missingflag_ = 1;
+MPRINT(EM_DIAGRAM):   _unknown_ = 0;
+24549     +    end; else do;
+MPRINT(EM_DIAGRAM):   end;
+24550     +        _unknownflag_ = 1;
+MPRINT(EM_DIAGRAM):   ***************** class: IMP_JOB ********************;
+24551     +    end;
+MPRINT(EM_DIAGRAM):   length _NORM8 $ 32;
+24552     +    _unknown_ = 0;
+24553     +end;
+24554     +
+24555     +*****************    class:  IMP_JOB     ********************;
+24556     +length _NORM8 $ 32;
+MPRINT(DMNORMCP):   _NORM8=dmnorm(IMP_JOB,
+24557     +%DMNORMCP( IMP_JOB, _NORM8 )
+MPRINT(DMNORLEN):  32
+MPRINT(DMNORMCP):  );
+MPRINT(EM_DIAGRAM):   drop _NORM8;
+MPRINT(EM_DIAGRAM):   select(_NORM8);
+MPRINT(EM_DIAGRAM):   when('MGR' ) _PVAL = _PVAL + 6.22559945534040E-02;
+MPRINT(EM_DIAGRAM):   when('OFFICE' ) _PVAL = _PVAL + 1.62188904983960E-01;
+MPRINT(EM_DIAGRAM):   when('OTHER' ) _PVAL = _PVAL + 1.00966721268470E-01;
+24558     +drop _NORM8;
+MPRINT(EM_DIAGRAM):   when('PROFEXE' ) _PVAL = _PVAL + 1.17749358201850E-01;
+24559     +select(_NORM8);
+MPRINT(EM_DIAGRAM):   when('SALES' ) _PVAL = _PVAL + -2.98691103218330E-01;
+24560     +  when('MGR' ) _PVAL = _PVAL +    6.22559945534040E-02;
+MPRINT(EM_DIAGRAM):   when('SELF' ) _PVAL = _PVAL + -1.44469875789320E-01;
+24561     +  when('OFFICE' ) _PVAL = _PVAL +    1.62188904983960E-01;
+24562     +  when('OTHER' ) _PVAL = _PVAL +    1.00966721268470E-01;
+MPRINT(EM_DIAGRAM):   otherwise _unknown_ = 1;
+24563     +  when('PROFEXE' ) _PVAL = _PVAL +    1.17749358201850E-01;
+MPRINT(EM_DIAGRAM):   end;
+24564     +  when('SALES' ) _PVAL = _PVAL +   -2.98691103218330E-01;
+MPRINT(EM_DIAGRAM):   if _unknown_ = 1 then do;
+24565     +  when('SELF' ) _PVAL = _PVAL +   -1.44469875789320E-01;
+MPRINT(EM_DIAGRAM):   if MISSING(_NORM8) or _NORM8 = '.' then do;
+24566     +  otherwise _unknown_ = 1;
+MPRINT(EM_DIAGRAM):   _missingflag_ = 1;
+MPRINT(EM_DIAGRAM):   end;
+24567     +end;
+MPRINT(EM_DIAGRAM):   else do;
+24568     +if _unknown_ = 1 then do;
+MPRINT(EM_DIAGRAM):   _unknownflag_ = 1;
+24569     +    if MISSING(_NORM8) or _NORM8 = '.' then do;
+MPRINT(EM_DIAGRAM):   end;
+24570     +        _missingflag_ = 1;
+MPRINT(EM_DIAGRAM):   _unknown_ = 0;
+24571     +    end; else do;
+MPRINT(EM_DIAGRAM):   end;
+24572     +        _unknownflag_ = 1;
+MPRINT(EM_DIAGRAM):   ***************** interval: IMP_REP_CLAGE ********************;
+24573     +    end;
+MPRINT(EM_DIAGRAM):   if missing( IMP_REP_CLAGE ) then do;
+24574     +    _unknown_ = 0;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + 3.57860197305960E-01;
+24575     +end;
+MPRINT(EM_DIAGRAM):   end;
+24576     +
+MPRINT(EM_DIAGRAM):   else do;
+24577     +*****************   interval:  IMP_REP_CLAGE   ********************;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + IMP_REP_CLAGE * 2.01302388242550E-03;
+24578     +if missing( IMP_REP_CLAGE ) then do;
+MPRINT(EM_DIAGRAM):   end;
+24579     +  _PVAL = _PVAL +    3.57860197305960E-01;
+24580     +end; else do;
+MPRINT(EM_DIAGRAM):   ***************** interval: IMP_REP_CLNO ********************;
+MPRINT(EM_DIAGRAM):   if missing( IMP_REP_CLNO ) then do;
+24581     +  _PVAL = _PVAL + IMP_REP_CLAGE *    2.01302388242550E-03;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + 1.03882628059960E-01;
+24582     +end;
+MPRINT(EM_DIAGRAM):   end;
+24583     +
+MPRINT(EM_DIAGRAM):   else do;
+24584     +*****************   interval:  IMP_REP_CLNO   ********************;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + IMP_REP_CLNO * 4.88720029429590E-03;
+24585     +if missing( IMP_REP_CLNO ) then do;
+MPRINT(EM_DIAGRAM):   end;
+24586     +  _PVAL = _PVAL +    1.03882628059960E-01;
+24587     +end; else do;
+MPRINT(EM_DIAGRAM):   ***************** interval: IMP_REP_DEBTINC ********************;
+MPRINT(EM_DIAGRAM):   if missing( IMP_REP_DEBTINC ) then do;
+24588     +  _PVAL = _PVAL + IMP_REP_CLNO *    4.88720029429590E-03;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + -4.75447554404790E-01;
+24589     +end;
+MPRINT(EM_DIAGRAM):   end;
+24590     +
+MPRINT(EM_DIAGRAM):   else do;
+24591     +*****************   interval:  IMP_REP_DEBTINC   ********************;
+24592     +if missing( IMP_REP_DEBTINC ) then do;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + (IMP_REP_DEBTINC - 7.21155751990000E+00) * -1.79709176053110E-02;
+24593     +  _PVAL = _PVAL +   -4.75447554404790E-01;
+MPRINT(EM_DIAGRAM):   end;
+24594     +end; else do;
+MPRINT(EM_DIAGRAM):   ***************** interval: IMP_REP_DELINQ ********************;
+24595     +  _PVAL = _PVAL + (IMP_REP_DEBTINC
+MPRINT(EM_DIAGRAM):   if missing( IMP_REP_DELINQ ) then do;
+24596     +         -    7.21155751990000E+00) *   -1.79709176053110E-02;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + -2.05633041126720E-01;
+24597     +end;
+MPRINT(EM_DIAGRAM):   end;
+24598     +
+MPRINT(EM_DIAGRAM):   else do;
+24599     +*****************   interval:  IMP_REP_DELINQ   ********************;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + IMP_REP_DELINQ * -4.98125217485140E-01;
+24600     +if missing( IMP_REP_DELINQ ) then do;
+MPRINT(EM_DIAGRAM):   end;
+24601     +  _PVAL = _PVAL +   -2.05633041126720E-01;
+24602     +end; else do;
+MPRINT(EM_DIAGRAM):   ***************** interval: IMP_REP_DEROG ********************;
+MPRINT(EM_DIAGRAM):   if missing( IMP_REP_DEROG ) then do;
+24603     +  _PVAL = _PVAL + IMP_REP_DELINQ *   -4.98125217485140E-01;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + -6.04645268747390E-02;
+24604     +end;
+MPRINT(EM_DIAGRAM):   end;
+24605     +
+MPRINT(EM_DIAGRAM):   else do;
+24606     +*****************   interval:  IMP_REP_DEROG   ********************;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + IMP_REP_DEROG * -2.85886526704640E-01;
+24607     +if missing( IMP_REP_DEROG ) then do;
+MPRINT(EM_DIAGRAM):   end;
+24608     +  _PVAL = _PVAL +   -6.04645268747390E-02;
+24609     +end; else do;
+MPRINT(EM_DIAGRAM):   ***************** interval: IMP_REP_MORTDUE ********************;
+MPRINT(EM_DIAGRAM):   if missing( IMP_REP_MORTDUE ) then do;
+24610     +  _PVAL = _PVAL + IMP_REP_DEROG *   -2.85886526704640E-01;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + 1.99576442150990E-01;
+24611     +end;
+MPRINT(EM_DIAGRAM):   end;
+24612     +
+MPRINT(EM_DIAGRAM):   else do;
+24613     +*****************   interval:  IMP_REP_MORTDUE   ********************;
+24614     +if missing( IMP_REP_MORTDUE ) then do;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + (IMP_REP_MORTDUE - 2.06300000000000E+03) * 2.81265049288710E-06;
+24615     +  _PVAL = _PVAL +    1.99576442150990E-01;
+MPRINT(EM_DIAGRAM):   end;
+24616     +end; else do;
+MPRINT(EM_DIAGRAM):   ***************** interval: IMP_REP_NINQ ********************;
+24617     +  _PVAL = _PVAL + (IMP_REP_MORTDUE
+MPRINT(EM_DIAGRAM):   if missing( IMP_REP_NINQ ) then do;
+24618     +         -    2.06300000000000E+03) *    2.81265049288710E-06;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + -8.69344235930520E-02;
+24619     +end;
+MPRINT(EM_DIAGRAM):   end;
+24620     +
+MPRINT(EM_DIAGRAM):   else do;
+24621     +*****************   interval:  IMP_REP_NINQ   ********************;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + IMP_REP_NINQ * -7.66203531134030E-02;
+24622     +if missing( IMP_REP_NINQ ) then do;
+MPRINT(EM_DIAGRAM):   end;
+24623     +  _PVAL = _PVAL +   -8.69344235930520E-02;
+24624     +end; else do;
+MPRINT(EM_DIAGRAM):   ***************** interval: IMP_REP_VALUE ********************;
+MPRINT(EM_DIAGRAM):   if missing( IMP_REP_VALUE ) then do;
+24625     +  _PVAL = _PVAL + IMP_REP_NINQ *   -7.66203531134030E-02;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + -2.04566721559350E-01;
+24626     +end;
+MPRINT(EM_DIAGRAM):   end;
+24627     +
+MPRINT(EM_DIAGRAM):   else do;
+24628     +*****************   interval:  IMP_REP_VALUE   ********************;
+24629     +if missing( IMP_REP_VALUE ) then do;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + (IMP_REP_VALUE - 8.00000000000000E+03) * -2.20551823886690E-06;
+24630     +  _PVAL = _PVAL +   -2.04566721559350E-01;
+MPRINT(EM_DIAGRAM):   end;
+24631     +end; else do;
+MPRINT(EM_DIAGRAM):   ***************** interval: IMP_REP_YOJ ********************;
+24632     +  _PVAL = _PVAL + (IMP_REP_VALUE
+MPRINT(EM_DIAGRAM):   if missing( IMP_REP_YOJ ) then do;
+24633     +         -    8.00000000000000E+03) *   -2.20551823886690E-06;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + 2.48392538979150E-02;
+24634     +end;
+MPRINT(EM_DIAGRAM):   end;
+24635     +
+MPRINT(EM_DIAGRAM):   else do;
+24636     +*****************   interval:  IMP_REP_YOJ   ********************;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + IMP_REP_YOJ * 2.78916839317700E-03;
+24637     +if missing( IMP_REP_YOJ ) then do;
+MPRINT(EM_DIAGRAM):   end;
+24638     +  _PVAL = _PVAL +    2.48392538979150E-02;
+24639     +end; else do;
+MPRINT(EM_DIAGRAM):   ***************** interval: REP_LOAN ********************;
+MPRINT(EM_DIAGRAM):   if missing( REP_LOAN ) then do;
+24640     +  _PVAL = _PVAL + IMP_REP_YOJ *    2.78916839317700E-03;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + 1.25421480397250E-01;
+24641     +end;
+MPRINT(EM_DIAGRAM):   end;
+24642     +
+MPRINT(EM_DIAGRAM):   else do;
+24643     +*****************   interval:  REP_LOAN   ********************;
+24644     +if missing( REP_LOAN ) then do;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + (REP_LOAN - 1.10000000000000E+03) * 7.26159845947880E-06;
+24645     +  _PVAL = _PVAL +    1.25421480397250E-01;
+MPRINT(EM_DIAGRAM):   end;
+24646     +end; else do;
+MPRINT(EM_DIAGRAM):   ********************* BETA ******************;
+24647     +  _PVAL = _PVAL + (REP_LOAN
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + 1.18631325985230E+00;
+24648     +         -    1.10000000000000E+03) *    7.26159845947880E-06;
+MPRINT(EM_DIAGRAM):   _P_ = _PVAL;
+24649     +end;
+24650     +
+24651     +*********************   BETA   ******************;
+MPRINT(EM_DIAGRAM):   if _missingflag_ > 0 then substr(_WARN_, 1, 1) = 'M';
+24652     +_PVAL = _PVAL +    1.18631325985230E+00;
+24653     +_P_ = _PVAL;
+MPRINT(EM_DIAGRAM):   if _unknownflag_ > 0 then substr(_WARN_, 2, 1) = 'U';
+24654     +
+24655     +if _missingflag_ > 0 then
+MPRINT(EM_DIAGRAM):   ************* predictive target ***************;
+24656     +  substr(_WARN_, 1, 1) = 'M';
+MPRINT(EM_DIAGRAM):   length P_BAD1 8;
+24657     +if _unknownflag_ > 0 then
+24658     +  substr(_WARN_, 2, 1) = 'U';
+MPRINT(EM_DIAGRAM):   label P_BAD1 = 'Predicted: BAD=1' ;
+24659     +
+24660     +*************  predictive target  ***************;
+MPRINT(EM_DIAGRAM):   length P_BAD0 8;
+24661     +length P_BAD1 8;
+MPRINT(EM_DIAGRAM):   label P_BAD0 = 'Predicted: BAD=0' ;
+24662     +label P_BAD1 = 'Predicted: BAD=1' ;
+MPRINT(EM_DIAGRAM):   length I_BAD $ 32;
+24663     +length P_BAD0 8;
+MPRINT(EM_DIAGRAM):   label I_BAD = 'Into: BAD' ;
+24664     +label P_BAD0 = 'Predicted: BAD=0' ;
+24665     +length I_BAD $ 32;
+MPRINT(EM_DIAGRAM):   if _PVAL ge 0.0 then _PVAL = _PVAL/ 2.18338628860380E+00;
+24666     +label I_BAD = 'Into: BAD' ;
+MPRINT(EM_DIAGRAM):   else _PVAL = -_PVAL/ -2.03276780866480E+00;
+MPRINT(EM_DIAGRAM):   _PVAL = (_PVAL + 1) * 0.5;
+24667     +
+MPRINT(EM_DIAGRAM):   if _PVAL > 1 then _PVAL = 1.0;
+24668     +if _PVAL ge 0.0 then _PVAL = _PVAL/   2.18338628860380E+00;
+24669     +else _PVAL = -_PVAL/  -2.03276780866480E+00;
+MPRINT(EM_DIAGRAM):   else if _PVAL < 0 then _PVAL = 0.0;
+24670     +_PVAL = (_PVAL + 1) * 0.5;
+MPRINT(EM_DIAGRAM):   _PVAL = 1 - _PVAL;
+24671     +if _PVAL > 1 then _PVAL = 1.0;
+MPRINT(EM_DIAGRAM):   P_BAD1 = _PVAL;
+24672     +else if _PVAL < 0 then _PVAL = 0.0;
+MPRINT(EM_DIAGRAM):   P_BAD0 = 1 - P_BAD1;
+24673     +
+MPRINT(EM_DIAGRAM):   if _PVAL ge 0.5 then I_BAD = '1' ;
+24674     +_PVAL = 1 - _PVAL;
+24675     +P_BAD1 = _PVAL;
+MPRINT(EM_DIAGRAM):   else I_BAD = '0' ;
+24676     +P_BAD0 = 1 - P_BAD1;
+MPRINT(EM_DIAGRAM):   drop _PVAL;
+24677     +
+24678     +if _PVAL ge 0.5 then I_BAD = '1' ;
+MPRINT(EM_DIAGRAM):   *************************************************************;
+24679     +else I_BAD = '0' ;
+MPRINT(EM_DIAGRAM):   ******* End Scoring Code from PROC HPSVM *******;
+MPRINT(EM_DIAGRAM):   *************************************************************;
+24680     +drop _PVAL;
+24681     +
+24682     +*************************************************************;
+24683     +*******       End Scoring Code from PROC HPSVM        *******;
+24684     +*************************************************************;
+24685     +
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(EM_DIAGRAM):   run;
+24686      run;
+
+NOTE: DATA STEP 뷰가 파일 WORK._SCORETRAIN에 저장되었습니다.
+NOTE: 저장된 DATA STEP 뷰는 다른 운영 체제에서 실행할 수 없습니다.
+NOTE: View EMWS6.IMPT2_TRAIN.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.11 초
+      cpu 시간            0.10 초
+      
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.15 초
+      cpu 시간            0.15 초
+      
+
+24687      filename _emscr;
+MPRINT(EM_DIAGRAM):   filename _emscr;
+NOTE: Fileref _EMSCR을(를) 삭제했습니다.
+24688      filename _emscr "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMFLOWSCORE.sas" MOD;
+MPRINT(EM_DIAGRAM):    filename _emscr "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMFLOWSCORE.sas" MOD;
+24689      %makeClassificationVars(target=BAD, data=_ScoreTrain, decmeta=EMWS6.Ids5_BAD_DM, publish=N, fref=_emscr);
+MPRINT(MAKECLASSIFICATIONVARS):   data _null_;
+MPRINT(MAKECLASSIFICATIONVARS):   set EMWS6.Ids5_BAD_DM end=eof;
+MPRINT(MAKECLASSIFICATIONVARS):   where _TYPE_='PREDICTED';
+MPRINT(MAKECLASSIFICATIONVARS):   call symput('pred_vars'!!strip(put(_N_,BEST.)), strip(Variable));
+MPRINT(MAKECLASSIFICATIONVARS):   call symput('pred_levels'!!strip(put(_N_,BEST.)), strip(tranwrd(LEVEL,"'","''")));
+MPRINT(MAKECLASSIFICATIONVARS):   if eof then call symput('numLevels', strip(put(_N_,BEST.)));
+MPRINT(MAKECLASSIFICATIONVARS):   run;
+
+NOTE: 2개의 관측값을 데이터셋 EMWS6.IDS5_BAD_DM.에서 읽었습니다.
+      WHERE _TYPE_='PREDICTED';
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(MAKECLASSIFICATIONVARS):   data _null_;
+MPRINT(MAKECLASSIFICATIONVARS):   set EMWS6.Ids5_BAD_DM;
+MPRINT(MAKECLASSIFICATIONVARS):   where _TYPE_ in('INTO', 'FROM');
+MPRINT(MAKECLASSIFICATIONVARS):   if _TYPE_ = 'INTO' then do;
+MPRINT(MAKECLASSIFICATIONVARS):   call symput('into_var', strip(Variable));
+MPRINT(MAKECLASSIFICATIONVARS):   call symput('into_label', strip(tranwrd(LABEL,"'","''")));
+MPRINT(MAKECLASSIFICATIONVARS):   end;
+MPRINT(MAKECLASSIFICATIONVARS):   else do;
+MPRINT(MAKECLASSIFICATIONVARS):   call symput('from_var', strip(Variable));
+MPRINT(MAKECLASSIFICATIONVARS):   call symput('from_label', strip(tranwrd(LABEL,"'","''")));
+MPRINT(MAKECLASSIFICATIONVARS):   end;
+MPRINT(MAKECLASSIFICATIONVARS):   run;
+
+NOTE: 2개의 관측값을 데이터셋 EMWS6.IDS5_BAD_DM.에서 읽었습니다.
+      WHERE _TYPE_ in ('FROM', 'INTO');
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(MAKECLASSIFICATIONVARS):   data _null_;
+MPRINT(MAKECLASSIFICATIONVARS):   file _emscr MOD;
+MPRINT(MAKECLASSIFICATIONVARS):   put "*------------------------------------------------------------*;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "*Computing Classification Vars: BAD;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "*------------------------------------------------------------*;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "length _format200 $200;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "drop _format200;";
+MPRINT(MAKECLASSIFICATIONVARS):  ;
+MPRINT(MAKECLASSIFICATIONVARS):   put "length F_BAD $12;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "label  F_BAD = 'From: BAD';";
+MPRINT(MAKECLASSIFICATIONVARS):   put
+MPRINT(MAKECLASSIFICATIONVARS):   "F_BAD=dmnorm(BAD,32); ;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "_format200= ' ' ;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "length _p_ 8;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "_p_= 0 ;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "drop _p_ ;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "if P_BAD1 - _p_ > 1e-8 then do ;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "   _p_= P_BAD1 ;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "   _format200='1';";
+MPRINT(MAKECLASSIFICATIONVARS):   put "end;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "if P_BAD0 - _p_ > 1e-8 then do ;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "   _p_= P_BAD0 ;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "   _format200='0';";
+MPRINT(MAKECLASSIFICATIONVARS):   put "end;";
+MPRINT(MAKECLASSIFICATIONVARS):   put
+MPRINT(MAKECLASSIFICATIONVARS):   "I_BAD=dmnorm(_format200,32); ;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "length U_BAD 8;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "label U_BAD = 'Unnormalized Into: BAD';";
+MPRINT(MAKECLASSIFICATIONVARS):   put "if I_BAD='1' then";
+MPRINT(MAKECLASSIFICATIONVARS):   put "U_BAD=1;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "if I_BAD='0' then";
+MPRINT(MAKECLASSIFICATIONVARS):   put "U_BAD=0;";
+MPRINT(MAKECLASSIFICATIONVARS):   run;
+
+NOTE: 파일 _EMSCR:
+      파일 이름=C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMFLOWSCORE.sas,
+      RECFM=V,LRECL=32767,파일 크기 (바이트)=5439,
+      마지막 수정일=2018년 11월 20일 11시37분18초,
+      생성 시간=2018년 11월 20일 11시35분26초
+
+NOTE: 27개의 레코드를 파일 _EMSCR에 기록했습니다.
+      최소 레코드 길이는 4입니다.
+      최대 레코드 길이는 63입니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(EM_DIAGRAM):  ;
+24690      filename _emscr;
+MPRINT(EM_DIAGRAM):   filename _emscr;
+NOTE: Fileref _EMSCR을(를) 삭제했습니다.
+24691      filename _emscr "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\POSTEPSCORECODE.sas" MOD;
+MPRINT(EM_DIAGRAM):    filename _emscr "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\POSTEPSCORECODE.sas" MOD;
+24692      %makeClassificationVars(target=BAD, data=_ScoreTrain, decmeta=EMWS6.Ids5_BAD_DM, publish=Y, fref=_emscr);
+MPRINT(MAKECLASSIFICATIONVARS):   data _null_;
+MPRINT(MAKECLASSIFICATIONVARS):   set EMWS6.Ids5_BAD_DM end=eof;
+MPRINT(MAKECLASSIFICATIONVARS):   where _TYPE_='PREDICTED';
+MPRINT(MAKECLASSIFICATIONVARS):   call symput('pred_vars'!!strip(put(_N_,BEST.)), strip(Variable));
+MPRINT(MAKECLASSIFICATIONVARS):   call symput('pred_levels'!!strip(put(_N_,BEST.)), strip(tranwrd(LEVEL,"'","''")));
+MPRINT(MAKECLASSIFICATIONVARS):   if eof then call symput('numLevels', strip(put(_N_,BEST.)));
+MPRINT(MAKECLASSIFICATIONVARS):   run;
+
+NOTE: 2개의 관측값을 데이터셋 EMWS6.IDS5_BAD_DM.에서 읽었습니다.
+      WHERE _TYPE_='PREDICTED';
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(MAKECLASSIFICATIONVARS):   data _null_;
+MPRINT(MAKECLASSIFICATIONVARS):   set EMWS6.Ids5_BAD_DM;
+MPRINT(MAKECLASSIFICATIONVARS):   where _TYPE_ in('INTO', 'FROM');
+MPRINT(MAKECLASSIFICATIONVARS):   if _TYPE_ = 'INTO' then do;
+MPRINT(MAKECLASSIFICATIONVARS):   call symput('into_var', strip(Variable));
+MPRINT(MAKECLASSIFICATIONVARS):   call symput('into_label', strip(tranwrd(LABEL,"'","''")));
+MPRINT(MAKECLASSIFICATIONVARS):   end;
+MPRINT(MAKECLASSIFICATIONVARS):   else do;
+MPRINT(MAKECLASSIFICATIONVARS):   call symput('from_var', strip(Variable));
+MPRINT(MAKECLASSIFICATIONVARS):   call symput('from_label', strip(tranwrd(LABEL,"'","''")));
+MPRINT(MAKECLASSIFICATIONVARS):   end;
+MPRINT(MAKECLASSIFICATIONVARS):   run;
+
+NOTE: 2개의 관측값을 데이터셋 EMWS6.IDS5_BAD_DM.에서 읽었습니다.
+      WHERE _TYPE_ in ('FROM', 'INTO');
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(MAKECLASSIFICATIONVARS):   data _null_;
+MPRINT(MAKECLASSIFICATIONVARS):   file _emscr MOD;
+MPRINT(MAKECLASSIFICATIONVARS):   put "*------------------------------------------------------------*;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "*Computing Classification Vars: BAD;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "*------------------------------------------------------------*;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "length _format200 $200;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "drop _format200;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "_format200= ' ' ;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "length _p_ 8;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "_p_= 0 ;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "drop _p_ ;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "if P_BAD1 - _p_ > 1e-8 then do ;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "   _p_= P_BAD1 ;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "   _format200='1';";
+MPRINT(MAKECLASSIFICATIONVARS):   put "end;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "if P_BAD0 - _p_ > 1e-8 then do ;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "   _p_= P_BAD0 ;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "   _format200='0';";
+MPRINT(MAKECLASSIFICATIONVARS):   put "end;";
+MPRINT(MAKECLASSIFICATIONVARS):   put
+MPRINT(MAKECLASSIFICATIONVARS):   "I_BAD=dmnorm(_format200,32); ;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "length U_BAD 8;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "label U_BAD = 'Unnormalized Into: BAD';";
+MPRINT(MAKECLASSIFICATIONVARS):   put "if I_BAD='1' then";
+MPRINT(MAKECLASSIFICATIONVARS):   put "U_BAD=1;";
+MPRINT(MAKECLASSIFICATIONVARS):   put "if I_BAD='0' then";
+MPRINT(MAKECLASSIFICATIONVARS):   put "U_BAD=0;";
+MPRINT(MAKECLASSIFICATIONVARS):   run;
+
+NOTE: 파일 _EMSCR:
+      파일 이름=C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\POSTEPSCORECODE.sas,
+      RECFM=V,LRECL=32767,파일 크기 (바이트)=0,
+      마지막 수정일=2018년 11월 20일 11시37분20초,
+      생성 시간=2018년 11월 20일 11시37분20초
+
+NOTE: 24개의 레코드를 파일 _EMSCR에 기록했습니다.
+      최소 레코드 길이는 4입니다.
+      최대 레코드 길이는 63입니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(EM_DIAGRAM):  ;
+24693      filename _emscr;
+MPRINT(EM_DIAGRAM):   filename _emscr;
+NOTE: Fileref _EMSCR을(를) 삭제했습니다.
+24694      filename _f1 "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\POSTEPSCORECODE.sas";
+MPRINT(EM_DIAGRAM):    filename _f1 "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\POSTEPSCORECODE.sas";
+24695      filename _f2 "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMPUBLISHSCORE.sas";
+MPRINT(EM_DIAGRAM):   filename _f2 "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMPUBLISHSCORE.sas";
+24696      %em_copyfile(infref=_f1, outfref=_f2, append=Y);
+MPRINT(EM_COPYFILE):   data _null_;
+MPRINT(EM_COPYFILE):   length line $20000;
+MPRINT(EM_COPYFILE):   file _f2 MOD lrecl=20000;
+MPRINT(EM_COPYFILE):   fid=fopen("_f1",'i',20000,'v');
+MPRINT(EM_COPYFILE):   if fid > 0 then do;
+MPRINT(EM_COPYFILE):   do while(^fread(fid));
+MPRINT(EM_COPYFILE):   rlen = frlen(fid);
+MPRINT(EM_COPYFILE):   rc= fget(fid,line,20000);
+MPRINT(EM_COPYFILE):   start = length(line)-length(left(line))+1;
+MPRINT(EM_COPYFILE):   line=strip(line);
+MPRINT(EM_COPYFILE):   put @start line;
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   if fid > 0 then rc=fclose(fid);
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   run;
+
+NOTE: 파일 _F2:
+      파일 이름=C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMPUBLISHSCORE.sas,
+      RECFM=V,LRECL=20000,파일 크기 (바이트)=5459,
+      마지막 수정일=2018년 11월 20일 11시37분19초,
+      생성 시간=2018년 11월 20일 11시35분26초
+
+NOTE: 24개의 레코드를 파일 _F2에 기록했습니다.
+      최소 레코드 길이는 4입니다.
+      최대 레코드 길이는 63입니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(EM_DIAGRAM):  ;
+24697      filename _f1;
+MPRINT(EM_DIAGRAM):   filename _f1;
+NOTE: Fileref _F1을(를) 삭제했습니다.
+24698      filename _f2;
+MPRINT(EM_DIAGRAM):   filename _f2;
+NOTE: Fileref _F2을(를) 삭제했습니다.
+24699      filename _emscr "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMFLOWSCORE.sas" MOD;
+MPRINT(EM_DIAGRAM):    filename _emscr "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMFLOWSCORE.sas" MOD;
+24700      %makeResidualVars(target=BAD, decmeta=EMWS6.Ids5_BAD_DM, fref=_emscr);
+MPRINT(MAKERESIDUALVARS):   data _null_;
+MPRINT(MAKERESIDUALVARS):   set EMWS6.Ids5_BAD_DM end=eof;
+MPRINT(MAKERESIDUALVARS):   where _TYPE_ in('TARGET', 'FROM');
+MPRINT(MAKERESIDUALVARS):   if _TYPE_='TARGET' then call symput('target_level', strip(LEVEL));
+MPRINT(MAKERESIDUALVARS):   else call symput('from_var', strip(VARIABLE));
+MPRINT(MAKERESIDUALVARS):   run;
+
+NOTE: 2개의 관측값을 데이터셋 EMWS6.IDS5_BAD_DM.에서 읽었습니다.
+      WHERE _TYPE_ in ('FROM', 'TARGET');
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKERESIDUALVARS):   data _null_;
+MPRINT(MAKERESIDUALVARS):   set EMWS6.Ids5_BAD_DM;
+MPRINT(MAKERESIDUALVARS):   where _TYPE_ ='PREDICTED';
+MPRINT(MAKERESIDUALVARS):   call symput('pred_vars'!!strip(put(_N_,BEST.)), strip(Variable));
+MPRINT(MAKERESIDUALVARS):   run;
+
+NOTE: 2개의 관측값을 데이터셋 EMWS6.IDS5_BAD_DM.에서 읽었습니다.
+      WHERE _TYPE_='PREDICTED';
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(MAKERESIDUALVARS):   data _null_;
+MPRINT(MAKERESIDUALVARS):   set EMWS6.Ids5_BAD_DM end=eof;
+MPRINT(MAKERESIDUALVARS):   where _TYPE_ ='RESIDUAL';
+MPRINT(MAKERESIDUALVARS):   call symput('res_vars'!!strip(put(_N_,BEST.)), strip(Variable));
+MPRINT(MAKERESIDUALVARS):   call symput('res_labels'!!strip(put(_N_,BEST.)), strip(tranwrd(LABEL,"'","''")));
+MPRINT(MAKERESIDUALVARS):   call symput('res_levels'!!strip(put(_N_,BEST.)), strip(tranwrd(LEVEL,"'","''")));
+MPRINT(MAKERESIDUALVARS):   if eof then call symput('numLevels', strip(put(_N_,BEST.)));
+MPRINT(MAKERESIDUALVARS):   run;
+
+NOTE: 2개의 관측값을 데이터셋 EMWS6.IDS5_BAD_DM.에서 읽었습니다.
+      WHERE _TYPE_='RESIDUAL';
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKERESIDUALVARS):   data _null_;
+MPRINT(MAKERESIDUALVARS):   file _emscr;
+MPRINT(MAKERESIDUALVARS):   put "*------------------------------------------------------------*;";
+MPRINT(MAKERESIDUALVARS):   put "*Computing Residual Vars: BAD;";
+MPRINT(MAKERESIDUALVARS):   put "*------------------------------------------------------------*;";
+MPRINT(MAKERESIDUALVARS):   put "Length R_BAD1 8;";
+MPRINT(MAKERESIDUALVARS):   put "Label R_BAD1='Residual: BAD=1';";
+MPRINT(MAKERESIDUALVARS):   put "Length R_BAD0 8;";
+MPRINT(MAKERESIDUALVARS):   put "Label R_BAD0='Residual: BAD=0';";
+MPRINT(MAKERESIDUALVARS):   put "if ";
+MPRINT(MAKERESIDUALVARS):   put " F_BAD ne '1'";
+MPRINT(MAKERESIDUALVARS):   put "and F_BAD ne '0'";
+MPRINT(MAKERESIDUALVARS):   put " then do;";
+MPRINT(MAKERESIDUALVARS):   put "R_BAD1=.;";
+MPRINT(MAKERESIDUALVARS):   put "R_BAD0=.;";
+MPRINT(MAKERESIDUALVARS):   put "end;";
+MPRINT(MAKERESIDUALVARS):   put "else do;";
+MPRINT(MAKERESIDUALVARS):   put "R_BAD1= - P_BAD1;";
+MPRINT(MAKERESIDUALVARS):   put "R_BAD0= - P_BAD0;";
+MPRINT(MAKERESIDUALVARS):   put "select(F_BAD);";
+MPRINT(MAKERESIDUALVARS):   put "when('1')R_BAD1= R_BAD1+1;";
+MPRINT(MAKERESIDUALVARS):   put "when('0')R_BAD0= R_BAD0+1;";
+MPRINT(MAKERESIDUALVARS):   put 'otherwise;';
+MPRINT(MAKERESIDUALVARS):   put 'end;';
+MPRINT(MAKERESIDUALVARS):   put 'end;';
+MPRINT(MAKERESIDUALVARS):   run;
+
+NOTE: 파일 _EMSCR:
+      파일 이름=C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMFLOWSCORE.sas,
+      RECFM=V,LRECL=32767,파일 크기 (바이트)=6083,
+      마지막 수정일=2018년 11월 20일 11시37분20초,
+      생성 시간=2018년 11월 20일 11시35분26초
+
+NOTE: 23개의 레코드를 파일 _EMSCR에 기록했습니다.
+      최소 레코드 길이는 3입니다.
+      최대 레코드 길이는 63입니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(EM_DIAGRAM):  ;
+24701      filename _emscr;
+MPRINT(EM_DIAGRAM):   filename _emscr;
+NOTE: Fileref _EMSCR을(를) 삭제했습니다.
+24702      filename emflow "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMFLOWSCORE.sas";
+MPRINT(EM_DIAGRAM):    filename emflow "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMFLOWSCORE.sas";
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * HPSVM: Scoring DATA data;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+24703      *------------------------------------------------------------*;
+24704      * HPSVM: Scoring DATA data;
+24705      *------------------------------------------------------------*;
+24706      data EMWS6.HPSVM_TRAIN
+24707      / view=EMWS6.HPSVM_TRAIN
+24708      ;
+MPRINT(EM_DIAGRAM):   data EMWS6.HPSVM_TRAIN / view=EMWS6.HPSVM_TRAIN ;
+24709      set EMWS6.Impt2_TRAIN
+24710      ;
+MPRINT(EM_DIAGRAM):   set EMWS6.Impt2_TRAIN ;
+24711      %inc emflow;
+NOTE: %INCLUDE(레벨 1) 파일 EMFLOW은(는) 파일 C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMFLOWSCORE.sas입니다.
+24712     +*************************************************************;
+MPRINT(EM_DIAGRAM):   *************************************************************;
+24713     +*******       Begin Scoring Code from PROC HPSVM      *******;
+MPRINT(EM_DIAGRAM):   ******* Begin Scoring Code from PROC HPSVM *******;
+24714     +*************************************************************;
+MPRINT(EM_DIAGRAM):   *************************************************************;
+24715     +length _WARN_ $4;
+MPRINT(EM_DIAGRAM):   length _WARN_ $4;
+24716     +label _WARN_ = 'Warnings';
+MPRINT(EM_DIAGRAM):   label _WARN_ = 'Warnings';
+24717     +
+24718     +length _P_ 8;
+MPRINT(EM_DIAGRAM):   length _P_ 8;
+24719     +length _PVAL 8;
+MPRINT(EM_DIAGRAM):   length _PVAL 8;
+24720     +_PVAL=0.0;
+MPRINT(EM_DIAGRAM):   _PVAL=0.0;
+24721     +length _missingflag_ 8;
+MPRINT(EM_DIAGRAM):   length _missingflag_ 8;
+24722     +drop _missingflag_;
+MPRINT(EM_DIAGRAM):   drop _missingflag_;
+24723     +_missingflag_ = 0;
+MPRINT(EM_DIAGRAM):   _missingflag_ = 0;
+24724     +length _unknownflag_ 8;
+MPRINT(EM_DIAGRAM):   length _unknownflag_ 8;
+24725     +drop _unknownflag_;
+MPRINT(EM_DIAGRAM):   drop _unknownflag_;
+24726     +_unknownflag_ = 0;
+MPRINT(EM_DIAGRAM):   _unknownflag_ = 0;
+24727     +length _unknown_ 8;
+MPRINT(EM_DIAGRAM):   length _unknown_ 8;
+24728     +drop _unknown_;
+MPRINT(EM_DIAGRAM):   drop _unknown_;
+24729     +_unknown_ = 0;
+MPRINT(EM_DIAGRAM):   _unknown_ = 0;
+24730     +
+24731     +_missingflag_ = NMISS(
+24732     +    IMP_REP_CLAGE,
+24733     +    IMP_REP_CLNO,
+24734     +    IMP_REP_DEBTINC,
+24735     +    IMP_REP_DELINQ,
+24736     +    IMP_REP_DEROG,
+24737     +    IMP_REP_MORTDUE,
+24738     +    IMP_REP_NINQ,
+24739     +    IMP_REP_VALUE,
+24740     +    IMP_REP_YOJ,
+24741     +    REP_LOAN);
+MPRINT(EM_DIAGRAM):   _missingflag_ = NMISS( IMP_REP_CLAGE, IMP_REP_CLNO, IMP_REP_DEBTINC, IMP_REP_DELINQ, IMP_REP_DEROG, IMP_REP_MORTDUE, IMP_REP_NINQ, IMP_REP_VALUE, IMP_REP_YOJ, REP_LOAN);
+24742     +if _missingflag_ > 0 then
+24743     +  substr(_WARN_, 1, 1) = 'M';
+MPRINT(EM_DIAGRAM):   if _missingflag_ > 0 then substr(_WARN_, 1, 1) = 'M';
+24744     +
+24745     +*****************    class:  IMP_REASON     ********************;
+MPRINT(EM_DIAGRAM):   ***************** class: IMP_REASON ********************;
+24746     +length _NORM8 $ 32;
+MPRINT(EM_DIAGRAM):   length _NORM8 $ 32;
+24747     +%DMNORMCP( IMP_REASON, _NORM8 )
+MPRINT(DMNORMCP):   _NORM8=dmnorm(IMP_REASON,
+MPRINT(DMNORLEN):  32
+MPRINT(DMNORMCP):  );
+24748     +drop _NORM8;
+MPRINT(EM_DIAGRAM):   drop _NORM8;
+24749     +select(_NORM8);
+MPRINT(EM_DIAGRAM):   select(_NORM8);
+24750     +  when('DEBTCON' ) _PVAL = _PVAL +   -5.49376913062350E-04;
+MPRINT(EM_DIAGRAM):   when('DEBTCON' ) _PVAL = _PVAL + -5.49376913062350E-04;
+24751     +  when('HOMEIMP' ) _PVAL = _PVAL +    5.49376913113940E-04;
+MPRINT(EM_DIAGRAM):   when('HOMEIMP' ) _PVAL = _PVAL + 5.49376913113940E-04;
+24752     +  otherwise _unknown_ = 1;
+MPRINT(EM_DIAGRAM):   otherwise _unknown_ = 1;
+24753     +end;
+MPRINT(EM_DIAGRAM):   end;
+24754     +if _unknown_ = 1 then do;
+MPRINT(EM_DIAGRAM):   if _unknown_ = 1 then do;
+24755     +    if MISSING(_NORM8) or _NORM8 = '.' then do;
+MPRINT(EM_DIAGRAM):   if MISSING(_NORM8) or _NORM8 = '.' then do;
+24756     +        _missingflag_ = 1;
+MPRINT(EM_DIAGRAM):   _missingflag_ = 1;
+24757     +    end; else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else do;
+24758     +        _unknownflag_ = 1;
+MPRINT(EM_DIAGRAM):   _unknownflag_ = 1;
+24759     +    end;
+MPRINT(EM_DIAGRAM):   end;
+24760     +    _unknown_ = 0;
+MPRINT(EM_DIAGRAM):   _unknown_ = 0;
+24761     +end;
+MPRINT(EM_DIAGRAM):   end;
+24762     +
+24763     +*****************    class:  IMP_JOB     ********************;
+MPRINT(EM_DIAGRAM):   ***************** class: IMP_JOB ********************;
+24764     +length _NORM8 $ 32;
+MPRINT(EM_DIAGRAM):   length _NORM8 $ 32;
+24765     +%DMNORMCP( IMP_JOB, _NORM8 )
+MPRINT(DMNORMCP):   _NORM8=dmnorm(IMP_JOB,
+MPRINT(DMNORLEN):  32
+MPRINT(DMNORMCP):  );
+24766     +drop _NORM8;
+MPRINT(EM_DIAGRAM):   drop _NORM8;
+24767     +select(_NORM8);
+MPRINT(EM_DIAGRAM):   select(_NORM8);
+24768     +  when('MGR' ) _PVAL = _PVAL +    6.22559945534040E-02;
+MPRINT(EM_DIAGRAM):   when('MGR' ) _PVAL = _PVAL + 6.22559945534040E-02;
+24769     +  when('OFFICE' ) _PVAL = _PVAL +    1.62188904983960E-01;
+MPRINT(EM_DIAGRAM):   when('OFFICE' ) _PVAL = _PVAL + 1.62188904983960E-01;
+24770     +  when('OTHER' ) _PVAL = _PVAL +    1.00966721268470E-01;
+MPRINT(EM_DIAGRAM):   when('OTHER' ) _PVAL = _PVAL + 1.00966721268470E-01;
+24771     +  when('PROFEXE' ) _PVAL = _PVAL +    1.17749358201850E-01;
+MPRINT(EM_DIAGRAM):   when('PROFEXE' ) _PVAL = _PVAL + 1.17749358201850E-01;
+24772     +  when('SALES' ) _PVAL = _PVAL +   -2.98691103218330E-01;
+MPRINT(EM_DIAGRAM):   when('SALES' ) _PVAL = _PVAL + -2.98691103218330E-01;
+24773     +  when('SELF' ) _PVAL = _PVAL +   -1.44469875789320E-01;
+MPRINT(EM_DIAGRAM):   when('SELF' ) _PVAL = _PVAL + -1.44469875789320E-01;
+24774     +  otherwise _unknown_ = 1;
+MPRINT(EM_DIAGRAM):   otherwise _unknown_ = 1;
+24775     +end;
+MPRINT(EM_DIAGRAM):   end;
+24776     +if _unknown_ = 1 then do;
+MPRINT(EM_DIAGRAM):   if _unknown_ = 1 then do;
+24777     +    if MISSING(_NORM8) or _NORM8 = '.' then do;
+MPRINT(EM_DIAGRAM):   if MISSING(_NORM8) or _NORM8 = '.' then do;
+24778     +        _missingflag_ = 1;
+MPRINT(EM_DIAGRAM):   _missingflag_ = 1;
+24779     +    end; else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else do;
+24780     +        _unknownflag_ = 1;
+MPRINT(EM_DIAGRAM):   _unknownflag_ = 1;
+24781     +    end;
+MPRINT(EM_DIAGRAM):   end;
+24782     +    _unknown_ = 0;
+MPRINT(EM_DIAGRAM):   _unknown_ = 0;
+24783     +end;
+MPRINT(EM_DIAGRAM):   end;
+24784     +
+24785     +*****************   interval:  IMP_REP_CLAGE   ********************;
+MPRINT(EM_DIAGRAM):   ***************** interval: IMP_REP_CLAGE ********************;
+24786     +if missing( IMP_REP_CLAGE ) then do;
+MPRINT(EM_DIAGRAM):   if missing( IMP_REP_CLAGE ) then do;
+24787     +  _PVAL = _PVAL +    3.57860197305960E-01;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + 3.57860197305960E-01;
+24788     +end; else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else do;
+24789     +  _PVAL = _PVAL + IMP_REP_CLAGE *    2.01302388242550E-03;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + IMP_REP_CLAGE * 2.01302388242550E-03;
+24790     +end;
+MPRINT(EM_DIAGRAM):   end;
+24791     +
+24792     +*****************   interval:  IMP_REP_CLNO   ********************;
+MPRINT(EM_DIAGRAM):   ***************** interval: IMP_REP_CLNO ********************;
+24793     +if missing( IMP_REP_CLNO ) then do;
+MPRINT(EM_DIAGRAM):   if missing( IMP_REP_CLNO ) then do;
+24794     +  _PVAL = _PVAL +    1.03882628059960E-01;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + 1.03882628059960E-01;
+24795     +end; else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else do;
+24796     +  _PVAL = _PVAL + IMP_REP_CLNO *    4.88720029429590E-03;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + IMP_REP_CLNO * 4.88720029429590E-03;
+24797     +end;
+MPRINT(EM_DIAGRAM):   end;
+24798     +
+24799     +*****************   interval:  IMP_REP_DEBTINC   ********************;
+MPRINT(EM_DIAGRAM):   ***************** interval: IMP_REP_DEBTINC ********************;
+24800     +if missing( IMP_REP_DEBTINC ) then do;
+MPRINT(EM_DIAGRAM):   if missing( IMP_REP_DEBTINC ) then do;
+24801     +  _PVAL = _PVAL +   -4.75447554404790E-01;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + -4.75447554404790E-01;
+24802     +end; else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else do;
+24803     +  _PVAL = _PVAL + (IMP_REP_DEBTINC
+24804     +         -    7.21155751990000E+00) *   -1.79709176053110E-02;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + (IMP_REP_DEBTINC - 7.21155751990000E+00) * -1.79709176053110E-02;
+24805     +end;
+MPRINT(EM_DIAGRAM):   end;
+24806     +
+24807     +*****************   interval:  IMP_REP_DELINQ   ********************;
+MPRINT(EM_DIAGRAM):   ***************** interval: IMP_REP_DELINQ ********************;
+24808     +if missing( IMP_REP_DELINQ ) then do;
+MPRINT(EM_DIAGRAM):   if missing( IMP_REP_DELINQ ) then do;
+24809     +  _PVAL = _PVAL +   -2.05633041126720E-01;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + -2.05633041126720E-01;
+24810     +end; else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else do;
+24811     +  _PVAL = _PVAL + IMP_REP_DELINQ *   -4.98125217485140E-01;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + IMP_REP_DELINQ * -4.98125217485140E-01;
+24812     +end;
+MPRINT(EM_DIAGRAM):   end;
+24813     +
+24814     +*****************   interval:  IMP_REP_DEROG   ********************;
+MPRINT(EM_DIAGRAM):   ***************** interval: IMP_REP_DEROG ********************;
+24815     +if missing( IMP_REP_DEROG ) then do;
+MPRINT(EM_DIAGRAM):   if missing( IMP_REP_DEROG ) then do;
+24816     +  _PVAL = _PVAL +   -6.04645268747390E-02;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + -6.04645268747390E-02;
+24817     +end; else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else do;
+24818     +  _PVAL = _PVAL + IMP_REP_DEROG *   -2.85886526704640E-01;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + IMP_REP_DEROG * -2.85886526704640E-01;
+24819     +end;
+MPRINT(EM_DIAGRAM):   end;
+24820     +
+24821     +*****************   interval:  IMP_REP_MORTDUE   ********************;
+MPRINT(EM_DIAGRAM):   ***************** interval: IMP_REP_MORTDUE ********************;
+24822     +if missing( IMP_REP_MORTDUE ) then do;
+MPRINT(EM_DIAGRAM):   if missing( IMP_REP_MORTDUE ) then do;
+24823     +  _PVAL = _PVAL +    1.99576442150990E-01;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + 1.99576442150990E-01;
+24824     +end; else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else do;
+24825     +  _PVAL = _PVAL + (IMP_REP_MORTDUE
+24826     +         -    2.06300000000000E+03) *    2.81265049288710E-06;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + (IMP_REP_MORTDUE - 2.06300000000000E+03) * 2.81265049288710E-06;
+24827     +end;
+MPRINT(EM_DIAGRAM):   end;
+24828     +
+24829     +*****************   interval:  IMP_REP_NINQ   ********************;
+MPRINT(EM_DIAGRAM):   ***************** interval: IMP_REP_NINQ ********************;
+24830     +if missing( IMP_REP_NINQ ) then do;
+MPRINT(EM_DIAGRAM):   if missing( IMP_REP_NINQ ) then do;
+24831     +  _PVAL = _PVAL +   -8.69344235930520E-02;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + -8.69344235930520E-02;
+24832     +end; else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else do;
+24833     +  _PVAL = _PVAL + IMP_REP_NINQ *   -7.66203531134030E-02;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + IMP_REP_NINQ * -7.66203531134030E-02;
+24834     +end;
+MPRINT(EM_DIAGRAM):   end;
+24835     +
+24836     +*****************   interval:  IMP_REP_VALUE   ********************;
+MPRINT(EM_DIAGRAM):   ***************** interval: IMP_REP_VALUE ********************;
+24837     +if missing( IMP_REP_VALUE ) then do;
+MPRINT(EM_DIAGRAM):   if missing( IMP_REP_VALUE ) then do;
+24838     +  _PVAL = _PVAL +   -2.04566721559350E-01;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + -2.04566721559350E-01;
+24839     +end; else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else do;
+24840     +  _PVAL = _PVAL + (IMP_REP_VALUE
+24841     +         -    8.00000000000000E+03) *   -2.20551823886690E-06;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + (IMP_REP_VALUE - 8.00000000000000E+03) * -2.20551823886690E-06;
+24842     +end;
+MPRINT(EM_DIAGRAM):   end;
+24843     +
+24844     +*****************   interval:  IMP_REP_YOJ   ********************;
+MPRINT(EM_DIAGRAM):   ***************** interval: IMP_REP_YOJ ********************;
+24845     +if missing( IMP_REP_YOJ ) then do;
+MPRINT(EM_DIAGRAM):   if missing( IMP_REP_YOJ ) then do;
+24846     +  _PVAL = _PVAL +    2.48392538979150E-02;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + 2.48392538979150E-02;
+24847     +end; else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else do;
+24848     +  _PVAL = _PVAL + IMP_REP_YOJ *    2.78916839317700E-03;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + IMP_REP_YOJ * 2.78916839317700E-03;
+24849     +end;
+MPRINT(EM_DIAGRAM):   end;
+24850     +
+24851     +*****************   interval:  REP_LOAN   ********************;
+MPRINT(EM_DIAGRAM):   ***************** interval: REP_LOAN ********************;
+24852     +if missing( REP_LOAN ) then do;
+MPRINT(EM_DIAGRAM):   if missing( REP_LOAN ) then do;
+24853     +  _PVAL = _PVAL +    1.25421480397250E-01;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + 1.25421480397250E-01;
+24854     +end; else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else do;
+24855     +  _PVAL = _PVAL + (REP_LOAN
+24856     +         -    1.10000000000000E+03) *    7.26159845947880E-06;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + (REP_LOAN - 1.10000000000000E+03) * 7.26159845947880E-06;
+24857     +end;
+MPRINT(EM_DIAGRAM):   end;
+24858     +
+24859     +*********************   BETA   ******************;
+MPRINT(EM_DIAGRAM):   ********************* BETA ******************;
+24860     +_PVAL = _PVAL +    1.18631325985230E+00;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + 1.18631325985230E+00;
+24861     +_P_ = _PVAL;
+MPRINT(EM_DIAGRAM):   _P_ = _PVAL;
+24862     +
+24863     +if _missingflag_ > 0 then
+24864     +  substr(_WARN_, 1, 1) = 'M';
+MPRINT(EM_DIAGRAM):   if _missingflag_ > 0 then substr(_WARN_, 1, 1) = 'M';
+24865     +if _unknownflag_ > 0 then
+24866     +  substr(_WARN_, 2, 1) = 'U';
+MPRINT(EM_DIAGRAM):   if _unknownflag_ > 0 then substr(_WARN_, 2, 1) = 'U';
+24867     +
+24868     +*************  predictive target  ***************;
+MPRINT(EM_DIAGRAM):   ************* predictive target ***************;
+24869     +length P_BAD1 8;
+MPRINT(EM_DIAGRAM):   length P_BAD1 8;
+24870     +label P_BAD1 = 'Predicted: BAD=1' ;
+MPRINT(EM_DIAGRAM):   label P_BAD1 = 'Predicted: BAD=1' ;
+24871     +length P_BAD0 8;
+MPRINT(EM_DIAGRAM):   length P_BAD0 8;
+24872     +label P_BAD0 = 'Predicted: BAD=0' ;
+MPRINT(EM_DIAGRAM):   label P_BAD0 = 'Predicted: BAD=0' ;
+24873     +length I_BAD $ 32;
+MPRINT(EM_DIAGRAM):   length I_BAD $ 32;
+24874     +label I_BAD = 'Into: BAD' ;
+MPRINT(EM_DIAGRAM):   label I_BAD = 'Into: BAD' ;
+24875     +
+24876     +if _PVAL ge 0.0 then _PVAL = _PVAL/   2.18338628860380E+00;
+MPRINT(EM_DIAGRAM):   if _PVAL ge 0.0 then _PVAL = _PVAL/ 2.18338628860380E+00;
+24877     +else _PVAL = -_PVAL/  -2.03276780866480E+00;
+MPRINT(EM_DIAGRAM):   else _PVAL = -_PVAL/ -2.03276780866480E+00;
+24878     +_PVAL = (_PVAL + 1) * 0.5;
+MPRINT(EM_DIAGRAM):   _PVAL = (_PVAL + 1) * 0.5;
+24879     +if _PVAL > 1 then _PVAL = 1.0;
+MPRINT(EM_DIAGRAM):   if _PVAL > 1 then _PVAL = 1.0;
+24880     +else if _PVAL < 0 then _PVAL = 0.0;
+MPRINT(EM_DIAGRAM):   else if _PVAL < 0 then _PVAL = 0.0;
+24881     +
+24882     +_PVAL = 1 - _PVAL;
+MPRINT(EM_DIAGRAM):   _PVAL = 1 - _PVAL;
+24883     +P_BAD1 = _PVAL;
+MPRINT(EM_DIAGRAM):   P_BAD1 = _PVAL;
+24884     +P_BAD0 = 1 - P_BAD1;
+MPRINT(EM_DIAGRAM):   P_BAD0 = 1 - P_BAD1;
+24885     +
+24886     +if _PVAL ge 0.5 then I_BAD = '1' ;
+MPRINT(EM_DIAGRAM):   if _PVAL ge 0.5 then I_BAD = '1' ;
+24887     +else I_BAD = '0' ;
+MPRINT(EM_DIAGRAM):   else I_BAD = '0' ;
+24888     +drop _PVAL;
+MPRINT(EM_DIAGRAM):   drop _PVAL;
+24889     +
+24890     +*************************************************************;
+MPRINT(EM_DIAGRAM):   *************************************************************;
+24891     +*******       End Scoring Code from PROC HPSVM        *******;
+MPRINT(EM_DIAGRAM):   ******* End Scoring Code from PROC HPSVM *******;
+24892     +*************************************************************;
+MPRINT(EM_DIAGRAM):   *************************************************************;
+24893     +
+24894     +*------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+24895     +*Computing Classification Vars: BAD;
+MPRINT(EM_DIAGRAM):   *Computing Classification Vars: BAD;
+24896     +*------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+24897     +length _format200 $200;
+MPRINT(EM_DIAGRAM):   length _format200 $200;
+24898     +drop _format200;
+MPRINT(EM_DIAGRAM):   drop _format200;
+24899     +length F_BAD $12;
+MPRINT(EM_DIAGRAM):   length F_BAD $12;
+24900     +label  F_BAD = 'From: BAD';
+MPRINT(EM_DIAGRAM):   label F_BAD = 'From: BAD';
+24901     +F_BAD=dmnorm(BAD,32); ;
+MPRINT(EM_DIAGRAM):   F_BAD=dmnorm(BAD,32);
+MPRINT(EM_DIAGRAM):   ;
+24902     +_format200= ' ' ;
+MPRINT(EM_DIAGRAM):   _format200= ' ' ;
+24903     +length _p_ 8;
+MPRINT(EM_DIAGRAM):   length _p_ 8;
+24904     +_p_= 0 ;
+MPRINT(EM_DIAGRAM):   _p_= 0 ;
+24905     +drop _p_ ;
+MPRINT(EM_DIAGRAM):   drop _p_ ;
+24906     +if P_BAD1 - _p_ > 1e-8 then do ;
+MPRINT(EM_DIAGRAM):   if P_BAD1 - _p_ > 1e-8 then do ;
+24907     +   _p_= P_BAD1 ;
+MPRINT(EM_DIAGRAM):   _p_= P_BAD1 ;
+24908     +   _format200='1';
+MPRINT(EM_DIAGRAM):   _format200='1';
+24909     +end;
+MPRINT(EM_DIAGRAM):   end;
+24910     +if P_BAD0 - _p_ > 1e-8 then do ;
+MPRINT(EM_DIAGRAM):   if P_BAD0 - _p_ > 1e-8 then do ;
+24911     +   _p_= P_BAD0 ;
+MPRINT(EM_DIAGRAM):   _p_= P_BAD0 ;
+24912     +   _format200='0';
+MPRINT(EM_DIAGRAM):   _format200='0';
+24913     +end;
+MPRINT(EM_DIAGRAM):   end;
+24914     +I_BAD=dmnorm(_format200,32); ;
+MPRINT(EM_DIAGRAM):   I_BAD=dmnorm(_format200,32);
+MPRINT(EM_DIAGRAM):   ;
+24915     +length U_BAD 8;
+MPRINT(EM_DIAGRAM):   length U_BAD 8;
+24916     +label U_BAD = 'Unnormalized Into: BAD';
+MPRINT(EM_DIAGRAM):   label U_BAD = 'Unnormalized Into: BAD';
+24917     +if I_BAD='1' then
+24918     +U_BAD=1;
+MPRINT(EM_DIAGRAM):   if I_BAD='1' then U_BAD=1;
+24919     +if I_BAD='0' then
+24920     +U_BAD=0;
+MPRINT(EM_DIAGRAM):   if I_BAD='0' then U_BAD=0;
+24921     +*------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+24922     +*Computing Residual Vars: BAD;
+MPRINT(EM_DIAGRAM):   *Computing Residual Vars: BAD;
+24923     +*------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+24924     +Length R_BAD1 8;
+MPRINT(EM_DIAGRAM):   Length R_BAD1 8;
+24925     +Label R_BAD1='Residual: BAD=1';
+MPRINT(EM_DIAGRAM):   Label R_BAD1= 'Residual: BAD=1';
+24926     +Length R_BAD0 8;
+MPRINT(EM_DIAGRAM):   Length R_BAD0 8;
+24927     +Label R_BAD0='Residual: BAD=0';
+MPRINT(EM_DIAGRAM):   Label R_BAD0= 'Residual: BAD=0';
+24928     +if
+24929     + F_BAD ne '1'
+24930     +and F_BAD ne '0'
+24931     + then do;
+MPRINT(EM_DIAGRAM):   if F_BAD ne '1' and F_BAD ne '0' then do;
+24932     +R_BAD1=.;
+MPRINT(EM_DIAGRAM):   R_BAD1=.;
+24933     +R_BAD0=.;
+MPRINT(EM_DIAGRAM):   R_BAD0=.;
+24934     +end;
+MPRINT(EM_DIAGRAM):   end;
+24935     +else do;
+MPRINT(EM_DIAGRAM):   else do;
+24936     +R_BAD1= - P_BAD1;
+MPRINT(EM_DIAGRAM):   R_BAD1= - P_BAD1;
+24937     +R_BAD0= - P_BAD0;
+MPRINT(EM_DIAGRAM):   R_BAD0= - P_BAD0;
+24938     +select(F_BAD);
+MPRINT(EM_DIAGRAM):   select(F_BAD);
+24939     +when('1')R_BAD1= R_BAD1+1;
+MPRINT(EM_DIAGRAM):   when('1')R_BAD1= R_BAD1+1;
+24940     +when('0')R_BAD0= R_BAD0+1;
+MPRINT(EM_DIAGRAM):   when('0')R_BAD0= R_BAD0+1;
+24941     +otherwise;
+MPRINT(EM_DIAGRAM):   otherwise;
+24942     +end;
+MPRINT(EM_DIAGRAM):   end;
+24943     +end;
+MPRINT(EM_DIAGRAM):   end;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(EM_DIAGRAM):   run;
+24944      run;
+
+NOTE: 다음의 위치에서 숫자형 값이 문자형 값으로 변환되었습니다. (행):(칼럼)
+      24901:14   
+NOTE: DATA STEP 뷰가 파일 EMWS6.HPSVM_TRAIN에 저장되었습니다.
+NOTE: 저장된 DATA STEP 뷰는 다른 운영 체제에서 실행할 수 없습니다.
+NOTE: View EMWS6.IMPT2_TRAIN.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.11 초
+      cpu 시간            0.12 초
+      
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.14 초
+      cpu 시간            0.14 초
+      
+
+MPRINT(EM_DIAGRAM):   quit;
+24945      quit;
+24946      filename emflow;
+MPRINT(EM_DIAGRAM):   filename emflow;
+NOTE: Fileref EMFLOW을(를) 삭제했습니다.
+24947      filename emflow "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMFLOWSCORE.sas";
+MPRINT(EM_DIAGRAM):    filename emflow "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMFLOWSCORE.sas";
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * HPSVM: Scoring VALIDATE data;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+24948      *------------------------------------------------------------*;
+24949      * HPSVM: Scoring VALIDATE data;
+24950      *------------------------------------------------------------*;
+24951      data EMWS6.HPSVM_VALIDATE
+24952      / view=EMWS6.HPSVM_VALIDATE
+24953      ;
+MPRINT(EM_DIAGRAM):   data EMWS6.HPSVM_VALIDATE / view=EMWS6.HPSVM_VALIDATE ;
+24954      set EMWS6.Impt2_VALIDATE
+24955      ;
+MPRINT(EM_DIAGRAM):   set EMWS6.Impt2_VALIDATE ;
+24956      %inc emflow;
+NOTE: %INCLUDE(레벨 1) 파일 EMFLOW은(는) 파일 C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMFLOWSCORE.sas입니다.
+24957     +*************************************************************;
+MPRINT(EM_DIAGRAM):   *************************************************************;
+24958     +*******       Begin Scoring Code from PROC HPSVM      *******;
+MPRINT(EM_DIAGRAM):   ******* Begin Scoring Code from PROC HPSVM *******;
+24959     +*************************************************************;
+MPRINT(EM_DIAGRAM):   *************************************************************;
+24960     +length _WARN_ $4;
+MPRINT(EM_DIAGRAM):   length _WARN_ $4;
+24961     +label _WARN_ = 'Warnings';
+MPRINT(EM_DIAGRAM):   label _WARN_ = 'Warnings';
+24962     +
+24963     +length _P_ 8;
+MPRINT(EM_DIAGRAM):   length _P_ 8;
+24964     +length _PVAL 8;
+MPRINT(EM_DIAGRAM):   length _PVAL 8;
+24965     +_PVAL=0.0;
+MPRINT(EM_DIAGRAM):   _PVAL=0.0;
+24966     +length _missingflag_ 8;
+MPRINT(EM_DIAGRAM):   length _missingflag_ 8;
+24967     +drop _missingflag_;
+MPRINT(EM_DIAGRAM):   drop _missingflag_;
+24968     +_missingflag_ = 0;
+MPRINT(EM_DIAGRAM):   _missingflag_ = 0;
+24969     +length _unknownflag_ 8;
+MPRINT(EM_DIAGRAM):   length _unknownflag_ 8;
+24970     +drop _unknownflag_;
+MPRINT(EM_DIAGRAM):   drop _unknownflag_;
+24971     +_unknownflag_ = 0;
+MPRINT(EM_DIAGRAM):   _unknownflag_ = 0;
+24972     +length _unknown_ 8;
+MPRINT(EM_DIAGRAM):   length _unknown_ 8;
+24973     +drop _unknown_;
+MPRINT(EM_DIAGRAM):   drop _unknown_;
+24974     +_unknown_ = 0;
+MPRINT(EM_DIAGRAM):   _unknown_ = 0;
+24975     +
+24976     +_missingflag_ = NMISS(
+24977     +    IMP_REP_CLAGE,
+24978     +    IMP_REP_CLNO,
+24979     +    IMP_REP_DEBTINC,
+24980     +    IMP_REP_DELINQ,
+24981     +    IMP_REP_DEROG,
+24982     +    IMP_REP_MORTDUE,
+24983     +    IMP_REP_NINQ,
+24984     +    IMP_REP_VALUE,
+24985     +    IMP_REP_YOJ,
+24986     +    REP_LOAN);
+MPRINT(EM_DIAGRAM):   _missingflag_ = NMISS( IMP_REP_CLAGE, IMP_REP_CLNO, IMP_REP_DEBTINC, IMP_REP_DELINQ, IMP_REP_DEROG, IMP_REP_MORTDUE, IMP_REP_NINQ, IMP_REP_VALUE, IMP_REP_YOJ, REP_LOAN);
+24987     +if _missingflag_ > 0 then
+24988     +  substr(_WARN_, 1, 1) = 'M';
+MPRINT(EM_DIAGRAM):   if _missingflag_ > 0 then substr(_WARN_, 1, 1) = 'M';
+24989     +
+24990     +*****************    class:  IMP_REASON     ********************;
+MPRINT(EM_DIAGRAM):   ***************** class: IMP_REASON ********************;
+24991     +length _NORM8 $ 32;
+MPRINT(EM_DIAGRAM):   length _NORM8 $ 32;
+24992     +%DMNORMCP( IMP_REASON, _NORM8 )
+MPRINT(DMNORMCP):   _NORM8=dmnorm(IMP_REASON,
+MPRINT(DMNORLEN):  32
+MPRINT(DMNORMCP):  );
+24993     +drop _NORM8;
+MPRINT(EM_DIAGRAM):   drop _NORM8;
+24994     +select(_NORM8);
+MPRINT(EM_DIAGRAM):   select(_NORM8);
+24995     +  when('DEBTCON' ) _PVAL = _PVAL +   -5.49376913062350E-04;
+MPRINT(EM_DIAGRAM):   when('DEBTCON' ) _PVAL = _PVAL + -5.49376913062350E-04;
+24996     +  when('HOMEIMP' ) _PVAL = _PVAL +    5.49376913113940E-04;
+MPRINT(EM_DIAGRAM):   when('HOMEIMP' ) _PVAL = _PVAL + 5.49376913113940E-04;
+24997     +  otherwise _unknown_ = 1;
+MPRINT(EM_DIAGRAM):   otherwise _unknown_ = 1;
+24998     +end;
+MPRINT(EM_DIAGRAM):   end;
+24999     +if _unknown_ = 1 then do;
+MPRINT(EM_DIAGRAM):   if _unknown_ = 1 then do;
+25000     +    if MISSING(_NORM8) or _NORM8 = '.' then do;
+MPRINT(EM_DIAGRAM):   if MISSING(_NORM8) or _NORM8 = '.' then do;
+25001     +        _missingflag_ = 1;
+MPRINT(EM_DIAGRAM):   _missingflag_ = 1;
+25002     +    end; else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else do;
+25003     +        _unknownflag_ = 1;
+MPRINT(EM_DIAGRAM):   _unknownflag_ = 1;
+25004     +    end;
+MPRINT(EM_DIAGRAM):   end;
+25005     +    _unknown_ = 0;
+MPRINT(EM_DIAGRAM):   _unknown_ = 0;
+25006     +end;
+MPRINT(EM_DIAGRAM):   end;
+25007     +
+25008     +*****************    class:  IMP_JOB     ********************;
+MPRINT(EM_DIAGRAM):   ***************** class: IMP_JOB ********************;
+25009     +length _NORM8 $ 32;
+MPRINT(EM_DIAGRAM):   length _NORM8 $ 32;
+25010     +%DMNORMCP( IMP_JOB, _NORM8 )
+MPRINT(DMNORMCP):   _NORM8=dmnorm(IMP_JOB,
+MPRINT(DMNORLEN):  32
+MPRINT(DMNORMCP):  );
+25011     +drop _NORM8;
+MPRINT(EM_DIAGRAM):   drop _NORM8;
+25012     +select(_NORM8);
+MPRINT(EM_DIAGRAM):   select(_NORM8);
+25013     +  when('MGR' ) _PVAL = _PVAL +    6.22559945534040E-02;
+MPRINT(EM_DIAGRAM):   when('MGR' ) _PVAL = _PVAL + 6.22559945534040E-02;
+25014     +  when('OFFICE' ) _PVAL = _PVAL +    1.62188904983960E-01;
+MPRINT(EM_DIAGRAM):   when('OFFICE' ) _PVAL = _PVAL + 1.62188904983960E-01;
+25015     +  when('OTHER' ) _PVAL = _PVAL +    1.00966721268470E-01;
+MPRINT(EM_DIAGRAM):   when('OTHER' ) _PVAL = _PVAL + 1.00966721268470E-01;
+25016     +  when('PROFEXE' ) _PVAL = _PVAL +    1.17749358201850E-01;
+MPRINT(EM_DIAGRAM):   when('PROFEXE' ) _PVAL = _PVAL + 1.17749358201850E-01;
+25017     +  when('SALES' ) _PVAL = _PVAL +   -2.98691103218330E-01;
+MPRINT(EM_DIAGRAM):   when('SALES' ) _PVAL = _PVAL + -2.98691103218330E-01;
+25018     +  when('SELF' ) _PVAL = _PVAL +   -1.44469875789320E-01;
+MPRINT(EM_DIAGRAM):   when('SELF' ) _PVAL = _PVAL + -1.44469875789320E-01;
+25019     +  otherwise _unknown_ = 1;
+MPRINT(EM_DIAGRAM):   otherwise _unknown_ = 1;
+25020     +end;
+MPRINT(EM_DIAGRAM):   end;
+25021     +if _unknown_ = 1 then do;
+MPRINT(EM_DIAGRAM):   if _unknown_ = 1 then do;
+25022     +    if MISSING(_NORM8) or _NORM8 = '.' then do;
+MPRINT(EM_DIAGRAM):   if MISSING(_NORM8) or _NORM8 = '.' then do;
+25023     +        _missingflag_ = 1;
+MPRINT(EM_DIAGRAM):   _missingflag_ = 1;
+25024     +    end; else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else do;
+25025     +        _unknownflag_ = 1;
+MPRINT(EM_DIAGRAM):   _unknownflag_ = 1;
+25026     +    end;
+MPRINT(EM_DIAGRAM):   end;
+25027     +    _unknown_ = 0;
+MPRINT(EM_DIAGRAM):   _unknown_ = 0;
+25028     +end;
+MPRINT(EM_DIAGRAM):   end;
+25029     +
+25030     +*****************   interval:  IMP_REP_CLAGE   ********************;
+MPRINT(EM_DIAGRAM):   ***************** interval: IMP_REP_CLAGE ********************;
+25031     +if missing( IMP_REP_CLAGE ) then do;
+MPRINT(EM_DIAGRAM):   if missing( IMP_REP_CLAGE ) then do;
+25032     +  _PVAL = _PVAL +    3.57860197305960E-01;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + 3.57860197305960E-01;
+25033     +end; else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else do;
+25034     +  _PVAL = _PVAL + IMP_REP_CLAGE *    2.01302388242550E-03;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + IMP_REP_CLAGE * 2.01302388242550E-03;
+25035     +end;
+MPRINT(EM_DIAGRAM):   end;
+25036     +
+25037     +*****************   interval:  IMP_REP_CLNO   ********************;
+MPRINT(EM_DIAGRAM):   ***************** interval: IMP_REP_CLNO ********************;
+25038     +if missing( IMP_REP_CLNO ) then do;
+MPRINT(EM_DIAGRAM):   if missing( IMP_REP_CLNO ) then do;
+25039     +  _PVAL = _PVAL +    1.03882628059960E-01;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + 1.03882628059960E-01;
+25040     +end; else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else do;
+25041     +  _PVAL = _PVAL + IMP_REP_CLNO *    4.88720029429590E-03;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + IMP_REP_CLNO * 4.88720029429590E-03;
+25042     +end;
+MPRINT(EM_DIAGRAM):   end;
+25043     +
+25044     +*****************   interval:  IMP_REP_DEBTINC   ********************;
+MPRINT(EM_DIAGRAM):   ***************** interval: IMP_REP_DEBTINC ********************;
+25045     +if missing( IMP_REP_DEBTINC ) then do;
+MPRINT(EM_DIAGRAM):   if missing( IMP_REP_DEBTINC ) then do;
+25046     +  _PVAL = _PVAL +   -4.75447554404790E-01;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + -4.75447554404790E-01;
+25047     +end; else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else do;
+25048     +  _PVAL = _PVAL + (IMP_REP_DEBTINC
+25049     +         -    7.21155751990000E+00) *   -1.79709176053110E-02;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + (IMP_REP_DEBTINC - 7.21155751990000E+00) * -1.79709176053110E-02;
+25050     +end;
+MPRINT(EM_DIAGRAM):   end;
+25051     +
+25052     +*****************   interval:  IMP_REP_DELINQ   ********************;
+MPRINT(EM_DIAGRAM):   ***************** interval: IMP_REP_DELINQ ********************;
+25053     +if missing( IMP_REP_DELINQ ) then do;
+MPRINT(EM_DIAGRAM):   if missing( IMP_REP_DELINQ ) then do;
+25054     +  _PVAL = _PVAL +   -2.05633041126720E-01;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + -2.05633041126720E-01;
+25055     +end; else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else do;
+25056     +  _PVAL = _PVAL + IMP_REP_DELINQ *   -4.98125217485140E-01;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + IMP_REP_DELINQ * -4.98125217485140E-01;
+25057     +end;
+MPRINT(EM_DIAGRAM):   end;
+25058     +
+25059     +*****************   interval:  IMP_REP_DEROG   ********************;
+MPRINT(EM_DIAGRAM):   ***************** interval: IMP_REP_DEROG ********************;
+25060     +if missing( IMP_REP_DEROG ) then do;
+MPRINT(EM_DIAGRAM):   if missing( IMP_REP_DEROG ) then do;
+25061     +  _PVAL = _PVAL +   -6.04645268747390E-02;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + -6.04645268747390E-02;
+25062     +end; else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else do;
+25063     +  _PVAL = _PVAL + IMP_REP_DEROG *   -2.85886526704640E-01;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + IMP_REP_DEROG * -2.85886526704640E-01;
+25064     +end;
+MPRINT(EM_DIAGRAM):   end;
+25065     +
+25066     +*****************   interval:  IMP_REP_MORTDUE   ********************;
+MPRINT(EM_DIAGRAM):   ***************** interval: IMP_REP_MORTDUE ********************;
+25067     +if missing( IMP_REP_MORTDUE ) then do;
+MPRINT(EM_DIAGRAM):   if missing( IMP_REP_MORTDUE ) then do;
+25068     +  _PVAL = _PVAL +    1.99576442150990E-01;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + 1.99576442150990E-01;
+25069     +end; else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else do;
+25070     +  _PVAL = _PVAL + (IMP_REP_MORTDUE
+25071     +         -    2.06300000000000E+03) *    2.81265049288710E-06;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + (IMP_REP_MORTDUE - 2.06300000000000E+03) * 2.81265049288710E-06;
+25072     +end;
+MPRINT(EM_DIAGRAM):   end;
+25073     +
+25074     +*****************   interval:  IMP_REP_NINQ   ********************;
+MPRINT(EM_DIAGRAM):   ***************** interval: IMP_REP_NINQ ********************;
+25075     +if missing( IMP_REP_NINQ ) then do;
+MPRINT(EM_DIAGRAM):   if missing( IMP_REP_NINQ ) then do;
+25076     +  _PVAL = _PVAL +   -8.69344235930520E-02;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + -8.69344235930520E-02;
+25077     +end; else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else do;
+25078     +  _PVAL = _PVAL + IMP_REP_NINQ *   -7.66203531134030E-02;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + IMP_REP_NINQ * -7.66203531134030E-02;
+25079     +end;
+MPRINT(EM_DIAGRAM):   end;
+25080     +
+25081     +*****************   interval:  IMP_REP_VALUE   ********************;
+MPRINT(EM_DIAGRAM):   ***************** interval: IMP_REP_VALUE ********************;
+25082     +if missing( IMP_REP_VALUE ) then do;
+MPRINT(EM_DIAGRAM):   if missing( IMP_REP_VALUE ) then do;
+25083     +  _PVAL = _PVAL +   -2.04566721559350E-01;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + -2.04566721559350E-01;
+25084     +end; else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else do;
+25085     +  _PVAL = _PVAL + (IMP_REP_VALUE
+25086     +         -    8.00000000000000E+03) *   -2.20551823886690E-06;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + (IMP_REP_VALUE - 8.00000000000000E+03) * -2.20551823886690E-06;
+25087     +end;
+MPRINT(EM_DIAGRAM):   end;
+25088     +
+25089     +*****************   interval:  IMP_REP_YOJ   ********************;
+MPRINT(EM_DIAGRAM):   ***************** interval: IMP_REP_YOJ ********************;
+25090     +if missing( IMP_REP_YOJ ) then do;
+MPRINT(EM_DIAGRAM):   if missing( IMP_REP_YOJ ) then do;
+25091     +  _PVAL = _PVAL +    2.48392538979150E-02;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + 2.48392538979150E-02;
+25092     +end; else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else do;
+25093     +  _PVAL = _PVAL + IMP_REP_YOJ *    2.78916839317700E-03;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + IMP_REP_YOJ * 2.78916839317700E-03;
+25094     +end;
+MPRINT(EM_DIAGRAM):   end;
+25095     +
+25096     +*****************   interval:  REP_LOAN   ********************;
+MPRINT(EM_DIAGRAM):   ***************** interval: REP_LOAN ********************;
+25097     +if missing( REP_LOAN ) then do;
+MPRINT(EM_DIAGRAM):   if missing( REP_LOAN ) then do;
+25098     +  _PVAL = _PVAL +    1.25421480397250E-01;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + 1.25421480397250E-01;
+25099     +end; else do;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else do;
+25100     +  _PVAL = _PVAL + (REP_LOAN
+25101     +         -    1.10000000000000E+03) *    7.26159845947880E-06;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + (REP_LOAN - 1.10000000000000E+03) * 7.26159845947880E-06;
+25102     +end;
+MPRINT(EM_DIAGRAM):   end;
+25103     +
+25104     +*********************   BETA   ******************;
+MPRINT(EM_DIAGRAM):   ********************* BETA ******************;
+25105     +_PVAL = _PVAL +    1.18631325985230E+00;
+MPRINT(EM_DIAGRAM):   _PVAL = _PVAL + 1.18631325985230E+00;
+25106     +_P_ = _PVAL;
+MPRINT(EM_DIAGRAM):   _P_ = _PVAL;
+25107     +
+25108     +if _missingflag_ > 0 then
+25109     +  substr(_WARN_, 1, 1) = 'M';
+MPRINT(EM_DIAGRAM):   if _missingflag_ > 0 then substr(_WARN_, 1, 1) = 'M';
+25110     +if _unknownflag_ > 0 then
+25111     +  substr(_WARN_, 2, 1) = 'U';
+MPRINT(EM_DIAGRAM):   if _unknownflag_ > 0 then substr(_WARN_, 2, 1) = 'U';
+25112     +
+25113     +*************  predictive target  ***************;
+MPRINT(EM_DIAGRAM):   ************* predictive target ***************;
+25114     +length P_BAD1 8;
+MPRINT(EM_DIAGRAM):   length P_BAD1 8;
+25115     +label P_BAD1 = 'Predicted: BAD=1' ;
+MPRINT(EM_DIAGRAM):   label P_BAD1 = 'Predicted: BAD=1' ;
+25116     +length P_BAD0 8;
+MPRINT(EM_DIAGRAM):   length P_BAD0 8;
+25117     +label P_BAD0 = 'Predicted: BAD=0' ;
+MPRINT(EM_DIAGRAM):   label P_BAD0 = 'Predicted: BAD=0' ;
+25118     +length I_BAD $ 32;
+MPRINT(EM_DIAGRAM):   length I_BAD $ 32;
+25119     +label I_BAD = 'Into: BAD' ;
+MPRINT(EM_DIAGRAM):   label I_BAD = 'Into: BAD' ;
+25120     +
+25121     +if _PVAL ge 0.0 then _PVAL = _PVAL/   2.18338628860380E+00;
+MPRINT(EM_DIAGRAM):   if _PVAL ge 0.0 then _PVAL = _PVAL/ 2.18338628860380E+00;
+25122     +else _PVAL = -_PVAL/  -2.03276780866480E+00;
+MPRINT(EM_DIAGRAM):   else _PVAL = -_PVAL/ -2.03276780866480E+00;
+25123     +_PVAL = (_PVAL + 1) * 0.5;
+MPRINT(EM_DIAGRAM):   _PVAL = (_PVAL + 1) * 0.5;
+25124     +if _PVAL > 1 then _PVAL = 1.0;
+MPRINT(EM_DIAGRAM):   if _PVAL > 1 then _PVAL = 1.0;
+25125     +else if _PVAL < 0 then _PVAL = 0.0;
+MPRINT(EM_DIAGRAM):   else if _PVAL < 0 then _PVAL = 0.0;
+25126     +
+25127     +_PVAL = 1 - _PVAL;
+MPRINT(EM_DIAGRAM):   _PVAL = 1 - _PVAL;
+25128     +P_BAD1 = _PVAL;
+MPRINT(EM_DIAGRAM):   P_BAD1 = _PVAL;
+25129     +P_BAD0 = 1 - P_BAD1;
+MPRINT(EM_DIAGRAM):   P_BAD0 = 1 - P_BAD1;
+25130     +
+25131     +if _PVAL ge 0.5 then I_BAD = '1' ;
+MPRINT(EM_DIAGRAM):   if _PVAL ge 0.5 then I_BAD = '1' ;
+25132     +else I_BAD = '0' ;
+MPRINT(EM_DIAGRAM):   else I_BAD = '0' ;
+25133     +drop _PVAL;
+MPRINT(EM_DIAGRAM):   drop _PVAL;
+25134     +
+25135     +*************************************************************;
+MPRINT(EM_DIAGRAM):   *************************************************************;
+25136     +*******       End Scoring Code from PROC HPSVM        *******;
+MPRINT(EM_DIAGRAM):   ******* End Scoring Code from PROC HPSVM *******;
+25137     +*************************************************************;
+MPRINT(EM_DIAGRAM):   *************************************************************;
+25138     +
+25139     +*------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+25140     +*Computing Classification Vars: BAD;
+MPRINT(EM_DIAGRAM):   *Computing Classification Vars: BAD;
+25141     +*------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+25142     +length _format200 $200;
+MPRINT(EM_DIAGRAM):   length _format200 $200;
+25143     +drop _format200;
+MPRINT(EM_DIAGRAM):   drop _format200;
+25144     +length F_BAD $12;
+MPRINT(EM_DIAGRAM):   length F_BAD $12;
+25145     +label  F_BAD = 'From: BAD';
+MPRINT(EM_DIAGRAM):   label F_BAD = 'From: BAD';
+25146     +F_BAD=dmnorm(BAD,32); ;
+MPRINT(EM_DIAGRAM):   F_BAD=dmnorm(BAD,32);
+MPRINT(EM_DIAGRAM):   ;
+25147     +_format200= ' ' ;
+MPRINT(EM_DIAGRAM):   _format200= ' ' ;
+25148     +length _p_ 8;
+MPRINT(EM_DIAGRAM):   length _p_ 8;
+25149     +_p_= 0 ;
+MPRINT(EM_DIAGRAM):   _p_= 0 ;
+25150     +drop _p_ ;
+MPRINT(EM_DIAGRAM):   drop _p_ ;
+25151     +if P_BAD1 - _p_ > 1e-8 then do ;
+MPRINT(EM_DIAGRAM):   if P_BAD1 - _p_ > 1e-8 then do ;
+25152     +   _p_= P_BAD1 ;
+MPRINT(EM_DIAGRAM):   _p_= P_BAD1 ;
+25153     +   _format200='1';
+MPRINT(EM_DIAGRAM):   _format200='1';
+25154     +end;
+MPRINT(EM_DIAGRAM):   end;
+25155     +if P_BAD0 - _p_ > 1e-8 then do ;
+MPRINT(EM_DIAGRAM):   if P_BAD0 - _p_ > 1e-8 then do ;
+25156     +   _p_= P_BAD0 ;
+MPRINT(EM_DIAGRAM):   _p_= P_BAD0 ;
+25157     +   _format200='0';
+MPRINT(EM_DIAGRAM):   _format200='0';
+25158     +end;
+MPRINT(EM_DIAGRAM):   end;
+25159     +I_BAD=dmnorm(_format200,32); ;
+MPRINT(EM_DIAGRAM):   I_BAD=dmnorm(_format200,32);
+MPRINT(EM_DIAGRAM):   ;
+25160     +length U_BAD 8;
+MPRINT(EM_DIAGRAM):   length U_BAD 8;
+25161     +label U_BAD = 'Unnormalized Into: BAD';
+MPRINT(EM_DIAGRAM):   label U_BAD = 'Unnormalized Into: BAD';
+25162     +if I_BAD='1' then
+25163     +U_BAD=1;
+MPRINT(EM_DIAGRAM):   if I_BAD='1' then U_BAD=1;
+25164     +if I_BAD='0' then
+25165     +U_BAD=0;
+MPRINT(EM_DIAGRAM):   if I_BAD='0' then U_BAD=0;
+25166     +*------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+25167     +*Computing Residual Vars: BAD;
+MPRINT(EM_DIAGRAM):   *Computing Residual Vars: BAD;
+25168     +*------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+25169     +Length R_BAD1 8;
+MPRINT(EM_DIAGRAM):   Length R_BAD1 8;
+25170     +Label R_BAD1='Residual: BAD=1';
+MPRINT(EM_DIAGRAM):   Label R_BAD1= 'Residual: BAD=1';
+25171     +Length R_BAD0 8;
+MPRINT(EM_DIAGRAM):   Length R_BAD0 8;
+25172     +Label R_BAD0='Residual: BAD=0';
+MPRINT(EM_DIAGRAM):   Label R_BAD0= 'Residual: BAD=0';
+25173     +if
+25174     + F_BAD ne '1'
+25175     +and F_BAD ne '0'
+25176     + then do;
+MPRINT(EM_DIAGRAM):   if F_BAD ne '1' and F_BAD ne '0' then do;
+25177     +R_BAD1=.;
+MPRINT(EM_DIAGRAM):   R_BAD1=.;
+25178     +R_BAD0=.;
+MPRINT(EM_DIAGRAM):   R_BAD0=.;
+25179     +end;
+MPRINT(EM_DIAGRAM):   end;
+25180     +else do;
+MPRINT(EM_DIAGRAM):   else do;
+25181     +R_BAD1= - P_BAD1;
+MPRINT(EM_DIAGRAM):   R_BAD1= - P_BAD1;
+25182     +R_BAD0= - P_BAD0;
+MPRINT(EM_DIAGRAM):   R_BAD0= - P_BAD0;
+25183     +select(F_BAD);
+MPRINT(EM_DIAGRAM):   select(F_BAD);
+25184     +when('1')R_BAD1= R_BAD1+1;
+MPRINT(EM_DIAGRAM):   when('1')R_BAD1= R_BAD1+1;
+25185     +when('0')R_BAD0= R_BAD0+1;
+MPRINT(EM_DIAGRAM):   when('0')R_BAD0= R_BAD0+1;
+25186     +otherwise;
+MPRINT(EM_DIAGRAM):   otherwise;
+25187     +end;
+MPRINT(EM_DIAGRAM):   end;
+25188     +end;
+MPRINT(EM_DIAGRAM):   end;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(EM_DIAGRAM):   run;
+25189      run;
+
+NOTE: 다음의 위치에서 숫자형 값이 문자형 값으로 변환되었습니다. (행):(칼럼)
+      25146:14   
+NOTE: DATA STEP 뷰가 파일 EMWS6.HPSVM_VALIDATE에 저장되었습니다.
+NOTE: 저장된 DATA STEP 뷰는 다른 운영 체제에서 실행할 수 없습니다.
+NOTE: View EMWS6.IMPT2_VALIDATE.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.12 초
+      cpu 시간            0.14 초
+      
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.15 초
+      cpu 시간            0.15 초
+      
+
+MPRINT(EM_DIAGRAM):   quit;
+25190      quit;
+25191      filename emflow;
+MPRINT(EM_DIAGRAM):   filename emflow;
+NOTE: Fileref EMFLOW을(를) 삭제했습니다.
+NOTE: View EMWS6.HPSVM_TRAIN.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.16 초
+      cpu 시간            0.15 초
+      
+MPRINT(EM_DIAGRAM):    
+MPRINT(CALFITSTATSNOMINAL):   data _tmpTrainFitTable(keep=_TARGET_ _ASE_ _DIV_ _MAX_ _NOBS_ _RASE_ _SSE_ _DISF_ _MISC_ _WRONG_ rename=(_TARGET_=TARGET));
+MPRINT(CALFITSTATSNOMINAL):   set EMWS6.HPSVM_TRAIN end=eof;
+MPRINT(CALFITSTATSNOMINAL):   length _TARGET_ $32;
+MPRINT(CALFITSTATSNOMINAL):   length _ASE_ _DIV_ _MAX_ _NOBS_ _RASE_ _SSE_ _DISF_ _MISC_ _WRONG_ 8;
+MPRINT(CALFITSTATSNOMINAL):   label _TARGET_ = "분석: Target Variable" _NOBS_= "분석: 빈도 합계" _SSE_= "분석: 오차제곱합" _MAX_= "분석: 최대절대오차" _DIV_ = "분석: ASE의 분모" _WRONG_= "분석: 잘못된 분류 수" _DISF_= "분석: 분류된 관측치 빈도" _MISC_= 
+"분 석: 오분류 비율" _ASE_ = "분석: 평균제곱오차" _RASE_ = "분석: 제곱근평균제곱오차";
+MPRINT(CALFITSTATSNOMINAL):   retain _TARGET_ _WRONG_ _DIV_ _MAX_ _SSE_ _DISF_ _MISC_ _ASE_ _RASE_ ;
+MPRINT(CALFITSTATSNOMINAL):   if R_BAD1 ne . then do;
+MPRINT(CALFITSTATSNOMINAL):   _SSE_ +(R_BAD1)*(R_BAD1);
+MPRINT(CALFITSTATSNOMINAL):   _DIV_ +1;
+MPRINT(CALFITSTATSNOMINAL):   _MAX_ =max(_MAX_ ,abs(R_BAD1));
+MPRINT(CALFITSTATSNOMINAL):   end;
+MPRINT(CALFITSTATSNOMINAL):   if R_BAD0 ne . then do;
+MPRINT(CALFITSTATSNOMINAL):   _SSE_ +(R_BAD0)*(R_BAD0);
+MPRINT(CALFITSTATSNOMINAL):   _DIV_ +1;
+MPRINT(CALFITSTATSNOMINAL):   _MAX_ =max(_MAX_ ,abs(R_BAD0));
+MPRINT(CALFITSTATSNOMINAL):   end;
+MPRINT(CALFITSTATSNOMINAL):   if trim(F_BAD) ^in("", ".") then do;
+MPRINT(CALFITSTATSNOMINAL):   _DISF_+ 1;
+MPRINT(CALFITSTATSNOMINAL):   _WRONG_+(F_BAD ne I_BAD);
+MPRINT(CALFITSTATSNOMINAL):   end;
+MPRINT(CALFITSTATSNOMINAL):   if eof then do;
+MPRINT(CALFITSTATSNOMINAL):   _TARGET_ = "BAD";
+MPRINT(CALFITSTATSNOMINAL):   _MAX = 0;
+MPRINT(CALFITSTATSNOMINAL):   if _DISF_ ne 0 then do;
+MPRINT(CALFITSTATSNOMINAL):   _MISC_=_WRONG_/_DISF_;
+MPRINT(CALFITSTATSNOMINAL):   end;
+MPRINT(CALFITSTATSNOMINAL):   _NOBS_ = _DIV_/2;
+MPRINT(CALFITSTATSNOMINAL):   _ASE_=_SSE_/_DIV_;
+MPRINT(CALFITSTATSNOMINAL):   _RASE_=sqrt(_ASE_);
+MPRINT(CALFITSTATSNOMINAL):   output;
+MPRINT(CALFITSTATSNOMINAL):   end;
+MPRINT(CALFITSTATSNOMINAL):   run;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   data WORK.OUTFITDATA;
+MPRINT(EM_DIAGRAM):   set _tmpTrainFitTable;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   
+MPRINT(CALFITSTATSNOMINAL):   data _tmpValidFitTable(keep=_TARGET_ _ASE_ _DIV_ _MAX_ _NOBS_ _RASE_ _SSE_ _DISF_ _MISC_ _WRONG_ rename=(_TARGET_=TARGET));
+MPRINT(CALFITSTATSNOMINAL):   set EMWS6.HPSVM_VALIDATE end=eof;
+MPRINT(CALFITSTATSNOMINAL):   length _TARGET_ $32;
+MPRINT(CALFITSTATSNOMINAL):   length _ASE_ _DIV_ _MAX_ _NOBS_ _RASE_ _SSE_ _DISF_ _MISC_ _WRONG_ 8;
+MPRINT(CALFITSTATSNOMINAL):   label _TARGET_ = "평가: Target Variable" _NOBS_= "평가: 빈도 합계" _SSE_= "평가: 오차제곱합" _MAX_= "평가: 최대절대오차" _DIV_ = "평가: ASE의 분모" _WRONG_= "평가: 잘못된 분류 수" _DISF_= "평가: 분류된 관측치 빈도" _MISC_= 
+"평 가: 오분류 비율" _ASE_ = "평가: 평균제곱오차" _RASE_ = "평가: 제곱근평균제곱오차";
+MPRINT(CALFITSTATSNOMINAL):   retain _TARGET_ _WRONG_ _DIV_ _MAX_ _SSE_ _DISF_ _MISC_ _ASE_ _RASE_ ;
+MPRINT(CALFITSTATSNOMINAL):   if R_BAD1 ne . then do;
+MPRINT(CALFITSTATSNOMINAL):   _SSE_ +(R_BAD1)*(R_BAD1);
+MPRINT(CALFITSTATSNOMINAL):   _DIV_ +1;
+MPRINT(CALFITSTATSNOMINAL):   _MAX_ =max(_MAX_ ,abs(R_BAD1));
+MPRINT(CALFITSTATSNOMINAL):   end;
+MPRINT(CALFITSTATSNOMINAL):   if R_BAD0 ne . then do;
+MPRINT(CALFITSTATSNOMINAL):   _SSE_ +(R_BAD0)*(R_BAD0);
+MPRINT(CALFITSTATSNOMINAL):   _DIV_ +1;
+MPRINT(CALFITSTATSNOMINAL):   _MAX_ =max(_MAX_ ,abs(R_BAD0));
+MPRINT(CALFITSTATSNOMINAL):   end;
+MPRINT(CALFITSTATSNOMINAL):   if trim(F_BAD) ^in("", ".") then do;
+MPRINT(CALFITSTATSNOMINAL):   _DISF_+ 1;
+MPRINT(CALFITSTATSNOMINAL):   _WRONG_+(F_BAD ne I_BAD);
+MPRINT(CALFITSTATSNOMINAL):   end;
+MPRINT(CALFITSTATSNOMINAL):   if eof then do;
+MPRINT(CALFITSTATSNOMINAL):   _TARGET_ = "BAD";
+MPRINT(CALFITSTATSNOMINAL):   _MAX = 0;
+MPRINT(CALFITSTATSNOMINAL):   if _DISF_ ne 0 then do;
+MPRINT(CALFITSTATSNOMINAL):   _MISC_=_WRONG_/_DISF_;
+MPRINT(CALFITSTATSNOMINAL):   end;
+MPRINT(CALFITSTATSNOMINAL):   _NOBS_ = _DIV_/2;
+MPRINT(CALFITSTATSNOMINAL):   _ASE_=_SSE_/_DIV_;
+MPRINT(CALFITSTATSNOMINAL):   _RASE_=sqrt(_ASE_);
+MPRINT(CALFITSTATSNOMINAL):   output;
+MPRINT(CALFITSTATSNOMINAL):   end;
+MPRINT(CALFITSTATSNOMINAL):   run;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   data _tmpdata_(DROP= TARGET);
+MPRINT(EM_DIAGRAM):   set _tmpValidFitTable;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    data _tmpdata_;
+MPRINT(EM_DIAGRAM):   set _tmpdata_;
+MPRINT(EM_DIAGRAM):   rename _ASE_=_VASE_;
+MPRINT(EM_DIAGRAM):   rename _DIV_=_VDIV_;
+MPRINT(EM_DIAGRAM):   rename _MAX_=_VMAX_;
+MPRINT(EM_DIAGRAM):   rename _NOBS_=_VNOBS_;
+MPRINT(EM_DIAGRAM):   rename _RASE_=_VRASE_;
+MPRINT(EM_DIAGRAM):   rename _SSE_=_VSSE_;
+MPRINT(EM_DIAGRAM):   rename _DISF_=_VDISF_;
+MPRINT(EM_DIAGRAM):   rename _MISC_=_VMISC_;
+MPRINT(EM_DIAGRAM):   rename _WRONG_=_VWRONG_;
+MPRINT(EM_DIAGRAM):   data WORK.OUTFITDATA;
+MPRINT(EM_DIAGRAM):   merge WORK.OUTFITDATA _tmpdata_;
+MPRINT(EM_DIAGRAM):   run;
+25252      proc append base=EMWS6.HPSVM_EMOUTFIT data=WORK.OUTFITDATA force;
+MPRINT(EM_DIAGRAM):    proc append base=EMWS6.HPSVM_EMOUTFIT data=WORK.OUTFITDATA force;
+25253      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: WORK.OUTFITDATA 을(를)EMWS6.HPSVM_EMOUTFIT(으)로 추가하는 중입니다.
+NOTE: BASE 데이터셋이 존재하지 않습니다. DATA 파일이 BASE 파일에 복사됩니다.
+NOTE: 1개의 관측값을 데이터셋 WORK.OUTFITDATA.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.HPSVM_EMOUTFIT은(는) 1개의 관측값과 19개의 변수를 가지고 있습니다.
+NOTE: 프로시저 APPEND 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+25254      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+25255      * HPSVM: Computing metadata for TRAIN data;
+MPRINT(EM_DIAGRAM):   * HPSVM: Computing metadata for TRAIN data;
+25256      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+
+NOTE: View EMWS6.HPSVM_TRAIN.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.14 초
+      cpu 시간            0.14 초
+      
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * &nodeid: Computing Metadata for TRAIN data;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   filename _delta "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\CDELTA_TRAIN.sas";
+MPRINT(EMADVISECOLUMNS):   proc display c=sashelp.emmeta.advisecolumns.scl;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    options validvarname=any;
+MPRINT(EMADVISECOLUMNS):   proc contents data=EMWS6.HPSVM_TRAIN out=_tempAdvisor noprint;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):   options validvarname=V7;
+MPRINT(EMADVISECOLUMNS):    data _null_;
+MPRINT(EMADVISECOLUMNS):   dsid = open('EMWS6.HPSVM_TRAIN');
+MPRINT(EMADVISECOLUMNS):   call symput('_dsidTable', strip(put(dsid, best.)));
+MPRINT(EMADVISECOLUMNS):   if dsid then do;
+MPRINT(EMADVISECOLUMNS):   call symput('_engineTable', attrc(dsid, 'ENGINE'));
+MPRINT(EMADVISECOLUMNS):   dsid = close(dsid);
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    proc contents data=EMWS6.HPSVM_TRAIN out=WORK.M27K29AT noprint;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    data WORK.M27K29AT;
+MPRINT(EMADVISECOLUMNS):   length NAME $ 64 TYPE $ 1 LABEL $ 200 FORMAT $ 36 INFORMAT $36 INDEX $ 1 INDEXTYPE $ 9;
+MPRINT(EMADVISECOLUMNS):   label NAME =;
+MPRINT(EMADVISECOLUMNS):   set WORK.M27K29AT(keep=name type length label format formatl formatd informat informl informd idxusage rename=(type=itype));
+MPRINT(EMADVISECOLUMNS):   if itype = 1 then type = 'N';
+MPRINT(EMADVISECOLUMNS):   else type = 'C';
+MPRINT(EMADVISECOLUMNS):   if formatl > 0 then do;
+MPRINT(EMADVISECOLUMNS):   if format ne '' then do;
+MPRINT(EMADVISECOLUMNS):   if type='N' then format = strip(format)!!strip(put(formatl, best12.))!!'.'!!strip(put(formatd, best12.));
+MPRINT(EMADVISECOLUMNS):   else format = strip(format)!!strip(put(formatl, best12.))!!'.';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else format = strip(put(formatl, best12.))!!'.'!!strip(put(formatd, best12.));
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else if format ne '' then format = strip(format)!!'.';
+MPRINT(EMADVISECOLUMNS):   if informl > 0 then do;
+MPRINT(EMADVISECOLUMNS):   if informat ne ' ' then do;
+MPRINT(EMADVISECOLUMNS):   if type='N' then informat = strip(informat)!!strip(put(informl, best12.))!!'.'!!strip(put(informd, best12.));
+MPRINT(EMADVISECOLUMNS):   else informat = strip(informat)!!strip(put(informl, best12.))!!'.';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else informat = strip(put(informl, best12.))!!'.'!!strip(put(informd, best12.));
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else if informat ne '' then informat = strip(informat)!!'.';
+MPRINT(EMADVISECOLUMNS):   if idxusage = 'NONE' then index ="N";
+MPRINT(EMADVISECOLUMNS):   else index = "Y";
+MPRINT(EMADVISECOLUMNS):   indextype = idxusage;
+MPRINT(EMADVISECOLUMNS):   drop idxusage itype formatl formatd informl informd;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    data WORK.M27K29AT;
+MPRINT(EMADVISECOLUMNS):   length UNAME $64;
+MPRINT(EMADVISECOLUMNS):   set WORK.M27K29AT;
+MPRINT(EMADVISECOLUMNS):   UNAME = upcase(NAME);
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    proc sort data=WORK.M0BCM41U NOTHREADS;
+MPRINT(EMADVISECOLUMNS):   by UNAME;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    data WORK.M0BCM41U;
+MPRINT(EMADVISECOLUMNS):   drop UNAME;
+MPRINT(EMADVISECOLUMNS):   set WORK.M0BCM41U;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    data WORK.M1724KH6(keep=NAME ATTR);
+MPRINT(EMADVISECOLUMNS):   length ATTR $ 20;
+MPRINT(EMADVISECOLUMNS):   set WORK.M0BCM41U;
+MPRINT(EMADVISECOLUMNS):   if level ne "INTERVAL" then do;
+MPRINT(EMADVISECOLUMNS):   if order = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   attr = 'ORDER';
+MPRINT(EMADVISECOLUMNS):   output;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if format ne ' ' and formattype = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   attr = 'FORMATTYPE';
+MPRINT(EMADVISECOLUMNS):   output;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if role = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   attr = 'ROLE';
+MPRINT(EMADVISECOLUMNS):   output;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if level = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   attr = 'LEVEL';
+MPRINT(EMADVISECOLUMNS):   output;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if type = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   attr = 'TYPE';
+MPRINT(EMADVISECOLUMNS):   output;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if index = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   attr = 'INDEX';
+MPRINT(EMADVISECOLUMNS):   output;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if report = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   attr = 'REPORT';
+MPRINT(EMADVISECOLUMNS):   output;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):   proc sort NOTHREADS;
+MPRINT(EMADVISECOLUMNS):   by attr;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    data WORK.M0BCM41U;
+MPRINT(EMADVISECOLUMNS):   length NAME $64 ROLE $ 32 LEVEL $ 10 ORDER $ 8 CREATOR $32 FORMATTYPE $ 10 FAMILY $ 10 LOWERLIMIT 8 UPPERLIMIT 8 REPORT $1 DISTRIBUTION $ 20 COMMENT $64;
+MPRINT(EMADVISECOLUMNS):   length levelAssigned 8 roleAssigned 8 PRICE 8;
+MPRINT(EMADVISECOLUMNS):   set WORK.M0BCM41U;
+MPRINT(EMADVISECOLUMNS):   if formattype = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   if format ne ' ' then do;
+MPRINT(EMADVISECOLUMNS):   if type = 'N' then do;
+MPRINT(EMADVISECOLUMNS):   pos = indexc(format,'.1234567890');
+MPRINT(EMADVISECOLUMNS):   if pos > 1 then tempfmt = substr(format,1, pos-1);
+MPRINT(EMADVISECOLUMNS):   else tempfmt = ' ';
+MPRINT(EMADVISECOLUMNS):   flen = length(tempfmt);
+MPRINT(EMADVISECOLUMNS):   select;
+MPRINT(EMADVISECOLUMNS):   when(tempfmt in ("DATE" "DAY" "DDMMYY" "DOWNAME" "JULDAY" "JULIAN" "MMDDYY" "MMDDYYD" "MMDDYYC" "MMDDYYN" "MMDDYYP" "MMDDYYS" "MONNAME" "MONTH" "MONYY" "NENGO" "QTR" "QTRR" "WEEKDATE" "WEEKDATX" "WEEKDAY" "WORDDATE" "WORDDATX" 
+"YEAR" "YYMMDD" "YYMON" "YYMMDDC" "YYMMDDD" "YYMMDDN" "YYMMDDP" "YYMMDDS" "EURDFDE" "NJDATE" "NLDATE" "EURDFDD" "EURDFDWN" "EURDFMN" "EURDFMY" "EURDFWK" "EURDFWKX" "EURDFWDX" "EURDFDN" "EURDFDE" )) formattype = 'DATE';
+MPRINT(EMADVISECOLUMNS):   when(tempfmt in ("DATETIME" "EURDFDT" "TOD" )) formattype = "DATETIME";
+MPRINT(EMADVISECOLUMNS):   when(tempfmt in ("HHMM" "HOUR" "MMSS" "TIME" "TIMEAMPM" )) formattype = "TIME";
+MPRINT(EMADVISECOLUMNS):   when(tempfmt in ("COMMA" "COMMAX" "DOLLAR" "DOLLARX" "E" "FRACT" "NEGPAREN" "PERCENT")) formattype="QUANTITY";
+MPRINT(EMADVISECOLUMNS):   when(tempfmt in ("BINARY" "HEX" "IB" "OCTAL" "PD" "PIB" "PK" "RB" "SSN" "Z" "ZD")) formattype = "CODING";
+MPRINT(EMADVISECOLUMNS):   otherwise do;
+MPRINT(EMADVISECOLUMNS):   formattype = "USER";
+MPRINT(EMADVISECOLUMNS):   if compress(tempfmt, '0123456789.', '') = '' then formattype='NUM';
+MPRINT(EMADVISECOLUMNS):   else if substr(tempfmt, 1, 6)='NLDATE' then formattype = "DATE";
+MPRINT(EMADVISECOLUMNS):   else if substr(tempfmt, 1, 6)='NLDATM' then formattype = "DATETIME";
+MPRINT(EMADVISECOLUMNS):   else if substr(tempfmt, 1, 4)='NLTIM' then formattype = "TIME";
+MPRINT(EMADVISECOLUMNS):   else if flen >= 4 then do;
+MPRINT(EMADVISECOLUMNS):   str = substr(tempfmt,1,4);
+MPRINT(EMADVISECOLUMNS):   if str in ("MMYY" "YYMM" "YYQR") then formattype ="DATE";
+MPRINT(EMADVISECOLUMNS):   else if str = "S370" then formattype = "CODING";
+MPRINT(EMADVISECOLUMNS):   else if str = "BEST" then formattype = "NUM";
+MPRINT(EMADVISECOLUMNS):   drop str;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else if flen >=3 and substr(tempfmt,1,3) = "YYQ" then formatType = "DATE";
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   drop flen tempfmt pos;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else do;
+MPRINT(EMADVISECOLUMNS):   formatType = "CATEGORY";
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if formatType = "NUM" then do;
+MPRINT(EMADVISECOLUMNS):   if index = "Y" then formatType = "DISCRETE";
+MPRINT(EMADVISECOLUMNS):   else formatType = "QUANTITY";
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if level = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   if formatType in ("CATEGORY", "CODING", "ID") or type = "C" then level = "NOMINAL";
+MPRINT(EMADVISECOLUMNS):   else level = "INTERVAL";
+MPRINT(EMADVISECOLUMNS):   levelAssigned = 1;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else level = upcase(level);
+MPRINT(EMADVISECOLUMNS):   if role = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   length name_prefix $8 _uname $64;
+MPRINT(EMADVISECOLUMNS):   drop name_prefix _uname _freqflag;
+MPRINT(EMADVISECOLUMNS):   retain _freqflag;
+MPRINT(EMADVISECOLUMNS):   if LENGTH> 80 then ROLE = 'TEXT';
+MPRINT(EMADVISECOLUMNS):   _uname = upcase(NAME);
+MPRINT(EMADVISECOLUMNS):   select(_uname);
+MPRINT(EMADVISECOLUMNS):   when('_PARTIND_') do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'ID';
+MPRINT(EMADVISECOLUMNS):   LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   when('_WARN_') ROLE = 'ASSESS';
+MPRINT(EMADVISECOLUMNS):   when('EM_SEGMENT') do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'SEGMENT';
+MPRINT(EMADVISECOLUMNS):   LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   when('_NODE_') do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'SEGMENT';
+MPRINT(EMADVISECOLUMNS):   LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   when('EM_CLASSTARGET') ROLE = 'ASSESS';
+MPRINT(EMADVISECOLUMNS):   when('EM_VALUETARGET') ROLE = 'ASSESS';
+MPRINT(EMADVISECOLUMNS):   when('EM_PREDICTION') ROLE = 'PREDICT';
+MPRINT(EMADVISECOLUMNS):   when('EM_PROBABILITY') ROLE = 'PREDICT';
+MPRINT(EMADVISECOLUMNS):   when('EM_EVENTPROBABILITY') ROLE = 'PREDICT';
+MPRINT(EMADVISECOLUMNS):   when('EM_CLASSIFICATION') ROLE = 'CLASSIFICATION';
+MPRINT(EMADVISECOLUMNS):   when('EM_DECISION') ROLE = 'DECISION';
+MPRINT(EMADVISECOLUMNS):   when('EM_PROFIT') ROLE = 'ASSESS';
+MPRINT(EMADVISECOLUMNS):   when('EM_LOSS') ROLE = 'ASSESS';
+MPRINT(EMADVISECOLUMNS):   when('EM_ROI') ROLE = 'ASSESS';
+MPRINT(EMADVISECOLUMNS):   when('URI') ROLE = 'URL';
+MPRINT(EMADVISECOLUMNS):   when('FILTERED') ROLE = 'TEXTLOC';
+MPRINT(EMADVISECOLUMNS):   otherwise do;
+MPRINT(EMADVISECOLUMNS):   if upcase(NAME) =: 'ZIP' then do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'REJECTED';
+MPRINT(EMADVISECOLUMNS):   LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   COMMENT = 'Rejected by: Exceed the maximum class level of %s';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else if upcase(NAME) in('FREQ', 'FREQUENCY') then do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'FREQ';
+MPRINT(EMADVISECOLUMNS):   if TYPE = 'C' then ROLE = 'INPUT';
+MPRINT(EMADVISECOLUMNS):   else if _freqflag =1 then ROLE='REJECTED';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else do;
+MPRINT(EMADVISECOLUMNS):   name_prefix = scan(_uname, 1, '_');
+MPRINT(EMADVISECOLUMNS):   if scan(_uname, 2, '_') = '' then name_prefix='';
+MPRINT(EMADVISECOLUMNS):   if name_prefix in('F', 'I', 'U') then do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'CLASSIFICATION';
+MPRINT(EMADVISECOLUMNS):   LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else if name_prefix in('Q') then ROLE = 'ASSESS';
+MPRINT(EMADVISECOLUMNS):   else if name_prefix in('P', 'V') then ROLE = 'PREDICT';
+MPRINT(EMADVISECOLUMNS):   else if name_prefix in('R', 'RS', 'RT', 'RD', 'RDS', 'RDT', 'RA', 'RAS', 'RAT') then ROLE = 'RESIDUAL';
+MPRINT(EMADVISECOLUMNS):   else if name_prefix ='D' then do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'DECISION';
+MPRINT(EMADVISECOLUMNS):   LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else if name_prefix ='B' then do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'SEGMENT';
+MPRINT(EMADVISECOLUMNS):   LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else if name_prefix in('EP', 'BP', 'CP', 'EL', 'CL', 'BL', 'W', 'ROI', 'IC') then ROLE = 'ASSESS';
+MPRINT(EMADVISECOLUMNS):   else do;
+MPRINT(EMADVISECOLUMNS):   array _ROLE_ (19) $32 _TEMPORARY_ ('ASSESS','CLASSIFICATION','CENSOR', 'COST', 'CROSSID', 'DECISION', 'ID','INPUT', 'LABEL', 'MISSING','PREDICT','REFERRER','REJECTED', 'RESIDUAL','SEGMENT', 'SEQUENCE','TARGET', 'TEXT', 'TIMEID');
+MPRINT(EMADVISECOLUMNS):   drop _found_ i;
+MPRINT(EMADVISECOLUMNS):   _found_=0;
+MPRINT(EMADVISECOLUMNS):   do i=1 to 19 until(_found_=1);
+MPRINT(EMADVISECOLUMNS):   if index(_uname, trim(_ROLE_{i}))=1 then do;
+MPRINT(EMADVISECOLUMNS):   ROLE=_ROLE_{i};
+MPRINT(EMADVISECOLUMNS):   if ROLE = 'ID' then LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   else if ROLE = 'SEGMENT' then LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   else if ROLE = 'TIMEID' and TYPE='N' then LEVEL = 'INTERVAL';
+MPRINT(EMADVISECOLUMNS):   _found_=1;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if length(_uname)>2 then do;
+MPRINT(EMADVISECOLUMNS):   if substr(reverse(trim(_uname)), 1, 3) = 'DI_' then do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'ID';
+MPRINT(EMADVISECOLUMNS):   LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if ROLE='FREQ' then _freqflag=1;
+MPRINT(EMADVISECOLUMNS):   else if ROLE = 'CLASSIFICATION' then LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   if symexist('RATEMKG_ROLE') then do;
+MPRINT(EMADVISECOLUMNS):   if upcase(symget('RATEMKG_ROLE')) in('Y', 'YES') then do;
+MPRINT(EMADVISECOLUMNS):   if _uname =: 'POLICY' then ROLE = 'POLICYID';
+MPRINT(EMADVISECOLUMNS):   else if _uname in ('PARTITION', '_PARTIND_') then ROLE = 'PARTITION';
+MPRINT(EMADVISECOLUMNS):   else if type = 'N' then do;
+MPRINT(EMADVISECOLUMNS):   if _uname = 'EXPOSURE' then ROLE = 'EXPOSURE';
+MPRINT(EMADVISECOLUMNS):   else if _uname = 'YEAR' then ROLE = 'YEAR';
+MPRINT(EMADVISECOLUMNS):   else if _uname = 'WEIGHT' then ROLE = 'WEIGHT';
+MPRINT(EMADVISECOLUMNS):   else if _uname = 'OFFSET' then ROLE = 'OFFSET';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if role = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   if formattype in('DATE', 'DATETIME', 'TIME') then role = 'TIMEID';
+MPRINT(EMADVISECOLUMNS):   else role = 'INPUT';
+MPRINT(EMADVISECOLUMNS):   roleAssigned = 1;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else role = upcase(role);
+MPRINT(EMADVISECOLUMNS):   if REPORT = '' then REPORT = 'N';
+MPRINT(EMADVISECOLUMNS):   if symexist('dmwb_product') then do;
+MPRINT(EMADVISECOLUMNS):   if upcase(symget('dmwb_product')) = 'FACTORYMINER_DATASOURCE' then do;
+MPRINT(EMADVISECOLUMNS):   if ROLE ^in('INPUT', 'TARGET', 'REJECTED', 'SEGMENT', 'FREQ', 'ID', 'KEY') then ROLE='REJECTED';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    data WORK.M0BCM41U;
+MPRINT(EMADVISECOLUMNS):   set WORK.M0BCM41U;
+MPRINT(EMADVISECOLUMNS):   label NAME = "변수 이름" TYPE = "유형" ROLE = "역할" LEVEL= "측도 레벨" ORDER= "순서" CREATOR= "생성자" FORMATTYPE= "출력형식 유형" FAMILY= "군" DISTRIBUTION= "분포" PRICE= "가격" LOWERLIMIT= "하한" UPPERLIMIT= "상한" REPORT= 
+"리 포트" COMMENT= "주석" INDEX= "인덱스" INDEXTYPE= "인덱스 유형" LABEL= "레이블" LENGTH= "길이";
+MPRINT(EMADVISECOLUMNS):   drop levelAssigned roleAssigned;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):   
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   proc sort data=WORK.COLUMNMETA;
+MPRINT(EM_DIAGRAM):   by NAME;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * &nodeid: Merge incoming metadata;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   proc contents data=EMWS6.Impt2_TRAIN noprint out=_temp2(keep=NAME);
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   proc sort data=_temp2;
+MPRINT(EM_DIAGRAM):   by NAME;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   proc sort data=EMWS6.Impt2_CMeta_TRAIN out=_temp;
+MPRINT(EM_DIAGRAM):   by NAME;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data EMWS6.HPSVM_CMeta_TRAIN;
+MPRINT(EM_DIAGRAM):   merge WORK.COLUMNMETA(in=_a) _temp2(in=_b) _temp(drop=FORMAT INFORMAT LENGTH INDEX INDEXTYPE in=_c) end=_eof_;
+MPRINT(EM_DIAGRAM):   by NAME;
+MPRINT(EM_DIAGRAM):   if (^_a and _b) or (^_c and _a and _b) then delete;
+MPRINT(EM_DIAGRAM):   if ^_b then CREATOR = "HPSVM";
+MPRINT(EM_DIAGRAM):   length model $200;
+MPRINT(EM_DIAGRAM):   label MODEL = "모델 노드";
+MPRINT(EM_DIAGRAM):   select(upcase(name));
+MPRINT(EM_DIAGRAM):   when("BAD") model = "HPSVM";
+MPRINT(EM_DIAGRAM):   when('');
+MPRINT(EM_DIAGRAM):   otherwise;
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * HPSVM: Apply Delta Code;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   filename _delta;
+25601      data EMWS6.HPSVM_EMINFO;
+MPRINT(EM_DIAGRAM):    data EMWS6.HPSVM_EMINFO;
+25602      length TARGET KEY $32 DATA $43;
+MPRINT(EM_DIAGRAM):   length TARGET KEY $32 DATA $43;
+25603      input TARGET KEY DATA $;
+MPRINT(EM_DIAGRAM):   input TARGET KEY DATA $;
+25604      cards;
+MPRINT(EM_DIAGRAM):   cards;
+
+NOTE: 데이터셋 EMWS6.HPSVM_EMINFO은(는) 3개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(EM_DIAGRAM):   run;
+25608      run;
+25609      proc sort data = EMWS6.HPSVM_EMINFO NOTHREADS;
+MPRINT(EM_DIAGRAM):   proc sort data = EMWS6.HPSVM_EMINFO NOTHREADS;
+25610      by TARGET KEY;
+MPRINT(EM_DIAGRAM):   by TARGET KEY;
+25611      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 3개의 관측값을 데이터셋 EMWS6.HPSVM_EMINFO.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.HPSVM_EMINFO은(는) 3개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+25612      proc sort data = EMWS6.Ids5_EMINFO OUT=WORK.SORTEDEMINFO NOTHREADS;
+MPRINT(EM_DIAGRAM):    proc sort data = EMWS6.Ids5_EMINFO OUT=WORK.SORTEDEMINFO NOTHREADS;
+25613      by TARGET KEY;
+MPRINT(EM_DIAGRAM):   by TARGET KEY;
+25614      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 3개의 관측값을 데이터셋 EMWS6.IDS5_EMINFO.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SORTEDEMINFO은(는) 3개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.03 초
+      
+
+25615      proc sort data = EMWS6.HPSVM_EMINFO OUT=WORK.TEMP_INFO NOTHREADS;
+MPRINT(EM_DIAGRAM):   proc sort data = EMWS6.HPSVM_EMINFO OUT=WORK.TEMP_INFO NOTHREADS;
+25616      by TARGET KEY;
+MPRINT(EM_DIAGRAM):   by TARGET KEY;
+25617      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 입력 데이터셋이 이미 정렬되어 있습니다; 출력 데이터셋에 복사되었습니다.
+NOTE: 3개의 관측값을 데이터셋 EMWS6.HPSVM_EMINFO.에서 읽었습니다.
+NOTE: 데이터셋 WORK.TEMP_INFO은(는) 3개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+25618      data EMWS6.HPSVM_EMINFO;
+MPRINT(EM_DIAGRAM):   data EMWS6.HPSVM_EMINFO;
+25619      merge WORK.SORTEDEMINFO WORK.TEMP_INFO;
+MPRINT(EM_DIAGRAM):   merge WORK.SORTEDEMINFO WORK.TEMP_INFO;
+25620      by TARGET KEY;
+MPRINT(EM_DIAGRAM):   by TARGET KEY;
+25621      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 3개의 관측값을 데이터셋 WORK.SORTEDEMINFO.에서 읽었습니다.
+NOTE: 3개의 관측값을 데이터셋 WORK.TEMP_INFO.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.HPSVM_EMINFO은(는) 4개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+25622      proc datasets lib=work nolist;
+MPRINT(EM_DIAGRAM):   proc datasets lib=work nolist;
+25623      delete TEMP_INFO SORTEDEMINFO;
+MPRINT(EM_DIAGRAM):   delete TEMP_INFO SORTEDEMINFO;
+25624      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: WORK.TEMP_INFO(memtype=DATA)을(를) 삭제하는 중입니다.
+NOTE: WORK.SORTEDEMINFO(memtype=DATA)을(를) 삭제하는 중입니다.
+25625      quit;
+MPRINT(EM_DIAGRAM):   quit;
+
+NOTE: 프로시저 DATASETS 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+NOTE: View EMWS6.HPSVM_TRAIN.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.13 초
+      cpu 시간            0.14 초
+      
+NOTE: View EMWS6.HPSVM_VALIDATE.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.15 초
+      cpu 시간            0.15 초
+      
+MPRINT(EM_DIAGRAM):    proc printto;
+MPRINT(EM_DIAGRAM):   run;

@@ -1,0 +1,65 @@
+*------------------------------------------------------------*
+사용자:                Administrator
+날짜:                2018년 11월 17일
+시간:                17시14분08초
+*------------------------------------------------------------*
+* 분석 출력
+*------------------------------------------------------------*
+ 
+ 
+ 
+ 
+변수 요약
+ 
+        측도 레    빈도
+역할      벨       개수
+ 
+TEXT    NOMINAL      1
+ 
+ 
+ 
+ 
+ 
+The HPTMINE Procedure
+ 
+      Performance Information
+ 
+Execution Mode       Single-Machine
+Number of Threads    4
+ 
+ 
+                  Data Access Information
+ 
+Data                           Engine    Role      Path
+ 
+EMWS5.TEXTPARSING2_TRAIN       V9        Input     On Client
+EMWS5.TEXTPARSING2_TMOUTPOS    V9        Output    On Client
+EMWS5.TEXTPARSING2_TMOUT       V9        Output    On Client
+EMWS5.TEXTPARSING2_TERMS       V9        Output    On Client
+EMWS5.TEXTPARSING2_TMCONFIG    V9        Output    On Client
+ 
+ 
+                 Procedure Task Timing
+ 
+Task                                Seconds      Percent
+ 
+ Parse documents                       4.14      89.94%
+ Index documents                       0.21       4.52%
+ Output raw parsing results            0.01       0.15%
+ Analyze terms                         0.02       0.41%
+ Obtain term frequency                 0.19       4.15%
+ Filter terms                          0.02       0.35%
+ Generate term-document matrix         0.02       0.33%
+ Output OUTCHILD table                 0.00       0.07%
+ Output OUTTERMS table                 0.00       0.07%
+ Output OUTCONFIG table                0.00       0.02%
+
+
+*------------------------------------------------------------*
+* 스코어 출력
+*------------------------------------------------------------*
+
+
+*------------------------------------------------------------*
+* 리포트 출력
+*------------------------------------------------------------*

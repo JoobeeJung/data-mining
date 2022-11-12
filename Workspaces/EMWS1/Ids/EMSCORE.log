@@ -1,0 +1,94 @@
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 10월 08일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "20시35분43초" );
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 스코어 로그";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+*------------------------------------------------------------*
+* 스코어 로그
+날짜:                2018년 10월 08일
+시간:                20시35분43초
+*------------------------------------------------------------*
+MPRINT(EM_DIAGRAM):    filename O0Y66CT5 "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS1\Ids\EMSCORE.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   proc printto print=O0Y66CT5 new;
+MPRINT(EM_DIAGRAM):   run;
+22735      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+22736      * Ids: Computing metadata for DATA data;
+MPRINT(EM_DIAGRAM):   * Ids: Computing metadata for DATA data;
+22737      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+
+NOTE: View EMWS1.IDS_DATA.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.11 초
+      cpu 시간            0.10 초
+      
+22738      data EMWS1.Ids_EMINFO;
+MPRINT(EM_DIAGRAM):    data EMWS1.Ids_EMINFO;
+22739      length TARGET KEY $32 DATA $43;
+MPRINT(EM_DIAGRAM):   length TARGET KEY $32 DATA $43;
+22740      TARGET="";
+MPRINT(EM_DIAGRAM):   TARGET="";
+22741      KEY="IDSTABLE";
+MPRINT(EM_DIAGRAM):   KEY="IDSTABLE";
+22742      DATA="DM_LIB.NEWS_800";
+MPRINT(EM_DIAGRAM):   DATA="DM_LIB.NEWS_800";
+22743      output;
+MPRINT(EM_DIAGRAM):   output;
+22744      TARGET="Category";
+MPRINT(EM_DIAGRAM):   TARGET="Category";
+22745      KEY="DECDATA";
+MPRINT(EM_DIAGRAM):   KEY="DECDATA";
+22746      DATA="EMWS1.Ids_Category_DD";
+MPRINT(EM_DIAGRAM):   DATA="EMWS1.Ids_Category_DD";
+22747      output;
+MPRINT(EM_DIAGRAM):   output;
+22748      TARGET="Category";
+MPRINT(EM_DIAGRAM):   TARGET="Category";
+22749      KEY="DECMETA";
+MPRINT(EM_DIAGRAM):   KEY="DECMETA";
+22750      DATA="EMWS1.Ids_Category_DM";
+MPRINT(EM_DIAGRAM):   DATA="EMWS1.Ids_Category_DM";
+22751      output;
+MPRINT(EM_DIAGRAM):   output;
+22752      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 데이터셋 EMWS1.IDS_EMINFO은(는) 3개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+NOTE: View EMWS1.IDS_DATA.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.08 초
+      cpu 시간            0.07 초
+      
+22753      data EMWS1.Ids_CMeta_DATA;
+MPRINT(EM_DIAGRAM):    data EMWS1.Ids_CMeta_DATA;
+22754      set EMWS1.Ids_VariableSet;
+MPRINT(EM_DIAGRAM):   set EMWS1.Ids_VariableSet;
+22755      drop DROP;
+MPRINT(EM_DIAGRAM):   drop DROP;
+22756      where DROP='N';
+MPRINT(EM_DIAGRAM):   where DROP='N';
+22757      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 3개의 관측값을 데이터셋 EMWS1.IDS_VARIABLESET.에서 읽었습니다.
+      WHERE DROP='N';
+NOTE: 데이터셋 EMWS1.IDS_CMETA_DATA은(는) 3개의 관측값과 20개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(EM_DIAGRAM):    proc printto;
+MPRINT(EM_DIAGRAM):   run;

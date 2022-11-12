@@ -1,0 +1,155 @@
+*------------------------------------------------------------*
+사용자:                Administrator
+날짜:                2018년 11월 20일
+시간:                10시10분13초
+*------------------------------------------------------------*
+* 분석 출력
+*------------------------------------------------------------*
+ 
+ 
+ 
+ 
+변수 요약
+ 
+           측도 레    빈도
+ 역할        벨       개수
+ 
+SEGMENT    NOMINAL      2
+TARGET     BINARY       1
+
+
+*------------------------------------------------------------*
+* 스코어 출력
+*------------------------------------------------------------*
+ 
+ 
+ 
+ 
+스코어 입력 변수
+ 
+                                                         스코어
+변수 이                                          변수    코드에
+  름        역할     생성자    주석    레이블    숨김     사용
+ 
+RESPOND    TARGET                                 N        N
+ 
+ 
+ 
+ 
+스코어 출력 변수
+ 
+변수 이름              함수              생성자    레이블
+ 
+EM_CLASSIFICATION      CLASSIFICATION    Score     Prediction for RESPOND
+EM_EVENTPROBABILITY    PREDICT           Score     Probability for level 1 of RESPOND
+EM_PROBABILITY         PREDICT           Score     Probability of Classification
+EM_SEGMENT             TRANSFORM         Score     Node
+I_RESPOND              CLASSIFICATION    Tree
+P_RESPOND0             PREDICT           Tree
+P_RESPOND1             PREDICT           Tree
+_NODE_                 TRANSFORM         Tree
+
+
+*------------------------------------------------------------*
+* 리포트 출력
+*------------------------------------------------------------*
+ 
+ 
+ 
+ 
+클래스 변수 요약 통계량
+ 
+데이터 역할=SCORE 출력 유형=CLASSIFICATION
+ 
+                       출력형식     빈도
+  변수       숫자값       값        개수    백분율
+ 
+I_RESPOND       .         0        28735      100
+ 
+ 
+데이터 역할=SCORE 출력 유형=SEGMENT
+ 
+                    출력형식     빈도
+ 변수     숫자값       값        개수    백분율
+ 
+_NODE_       1         1        28735      100
+ 
+ 
+데이터 역할=TEST 출력 유형=CLASSIFICATION
+ 
+                       출력형식    빈도
+  변수       숫자값       값       개수    백분율
+ 
+I_RESPOND       .         0        3001      100
+ 
+ 
+데이터 역할=TEST 출력 유형=SEGMENT
+ 
+                    출력형식    빈도
+ 변수     숫자값       값       개수    백분율
+ 
+_NODE_       1         1        3001      100
+ 
+ 
+데이터 역할=TRAIN 출력 유형=CLASSIFICATION
+ 
+                       출력형식    빈도
+  변수       숫자값       값       개수    백분율
+ 
+I_RESPOND       .         0        3999      100
+ 
+ 
+데이터 역할=TRAIN 출력 유형=SEGMENT
+ 
+                    출력형식    빈도
+ 변수     숫자값       값       개수    백분율
+ 
+_NODE_       1         1        3999      100
+ 
+ 
+데이터 역할=VALIDATE 출력 유형=CLASSIFICATION
+ 
+                       출력형식    빈도
+  변수       숫자값       값       개수    백분율
+ 
+I_RESPOND       .         0        3000      100
+ 
+ 
+데이터 역할=VALIDATE 출력 유형=SEGMENT
+ 
+                    출력형식    빈도
+ 변수     숫자값       값       개수    백분율
+ 
+_NODE_       1         1        3000      100
+ 
+ 
+ 
+ 
+구간 변수 요약 통계량
+ 
+변수 이름=P_RESPOND0
+ 
+통계량    레이블             TRAIN    VALIDATE       TEST       SCORE
+ 
+MEAN      평균                0.92        0.92       0.92        0.92
+STD       표준편차             .           .          .           .
+N         비결측           3999.00     3000.00    3001.00    28735.00
+MIN       최소                0.92        0.92       0.92        0.92
+P25       25번째 분위수       0.92        0.92       0.92        0.92
+MEDIAN    중위수              0.92        0.92       0.92        0.92
+P75       75번째 분위수       0.92        0.92       0.92        0.92
+MAX       최대                0.92        0.92       0.92        0.92
+ 
+ 
+변수 이름=P_RESPOND1
+ 
+통계량    레이블             TRAIN    VALIDATE       TEST       SCORE
+ 
+MEAN      평균                0.08        0.08       0.08        0.08
+STD       표준편차             .           .          .           .
+N         비결측           3999.00     3000.00    3001.00    28735.00
+MIN       최소                0.08        0.08       0.08        0.08
+P25       25번째 분위수       0.08        0.08       0.08        0.08
+MEDIAN    중위수              0.08        0.08       0.08        0.08
+P75       75번째 분위수       0.08        0.08       0.08        0.08
+MAX       최대                0.08        0.08       0.08        0.08

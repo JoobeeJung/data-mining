@@ -1,0 +1,258 @@
+NOTE: 프로시저 PRINTTO 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+1 
+Traverser: Traverser 불러옴.  MPCONNECT 명령은 sas입니다. 
+Traverser: 플로우 Traversal 시작 
+*------------------------------------------------------------* 
+* 
+* Ids5 : Beginning Update 
+* datetime : 20NOV2018:11:24:05 
+* 
+*------------------------------------------------------------* 
+29312      %let _HPDMGRIDHOST=;
+29313      %let _HPDMGRIDINSTALLLOC=;
+29314      %let _HPDMGRIDDATASERVER=;
+29315      %hpdm_gridSetOPtions;
+
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+
+*------------------------------------------------------------* 
+* 
+* Ids5 : End Update 
+* datetime : 20NOV2018:11:24:05 
+* 
+*------------------------------------------------------------* 
+Traverser: WaitingNode "REPL" 
+traverser_readyNode_note 
+*------------------------------------------------------------* 
+* 
+* Part4 : Beginning Update 
+* datetime : 20NOV2018:11:24:06 
+* 
+*------------------------------------------------------------* 
+29334      %let _HPDMGRIDHOST=;
+29335      %let _HPDMGRIDINSTALLLOC=;
+29336      %let _HPDMGRIDDATASERVER=;
+29337      %hpdm_gridSetOPtions;
+
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+
+*------------------------------------------------------------* 
+* 
+* Part4 : End Update 
+* datetime : 20NOV2018:11:24:06 
+* 
+*------------------------------------------------------------* 
+traverser_readyNode_note 
+*------------------------------------------------------------* 
+* 
+* Repl : Beginning Update 
+* datetime : 20NOV2018:11:24:06 
+* 
+*------------------------------------------------------------* 
+PERFORMANCE  DETAILS
+29565      %let emexceptionString =;
+29566      %let EMEXCEPTIONSTRING=;
+29567      *------------------------------------------------------------*;
+29568      * UPDATE: Repl;
+29569      *------------------------------------------------------------*;
+29570      %let EM_ACTION = UPDATE;
+29571      %let syscc = 0;
+29572      filename x CATALOG 'SASHELP.EMUTIL.EM_VARMACRO.SOURCE';
+29573      %inc x;
+NOTE: %INCLUDE(레벨 1) 파일 X은(는) 파일 SASHELP.EMUTIL.EM_VARMACRO.SOURCE입니다.
+29575     +%macro em_varMacro(name=emMacro, metadata=, where=, key=NAME, nummacro=, maxvar=-1);
+29577     +   filename macFile catalog 'work.emutil.macro.source';
+29578     +   %let _METAOBS = 0;
+29579     +   %let _maxvar = &maxvar;
+29580     +   %if "&_maxvar" eq "" %then %let maxvar = -1;
+29582     +   %if (%sysfunc(exist(&metadata))<1 and %sysfunc(exist(&metadata, VIEW))<1)
+29583     +                   or (&metadata eq ) %then %do;
+29584     +       %put * No metadata data set defined;
+29585     +       %goto doend;
+29586     +   %end;
+29588     +   data _null_;
+29589     +      length _STRING_ $80;
+29590     +      retain _STRING_ '' maxvar 0;
+29591     +      set &metadata end=eof;
+29592     +      file macFile;
+29593     +      %if %nrbquote(&where) ne %then %do;
+29594     +          %let whereClause = where (%nrbquote(&where));
+29595     +          %unquote(&whereClause);
+29596     +      %end;
+29597     +      if _N_=1 then do;
+29598     +         string = "%"!!"macro &name;";
+29599     +         put string;
+29600     +      end;
+29601     +      maxvar +1;
+29602     +      if (length(_STRING_) + length(trim(&key))+ 4 < 80) then do;
+29603     +         _STRING_ = trim(_STRING_)!!' '!!trim(&key);
+29604     +         if eof
+29605     +            %if  %sysevalf(&_maxvar > 0) %then %do;
+29606     +                or maxvar >= &maxvar
+29607     +            %end;
+29608     +            then do;
+29609     +            put _STRING_;
+29610     +            string = "%"!!"mend &name;";
+29611     +            put string;
+29612     +            string = strip(put(_N_, best.));
+29613     +            call symput('_METAOBS', string);
+29614     +            %if (&nummacro ne ) %then %do;
+29615     +                put "%" "global &nummacro;";
+29616     +                put "%" "let &nummacro = " string ";";
+29617     +            %end;
+29618     +            stop;
+29619     +         end;
+29620     +      end;
+29621     +      else do;
+29622     +         put _STRING_;
+29623     +         _string_ = TRIM(&key);
+29624     +         if eof
+29625     +            %if  %sysevalf(&_maxvar > 0) %then %do;
+29626     +              or maxvar >= &maxvar
+29627     +           %end;
+29628     +            then do;
+29629     +            put _STRING_;
+29630     +            string = "%"!!"mend &name;";
+29631     +            put string;
+29632     +        end;
+29633     +      end;
+29634     +      if eof
+29635     +         %if  %sysevalf(&_maxvar > 0) %then %do;
+29636     +             or maxvar >= &maxvar
+29637     +         %end;
+29638     +         then do;
+29639     +         string = strip(put(_N_, best.));
+29640     +         call symput('_METAOBS', string);
+29641     +         %if (&nummacro ne ) %then %do;
+29642     +             put "%" "global &nummacro;";
+29643     +             put "%" "let &nummacro = " string ";";
+29644     +         %end;
+29645     +         stop;
+29646     +      end;
+29647     +   run;
+29649     +   %doend:
+29650     +   %if ^&_METAOBS %then %do;
+29651     +       data _null_;
+29652     +          file macFile;
+29653     +          put "%" "macro &name;";
+29654     +          put "%" "mend &name;";
+29655     +          %if (&nummacro ne ) %then %do;
+29656     +              put "%" "global &nummacro;";
+29657     +              put "%" "let &nummacro = 0;";
+29658     +          %end;
+29659     +      run;
+29660     +   %end;
+29661     +   %inc macFile;
+29662     +   filename macFile;
+29663     +%mend em_varMacro;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+29664      filename X;
+NOTE: Fileref X을(를) 삭제했습니다.
+29665       %macro main;
+29666      
+29667         filename temp catalog 'sashelp.emmdfy.Replace_macros.source';
+29668         %include temp;
+29669         filename temp;
+29670      
+29671         %if %upcase(&EM_ACTION) = CREATE %then %do;
+29672      
+29673             filename temp catalog 'sashelp.emmdfy.Replace_create.source';
+29674             %include temp;
+29675             filename temp;
+29676             %create;
+29677         %end;
+29678         %else
+29679         %if %upcase(&EM_ACTION) = TRAIN %then %do;
+29680      
+29681             filename temp catalog 'sashelp.emmdfy.Replace_train.source';
+29682             %include temp;
+29683             filename temp;
+29684             %train;
+29685         %end;
+29686         %else
+29687         %if %upcase(&EM_ACTION) = SCORE %then %do;
+29688      
+29689             filename temp catalog 'sashelp.emmdfy.Replace_score.source';
+29690             %include temp;
+29691             filename temp;
+29692             %score;
+29693         %end;
+29694         %if %upcase(&EM_ACTION) = REPORT %then %do;
+29695      
+29696             filename temp catalog 'sashelp.emmdfy.Replace_report.source';
+29697             %include temp;
+29698             filename temp;
+29699             %report;
+29700         %end;
+29701         %if %upcase(&EM_ACTION) = OPENOUTCLASSTABLE %then %do;
+29702             filename temp catalog 'sashelp.emmdfy.replace_makeoutclass.source';
+29703             %include temp;
+29704             filename temp;
+29705             %em_replace_openoutclass;
+29706         %end;
+29707         %if %upcase(&EM_ACTION) = CLOSEOUTCLASSTABLE %then %do;
+29708             filename temp catalog 'sashelp.emmdfy.replace_makeoutclass.source';
+29709             %include temp;
+29710             filename temp;
+29711             %em_replace_closeoutclass;
+29712         %end;
+29713      %mend main;
+29714      
+29715      %main;
+NOTE: %INCLUDE(레벨 1) 파일 TEMP은(는) 파일 SASHELP.EMMDFY.REPLACE_MACROS.SOURCE입니다.
+29716     +%macro SetProperties;
+29717     +   %em_checkmacro(name=EM_PROPERTY_UNKNOWNLEVEL,    global=Y, value=MODE);
+29718     +   %em_checkmacro(name=EM_PROPERTY_CALCMETHOD,      global=Y, value=NONE);
+29719     +   %em_checkmacro(name=EM_PROPERTY_PERCENTSCUTOFF,  global=Y, value=0.5);
+29720     +   %em_checkmacro(name=EM_PROPERTY_SPACINGSCUTOFF,  global=Y, value=9);
+29721     +   %em_checkMacro(name=EM_PROPERTY_MADSCUTOFF,      global=Y, value=9);
+29722     +   %em_checkMacro(name=EM_PROPERTY_STDDEVCUTOFF,    global=Y, value=3);
+29723     +   %em_checkmacro(name=EM_PROPERTY_REPLACEMETHOD,   global=Y, value=COMPUTED);
+29724     +   %em_checkmacro(name=EM_PROPERTY_HIDEVARIABLE,    global=Y, value=N);
+29725     +   %em_checkmacro(name=EM_PROPERTY_INTERVALMETHOD,  global=Y, value=NONE);
+29726     +   %em_checkmacro(name=EM_PROPERTY_REPORTCOUNT,     global=Y, value=Y);
+29727     +
+29728     +%mend SetProperties;
+29729     +
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+NOTE: Fileref TEMP을(를) 삭제했습니다.
+29730      *------------------------------------------------------------*;
+29731      * End UPDATE: Repl;
+29732      *------------------------------------------------------------*;
+29733      
+
+29734      %em_delMacro;
+
+29736      %let _HPDMGRIDHOST=;
+29737      %let _HPDMGRIDINSTALLLOC=;
+29738      %let _HPDMGRIDDATASERVER=;
+29739      %hpdm_gridSetOPtions;
+
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+
+*------------------------------------------------------------* 
+* 
+* Repl : End Update 
+* datetime : 20NOV2018:11:24:07 
+* 
+*------------------------------------------------------------* 
+Traverser: 실행 완료 
+29740      proc printto;
+29741      run;
+

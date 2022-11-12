@@ -1,0 +1,117 @@
+*------------------------------------------------------------*
+ Node = 3
+*------------------------------------------------------------*
+if DEBTINC < 41.0928 AND DEBTINC >= 11.7112
+then 
+ Tree Node Identifier   = 3
+ Number of Observations = 2863
+ Predicted: BAD=1 = 0.06
+ Predicted: BAD=0 = 0.94
+ 
+*------------------------------------------------------------*
+ Node = 4
+*------------------------------------------------------------*
+if DEBTINC < 45.1848 AND DEBTINC >= 41.0928
+then 
+ Tree Node Identifier   = 4
+ Number of Observations = 336
+ Predicted: BAD=1 = 0.14
+ Predicted: BAD=0 = 0.86
+ 
+*------------------------------------------------------------*
+ Node = 5
+*------------------------------------------------------------*
+if DEBTINC >= 45.1848
+then 
+ Tree Node Identifier   = 5
+ Number of Observations = 55
+ Predicted: BAD=1 = 0.96
+ Predicted: BAD=0 = 0.04
+ 
+*------------------------------------------------------------*
+ Node = 7
+*------------------------------------------------------------*
+if DELINQ < 2.5 AND DELINQ >= 0.5
+AND DEBTINC < 11.7112 or MISSING
+then 
+ Tree Node Identifier   = 7
+ Number of Observations = 203
+ Predicted: BAD=1 = 0.74
+ Predicted: BAD=0 = 0.26
+ 
+*------------------------------------------------------------*
+ Node = 8
+*------------------------------------------------------------*
+if DELINQ >= 2.5
+AND DEBTINC < 11.7112 or MISSING
+then 
+ Tree Node Identifier   = 8
+ Number of Observations = 127
+ Predicted: BAD=1 = 0.95
+ Predicted: BAD=0 = 0.05
+ 
+*------------------------------------------------------------*
+ Node = 29
+*------------------------------------------------------------*
+if REASON IS ONE OF: DEBTCON
+AND DELINQ < 0.5 or MISSING
+AND DEBTINC < 11.7112 or MISSING
+AND CLAGE < 154.7 or MISSING
+then 
+ Tree Node Identifier   = 29
+ Number of Observations = 197
+ Predicted: BAD=1 = 0.61
+ Predicted: BAD=0 = 0.39
+ 
+*------------------------------------------------------------*
+ Node = 30
+*------------------------------------------------------------*
+if REASON IS ONE OF: HOMEIMP
+AND DELINQ < 0.5 or MISSING
+AND DEBTINC < 11.7112 or MISSING
+AND CLAGE < 154.7 or MISSING
+then 
+ Tree Node Identifier   = 30
+ Number of Observations = 116
+ Predicted: BAD=1 = 0.70
+ Predicted: BAD=0 = 0.30
+ 
+*------------------------------------------------------------*
+ Node = 31
+*------------------------------------------------------------*
+if REASON equals Missing
+AND DELINQ < 0.5 or MISSING
+AND DEBTINC < 11.7112 or MISSING
+AND CLAGE < 154.7 or MISSING
+then 
+ Tree Node Identifier   = 31
+ Number of Observations = 28
+ Predicted: BAD=1 = 0.29
+ Predicted: BAD=0 = 0.71
+ 
+*------------------------------------------------------------*
+ Node = 32
+*------------------------------------------------------------*
+if YOJ < 1.15
+AND DELINQ < 0.5 or MISSING
+AND DEBTINC < 11.7112 or MISSING
+AND CLAGE >= 154.7
+then 
+ Tree Node Identifier   = 32
+ Number of Observations = 36
+ Predicted: BAD=1 = 0.58
+ Predicted: BAD=0 = 0.42
+ 
+*------------------------------------------------------------*
+ Node = 33
+*------------------------------------------------------------*
+if YOJ >= 1.15 or MISSING
+AND DELINQ < 0.5 or MISSING
+AND DEBTINC < 11.7112 or MISSING
+AND CLAGE >= 154.7
+then 
+ Tree Node Identifier   = 33
+ Number of Observations = 209
+ Predicted: BAD=1 = 0.28
+ Predicted: BAD=0 = 0.72
+ 

@@ -1,0 +1,145 @@
+ 
+                                                                                               
+ 
+ 
+변수 요약
+
+           측도     빈도
+ 역할      레벨     개수
+
+TARGET    BINARY      1 
+ 
+                                                                                               
+ 
+ 
+
+
+
+
+
+
+
+적합통계량
+Valid: Misclassification Rate (_VMISC_)에 근거한 모델 선택
+
+                                                            Train:                     Valid:
+                                               Valid:       Average       Train:       Average
+선택된 모델                              Misclassification  Squared Misclassification  Squared
+ 모델  노드           모델 설명                 Rate         Error         Rate         Error
+
+  Y    Tree2 의사결정트리(Decision Tree)      0.072000     0.067823      0.073768     0.066478
+       Tree3 의사결정트리(Decision Tree)      0.076667     0.070876      0.076769     0.070789
+ 
+                                                                                               
+ 
+ 
+
+
+
+
+
+
+
+적합통계량 테이블
+타겟: RESPOND
+
+데이터 역할=Train
+
+통계량                                                      Tree2      Tree3
+
+분석: Bin-Based Two-Way Kolmogorov-Smirnov 확률 임계값       0.08       0.08
+분석: Kolmogorov-Smirnov 통계량                              0.14       0.00
+Train: Average Squared Error                                 0.07       0.07
+분석: Roc 인덱스                                             0.58       0.50
+분석: 누적 반응검출률                                       18.08      10.00
+분석: 반응검출률                                             6.19       5.00
+선택 기준: Valid: Misclassification Rate                     0.07       0.08
+Train: Total Degrees of Freedom                           3999.00    3999.00
+Train: Divisor for ASE                                    7998.00    7998.00
+분석: 이득                                                  80.71       0.00
+분석: Gini 계수                                              0.16       0.00
+분석: Bin-Based Two-Way Kolmogorov-Smirnov 통계량            0.14       0.00
+분석: Kolmogorov-Smirnov 확률 임계값                         0.07        .  
+분석: 누적 향상도                                            1.81       1.00
+분석: 향상도                                                 1.24       1.00
+Train: Maximum Absolute Error                                0.94       0.92
+Train: Misclassification Rate                                0.07       0.08
+Train: Sum of Frequencies                                 3999.00    3999.00
+Train: Root Average Squared Error                            0.26       0.27
+분석: 누적반응률                                            13.87       7.68
+분석: 반응률                                                 9.50       7.68
+Train: Sum of Squared Errors                               542.45     566.86
+
+
+데이터 역할=Valid
+
+통계량                                                      Tree2      Tree3
+
+평가: Kolmogorov-Smirnov 통계량                              0.13       0.00
+Valid: Average Squared Error                                 0.07       0.07
+평가: Roc 인덱스                                             0.58       0.50
+평가: Bin-Based Two-Way Kolmogorov-Smirnov 확률 임계값       0.10       0.00
+평가: 누적 반응검출률                                       18.94      10.00
+평가: 반응검출률                                             5.83       5.00
+Valid: Divisor for VASE                                   6000.00    6000.00
+평가: 이득                                                  89.41       0.00
+평가: Gini 계수                                              0.16       0.00
+평가: Bin-Based Two-Way Kolmogorov-Smirnov 통계량            0.13       0.00
+평가: Kolmogorov-Smirnov 확률 임계값                         0.07        .  
+평가: 누적 향상도                                            1.89       1.00
+평가: 향상도                                                 1.17       1.00
+Valid: Maximum Absolute Error                                0.94       0.92
+Valid: Misclassification Rate                                0.07       0.08
+Valid: Sum of Frequencies                                 3000.00    3000.00
+Valid: Root Average Squared Error                            0.26       0.27
+평가: 누적반응률                                            14.52       7.67
+평가: 반응률                                                 8.94       7.67
+Valid: Sum of Squared Errors                               398.87     424.73
+
+
+데이터 역할=Test
+
+통계량                                                       Tree2      Tree3
+
+검증:  Kolmogorov-Smirnov 통계량                              0.14       0.00
+Test: Average Squared Error                                   0.07       0.07
+검증:  Roc 인덱스                                             0.58       0.50
+검증:  Bin-Based Two-Way Kolmogorov-Smirnov 확률 임계값       0.10       0.00
+검증: 누적 반응검출률                                        18.28      10.03
+검증: 반응검출률                                              6.04       5.00
+Test: Divisor for TASE                                     6002.00    6002.00
+검증: 이득                                                   82.21       0.00
+검증:  Gini 계수                                              0.16       0.00
+검증:  Bin-Based Two-Way Kolmogorov-Smirnov 통계량            0.14       0.00
+검증:  Kolmogorov-Smirnov 확률 임계값                         0.07        .  
+검증: 누적 향상도                                             1.82       1.00
+검증: 향상도                                                  1.21       1.00
+Test: Maximum Absolute Error                                  0.94       0.92
+Test: Misclassification Rate                                  0.07       0.08
+Test: Sum of Frequencies                                   3001.00    3001.00
+Test: Root Average Squared Error                              0.26       0.27
+검증: 누적반응률                                             13.96       7.66
+검증: 반응률                                                  9.27       7.66
+Test: Sum of Squared Errors                                 398.29     424.75
+Test: Sum of Weights Times Freqs                           6002.00    6002.00
+ 
+                                                                                               
+ 
+ 
+
+
+
+
+
+
+
+이벤트 분류 테이블
+Valid: Misclassification Rate (_VMISC_)에 근거한 모델 선택
+
+모델                              데이터            타겟    False    True     False    True
+노드           모델 설명          역할      타겟   레이블 Negative Negative Positive Positive
+
+Tree3 의사결정트리(Decision Tree) TRAIN    RESPOND           307     3692       0        0   
+Tree3 의사결정트리(Decision Tree) VALIDATE RESPOND           230     2770       0        0   
+Tree2 의사결정트리(Decision Tree) TRAIN    RESPOND           295     3692       0       12   
+Tree2 의사결정트리(Decision Tree) VALIDATE RESPOND           216     2770       0       14   

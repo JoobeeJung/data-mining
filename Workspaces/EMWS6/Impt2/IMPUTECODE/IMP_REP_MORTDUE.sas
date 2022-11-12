@@ -1,0 +1,4 @@
+label IMP_REP_MORTDUE = 'Imputed: Replacement: MORTDUE';
+length IMP_REP_MORTDUE 8;
+IMP_REP_MORTDUE = REP_MORTDUE;
+if missing(REP_MORTDUE) then IMP_REP_MORTDUE = 73441.205876;

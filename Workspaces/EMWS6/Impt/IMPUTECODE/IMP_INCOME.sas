@@ -1,0 +1,5 @@
+format IMP_INCOME BEST12.0;
+label IMP_INCOME = 'Imputed INCOME';
+length IMP_INCOME 8;
+IMP_INCOME = INCOME;
+if missing(INCOME) then IMP_INCOME = 47.564928425;

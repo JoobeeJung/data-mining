@@ -1,0 +1,91 @@
+*------------------------------------------------------------*
+사용자:                Administrator
+날짜:                2018년 11월 21일
+시간:                21시56분42초
+*------------------------------------------------------------*
+* 분석 출력
+*------------------------------------------------------------*
+ 
+ 
+ 
+ 
+변수 요약
+ 
+          측도 레    빈도
+역할        벨       개수
+ 
+ID        NOMINAL      1
+TARGET    NOMINAL      1
+ 
+ 
+ 
+ 
+연결 리포트
+ 
+              Expected
+             Confidence    Confidence    Support              Transaction                                                                                                                             규칙
+Relations       (%)           (%)          (%)        Lift       Count       Rule                           규칙 왼쪽      규칙 오른쪽        Rule Item 1       Rule Item 2       Rule Item 3        인덱스
+ 
+      2          0.21        100.00        0.21     486.00        1.00       theme ==> 12-story             theme          12-story           theme          ================>    12-story             883
+      2          0.21        100.00        0.21     486.00        1.00       unfortunate ==> acceptable     unfortunate    acceptable         unfortunate    ================>    acceptable           555
+      2          0.21        100.00        0.21     486.00        1.00       visitors ==> actors            visitors       actors             visitors       ================>    actors               373
+      2          0.21        100.00        0.21     486.00        1.00       unfortunate ==> afraid         unfortunate    afraid             unfortunate    ================>    afraid               553
+      2          0.21        100.00        0.21     486.00        1.00       waitress ==> afternoon         waitress       afternoon          waitress       ================>    afternoon            309
+      2          0.21        100.00        0.21     486.00        1.00       tidy ==> airy                  tidy           airy               tidy           ================>    airy                 823
+      2          0.21        100.00        0.21     486.00        1.00       yo ==> apple                   yo             apple              yo             ================>    apple                 51
+      2          0.21        100.00        0.21     486.00        1.00       vibrant ==> architecturally    vibrant        architecturally    vibrant        ================>    architecturally      389
+      2          0.21        100.00        0.21     486.00        1.00       visits ==> armchair            visits         armchair           visits         ================>    armchair             363
+      2          0.21        100.00        0.21     486.00        1.00       tea ==> armchair               tea            armchair           tea            ================>    armchair             893
+      2          0.21        100.00        0.21     486.00        1.00       world-class ==> atmospheric    world-class    atmospheric        world-class    ================>    atmospheric           83
+      2          0.21        100.00        0.21     486.00        1.00       touch ==> babies               touch          babies             touch          ================>    babies               745
+      2          0.21        100.00        0.21     486.00        1.00       viewpoint ==> balcony          viewpoint      balcony            viewpoint      ================>    balcony              381
+      2          0.21        100.00        0.21     486.00        1.00       totally ==> balcony            totally        balcony            totally        ================>    balcony              749
+      2          0.21        100.00        0.21     486.00        1.00       sweeter ==> bandaid            sweeter        bandaid            sweeter        ================>    bandaid              949
+      2          0.21        100.00        0.21     486.00        1.00       would've ==> bang              would've       bang               would've       ================>    bang                  77
+      2          0.21        100.00        0.21     486.00        1.00       tons ==> bas                   tons           bas                tons           ================>    bas                  763
+      2          0.21        100.00        0.21     486.00        1.00       taxis ==> bas                  taxis          bas                taxis          ================>    bas                  895
+      2          0.21        100.00        0.21     486.00        1.00       weather ==> bathtub            weather        bathtub            weather        ================>    bathtub              209
+      2          0.21        100.00        0.21     486.00        1.00       want ==> bathtub               want           bathtub            want           ================>    bathtub              261
+      2          0.21        100.00        0.21     486.00        1.00       weather ==> bathtubs           weather        bathtubs           weather        ================>    bathtubs             207
+      2          0.21        100.00        0.21     486.00        1.00       want ==> bathtubs              want           bathtubs           want           ================>    bathtubs             259
+      2          0.21        100.00        0.21     486.00        1.00       waiter ==> beakfast            waiter         beakfast           waiter         ================>    beakfast             353
+      2          0.21        100.00        0.21     486.00        1.00       unwilling ==> beakfast         unwilling      beakfast           unwilling      ================>    beakfast             465
+      2          0.21        100.00        0.21     486.00        1.00       unpleasant ==> beakfast        unpleasant     beakfast           unpleasant     ================>    beakfast             507
+ 
+ 
+ 
+ 
+규칙 통계량
+ 
+MEANS 프로시저
+ 
+변수        레이블                          최솟값          최댓값            평균
+----------------------------------------------------------------------------------
+EXP_CONF    Expected Confidence(%)       0.2057613       0.2057613       0.2057613
+CONF        Confidence(%)              100.0000000     100.0000000     100.0000000
+SUPPORT     Support(%)                   0.2057613       0.2057613       0.2057613
+LIFT        Lift                       486.0000000     486.0000000     486.0000000
+----------------------------------------------------------------------------------
+ 
+ 
+ 
+순차분석 리포트
+ 
+FREQ 프로시저
+ 
+                      Relations
+ 
+                                     누적       누적
+SET_SIZE      빈도      백분율       빈도      백분율
+-----------------------------------------------------
+       2        1000    100.00         1000    100.00
+
+
+*------------------------------------------------------------*
+* 스코어 출력
+*------------------------------------------------------------*
+
+
+*------------------------------------------------------------*
+* 리포트 출력
+*------------------------------------------------------------*

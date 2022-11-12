@@ -1,0 +1,253 @@
+NOTE: 프로시저 PRINTTO 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+Traverser: Traverser 불러옴.  MPCONNECT 명령은 !sascmdv -nosyntaxcheck -noasynchio -noobjectserver입니다. 
+Traverser: 플로우 Traversal 시작 
+17196      data _null_;
+MPRINT(EM_DIAGRAM):    data _null_;
+17197      file emwipmsg;
+MPRINT(EM_DIAGRAM):   file emwipmsg;
+17198      put '<Node Id="Ids" Event="Run" Pid="10576" Gridid=""/>';
+MPRINT(EM_DIAGRAM):   put '<Node Id="Ids" Event="Run" Pid="10576" Gridid=""/>';
+17199      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 파일 EMWIPMSG:
+      Local Host Name=DESKTOP-IOK0OJ9,
+      Local Host IP addr=fe80::9141:5c52:98cb:6d54%2,
+      Peer Hostname Name=DESKTOP-IOK0OJ9,
+      Peer IP addr=127.0.0.1,Peer Name=N/A,
+      Peer Portno=58237,Lrecl=32767,Recfm=Variable
+
+NOTE: 1개의 레코드를 파일 EMWIPMSG에 기록했습니다.
+      최소 레코드 길이는 50입니다.
+      최대 레코드 길이는 50입니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+17200      %let emloopmode =;
+*------------------------------------------------------------* 
+* 
+* Ids : Beginning update before running 
+* datetime : 06NOV2018:10:32:55 
+* 
+*------------------------------------------------------------* 
+MPRINT(EM_DIAGRAM):     filename _emtool_ 'C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS4\Ids\PROPERTIES.xml' encoding="UTF-8" NOBOM;
+17202      %let _HPDMGRIDHOST=;
+17203      %let _HPDMGRIDINSTALLLOC=;
+17204      %let _HPDMGRIDDATASERVER=;
+17205      %hpdm_gridSetOPtions;
+MPRINT(EM_DIAGRAM):   
+MPRINT(HPDM_GRIDSETOPTIONS):   data _null_;
+MPRINT(HPDM_GRIDSETOPTIONS):   length optionString string $2000;
+MPRINT(HPDM_GRIDSETOPTIONS):   optionString = reverse(getoption('SET'));
+MPRINT(HPDM_GRIDSETOPTIONS):   index = index(optionString, reverse('GRIDHOST'));
+MPRINT(HPDM_GRIDSETOPTIONS):   if index then do;
+MPRINT(HPDM_GRIDSETOPTIONS):   string = reverse(substr(optionString, 1, index-4));
+MPRINT(HPDM_GRIDSETOPTIONS):   host = '"'!!strip(tranwrd(scan(string, 1, ']'), '"', ''))!!'"';
+MPRINT(HPDM_GRIDSETOPTIONS):   call symput('_HPDMGRIDHOST', strip(host));
+MPRINT(HPDM_GRIDSETOPTIONS):   end;
+MPRINT(HPDM_GRIDSETOPTIONS):   index = index(optionString, reverse('GRIDINSTALLLOC'));
+MPRINT(HPDM_GRIDSETOPTIONS):   if index then do;
+MPRINT(HPDM_GRIDSETOPTIONS):   string = reverse(substr(optionString, 1, index-4));
+MPRINT(HPDM_GRIDSETOPTIONS):   install = '"'!!strip(tranwrd(scan(string, 1, ']'), '"', ''))!!'"';
+MPRINT(HPDM_GRIDSETOPTIONS):   call symput('_HPDMGRIDINSTALLLOC', strip(install));
+MPRINT(HPDM_GRIDSETOPTIONS):   end;
+MPRINT(HPDM_GRIDSETOPTIONS):   index = index(optionString, reverse('GRIDDATASERVER'));
+MPRINT(HPDM_GRIDSETOPTIONS):   if index then do;
+MPRINT(HPDM_GRIDSETOPTIONS):   string = reverse(substr(optionString, 1, index-4));
+MPRINT(HPDM_GRIDSETOPTIONS):   server = '"'!!strip(tranwrd(scan(string, 1, ']'), '"', ''))!!'"';
+MPRINT(HPDM_GRIDSETOPTIONS):   call symput('_HPDMGRIDDATASERVER', strip(server));
+MPRINT(HPDM_GRIDSETOPTIONS):   end;
+MPRINT(HPDM_GRIDSETOPTIONS):   run;
+
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(EM_DIAGRAM):  ;
+
+*------------------------------------------------------------* 
+* 
+* Ids : End update 
+* datetime : 06NOV2018:10:32:55 
+* 
+*------------------------------------------------------------* 
+17206      %em_getactionstatus(emlib =EMWS4, nodeid=Ids);
+MPRINT(EM_DIAGRAM):   
+MPRINT(EM_GETACTIONSTATUS):   proc display c=sashelp.emutil.getactionstatus.scl;
+MPRINT(EM_GETACTIONSTATUS):   run;
+
+17207      %let em_Train = N;
+17208      %let em_Score = N;
+17209      %let em_Report = N;
+17210      %let em_Run = N;
+NOTE: 프로시저 DISPLAY 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(EM_GETACTIONSTATUS):   
+MPRINT(EM_DIAGRAM):  ;
+
+노드 "Ids"은(는) 이미 실행되었습니다. 
+노드 "Ids" 성공함. 
+17211      data _null_;
+MPRINT(EM_DIAGRAM):    data _null_;
+17212      file emwipmsg;
+MPRINT(EM_DIAGRAM):   file emwipmsg;
+17213      put '<Node Id="Ids" Event="Complete" Pid="10576" Gridid=""/>';
+MPRINT(EM_DIAGRAM):   put '<Node Id="Ids" Event="Complete" Pid="10576" Gridid=""/>';
+17214      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 파일 EMWIPMSG:
+      Local Host Name=DESKTOP-IOK0OJ9,
+      Local Host IP addr=fe80::9141:5c52:98cb:6d54%2,
+      Peer Hostname Name=DESKTOP-IOK0OJ9,
+      Peer IP addr=127.0.0.1,Peer Name=N/A,
+      Peer Portno=58237,Lrecl=32767,Recfm=Variable
+
+NOTE: 1개의 레코드를 파일 EMWIPMSG에 기록했습니다.
+      최소 레코드 길이는 55입니다.
+      최대 레코드 길이는 55입니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+traverser_readyNode_note 
+17215      data _null_;
+MPRINT(EM_DIAGRAM):    data _null_;
+17216      file emwipmsg;
+MPRINT(EM_DIAGRAM):   file emwipmsg;
+17217      put '<Node Id="Clus" Event="Run" Pid="10576" Gridid=""/>';
+MPRINT(EM_DIAGRAM):   put '<Node Id="Clus" Event="Run" Pid="10576" Gridid=""/>';
+17218      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 파일 EMWIPMSG:
+      Local Host Name=DESKTOP-IOK0OJ9,
+      Local Host IP addr=fe80::9141:5c52:98cb:6d54%2,
+      Peer Hostname Name=DESKTOP-IOK0OJ9,
+      Peer IP addr=127.0.0.1,Peer Name=N/A,
+      Peer Portno=58237,Lrecl=32767,Recfm=Variable
+
+NOTE: 1개의 레코드를 파일 EMWIPMSG에 기록했습니다.
+      최소 레코드 길이는 51입니다.
+      최대 레코드 길이는 51입니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+17219      %let emloopmode =;
+*------------------------------------------------------------* 
+* 
+* Clus : Beginning update before running 
+* datetime : 06NOV2018:10:32:55 
+* 
+*------------------------------------------------------------* 
+MPRINT(EM_DIAGRAM):     data WORK.Clus_FILTERSET;
+MPRINT(EM_DIAGRAM):   length PORT $32 USE $1;
+MPRINT(EM_DIAGRAM):   DROP DELTACODE APPLYDELTA APPLYSCORE IMPORTPORT;
+MPRINT(EM_DIAGRAM):   set EMWS4.Ids_exportSet ;
+MPRINT(EM_DIAGRAM):   PORT = '';
+MPRINT(EM_DIAGRAM):   USE = '';
+MPRINT(EM_DIAGRAM):   where role in( "RAW" "TRAIN" "VALIDATE" "TEST" ) and EXPORT = 'Y' ;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _emtool_ 'C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS4\Clus\PROPERTIES.xml' encoding="UTF-8" NOBOM;
+17239      %let _HPDMGRIDHOST=;
+17240      %let _HPDMGRIDINSTALLLOC=;
+17241      %let _HPDMGRIDDATASERVER=;
+17242      %hpdm_gridSetOPtions;
+MPRINT(EM_DIAGRAM):   
+MPRINT(HPDM_GRIDSETOPTIONS):   data _null_;
+MPRINT(HPDM_GRIDSETOPTIONS):   length optionString string $2000;
+MPRINT(HPDM_GRIDSETOPTIONS):   optionString = reverse(getoption('SET'));
+MPRINT(HPDM_GRIDSETOPTIONS):   index = index(optionString, reverse('GRIDHOST'));
+MPRINT(HPDM_GRIDSETOPTIONS):   if index then do;
+MPRINT(HPDM_GRIDSETOPTIONS):   string = reverse(substr(optionString, 1, index-4));
+MPRINT(HPDM_GRIDSETOPTIONS):   host = '"'!!strip(tranwrd(scan(string, 1, ']'), '"', ''))!!'"';
+MPRINT(HPDM_GRIDSETOPTIONS):   call symput('_HPDMGRIDHOST', strip(host));
+MPRINT(HPDM_GRIDSETOPTIONS):   end;
+MPRINT(HPDM_GRIDSETOPTIONS):   index = index(optionString, reverse('GRIDINSTALLLOC'));
+MPRINT(HPDM_GRIDSETOPTIONS):   if index then do;
+MPRINT(HPDM_GRIDSETOPTIONS):   string = reverse(substr(optionString, 1, index-4));
+MPRINT(HPDM_GRIDSETOPTIONS):   install = '"'!!strip(tranwrd(scan(string, 1, ']'), '"', ''))!!'"';
+MPRINT(HPDM_GRIDSETOPTIONS):   call symput('_HPDMGRIDINSTALLLOC', strip(install));
+MPRINT(HPDM_GRIDSETOPTIONS):   end;
+MPRINT(HPDM_GRIDSETOPTIONS):   index = index(optionString, reverse('GRIDDATASERVER'));
+MPRINT(HPDM_GRIDSETOPTIONS):   if index then do;
+MPRINT(HPDM_GRIDSETOPTIONS):   string = reverse(substr(optionString, 1, index-4));
+MPRINT(HPDM_GRIDSETOPTIONS):   server = '"'!!strip(tranwrd(scan(string, 1, ']'), '"', ''))!!'"';
+MPRINT(HPDM_GRIDSETOPTIONS):   call symput('_HPDMGRIDDATASERVER', strip(server));
+MPRINT(HPDM_GRIDSETOPTIONS):   end;
+MPRINT(HPDM_GRIDSETOPTIONS):   run;
+
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(EM_DIAGRAM):  ;
+
+*------------------------------------------------------------* 
+* 
+* Clus : End update 
+* datetime : 06NOV2018:10:32:55 
+* 
+*------------------------------------------------------------* 
+17243      %em_getactionstatus(emlib =EMWS4, nodeid=Clus);
+MPRINT(EM_DIAGRAM):   
+MPRINT(EM_GETACTIONSTATUS):   proc display c=sashelp.emutil.getactionstatus.scl;
+MPRINT(EM_GETACTIONSTATUS):   run;
+
+17244      %let em_Train = Y;
+17245      %let em_Score = N;
+17246      %let em_Report = N;
+17247      %let em_Run = Y;
+NOTE: 프로시저 DISPLAY 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(EM_GETACTIONSTATUS):   
+MPRINT(EM_DIAGRAM):  ;
+
+17248      %let emloopmode =;
+17249      %let emloopnumber =0;
+17250      %let emloopId =Clus;
+*------------------------------------------------------------* 
+* 
+* Clus : Running 
+* datetime : 06NOV2018:10:32:55 
+* 
+*------------------------------------------------------------* 
+17251      %let SYSCC =0;
+17252      %let EMGROUPMODE =;
+17253      %let EMGROUPID =;
+MPRINT(EM_DIAGRAM):      filename temp catalog 'sashelp.emutil.em_vardist.source';
+MPRINT(EM_DIAGRAM):   filename temp;
+MPRINT(EM_DIAGRAM):   filename temp catalog 'sashelp.emutil.em_classdist.source';
+MPRINT(EM_DIAGRAM):   filename temp;
+MPRINT(EM_DIAGRAM):   filename temp catalog 'sashelp.emutil.em_checksetinit.source';
+MPRINT(EM_DIAGRAM):   filename temp;
+MPRINT(EM_DIAGRAM):   filename temp catalog 'sashelp.emutil.em_checkerror.source';
+MPRINT(EM_DIAGRAM):   filename temp;
+MPRINT(EM_DIAGRAM):   filename temp catalog 'sashelp.emutil.em_odsliston.source';
+MPRINT(EM_DIAGRAM):   filename temp;
+MPRINT(EM_DIAGRAM):   filename temp catalog 'sashelp.emutil.em_odslistoff.source';
+MPRINT(EM_DIAGRAM):   filename temp;
+MPRINT(EM_DIAGRAM):   filename temp catalog 'sashelp.emutil.em_getvarname.source';
+MPRINT(EM_DIAGRAM):   filename temp;
+MPRINT(EM_DIAGRAM):   filename temp catalog 'sashelp.emassmt.em_assess.source';
+MPRINT(EM_DIAGRAM):   filename temp;
+MPRINT(EM_DIAGRAM):    filename L01D79Y4 "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS4\Clus\EMTRAIN.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   proc printto log=L01D79Y4 new;
+MPRINT(EM_DIAGRAM):   run;

@@ -1,0 +1,107 @@
+NOTE: 프로시저 PRINTTO 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+1 
+Traverser: Traverser 불러옴.  MPCONNECT 명령은 sas입니다. 
+Traverser: 플로우 Traversal 시작 
+*------------------------------------------------------------* 
+* 
+* Ids4 : Beginning Update 
+* datetime : 21NOV2018:19:26:41 
+* 
+*------------------------------------------------------------* 
+17891      %let _HPDMGRIDHOST=;
+17892      %let _HPDMGRIDINSTALLLOC=;
+17893      %let _HPDMGRIDDATASERVER=;
+17894      %hpdm_gridSetOPtions;
+
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+
+*------------------------------------------------------------* 
+* 
+* Ids4 : End Update 
+* datetime : 21NOV2018:19:26:41 
+* 
+*------------------------------------------------------------* 
+traverser_readyNode_note 
+*------------------------------------------------------------* 
+* 
+* TextParsing4 : Beginning Update 
+* datetime : 21NOV2018:19:26:42 
+* 
+*------------------------------------------------------------* 
+PERFORMANCE  DETAILS
+18156      %let emexceptionString =;
+18157      %let EMEXCEPTIONSTRING=;
+18158      *------------------------------------------------------------*;
+18159      * UPDATE: TextParsing4;
+18160      *------------------------------------------------------------*;
+18161      %let EM_ACTION = UPDATE;
+18162      %let syscc = 0;
+18163      %macro main();
+18164        %if %upcase(&EM_ACTION) eq CREATE %then %do;
+18165          filename temp catalog 'sashelp.emtxtext.parse_create.source';
+18166          %include temp;
+18167          %create();
+18168        %end;
+18169        %if %upcase(&EM_ACTION) eq TRAIN %then %do;
+18170          filename temp catalog 'sashelp.emtxtext.parse_train.source';
+18171          %include temp;
+18172          %train();
+18173        %end;
+18174        %if %upcase(&EM_ACTION) eq REPORT %then %do;
+18175          filename temp catalog 'sashelp.emtxtext.parse_report.source';
+18176          %include temp;
+18177          %report();
+18178        %end;
+18179        %if %upcase(&EM_ACTION) eq SCORE %then %do;
+18180          filename temp catalog 'sashelp.emtxtext.parse_score.source';
+18181          %include temp;
+18182          %score();
+18183        %end;
+18184          %if %upcase(&EM_ACTION) eq OPENTABLE1 %then %do;
+18185             filename temp catalog 'sashelp.emtxtext.parse_actions.source';
+18186             %include temp;
+18187             filename temp;
+18188             %openTable1;
+18189         %end;
+18190      %mend main;
+18191      
+18192      %main();
+18193      *------------------------------------------------------------*;
+18194      * End UPDATE: TextParsing4;
+18195      *------------------------------------------------------------*;
+18196      
+18197      
+18198      
+18199      
+
+18200      %em_delMacro;
+
+18202      %let _HPDMGRIDHOST=;
+18203      %let _HPDMGRIDINSTALLLOC=;
+18204      %let _HPDMGRIDDATASERVER=;
+18205      %hpdm_gridSetOPtions;
+
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+
+*------------------------------------------------------------* 
+* 
+* TextParsing4 : End Update 
+* datetime : 21NOV2018:19:26:42 
+* 
+*------------------------------------------------------------* 
+Traverser: 실행 완료 
+18206      proc printto;
+18207      run;
+

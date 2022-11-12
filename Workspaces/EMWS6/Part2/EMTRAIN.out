@@ -1,0 +1,28 @@
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+변수 요약
+
+            측도 레     빈도
+역할           벨       개수
+
+ID          NOMINAL       1 
+INPUT       BINARY        6 
+INPUT       INTERVAL      7 
+INPUT       NOMINAL       3 
+REJECTED    INTERVAL      8 
+TARGET      BINARY        1 
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+분할 요약
+
+                                    관측치
+유형              데이터셋            수
+
+DATA        EMWS6.Ids3_DATA          10000
+TRAIN       EMWS6.Part2_TRAIN         3999
+VALIDATE    EMWS6.Part2_VALIDATE      3000
+TEST        EMWS6.Part2_TEST          3001

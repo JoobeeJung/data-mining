@@ -1,0 +1,4 @@
+if upcase(NAME) = "TEXTFILTER3_RELEVANCE" then do;
+ROLE = "REJECTED";
+LEVEL = "INTERVAL";
+end;

@@ -1,0 +1,4792 @@
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 17일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "17시43분23초" );
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 분석 로그";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+*------------------------------------------------------------*
+* 분석 로그
+날짜:                2018년 11월 17일
+시간:                17시43분23초
+*------------------------------------------------------------*
+MPRINT(EM_DIAGRAM):    filename O0_R7DXR "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\TextCluster3\EMTRAIN.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   proc printto print=O0_R7DXR new;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _LOG "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\TextCluster3\EMLOG.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 17일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "17시43분23초" );
+MPRINT(EM_DIAGRAM):   file _LOG;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "사용자:                Administrator";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "사이트:                10503192";
+MPRINT(EM_DIAGRAM):   put "플랫폼:            X64_10HOME";
+MPRINT(EM_DIAGRAM):   put "관리 릴리스: 9.04.01M4P110916";
+MPRINT(EM_DIAGRAM):   put "EM 버전:          14.2";
+MPRINT(EM_DIAGRAM):   put "* ";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _LOGIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\TextCluster3\EMTRAIN.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_COPYFILE):   data _null_;
+MPRINT(EM_COPYFILE):   length line $20000;
+MPRINT(EM_COPYFILE):   file _LOG MOD lrecl=20000;
+MPRINT(EM_COPYFILE):   fid=fopen("_LOGIN",'i',20000,'v');
+MPRINT(EM_COPYFILE):   if fid > 0 then do;
+MPRINT(EM_COPYFILE):   do while(^fread(fid));
+MPRINT(EM_COPYFILE):   rlen = frlen(fid);
+MPRINT(EM_COPYFILE):   rc= fget(fid,line,20000);
+MPRINT(EM_COPYFILE):   start = length(line)-length(left(line))+1;
+MPRINT(EM_COPYFILE):   line=strip(line);
+MPRINT(EM_COPYFILE):   put @start line;
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   if fid > 0 then rc=fclose(fid);
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   run;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _LOGIN;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   file _LOG mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   filename _LOGIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\TextCluster3\EMSCORE.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   file _LOG mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _LOGIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\TextCluster3\EMREPORT.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _LOGIN;
+MPRINT(EM_DIAGRAM):    filename _LOG;
+MPRINT(EM_DIAGRAM):    filename _OUT "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\TextCluster3\EMOUTPUT.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 17일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "17시43분23초" );
+MPRINT(EM_DIAGRAM):   file _OUT;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "사용자:                Administrator";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 분석 출력";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _OUTIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\TextCluster3\EMTRAIN.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   ;
+MPRINT(EM_COPYFILE):   data _null_;
+MPRINT(EM_COPYFILE):   length line $20000;
+MPRINT(EM_COPYFILE):   file _OUT MOD lrecl=20000;
+MPRINT(EM_COPYFILE):   fid=fopen("_OUTIN",'i',20000,'v');
+MPRINT(EM_COPYFILE):   if fid > 0 then do;
+MPRINT(EM_COPYFILE):   do while(^fread(fid));
+MPRINT(EM_COPYFILE):   rlen = frlen(fid);
+MPRINT(EM_COPYFILE):   rc= fget(fid,line,20000);
+MPRINT(EM_COPYFILE):   start = length(line)-length(left(line))+1;
+MPRINT(EM_COPYFILE):   line=strip(line);
+MPRINT(EM_COPYFILE):   put @start line;
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   if fid > 0 then rc=fclose(fid);
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   run;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _OUTIN;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   file _OUT mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   put // "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 스코어 출력";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _OUTIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\TextCluster3\EMSCORE.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _OUTIN;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   file _OUT mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   put // "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 리포트 출력";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _OUTIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\TextCluster3\EMREPORT.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _OUTIN;
+MPRINT(EM_DIAGRAM):    filename _OUT;
+MPRINT(EM_DIAGRAM):    filename _emtool_ 'C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\TextCluster3\EMRUNSTATUS.xml' encoding="UTF-8" NOBOM;
+23371      proc freq data=EMWS5.TextCluster3_VariableSet noprint;
+MPRINT(EM_DIAGRAM):    proc freq data=EMWS5.TextCluster3_VariableSet noprint;
+23372      table ROLE*LEVEL/out=WORK.TextCluster3META;
+MPRINT(EM_DIAGRAM):   table ROLE*LEVEL/out=WORK.TextCluster3META;
+23373      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 1개의 관측값을 데이터셋 EMWS5.TEXTCLUSTER3_VARIABLESET.에서 읽었습니다.
+NOTE: 데이터셋 WORK.TEXTCLUSTER3META은(는) 1개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: 프로시저 FREQ 실행(총 프로세스 시간):
+      실행 시간           0.09 초
+      cpu 시간            0.09 초
+      
+
+23374      proc print data=WORK.TextCluster3META label noobs;
+MPRINT(EM_DIAGRAM):   proc print data=WORK.TextCluster3META label noobs;
+23375      var ROLE LEVEL COUNT;
+MPRINT(EM_DIAGRAM):   var ROLE LEVEL COUNT;
+23376      label ROLE = "%sysfunc(sasmsg(sashelp.dmine, meta_role_vlabel, NOQUOTE))" LEVEL = "%sysfunc(sasmsg(sashelp.dmine, meta_level_vlabel, NOQUOTE))" COUNT = "%sysfunc(sasmsg(sashelp.dmine, rpt_count_vlabel, NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label ROLE = "역할" LEVEL = "측도 레벨" COUNT = "빈도 개수";
+23377      title9 ' ';
+MPRINT(EM_DIAGRAM):   title9 ' ';
+23378      title10 "%sysfunc(sasmsg(sashelp.dmine, rpt_varSummary_title  , NOQUOTE))";
+MPRINT(EM_DIAGRAM):   title10 "변수 요약";
+MPRINT(EM_DIAGRAM):   run;
+23379      run;
+
+NOTE: 1개의 관측값을 데이터셋 WORK.TEXTCLUSTER3META.에서 읽었습니다.
+NOTE: 출력 결과 (프로시저: PRINT, 페이지: 1)
+NOTE: 프로시저 PRINT 실행(총 프로세스 시간):
+      실행 시간           0.10 초
+      cpu 시간            0.04 초
+      
+
+23380      title10;
+MPRINT(EM_DIAGRAM):   title10;
+23381      %let EMEXCEPTIONSTRING=;
+MPRINT(EM_DIAGRAM):     *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * TextCluster3: Generation of macros and macro variables;
+MPRINT(EM_DIAGRAM):   * To see the code generated, set the EM_DEBUG macro variable to SOURCE or _ALL_;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * TextCluster3: EM Macro Variables and Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   * System Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   length string $2000;
+MPRINT(EM_DIAGRAM):   string = 'DataMining2018';
+MPRINT(EM_DIAGRAM):   call symput('EM_PROJECTNAME', trim(string));
+MPRINT(EM_DIAGRAM):   string = 'Beekman';
+MPRINT(EM_DIAGRAM):   call symput('EM_WSNAME', trim(string));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   * Properties Macro Variables ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Files Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Import Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Export Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Decision Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Statement Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   set EMWS5.TextTopic_EMINFO;
+MPRINT(EM_DIAGRAM):   where key in('HPDMSAMPLE', 'IDSTABLE');
+MPRINT(EM_DIAGRAM):   if key = 'HPDMSAMPLE' then call symput('_ForceGrid', '1');
+MPRINT(EM_DIAGRAM):   else call symput('_IDS_TABLE', DATA);
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(HPDM_PERFORMANCE):  ;
+PERFORMANCE  DETAILS
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Variable Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * General Variable Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Target Variable Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Input Variable Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Rejected Variable Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Misc Variable Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * End Create EM Macro Variables and Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+23695      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+23696      * TextCluster3: Generation of macros and macro variables;
+MPRINT(EM_DIAGRAM):   * TextCluster3: Generation of macros and macro variables;
+23697      * To see the code generated, set the EM_DEBUG macro variable to SOURCE or _ALL_;
+MPRINT(EM_DIAGRAM):   * To see the code generated, set the EM_DEBUG macro variable to SOURCE or _ALL_;
+23698      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+
+23699      %let EMEXCEPTIONSTRING=;
+23700      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+23701      * TRAIN: TextCluster3;
+MPRINT(EM_DIAGRAM):   * TRAIN: TextCluster3;
+23702      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+23703      %let EM_ACTION = TRAIN;
+23704      %let syscc = 0;
+23705      %macro main();
+23706      
+23707         %if %upcase(&EM_ACTION) eq CREATE %then %do;
+23708            filename temp catalog 'sashelp.emtxtext.cluster_create.source';
+23709            %include temp;
+23710            %create();
+23711         %end;
+23712         %if %upcase(&EM_ACTION) eq TRAIN %then %do;
+23713            filename temp catalog 'sashelp.emtxtext.cluster_train.source';
+23714            %include temp;
+23715            %train();
+23716         %end;
+23717         %if %upcase(&EM_ACTION) eq REPORT %then %do;
+23718            filename temp catalog 'sashelp.emtxtext.cluster_report.source';
+23719            %include temp;
+23720            %report();
+23721         %end;
+23722         %if %upcase(&EM_ACTION) eq SCORE %then %do;
+23723            filename temp catalog 'sashelp.emtxtext.cluster_score.source';
+23724            %include temp;
+23725            %score();
+23726         %end;
+23727      %mend main;
+23728      
+23729      %main();
+MPRINT(EM_DIAGRAM):    
+MPRINT(MAIN):   filename temp catalog 'sashelp.emtxtext.cluster_train.source';
+NOTE: %INCLUDE(레벨 1) 파일 TEMP은(는) 파일 SASHELP.EMTXTEXT.CLUSTER_TRAIN.SOURCE입니다.
+23730     +%macro train();
+23731     +
+23732     +    %global last_parse_node last_filter_node last_prescore_node server_err
+23733     +      parsevar EM_SASMSG;
+23734     +    %if ^%symexist(tm_debug) %then %let tm_debug=0;
+23735     +    %let EM_SASMSG=TMINE;
+23736     +    %let syscc=0;
+23737     +
+23738     +    filename temp catalog 'sashelp.emtxtext.tm_get_last_filter.source';
+23739     +    %include temp;
+23740     +    filename temp catalog 'sashelp.emtxtext.tm_cluster.source';
+23741     +    %include temp;
+23742     +    filename temp catalog 'sashelp.emtxtext.tm_apply_tmutil.source';
+23743     +    %include temp;
+23744     +    filename temp catalog 'sashelp.emtxtext.tm_svd_do_samp.source';
+23745     +    %include temp;
+23746     +    filename temp;
+23747     +
+23748     +    %tm_get_last_filter(eminfo=&EM_IMPORT_DATA_EMINFO,em_lib=&em_lib,
+23749     +                        em_variableset=&em_data_variableset);
+23750     +    %if &EMEXCEPTIONSTRING ne %then %goto end_cluster_train;
+23751     +    %let lastparsenode=&last_parse_node;
+23752     +    %let lastfilternode=&last_filter_node;
+23753     +    %let lastprescore=&last_prescore_node;
+23754     +    %if &lastfilternode=&lastparsenode %then %do;
+23755     +        %let EMEXCEPTIONSTRING = EMTOOL.NOFILTERNODE;
+23756     +        %goto end_cluster_train;
+23757     +    %end;
+23758     +
+23759     +    /*populate last tm node dataset so tm_get_last_filter is not called in score*/
+23760     +    %em_getname(key=last_tm_nodes, type=data);
+23761     +    data &em_user_last_tm_nodes;
+23762     +        set &EM_IMPORT_DATA_EMINFO;
+23763     +    run;
+23764     +
+23765     +
+23766     +    %em_getname(key=tmconfig, type=data);
+23767     +    %em_getname(key=terms, type=data);
+23768     +    %em_getname(key=docs, type=data);
+23769     +    %em_getname(key=clusters, type=data);
+23770     +    %em_getname(key=graph_table, type=data);
+23771     +    %em_getname(key=svd_u, type=data);
+23772     +    %em_getname(key=tmconfig, type=data);
+23773     +    %em_getname(key=svd_s, type=data);
+23774     +    %em_getname(key=emoutstat, type=data);
+23775     +    %em_getname(key=hierds, type=data);
+23776     +
+23777     +
+23778     +
+23779     +    /* get target variable info */
+23780     +    %let targetvar = ;
+23781     +    data _null_;
+23782     +       set &em_data_variableset(where=(ROLE='TARGET' and USE in('Y' 'D')
+23783     +                                       and LEVEL ne 'INTERVAL'));
+23784     +       if _N_=1 then call symput('targetvar', strip(NAME));
+23785     +    run;
+23786     +
+23787     +
+23788     +
+23789     +    /* set up terms strings and initial config table */
+23790     +    proc sql noprint;
+23791     +      create table &EM_USER_tmconfig as
+23792     +         select *
+23793     +         from &EM_LIB..&last_filter_node._tmconfig;
+23794     +    quit;
+23795     +
+23796     +
+23797     +    proc sql noprint;
+23798     +       select  cellwgt into: _cellweight
+23799     +       from &em_user_tmconfig;
+23800     +       select termwgt into: _termwgt
+23801     +       from &em_user_tmconfig;
+23802     +    quit;
+23803     +
+23804     +    data _keepdocs (keep=_DOCUMENT_ %if &targetvar ne %then &targetvar; );
+23805     +        set &EM_IMPORT_DATA;
+23806     +    run;
+23807     +
+23808     +    %tm_apply_tmutil(data=&EM_LIB..&last_filter_node._tmout,
+23809     +                       terms=&EM_LIB..&last_filter_node._terms,
+23810     +                       docs=&EM_IMPORT_DATA,
+23811     +                       keepdocs=_keepdocs,
+23812     +                       reduceF=2,
+23813     +                       termweight=&_termwgt,
+23814     +                       cellweight=&_cellweight,
+23815     +                       outdata=_outtmutil_,
+23816     +                       outterms=_newkey,
+23817     +                       outweights=_weights,
+23818     +                       targetvar=&targetvar,
+23819     +                       memloc=_tmmem);
+23820     +
+23821     +                       /* get the svd dimensions on the documents */
+23822     +    %tm_svd_do_samp(data=_outtmutil_,docs=_keepdocs, maxK=&em_property_maxK, res=&em_property_resolution,cellwgt=&_cellweight,in_global=_weights,
+23823     +                     rowVar=_termnum_,colVar=_document_,entryVar=_count_,u=&EM_USER_SVD_U,v=_svdv,s=&EM_USER_svd_S,
+23824     +                     colpro=_svdcolpro,rowpro=_svdrowpro, normcol=normcol, normrow=normrow,prefix=&EM_NODEID);
+23825     +
+23826     +    %if(&syscc >4 ) %then %do;
+23827     +        %goto end_cluster_train;
+23828     +    %end;
+23829     +
+23830     +    proc sql noprint;
+23831     +       create table &EM_USER_TERMS(drop=index) as
+23832     +       select a.*,b.*
+23833     +       from &EM_LIB..&last_filter_node._terms a left join _svdrowpro b
+23834     +       on a.key = b.index;
+23835     +    quit;
+23836     +
+23837     +    %tm_cluster(data=&EM_LIB..&last_filter_node._tmout,
+23838     +        terms=&EM_LIB..&last_filter_node._terms,
+23839     +        docs=&EM_IMPORT_DATA,
+23840     +        svdColPro=_svdcolpro,
+23841     +        maxNumTerms=&em_property_ndescterms,
+23842     +        numClus=&em_property_nclusters,
+23843     +        numType=&em_property_exactormaximum,
+23844     +        algorithm=&em_property_algorithm,
+23845     +        outdocs=&EM_USER_DOCS,
+23846     +        outclusters=&EM_USER_CLUSTERS,
+23847     +        hierds=&EM_USER_HIERDS,
+23848     +        emoutstat=&EM_USER_emoutstat,
+23849     +        prefixstring= &EM_NODEID);
+23850     +
+23851     +    %if &emexceptionstring ne %then %goto end_cluster_train;
+23852     +
+23853     +    %if &em_property_algorithm=2.0 %then %do;
+23854     +
+23855     +        data &em_user_hierds(drop=plus);
+23856     +            set &em_user_hierds;
+23857     +            plus='';
+23858     +            if substr(CLUS_DESC, 1, 1) = "+" then plus="+ ";
+23859     +            graphdesc=_CLUSTER_ || ': ' || plus || scan(CLUS_DESC, 1);
+23860     +        run;
+23861     +    %end;
+23862     +
+23863     +
+23864     +    * add the info to EMINFO to forward on to other nodes ;
+23865     +   data &EM_DATA_EMINFO;
+23866     +      length TARGET KEY $32 DATA $43;
+23867     +
+23868     +      key="LastTMNode";
+23869     +      data="&EM_NODEID";
+23870     +      output;
+23871     +
+23872     +      key="LastTMNodeType";
+23873     +      data="TextCluster";
+23874     +      output;
+23875     +
+23876     +      key="LastTextCluster";
+23877     +      data="&EM_NODEID";
+23878     +      output;
+23879     +
+23880     +      key="PRESCORECODE";
+23881     +      data="&EM_NODEID";
+23882     +      output;
+23883     +   run;
+23884     +
+23885     +    proc sql noprint;
+23886     +        select count(*) into :svdkeep
+23887     +            from &em_user_svd_s
+23888     +            where keep=1;
+23889     +        select count(*) into :cluscnt
+23890     +            from &em_user_clusters;
+23891     +    quit;
+23892     +   data &EM_USER_tmconfig;
+23893     +         set &EM_USER_TMCONFIG;
+23894     +         clus_alg = "&em_property_algorithm";
+23895     +         maxsvd = &em_property_maxk;
+23896     +         svdkeep=&svdkeep;
+23897     +         last_prescore = "&last_prescore_node";
+23898     +      run;
+23899     +
+23900     +    %em_metachange(name=&EM_NODEID._CLUSTER_, role=SEGMENT, level=NOMINAL);
+23901     +    %do i=1 %to &svdkeep;
+23902     +         %em_metachange(name=&EM_NODEID._SVD&i, role=INPUT, level=INTERVAL);
+23903     +    %end;
+23904     +    %do i=1 %to &cluscnt;
+23905     +         %em_metachange(name=&EM_NODEID._PROB&i, role=REJECTED);
+23906     +    %end;
+23907     +
+23908     +%end_cluster_train:
+23909     +    filename temp;
+23910     +    %if &tm_debug =0 %then %do;
+23911     +        proc sql noprint;
+23912     +              drop table _svdcolpro;
+23913     +              drop table _svdrowpro;
+23914     +              drop table _newkey ;
+23915     +              drop table _keepdocs ;
+23916     +        quit;
+23917     +    %end;
+23918     +
+23919     +%mend train;
+23920     +
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(TRAIN):   filename temp catalog 'sashelp.emtxtext.tm_get_last_filter.source';
+NOTE: %INCLUDE(레벨 1) 파일 TEMP은(는) 파일 SASHELP.EMTXTEXT.TM_GET_LAST_FILTER.SOURCE입니다.
+23921     +/* ****************************************************************
+23922     + * Copyright (C) 2009 by SAS Institute Inc., Cary, NC 27513
+23923     + *
+23924     + * Name:             tm_get_last_filter.sas
+23925     + * Product:          SAS Text Miner
+23926     + * Language:         Sas
+23927     + * Script:
+23928     + *
+23929     + * Usage:
+23930     + *
+23931     + * Purpose:  macro to get the last filter node and the last parse node in the
+23932     + *   diagram that corresponds to the current parse variable.  If there is no filter
+23933     + *   node, the filter node is set to the last parse node.
+23934     + *
+23935     + *
+23936     + *
+23937     + * History:
+23938     + * 14Aug09 Initial Coding
+23939     + *
+23940     + * Notes:
+23941     + *    Returns an error in the following cases:
+23942     + *      1. There is no preceding parse node.
+23943     + *      2. There is no parse node with the current parse variable.
+23944     + *
+23945     + * Last Modified By:
+23946     + * Last Modified On: Wed Sep 23 15:35:04 2009
+23947     + *
+23948     + * End
+23949     + * ************************************************************** */
+23950     +%macro tm_get_last_filter(eminfo=,em_lib=, em_variableset=);
+23951     +   %let last_parse_node=;
+23952     +   %let last_filter_node=;
+23953     +   %let last_prescore_node=;
+23954     +   %let server_err=;
+23955     +   %let EMEXCEPTIONSTRING=;
+23956     +   %let syscc=0;
+23957     +
+23958     +    /* verify that setinit for SAS Text Miner is currently active */
+23959     +    %if %sysfunc(sysprod(PRODNUM107)) ne 1 %then %do;
+23960     +       %let EMEXCEPTIONSTRING = EMTOOL.NOTMLICENSE;
+23961     +        %goto end_macro;
+23962     +        %end;
+23963     +
+23964     +
+23965     +    * find last filter or text parse node if no filter node. ;
+23966     +   %if %sysfunc(exist(&eminfo)) %then %do;
+23967     +      proc sql noprint;
+23968     +      select data into :last_parse_node from &eminfo where key="LastTextParsing";
+23969     +         select data into :last_filter_node from &eminfo where key="LastTextFilter";
+23970     +         select data into :last_prescore_node from &eminfo where kupcase(key)="PRESCORECODE";
+23971     +      quit;
+23972     +
+23973     +   %end;
+23974     +
+23975     +   %if &last_parse_node= %then %do;
+23976     +      %let EMEXCEPTIONSTRING = EMTOOL.NOPARSINGNODE;
+23977     +      %goto end_macro;
+23978     +      %end;
+23979     +
+23980     +   %else %if &last_filter_node= %then %let last_filter_node = %ktrim(&last_parse_node);
+23981     +   %else %let last_filter_node = %ktrim(&last_filter_node);
+23982     +   %let last_parse_node = %ktrim(&last_parse_node);
+23983     +
+23984     +   * Check to make sure parse variable is present and still exists;
+23985     +   %let parsevar = ;
+23986     +   proc sql noprint;
+23987     +    select parsevar into :parsevar
+23988     +    from &em_lib..&last_filter_node._tmconfig;
+23989     +    quit;
+23990     +
+23991     +    *check for dropped parsevar on input dataset;
+23992     +       %let parsevarOK= ;
+23993     +       %let parsevarN=%kupcase(%ktrim(&parsevar));
+23994     +       data _null_;
+23995     +         set &em_variableset(where=(kupcase(NAME)="&parsevarN" and USE in('Y' 'D')));
+23996     +         if (ROLE='TEXT' or ROLE='TEXTLOC') then call symput('parsevarOK', strip(ROLE));
+23997     +         run;
+23998     +       %if(&parsevarOK eq ) %then %do;
+23999     +          %let EMEXCEPTIONSTRING = EMTOOL.NOPARSINGVAR;
+24000     +          %goto end_macro;
+24001     +          %end;
+24002     +%end_macro:
+24003     +
+24004     +%mend tm_get_last_filter;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(TRAIN):   filename temp catalog 'sashelp.emtxtext.tm_cluster.source';
+NOTE: %INCLUDE(레벨 1) 파일 TEMP은(는) 파일 SASHELP.EMTXTEXT.TM_CLUSTER.SOURCE입니다.
+24006     +   /* ****************************************************************
+24007     + * Copyright (C) 2009 by SAS Institute Inc., Cary, NC 27513
+24008     + *
+24009     + * Name:             tm_cluster.sas
+24010     + * Support:          rualbr Russell Albright
+24011     + * Product:
+24012     + * Language:         Sas
+24013     + * Script:
+24014     + *
+24015     + * Usage:
+24017     + !Inputs into %tm_train_cluster
+24018     + * doc = doc datset from a tm node
+24019     + * data =  out datset from a tm node
+24020     + * terms = terms dataset from  tm node
+24021     + * svdcolpro = column projections data set
+24022     + * cellweight setting
+24023     + * termweight setting
+24024     + * maxSvddim = Maximum number of dimension to calculate
+24025     + * svdres= <HIGH, MED, or LOW>
+24026     + * maxNumTerms - maximum number of term to use for descriptive terms
+24027     + * numClus = number of clusters to use
+24028     + * numType=<MAXIMUM or EXACT> Max means that <= maximum will actually be used.
+24029     + * threads = the number of threads you would like emclus to use
+24032     + !Outputs from %tm_train_cluster
+24033     + * outdocs - a doc table with the cluster restults on it.
+24034     + * outclusters- an output cluster table with the descriptive terms on it (future story)
+24035     + *
+24036     + * Example call
+24037     + *
+24038     + *%tm_cluster(data=tmn.text_out_t,
+24039     + *             terms=tmn.terms,
+24040     + *             docs=testdata._train,
+24041     + *             svdcolpro=tmn._svdcolpro,
+24042     + *             maxNumTerms=5,
+24043     + *             numClus=40,
+24044     + *             numType=MAXIMUM,
+24045     + *             outdocs=docsresult,
+24046     + *             hierds=_hierds,
+24047     + *             emoutstat=_emoutstat,
+24048     + *             outclusters= clusterResult);
+24049     + *
+24050     + *
+24051     + * Purpose: Perform the clustering on out,term, doc from parse or filter node
+24052     + *
+24053     + * History:
+24054     + *
+24055     + *
+24056     + * Notes:
+24057     + *
+24058     + * Last Modified By:
+24059     + * Last Modified On: Thu Jan 08 17:22:43 2009
+24060     + *
+24061     + * End
+24062     + * ************************************************************** */
+24064     +%macro tm_cluster(data=,
+24065     +                     terms=,
+24066     +                     docs=,
+24067     +                     svdColPro=,
+24068     +                     maxNumTerms=,
+24069     +                     numClus=,
+24070     +                     numType=MAXIMUM,
+24071     +                     algorithm=,
+24072     +                     outdocs=,
+24073     +                     hierds=_hierds,
+24074     +                     emoutstat=_emoutstat,
+24075     +                     outclusters=,
+24076     +                     prefixString=,
+24077     +                     threads=);
+24080     +    %local _cleanedout ;
+24081     +    %local _numRepDocs;
+24082     +    %global systmutil;
+24083     +    %let systmutil = ;
+24084     +    %if ^%symexist(tm_debug) %then %let tm_debug=0;
+24086     +    filename temp catalog 'sashelp.emtext.tmgetncl.source';
+24087     +    %include temp;
+24088     +    filename temp catalog 'sashelp.emtext.tmfast.source';
+24089     +    %include temp;
+24091     +    filename temp catalog 'sashelp.emtext.tmemclus.source';
+24092     +    %include temp;
+24094     +    filename temp catalog 'sashelp.emtext.tmpred.source';
+24095     +    %include temp;
+24097     +    filename temp catalog 'sashelp.emtext.tmsort.source';
+24098     +    %include temp;
+24100     +    %let tmdata=&data;
+24101     +    %let tmterms=&terms;
+24102     +    %let tmdocs=&docs;
+24103     +    %let emexceptionstring=;
+24106     +    /* check some basic size requirements to proceed.*/
+24107     +    proc sql noprint;
+24108     +       select count(*) into: numTerms
+24109     +       from &terms a
+24110     +       where a.numdocs>=2 and _ispar in('+',' ')
+24111     +       ;
+24112     +       select count (*) into: numdocs
+24113     +       from &docs a;
+24114     +    quit;
+24116     +    %if (&numterms < 10)  OR (&numdocs< 8) %then %do;
+24117     +        %let emexceptionstring=EMTOOL.INSUFFICIENTDATA;
+24118     +        %goto end_train_cluster;
+24119     +    %end;
+24121     +    /* Get number of kept svd variables */
+24122     +    %let pid = %sysfunc(open(&svdcolpro));
+24123     +    %let svdkeep=%eval(%sysfunc(attrn(&pid,nvars))-1);
+24124     +    %let rc = %sysfunc(close(&pid));
+24127     +   /************************ Find clusters *************************************/
+24129     +   %if %upcase(&numType) = MAXIMUM %then %do;   /* numClus = MAXIMUM */
+24131     +      /* Call tmgetncl to find the recommended number of clusters. */
+24133     +      %tmGetNcl(data=&svdcolpro,
+24134     +               maxclusters=&numClus,
+24135     +               vars=%str(&prefixstring._SVD1 - &prefixstring._SVD&svdkeep),
+24136     +               tempDS=_clusTemp1,
+24137     +               clusDS=_clusTemp,
+24138     +               threads=
+24139     +            );
+24141     +      /* error returned in above macro */
+24142     +      %if (&syscc >4 ) %then %do;
+24143     +         %let emexceptionstring= &SYSERRORTEXT;
+24144     +         %goto end_train_cluster;
+24145     +      %end;
+24147     +      /* Store the recommended number into a macro variable. */
+24149     +      proc sql noprint;
+24150     +         select max(nclus) into: numClus
+24151     +         from _clusTemp
+24152     +         ;
+24153     +      quit;
+24156     +      %if not (&numClus > 1) %then %do;
+24157     +        %let numClus = 2;
+24158     +      %end;
+24161     +       %if &tm_debug =0  %then %do;
+24162     +          proc sql nowarn noprint;
+24163     +              drop table _clustemp;
+24164     +              drop table _clustemp1;
+24165     +           quit;
+24166     +       %end;
+24168     +   %end;  /* &numtype = MAXIMUM */
+24170     +   %else  %do;
+24171     +       %let numClus = %left(&numClus);/*&numtype=EXACT*/
+24172     +   %end;
+24174     +    proc sql noprint;
+24175     +        select count(*) into: nobs
+24176     +        from &svdcolpro;
+24177     +    quit;
+24179     +   %if %left(&algorithm)=2.0 %then %do; /* Hierarchical clustering */
+24180     +        filename temp catalog 'sashelp.emtxtext.tmgethclus.source';
+24181     +        %include temp;
+24183     +        filename temp catalog 'sashelp.emtext.tmhclus.source';
+24184     +        %include temp;
+24185     +        filename temp catalog 'sashelp.emtext.tmtree.source';
+24186     +        %include temp;
+24188     +        %if &nobs < &numClus and  %upcase(&numType) = EXACT %then %do;
+24189     +            %let emexceptionstring=EMTOOL.TOOFEWOBSTOCLUS;
+24190     +            %goto end_train_cluster;
+24191     +        %end;
+24193     +        %tmgethclus(outtree=_outtree,
+24194     +                    idvar=index,
+24195     +                    inDS=&svdcolpro,
+24196     +                    outDS=&outdocs,
+24197     +                    fastOut=_fastclusstat,
+24198     +                    textClusDS=_clusstat,
+24199     +                    vars=%str(&prefixstring._SVD1 - &prefixstring._SVD&svdkeep),
+24200     +                    nobs=&nobs,
+24201     +                    nclus=&numClus,
+24202     +                    hierds=&hierds,
+24203     +                    svdkeep=&svdkeep,
+24204     +                    prefix=&prefixString);
+24205     +        %if &EMEXCEPTIONSTRING ne %then %goto end_train_cluster;
+24207     +        data _clusstat;
+24208     +            set _clusstat(rename=(&prefixstring._SVD1 - &prefixstring._SVD&svdkeep.=_mean1-_mean&svdkeep.));
+24209     +        run;
+24211     +        data _clustermean;
+24212     +          set _clusstat(keep=_cluster_ _mean1-_mean&svdkeep. rename=(_cluster_=cluster));
+24213     +        run;
+24215     +        proc sql noprint;
+24216     +            drop table _outtree;
+24217     +        quit;
+24218     +   %end;
+24219     +   %else %do; /* Expectation-maximization */
+24220     +       /* Call %anl_tmfast to create cluster stat data set that will be used as an input for %anl_tmemclus. */
+24221     +          %tmFast(data=&svdcolpro,
+24222     +             clusters=&numClus,
+24223     +             outstat=_fastclusstat,
+24224     +             outseed=,
+24225     +                id=,
+24226     +             out=,
+24227     +             vars=%str(&prefixstring._SVD1 - &prefixstring._SVD&svdkeep)
+24228     +             );
+24229     +          run;
+24231     +          /* If some of the clusters are too small (frequency less than 5) and &g_numClusFlag=MAXIMUM, */
+24232     +          /* reassign value for &cluster macro var from WORK.&s_reportID._fastclusstat data set. */
+24234     +       %if %upcase(&numType) = MAXIMUM %then
+24235     +       %do;   /* &ClusType = MAXIMUM */
+24237     +          proc sql noprint;
+24238     +             select max(CLUSTER) into :numClus
+24239     +             from _fastclusstat
+24240     +             where upcase(_TYPE_)='SEED'
+24241     +             ;
+24242     +          quit;
+24244     +          %let numClus = %left(&numClus);
+24246     +       %end;  /* &ClusType = MAXIMUM */
+24247     +       %else %do; /* &ClusType = EXACT */
+24248     +          %if &nobs < &numClus %then %do;
+24249     +            %let emexceptionstring=EMTOOL.TOOFEWOBSTOCLUS;
+24250     +            %goto end_train_cluster;
+24251     +          %end;
+24252     +       %end;
+24254     +       %tmEMClus(data=&svdcolpro,
+24255     +                role=TRAIN,
+24256     +                clusters=&numClus,
+24257     +                seed=_fastclusstat,
+24258     +                outstat=&emoutstat,
+24259     +                out=_tmutildoc,
+24260     +                vars=%str(&prefixstring._SVD1 - &prefixstring._SVD&svdkeep),
+24261     +                cov=,
+24262     +                iter=5,
+24263     +                secclus=,
+24264     +                seciter=,
+24265     +                min=,
+24266     +                method=,
+24267     +                eps=.1,
+24268     +                init=FASTCLUS,
+24269     +                print=NONE,
+24270     +                p=,
+24271     +                outliers=,
+24272     +                decvar=0,
+24273     +                initstd=,
+24274     +                dist=,
+24275     +                secstd=,
+24276     +                nobs=,
+24277     +                threads=&threads.
+24278     +             );
+24279     +       run;
+24282     +       /* Run %anl_tmpred macro to assign documents to clusters with the largest posterior probability */
+24283     +       /* and to calculate cluster frequency. */
+24285     +       %tmPred (inds=_tmutildoc,
+24286     +                outds=&outdocs,
+24287     +              clusters=&numClus,
+24288     +              type=max,
+24289     +              freqds=_clusstat,
+24290     +              compress=1
+24291     +              );
+24292     +        data &outdocs;
+24293     +           set &outdocs;
+24294     +           rename prob1-prob&numClus = &prefixString._prob1-&prefixString._prob&numclus;
+24295     +        run;
+24299     +       /* Transpose the output data set to contain cluster ID and cluster frequency. */
+24301     +        data _clusstat;
+24302     +            array c(&numClus) _c1-_c&numClus;
+24303     +            set _clusstat;
+24304     +            /*keep _CLUSTER_ Freq;*/
+24305     +            totalobs=0;
+24306     +            do _CLUSTER_ = 1 to &numClus;
+24307     +                Freq = c(_CLUSTER_);
+24308     +                totalobs=totalobs+c(_CLUSTER_);
+24309     +                output;
+24310     +            end;
+24311     +            call symput ('totNumDocs', totalobs);
+24312     +        run;
+24314     +       %if &totNumDocs = 0 %then
+24315     +       %do;   /*&totNumDocs = 0 */
+24316     +           goto end_train_cluster;
+24317     +       %end; /*&totNumDocs = 0 */
+24319     +       /* Calculate cluster percentage. */
+24320     +       data _clusstat;
+24321     +          set _clusstat;
+24322     +          Percent = Freq/&totNumDocs;
+24323     +       run;
+24325     +       data _clustermean(rename=(&prefixstring._SVD1 - &prefixstring._SVD&svdkeep. = _mean1-_mean&svdkeep.));
+24326     +          set &emoutstat(keep=cluster _TYPE_ &prefixstring._SVD1 - &prefixstring._SVD&svdkeep.);
+24327     +          if _TYPE_ = "MEAN";
+24328     +            keep cluster &prefixstring._SVD1 - &prefixstring._SVD&svdkeep. ;
+24329     +      run;
+24330     +  %end;
+24332     +      proc sql;
+24333     +      create table _meandocs(drop=cluster) as
+24334     +      select a.*, b.*
+24335     +      from &outdocs a left join _clustermean b
+24336     +      on a._cluster_=b.cluster
+24337     +      ;
+24338     +      quit;
+24339     +       /*calulate residual for each doc */
+24340     +      data _rmscalc;
+24341     +          merge _meandocs(in=inhere) _clusstat;
+24342     +          array _means(&svdkeep) _mean1-_mean&svdkeep.;
+24343     +          array _svds(&svdkeep) &prefixstring._SVD1 - &prefixstring._SVD&svdkeep.;
+24344     +          by _cluster_;
+24345     +          error=0;
+24346     +          do i = 1 to &svdkeep;
+24347     +             error +( (_svds{i}-_means{i}) * (_svds{i}-_means{i}));
+24348     +          end;
+24349     +         /*error=sqrt(error);*/
+24350     +          drop i;
+24351     +       run;
+24352     +    /*calc standardized residual for clusters*/
+24353     +       proc summary data=_rmscalc nway;
+24354     +          class _cluster_;
+24355     +          var error;
+24356     +          output out=_meanerr mean=meane sum=sume;
+24357     +       run;
+24359     +       data _rmsse;
+24360     +          set _meanerr;
+24361     +          /* original code divides by number of svd dims*/
+24362     +          if _freq_ gt 1 then do;
+24363     +              _rmsstd_=sqrt(sume/((_freq_-1)*(&svdkeep.)));
+24364     +          end;
+24365     +          else do;
+24366     +              _rmsstd_=0;
+24367     +          end;
+24368     +          keep _cluster_  _rmsstd_;
+24369     +       run;
+24372     +       proc sql;
+24373     +           create table _clusstat2(drop=cluster) as
+24374     +           select a.*,b.*
+24375     +           from _clustermean a left join _rmsse b
+24376     +           on a.cluster=b._cluster_;
+24378     +           create table &outclusters as
+24379     +           select  a.*, b.freq, b.percent
+24380     +           from _clusstat2(keep=_cluster_ %str(_mean1-_mean&svdkeep) _rmsstd_) a right join _clusstat b
+24381     +           on a._cluster_=b._cluster_
+24382     +           where b.freq>0 ;
+24383     +       quit;
+24386     +    filename temp catalog 'sashelp.emtext.tmterm1.source';
+24387     +    %include temp / nosource2;
+24389     +   /****************** Find descriptive terms for clusters ***************************/
+24392     +   /* Add _term_ variable to WORK._terms data set to prepare it as an
+24393     +   /* input to %tmterm1 macro. The variable is added from &EM_LIB..&last_filter_node._terms data set. */
+24395     +   proc sort data=&tmterms out=_terms_;
+24396     +        by key _ispar;
+24397     +   run;
+24399     +   data _terms_;
+24400     +       set _terms_;
+24401     +       by key _ispar;
+24402     +       if first.key then
+24403     +          output;
+24404     +       else;
+24405     +   run;
+24407     +    /* Concatenate + to terms */
+24408     +    data _terms_;
+24409     +        set _terms_;
+24410     +        if _ispar='+' then
+24411     +            Term=_ispar || ' ' || term;
+24412     +    run;
+24414     +   %tmsort(data=&tmdata,
+24415     +         out=_tmout_,
+24416     +         by=_termnum_,
+24417     +            options=,
+24418     +         threads=threads);
+24421     +   data _tmout_;
+24422     +      merge _tmout_ (in=_A_)
+24423     +            _terms_ (rename=(key=_termnum_ term=_term_) keep=key term );
+24424     +      by _termnum_;
+24425     +      if _A_;
+24426     +   run;
+24428     +   /* Create _segmnt_ variable in WORK._docs data set to prepare it to be an */
+24429     +   /* input to %tmterm1 macro. Set it equal to _cluster_ variable. */
+24431     +   %if &algorithm=2.0 %then %do;
+24432     +        data _docs_;
+24433     +            set &outdocs (rename=(index=_document_) keep=index _cluster_ _finalcluster_);
+24434     +            _SEGMNT_=_finalcluster_;
+24435     +        run;
+24436     +        proc sql noprint;
+24437     +            select max(_cluster_) into :numclus from &outclusters;
+24438     +        quit;
+24439     +   %end;
+24440     +   %else %do;
+24441     +       data _docs_;
+24442     +        set &outdocs (rename=(index=_document_) keep=index _cluster_);
+24443     +         _SEGMNT_=_cluster_;;
+24444     +       run;
+24446     +   %end;
+24448     +   /* Run %tmterm1 macro to determine descriptive terms for clusters. */
+24449     +   %tmterm1(DSN_TPARS=_tmout_,
+24450     +        DSN_CLUS=_docs_,
+24451     +        DSN_DESC=_desc_,
+24452     +        N_DESC_TERMS=&maxnumterms,
+24453     +        N_CLUS=&numclus,
+24454     +        top_freq=%eval(&maxnumterms*2),
+24455     +        key=);
+24457     +    /* Add cluster descriptive terms to clusters table. */
+24458     +   %tmsort(data=&outclusters,
+24459     +         out=&outclusters,
+24460     +         by=_cluster_,
+24461     +            options=,
+24462     +         threads=threads);
+24464     +   %tmsort(data=_desc_,
+24465     +         out=_desc_,
+24466     +         by=_cluster_,
+24467     +            options=,
+24468     +         threads=threads);
+24470     +   data _desc_;
+24471     +      merge &outclusters _desc_;
+24472     +      by _cluster_;
+24473     +   run;
+24475     +   %tmsort(data=_desc_,
+24476     +         out=&outclusters,
+24477     +         by=_cluster_,
+24478     +            options=,
+24479     +         threads=threads);
+24481     +   %if &algorithm=2.0 %then %do;
+24483     +        %tmsort(data=&HIERDS,
+24484     +         out=&HIERDS,
+24485     +         by=_cluster_,
+24486     +            options=,
+24487     +         threads=threads);
+24489     +        data &HIERds;
+24490     +            merge &outCLUSTERS &HIERds (keep=_cluster_ parent level in=P);
+24491     +            by _cluster_;
+24492     +            clust=_cluster_;
+24493     +            drop _cluster_;
+24494     +            if P;
+24495     +        run;
+24497     +        %let empty=1;
+24499     +        /* Be sure that all parent clusters are on outclusters ds */
+24500     +        proc sql noprint;
+24501     +            create table &outclusters as
+24502     +                select a._cluster_, b.* from &hierds (rename=(clust=_CLUSTER_)) a
+24503     +                left join &outclusters b
+24504     +                on a._cluster_=b._cluster_;
+24505     +        quit;
+24507     +        %do %while (&empty);
+24508     +            proc sql noprint;
+24509     +                update &outclusters set freq=
+24510     +                    (select sum(freq) from &HIERDS
+24511     +                    where parent=_cluster_), percent=
+24512     +                    (select sum(percent) from &HIERDS
+24513     +                    where parent=_cluster_)
+24514     +                    where freq=. and _cluster_ not in
+24515     +                    (select parent from &hierds where freq=.);
+24516     +                select count(*) into :empty from &outclusters
+24517     +                    where freq=.;
+24518     +                update &hierds set freq=(select freq from &outclusters where _cluster_=clust);
+24519     +            quit;
+24520     +            data &HIERds;
+24521     +                merge &OUTCLUSTERS &HIERds (
+24522     +                    rename=(clust=_cluster_) keep=clust parent level in=P);
+24523     +                by _cluster_;
+24524     +                clust=_cluster_;
+24525     +                drop _cluster_;
+24526     +                if P;
+24527     +            run;
+24528     +        %end;
+24530     +        data &hierds;
+24531     +            set &hierds(rename=(CLUST=_CLUSTER_) keep=clust FREQ CLUS_DESC PARENT level);
+24532     +        run;
+24533     +        data &outclusters;
+24534     +            set &outclusters;
+24535     +            if _rmsstd_ ne .;
+24536     +        run;
+24538     +        data &outdocs;
+24539     +            set &outdocs (drop=_FINALCLUSTER_ _SUBCLUSTER_);
+24540     +            label _CLUSTER_=Cluster ID;
+24541     +        run;
+24543     +    %end;
+24545     +   %end_train_cluster:
+24547     +       filename temp;
+24549     +       %if &tm_debug =0  %then %do;
+24550     +          proc sql nowarn noprint;
+24551     +              drop table _clusstat;
+24552     +              drop table _clusstat2;
+24553     +              drop table _fastclusstat;
+24554     +              drop table _clustermean;
+24555     +              drop table _meandocs;
+24556     +              drop table _rmscalc;
+24557     +              drop table _rmsse;
+24558     +              drop table _meanerr;
+24559     +              drop table _tmutildoc;
+24560     +              drop table _desc_;
+24561     +              drop table _terms_;
+24562     +              drop table _docs_;
+24563     +              drop table _tmout_;
+24564     +           quit;
+24565     +       %end;
+24568     +%mend;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(TRAIN):   filename temp catalog 'sashelp.emtxtext.tm_apply_tmutil.source';
+NOTE: %INCLUDE(레벨 1) 파일 TEMP은(는) 파일 SASHELP.EMTXTEXT.TM_APPLY_TMUTIL.SOURCE입니다.
+24570     + /*****************************************************************
+24571     + * Copyright (C) 2009 by SAS Institute Inc., Cary, NC 27513
+24572     + *
+24573     + * Name:             tm_apply_tmutil.sas
+24574     + * Support:          rualbr Russell Albright
+24575     + * Product:
+24576     + * Language:         Sas
+24577     + * Script:
+24578     + *
+24579     + * Usage:
+24580     + *
+24581     + * data= out data set from tgparse
+24582     + * terms= terms from tgparse
+24583     + * offsets=  addoffset data set form tgparse
+24584     + * docs=  data set of document id's and potentially target, not required unless target weighting is used.
+24585     + * keepdocs= list of docs to keep. This is a subset of the original docs data set. Not required.
+24586     + * reduceF=defaults to log(n) if not specified, eliminates terms if not in at least that many docs
+24587     + *     use reduceF=1 to retain all terms.
+24588     + * termweight= none, entropy, mi,
+24589     + * cellweight= none, log, bin,
+24590     + * synnum= Input synonym data set of _termnum_, parent ID pairs
+24591     + * synchar= Input synonym data set of term,termrole, parent, parentrole. This data set will
+24592     + * get converted to synnym format by the macro tm_convert_syns.
+24593     + * targetvar= name of variable on doc dataset contining targetvar.
+24594     + * outdata= output out dataset with no more children on this dataset
+24595     + * outterms= output terms dataset with dup terms eliminated
+24596     + * outweights= weight vector for the terms
+24597     + * outoffsets= subsetted outtable with childterms replaced with parents
+24598     + * applyweight = , indicates if the weight settings are to be applied to the output OUT table. 0 no, 1 yes.
+24599     + * memloc= string for tmutil to use to store its memory pointer. Normally the default can just be used.
+24600     + * keeponly=Y  If set to Y (default), then only kept terms are output in terms table.
+24601     + *
+24602     + * Purpose: Massage the out and key from docparse so that they can bes used
+24603     + * in data mining applications.
+24604     + *
+24605     + * History:
+24606     + *
+24607     + * Notes:
+24608     + *
+24609     + * Last Modified By:
+24610     + * Last Modified On: Tue Mar 05 16:32:57 2013
+24611     + *
+24612     + * End
+24613     + * ************************************************************** */
+24616     +%macro tm_apply_tmutil(data=, terms=,docs=,offsets=,keepdocs=,termweight=none,
+24617     +                            cellweight=none,reduceF=,outdata=,outterms=,outweights=,
+24618     +                            outoffsets=, synnum=,synchar=, targetvar=, applyweight = 0,
+24619     +                            memloc=tmutil_loc,keeponly=Y,repOnly=N);
+24620     +     %local keepdocs tempF reduceF synnum  terms  paraExist sentExist;
+24623     +    %let EMEXCEPTIONSTRING=;
+24624     +    %let syscc=0;
+24625     +    %let systmutil=0;
+24629     +    /* Find terms to drop */
+24630     +        %if &keepdocs ne %then %do;
+24631     +          proc sql noprint;
+24632     +                create view _keepdata as
+24633     +                select * from &data where _DOCUMENT_ in
+24634     +                (select _DOCUMENT_ from &keepdocs);
+24635     +          quit;
+24636     +        %end;
+24637     +          %else %do;
+24639     +             proc sql noprint;
+24640     +                 create view _keepdata as
+24641     +                 select * from &data;
+24642     +             quit;
+24644     +           %let keepdocs=&docs;
+24645     +        %end;
+24648     +    /* set default on reduceF*/
+24649     +         %if &reduceF = %then %do;
+24650     +            proc sql noprint;
+24651     +           select count(*) into :numdocs from &docs;
+24652     +        quit;
+24653     +        %let tempF = %sysfunc(log10(%eval(&numdocs+1)));
+24654     +        %let reduceF= %sysfunc(floor(&tempF));
+24655     +         %end;
+24658     +    /* find synnum if synchar supplied */
+24660     +    %if &synchar ne %then %do;
+24661     +            filename temp catalog 'sashelp.emtxtext.tm_convert_syns.source';
+24662     +            %include temp;
+24663     +            %tm_convert_syns(insyns= &synchar, outsyns=_myOutsyns ,
+24664     +                         interms=&terms,
+24665     +                          outterms=newterms );
+24666     +                %let numsyns=0;
+24667     +                proc sql;
+24668     +                   select count(*) into: numsyns
+24669     +                   from _myOutsyns;
+24670     +                quit;
+24671     +                %if &numsyns >0 %then %do;
+24672     +                   %Let synnum=_myOutsyns;
+24673     +                   %let terms=newterms;
+24674     +                %end;
+24675     +    %end;
+24676     +    /* get the out and key in the proper format*/
+24677     +    proc tmutil data=_keepdata key= &terms doc=&keepdocs
+24678     +        %if &targetvar ne %then target=&targetvar;
+24679     +        ;
+24680     +        control init memloc="&memloc";
+24681     +            %if &synnum ne %then syn syndata=&synnum force;
+24682     +         ;
+24683     +    run;
+24684     +    %if &syscc >4 %then %goto end_tm_apply_tmutil;
+24685     +    %if &reduceF>1 %then %do;
+24686     +           proc tmutil;
+24687     +           control memloc="&memloc";
+24688     +               select reduceF=&reduceF;
+24689     +        run;
+24690     +   %end;
+24691     +    %if &syscc >4 %then %goto end_tm_apply_tmutil;
+24693     +     proc tmutil;
+24694     +        control memloc="&memloc" release;
+24695     +        weight termwgt=&termweight cellwgt=&cellweight;
+24696     +            output key=_termstmutil  keyformat=default
+24697     +               %if &keeponly eq Y %then keeponly;
+24698     +               %if &applyweight  eq 0 %then unweighted ;
+24699     +               out=&outdata;
+24700     +    run;
+24701     +    %if &syscc >4 %then %goto end_tm_apply_tmutil;
+24703     +    proc sql noprint;
+24704     +           create table _distinctterms as
+24705     +           select distinct key,term, role, attribute
+24706     +           from &terms;
+24708     +       create table &outterms as
+24709     +       select  b.term, b.role,b.attribute ,a.*
+24710     +       from _termstmutil a left join  _distinctterms b
+24711     +       on a.key=b.key;
+24712     +       ;
+24713     +       %if &outweights ne %then %do;
+24714     +          create table &outweights as
+24715     +          select distinct a.key as index, a.weight as gwgt
+24716     +          from &outterms(where=(_ispar in('+',' '))) a inner join
+24717     +                         _distinctterms b
+24718     +          on a.key =b.key;
+24719     +       %end;
+24721     +     quit;
+24722     +     %if &offsets ne and &outoffsets ne %then %do;
+24724     +        %let paraExist=0; %let sentExist=0;
+24725     +        data _null_;
+24726     +          dsid=open("&offsets");
+24727     +          para=varnum(dsid,'_paragraph_');
+24728     +          sent=varnum(dsid,'_sentence_');
+24729     +          if para ge 1 then call symput('paraExist',1);
+24730     +          if sent ge 1 then call symput('sentExist',1);
+24731     +          run;
+24734     +        proc sql noprint;
+24735     +        create table &outoffsets as
+24736     +           select  a._document_,
+24737     +              %if &paraExist=1 %then a._paragraph_, ;
+24738     +              %if &sentExist=1 %then a._sentence_,;
+24739     +              a._offset_, a._length_, b.parent_id as _termnum_
+24740     +                 from &offsets a, _termstmutil (where=(_ispar ne "+" and keep="Y")) b
+24741     +                 where a._termnum_ = b.key;
+24742     +              quit;
+24743     +       %end;
+24747     +     %end_tm_apply_tmutil:
+24749     +     %if ^%symexist(tm_debug) %then %let tm_debug=0;
+24750     +       %if &tm_debug =0  %then %do;
+24751     +          proc sql noprint;
+24752     +            drop table _termstmutil;
+24753     +            drop table _distinctterms;
+24754     +            drop view _keepdata;
+24755     +            %if &synchar ne and &synnum ne  %then drop table &synnum; ;
+24756     +         quit;
+24757     +     %end;
+24758     +     %if &syscc >4 and &systmutil > 4 %then %do;
+24759     +           %let EMEXCEPTIONSTRING = EMTOOL.TMUTIL,&systmutil;
+24760     +           %put emexceptionstring= "&EMEXCEPTIONSTRING";
+24761     +           %let syscc=0;
+24762     +     %end;
+24764     +%mend;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(TRAIN):   filename temp catalog 'sashelp.emtxtext.tm_svd_do_samp.source';
+NOTE: %INCLUDE(레벨 1) 파일 TEMP은(는) 파일 SASHELP.EMTXTEXT.TM_SVD_DO_SAMP.SOURCE입니다.
+24766     +   /* ****************************************************************
+24767     + * Copyright (C) 2009 by SAS Institute Inc., Cary, NC 27513
+24768     + *
+24769     + * Name:             tm_svd_do_samp.sas
+24770     + * Product:
+24771     + * Language:         Sas
+24772     + * Script:
+24773     + *
+24774     + * Usage:
+24775     + *
+24776     + * data=out dataset containing only repreentative terms
+24777     + * maxK= max number of dimensions to use to computer svd
+24778     + * res=<high, med, low> guidenceon what number of dims to choose
+24779     + * cellwgt= <none, log, binary>
+24780     + * in_global= dataset with index, weight variables
+24781     + * rowVar= name of the variable representing row(term)
+24782     + * colVar= name of the variable representing col
+24783     + * entryVar=count for row,col
+24784     + * u= name of output u matrix
+24785     + * v= name of output v matrix
+24786     + * s= name of output s matrix
+24787     + * colpro=dataset to hold projections for terms
+24788     + * rowpro= datset to hold projections for docs
+24789     + * normcol=<normcol> extra option to add to normalize docs
+24790     + * normrow=<normrow> extra option to add to normalize terms
+24791     + * docs =<document data set of ids that are being analyzed.
+24792     +*      docs needs to be input explicit since some docs may have not terms
+24793     + *
+24794     + * Purpose: macro to run svd and compute projections, first without mpling
+24795     + * and then with sampling onon.
+24796     + *
+24797     + * History:
+24798     + *
+24799     + * Notes:
+24800     + *
+24801     + * Last Modified By:
+24802     + * Last Modified On: Thu Jan 08 17:22:43 2009
+24803     + *
+24804     + * End
+24805     + * ************************************************************** */
+24806     +%macro tm_svd_do_samp(data=,docs=,maxK=,res=,cellwgt=,in_global=,
+24807     +                     rowVar=,colVar=,entryVar=,u=,v=,s=,
+24808     +                     colpro=,rowpro=,normcol=, normrow=,prefix=SVD);
+24810     +   %local svdkeep;
+24811     +   %let syscc=0;
+24812     +   proc sort data=&data; by _termnum_; run;
+24814     +   proc spsvd data=&data max_k = &maxK res = &res
+24815     +       local = &cellWgt global =none in_global = &in_global;
+24816     +       row _termnum_;
+24817     +       col _document_;
+24818     +       entry _count_;
+24819     +       output  u = &U v = &V s = &s;
+24820     +   run;
+24822     +   /*try sampling if out of memory occurred*/
+24823     +   %if(&syscc eq 1111) %then %do;
+24824     +      %let syscc=0; /*reset syscc*/
+24825     +      proc spsvd data = &data max_k = &maxK res = &res
+24826     +          local = &cellWgt global = none in_global = &in_global ;
+24827     +          row &rowVar;
+24828     +          col &colVar;
+24829     +          entry &entryVar;
+24830     +          output u = &U v = &V s = &s;
+24831     +          sample allow;
+24832     +      run;
+24833     +   %end;
+24834     +    %if &syscc > 4 %then %do;
+24835     +       %let EMEXCEPTIONSTRING = EMTOOL.SPSVDERROR;
+24836     +       %goto end_svd_do_samp;
+24837     +    %end;
+24840     +   /* if resolution is used, the matrix U/V must be truncated to the set number of dim.*/
+24841     +   proc sql noprint;
+24842     +       select count(*) into: svdkeep
+24843     +       from &s
+24844     +       where keep=1;
+24845     +    quit;
+24847     +    %let svdkeep=%left(&svdkeep);
+24848     +    data &U;
+24849     +    set &U(keep= index col1-col&svdkeep);
+24850     +    run;
+24852     +    data &V;
+24853     +    set &V(keep= index col1-col&svdkeep);
+24854     +    run;
+24855     +    %if &colpro ne %then %do;
+24856     +       /* when sampling weights may have wrong dimensions*/
+24857     +       proc sql noprint;
+24858     +          create table new_global as
+24859     +             select a.*
+24860     +             from &in_global a, &U b
+24861     +             where a.index = b.index;
+24862     +       quit;
+24865     +        proc sort data=&data; by &colVar; run;
+24866     +        proc spsvd data=&data IN_U=&U
+24867     +            local = &cellWgt global = none in_global = new_global ;
+24868     +            row &rowVar;
+24869     +            col &colVar;
+24870     +            entry &entryVar;
+24871     +            output colpro=&colpro bigpro normcol prefix="&prefix._SVD";
+24872     +        run;
+24874     +        proc sort data=&docs(keep=_document_)  out=_docids;
+24875     +        by _document_;
+24876     +        run;
+24878     +        data &colpro;
+24879     +           merge &colpro _docids(rename=(_document_=index));
+24880     +        by index;
+24881     +        run;
+24884     +        data &colpro;
+24885     +          set  &colpro;
+24886     +          array svd_array &prefix._SVD1 - &prefix._SVD&SVDKEEP;
+24887     +          do i = 1 to dim(svd_array);
+24888     +             if svd_array(i)=. then svd_array(i)=0;
+24889     +          end;
+24890     +          drop i;
+24891     +        run;
+24892     +    %end;
+24894     +    %if &syscc > 4 %then %do;
+24895     +       %let EMEXCEPTIONSTRING = EMTOOL.SPSVDERROR;
+24896     +       %goto end_svd_do_samp;
+24897     +    %end;
+24899     +    %if &rowpro ne %then %do;
+24900     +        proc sort data=&data; by &rowVar; run;
+24901     +        /* when sampling weights may have wrong dimensions*/
+24902     +       proc sql;
+24903     +          create table new_global as
+24904     +             select a.*
+24905     +             from &in_global a, &U b
+24906     +             where a.index = b.index;
+24907     +       quit;
+24909     +        proc spsvd data=&data IN_V=&V
+24910     +            local = &cellWgt global = none in_global = new_global ;
+24911     +            row &rowVar; col &colVar; entry &entryVar;
+24912     +            output wordPro = &rowpro bigpro normrow prefix="&prefix._SVD";
+24913     +        run;
+24914     +    %end;
+24916     +    %if &syscc > 4 %then %do;
+24917     +       %let EMEXCEPTIONSTRING = EMTOOL.SPSVDERROR;
+24918     +       %goto end_svd_do_samp;
+24919     +    %end;
+24921     +   %end_svd_do_samp:
+24923     +%mend;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(TRAIN):   filename temp;
+NOTE: Fileref TEMP을(를) 삭제했습니다.
+MPRINT(TM_GET_LAST_FILTER):   * find last filter or text parse node if no filter node. ;
+MPRINT(TM_GET_LAST_FILTER):   proc sql noprint;
+MPRINT(TM_GET_LAST_FILTER):   select data into :last_parse_node from EMWS5.TextTopic_EMINFO where key="LastTextParsing";
+MPRINT(TM_GET_LAST_FILTER):   select data into :last_filter_node from EMWS5.TextTopic_EMINFO where key="LastTextFilter";
+MPRINT(TM_GET_LAST_FILTER):   select data into :last_prescore_node from EMWS5.TextTopic_EMINFO where kupcase(key)="PRESCORECODE";
+MPRINT(TM_GET_LAST_FILTER):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(TM_GET_LAST_FILTER):   * Check to make sure parse variable is present and still exists;
+MPRINT(TM_GET_LAST_FILTER):   proc sql noprint;
+MPRINT(TM_GET_LAST_FILTER):   select parsevar into :parsevar from EMWS5.TextFilter_tmconfig;
+MPRINT(TM_GET_LAST_FILTER):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(TM_GET_LAST_FILTER):   *check for dropped parsevar on input dataset;
+MPRINT(TM_GET_LAST_FILTER):   data _null_;
+MPRINT(TM_GET_LAST_FILTER):   set EMWS5.TextCluster3_VariableSet(where=(kupcase(NAME)="REVIEW" and USE in('Y' 'D')));
+MPRINT(TM_GET_LAST_FILTER):   if (ROLE='TEXT' or ROLE='TEXTLOC') then call symput('parsevarOK', strip(ROLE));
+MPRINT(TM_GET_LAST_FILTER):   run;
+
+NOTE: 1개의 관측값을 데이터셋 EMWS5.TEXTCLUSTER3_VARIABLESET.에서 읽었습니다.
+      WHERE (KUPCASE(NAME)='REVIEW') and USE in ('D', 'Y');
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):   data EMWS5.TextCluster3_last_tm_nodes;
+MPRINT(TRAIN):   set EMWS5.TextTopic_EMINFO;
+MPRINT(TRAIN):   run;
+
+NOTE: 8개의 관측값을 데이터셋 EMWS5.TEXTTOPIC_EMINFO.에서 읽었습니다.
+NOTE: 데이터셋 EMWS5.TEXTCLUSTER3_LAST_TM_NODES은(는) 8개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):   data _null_;
+MPRINT(TRAIN):   set EMWS5.TextCluster3_VariableSet(where=(ROLE='TARGET' and USE in('Y' 'D') and LEVEL ne 'INTERVAL'));
+MPRINT(TRAIN):   if _N_=1 then call symput('targetvar', strip(NAME));
+MPRINT(TRAIN):   run;
+
+NOTE: 0개의 관측값을 데이터셋 EMWS5.TEXTCLUSTER3_VARIABLESET.에서 읽었습니다.
+      WHERE (ROLE='TARGET') and USE in ('D', 'Y') and (LEVEL not = 'INTERVAL');
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):   proc sql noprint;
+MPRINT(TRAIN):   create table EMWS5.TextCluster3_tmconfig as select * from EMWS5.TextFilter_tmconfig;
+NOTE: Table EMWS5.TEXTCLUSTER3_TMCONFIG created, with 1 rows and 30 columns.
+
+MPRINT(TRAIN):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):   proc sql noprint;
+MPRINT(TRAIN):   select cellwgt into: _cellweight from EMWS5.TextCluster3_tmconfig;
+MPRINT(TRAIN):   select termwgt into: _termwgt from EMWS5.TextCluster3_tmconfig;
+MPRINT(TRAIN):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):   data _keepdocs (keep=_DOCUMENT_ );
+MPRINT(TRAIN):   set EMWS5.TextTopic_TRAIN;
+MPRINT(TRAIN):   run;
+
+NOTE: 500개의 관측값을 데이터셋 EMWS5.TEXTTOPIC_TRAIN.에서 읽었습니다.
+NOTE: 데이터셋 WORK._KEEPDOCS은(는) 500개의 관측값과 1개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TM_APPLY_TMUTIL):   proc sql noprint;
+MPRINT(TM_APPLY_TMUTIL):   create view _keepdata as select * from EMWS5.TextFilter_tmout where _DOCUMENT_ in (select _DOCUMENT_ from _keepdocs);
+NOTE: SQL view WORK._KEEPDATA has been defined.
+MPRINT(TM_APPLY_TMUTIL):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TM_APPLY_TMUTIL):   proc tmutil data=_keepdata key= EMWS5.TextFilter_terms doc=_keepdocs ;
+MPRINT(TM_APPLY_TMUTIL):   control init memloc="_tmmem";
+MPRINT(TM_APPLY_TMUTIL):   ;
+MPRINT(TM_APPLY_TMUTIL):   run;
+
+WARNING:  The input DOC data set contained documents numbered larger than those on the input DATA data set.
+NOTE: 3584개의 관측값을 데이터셋 EMWS5.TEXTFILTER_TMOUT.에서 읽었습니다.
+NOTE: 499개의 관측값을 데이터셋 WORK._KEEPDOCS.에서 읽었습니다.
+NOTE: 3584개의 관측값을 데이터셋 WORK._KEEPDATA.에서 읽었습니다.
+NOTE: 2184개의 관측값을 데이터셋 EMWS5.TEXTFILTER_TERMS_DATA.에서 읽었습니다.
+      WHERE KEEP='Y';
+NOTE: 1870개의 관측값을 데이터셋 EMWS5.TEXTFILTER_TERM_STRINGS.에서 읽었습니다.
+NOTE: 500개의 관측값을 데이터셋 WORK._KEEPDOCS.에서 읽었습니다.
+NOTE: 프로시저 TMUTIL 실행(총 프로세스 시간):
+      실행 시간           0.36 초
+      cpu 시간            0.18 초
+      
+
+MPRINT(TM_APPLY_TMUTIL):   proc tmutil;
+MPRINT(TM_APPLY_TMUTIL):   control memloc="_tmmem";
+MPRINT(TM_APPLY_TMUTIL):   select reduceF=2;
+MPRINT(TM_APPLY_TMUTIL):   run;
+
+NOTE: 프로시저 TMUTIL 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TM_APPLY_TMUTIL):   proc tmutil;
+MPRINT(TM_APPLY_TMUTIL):   control memloc="_tmmem" release;
+MPRINT(TM_APPLY_TMUTIL):   weight termwgt=ENTROPY cellwgt=LOG;
+MPRINT(TM_APPLY_TMUTIL):   output key=_termstmutil keyformat=default keeponly unweighted out=_outtmutil_;
+MPRINT(TM_APPLY_TMUTIL):   run;
+
+NOTE: 데이터셋 WORK._TERMSTMUTIL은(는) 706개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: 데이터셋 WORK._OUTTMUTIL_은(는) 2483개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: 프로시저 TMUTIL 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TM_APPLY_TMUTIL):   proc sql noprint;
+MPRINT(TM_APPLY_TMUTIL):   create table _distinctterms as select distinct key,term, role, attribute from EMWS5.TextFilter_terms;
+NOTE: Table WORK._DISTINCTTERMS created, with 1869 rows and 4 columns.
+
+MPRINT(TM_APPLY_TMUTIL):   create table _newkey as select b.term, b.role,b.attribute ,a.* from _termstmutil a left join _distinctterms b on a.key=b.key;
+NOTE: Table WORK._NEWKEY created, with 706 rows and 11 columns.
+
+MPRINT(TM_APPLY_TMUTIL):   ;
+MPRINT(TM_APPLY_TMUTIL):   create table _weights as select distinct a.key as index, a.weight as gwgt from _newkey(where=(_ispar in('+',' '))) a inner join _distinctterms b on a.key =b.key;
+NOTE: Table WORK._WEIGHTS created, with 469 rows and 2 columns.
+
+MPRINT(TM_APPLY_TMUTIL):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.15 초
+      cpu 시간            0.09 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(TM_SVD_DO_SAMP):   proc sort data=_outtmutil_;
+MPRINT(TM_SVD_DO_SAMP):   by _termnum_;
+MPRINT(TM_SVD_DO_SAMP):   run;
+
+NOTE: 2483개의 관측값을 데이터셋 WORK._OUTTMUTIL_.에서 읽었습니다.
+NOTE: 데이터셋 WORK._OUTTMUTIL_은(는) 2483개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.05 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TM_SVD_DO_SAMP):   proc spsvd data=_outtmutil_ max_k = 100 res = LOW local = LOG global =none in_global = _weights;
+MPRINT(TM_SVD_DO_SAMP):   row _termnum_;
+MPRINT(TM_SVD_DO_SAMP):   col _document_;
+MPRINT(TM_SVD_DO_SAMP):   entry _count_;
+MPRINT(TM_SVD_DO_SAMP):   output u = EMWS5.TextCluster3_svd_u v = _svdv s = EMWS5.TextCluster3_svd_s;
+MPRINT(TM_SVD_DO_SAMP):   run;
+
+NOTE: P has been set to 25.
+NOTE: Restart 1, Converged 43
+NOTE: Restart 2, Converged 54
+NOTE: Restart 3, Converged 71
+NOTE: Restart 4, Converged 86
+NOTE: Restart 5, Converged 98
+NOTE: Singular values have converged.  Creating data sets.
+NOTE: Restarted 5 times.
+NOTE: Using value of 44 for K.
+NOTE: 2483개의 관측값을 데이터셋 WORK._OUTTMUTIL_.에서 읽었습니다.
+NOTE: 469개의 관측값을 데이터셋 WORK._WEIGHTS.에서 읽었습니다.
+NOTE: 데이터셋 EMWS5.TEXTCLUSTER3_SVD_U은(는) 469개의 관측값과 101개의 변수를 가지고 있습니다.
+NOTE: 데이터셋 WORK._SVDV은(는) 430개의 관측값과 101개의 변수를 가지고 있습니다.
+NOTE: 데이터셋 EMWS5.TEXTCLUSTER3_SVD_S은(는) 100개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SPSVD 실행(총 프로세스 시간):
+      실행 시간           0.45 초
+      cpu 시간            0.28 초
+      
+
+MPRINT(TM_SVD_DO_SAMP):   proc sql noprint;
+MPRINT(TM_SVD_DO_SAMP):   select count(*) into: svdkeep from EMWS5.TextCluster3_svd_s where keep=1;
+MPRINT(TM_SVD_DO_SAMP):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TM_SVD_DO_SAMP):   data EMWS5.TextCluster3_svd_u;
+MPRINT(TM_SVD_DO_SAMP):   set EMWS5.TextCluster3_svd_u(keep= index col1-col44);
+MPRINT(TM_SVD_DO_SAMP):   run;
+
+NOTE: 469개의 관측값을 데이터셋 EMWS5.TEXTCLUSTER3_SVD_U.에서 읽었습니다.
+NOTE: 데이터셋 EMWS5.TEXTCLUSTER3_SVD_U은(는) 469개의 관측값과 45개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(TM_SVD_DO_SAMP):   data _svdv;
+MPRINT(TM_SVD_DO_SAMP):   set _svdv(keep= index col1-col44);
+MPRINT(TM_SVD_DO_SAMP):   run;
+
+NOTE: 430개의 관측값을 데이터셋 WORK._SVDV.에서 읽었습니다.
+NOTE: 데이터셋 WORK._SVDV은(는) 430개의 관측값과 45개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.05 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TM_SVD_DO_SAMP):   proc sql noprint;
+MPRINT(TM_SVD_DO_SAMP):   create table new_global as select a.* from _weights a, EMWS5.TextCluster3_svd_u b where a.index = b.index;
+NOTE: Table WORK.NEW_GLOBAL created, with 469 rows and 2 columns.
+
+MPRINT(TM_SVD_DO_SAMP):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TM_SVD_DO_SAMP):   proc sort data=_outtmutil_;
+MPRINT(TM_SVD_DO_SAMP):   by _document_;
+MPRINT(TM_SVD_DO_SAMP):   run;
+
+NOTE: 2483개의 관측값을 데이터셋 WORK._OUTTMUTIL_.에서 읽었습니다.
+NOTE: 데이터셋 WORK._OUTTMUTIL_은(는) 2483개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TM_SVD_DO_SAMP):   proc spsvd data=_outtmutil_ IN_U=EMWS5.TextCluster3_svd_u local = LOG global = none in_global = new_global ;
+MPRINT(TM_SVD_DO_SAMP):   row _termnum_;
+MPRINT(TM_SVD_DO_SAMP):   col _document_;
+MPRINT(TM_SVD_DO_SAMP):   entry _count_;
+MPRINT(TM_SVD_DO_SAMP):   output colpro=_svdcolpro bigpro normcol prefix="TextCluster3_SVD";
+MPRINT(TM_SVD_DO_SAMP):   run;
+
+NOTE: 2483개의 관측값을 데이터셋 WORK._OUTTMUTIL_.에서 읽었습니다.
+NOTE: 469개의 관측값을 데이터셋 EMWS5.TEXTCLUSTER3_SVD_U.에서 읽었습니다.
+NOTE: 469개의 관측값을 데이터셋 WORK.NEW_GLOBAL.에서 읽었습니다.
+NOTE: 데이터셋 WORK._SVDCOLPRO은(는) 430개의 관측값과 45개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SPSVD 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TM_SVD_DO_SAMP):   proc sort data=_keepdocs(keep=_document_) out=_docids;
+MPRINT(TM_SVD_DO_SAMP):   by _document_;
+MPRINT(TM_SVD_DO_SAMP):   run;
+
+NOTE: 500개의 관측값을 데이터셋 WORK._KEEPDOCS.에서 읽었습니다.
+NOTE: 데이터셋 WORK._DOCIDS은(는) 500개의 관측값과 1개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TM_SVD_DO_SAMP):   data _svdcolpro;
+MPRINT(TM_SVD_DO_SAMP):   merge _svdcolpro _docids(rename=(_document_=index));
+MPRINT(TM_SVD_DO_SAMP):   by index;
+MPRINT(TM_SVD_DO_SAMP):   run;
+
+NOTE: 430개의 관측값을 데이터셋 WORK._SVDCOLPRO.에서 읽었습니다.
+NOTE: 500개의 관측값을 데이터셋 WORK._DOCIDS.에서 읽었습니다.
+NOTE: 데이터셋 WORK._SVDCOLPRO은(는) 500개의 관측값과 45개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TM_SVD_DO_SAMP):   data _svdcolpro;
+MPRINT(TM_SVD_DO_SAMP):   set _svdcolpro;
+MPRINT(TM_SVD_DO_SAMP):   array svd_array TextCluster3_SVD1 - TextCluster3_SVD44;
+MPRINT(TM_SVD_DO_SAMP):   do i = 1 to dim(svd_array);
+MPRINT(TM_SVD_DO_SAMP):   if svd_array(i)=. then svd_array(i)=0;
+MPRINT(TM_SVD_DO_SAMP):   end;
+MPRINT(TM_SVD_DO_SAMP):   drop i;
+MPRINT(TM_SVD_DO_SAMP):   run;
+
+NOTE: 500개의 관측값을 데이터셋 WORK._SVDCOLPRO.에서 읽었습니다.
+NOTE: 데이터셋 WORK._SVDCOLPRO은(는) 500개의 관측값과 45개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TM_SVD_DO_SAMP):   proc sort data=_outtmutil_;
+MPRINT(TM_SVD_DO_SAMP):   by _termnum_;
+MPRINT(TM_SVD_DO_SAMP):   run;
+
+NOTE: 2483개의 관측값을 데이터셋 WORK._OUTTMUTIL_.에서 읽었습니다.
+NOTE: 데이터셋 WORK._OUTTMUTIL_은(는) 2483개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TM_SVD_DO_SAMP):   proc sql;
+MPRINT(TM_SVD_DO_SAMP):   create table new_global as select a.* from _weights a, EMWS5.TextCluster3_svd_u b where a.index = b.index;
+NOTE: Table WORK.NEW_GLOBAL created, with 469 rows and 2 columns.
+
+MPRINT(TM_SVD_DO_SAMP):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(TM_SVD_DO_SAMP):   proc spsvd data=_outtmutil_ IN_V=_svdv local = LOG global = none in_global = new_global ;
+MPRINT(TM_SVD_DO_SAMP):   row _termnum_;
+MPRINT(TM_SVD_DO_SAMP):   col _document_;
+MPRINT(TM_SVD_DO_SAMP):   entry _count_;
+MPRINT(TM_SVD_DO_SAMP):   output wordPro = _svdrowpro bigpro normrow prefix="TextCluster3_SVD";
+MPRINT(TM_SVD_DO_SAMP):   run;
+
+NOTE: 2483개의 관측값을 데이터셋 WORK._OUTTMUTIL_.에서 읽었습니다.
+NOTE: 430개의 관측값을 데이터셋 WORK._SVDV.에서 읽었습니다.
+NOTE: 469개의 관측값을 데이터셋 WORK.NEW_GLOBAL.에서 읽었습니다.
+NOTE: 데이터셋 WORK._SVDROWPRO은(는) 469개의 관측값과 45개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SPSVD 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):   proc sql noprint;
+MPRINT(TRAIN):   create table EMWS5.TextCluster3_terms(drop=index) as select a.*,b.* from EMWS5.TextFilter_terms a left join _svdrowpro b on a.key = b.index;
+NOTE: Table EMWS5.TEXTCLUSTER3_TERMS created, with 2184 rows and 57 columns.
+
+MPRINT(TRAIN):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.06 초
+      cpu 시간            0.07 초
+      
+
+MPRINT(TM_CLUSTER):   filename temp catalog 'sashelp.emtext.tmgetncl.source';
+NOTE: %INCLUDE(레벨 1) 파일 TEMP은(는) 파일 SASHELP.EMTEXT.TMGETNCL.SOURCE입니다.
+24926     +
+24927     + /*
+24928     +  Macro:   tmgetncl.sas
+24929     +  Purpose: To obtain a default number of clusters
+24930     +  Syntax:  %tmgetncl(data=, maxclusters=, vars=);
+24931     +
+24932     +  Required Parameters:  data=      The input data set.
+24933     +
+24934     +  Optional Parameters:  vars=      Variables to be used
+24935     +
+24936     +  History:
+24937     +  2001/01/23 - Bill Wheeler - Initial Coding.
+24938     +
+24939     +*/
+24940     + %MACRO tmgetncl(data=, maxclusters=, vars=, tempDS=,
+24941     +                 clusDS=, threads=THREADS);
+24942     +
+24943     +  %if &maxclusters= %then %let maxclusters = 40;
+24944     +
+24945     +  %if &vars ^= %then %let var = var &vars;
+24946     +  %else %let var = ;
+24947     +
+24948     +  /* run PROC FASTCLUS with maxClusters clusters */
+24949     +  proc fastclus data = &data noprint
+24950     +    maxclusters = &maxclusters
+24951     +    mean = &tempDS;
+24952     +    &var
+24953     +    ;
+24954     +    run;
+24955     +
+24956     +  /* use PROC CLUSTER with the MEAN data set from FASTCLUS */
+24957     +  proc cluster data = &tempDS
+24958     +    method = WARD
+24959     +    pseudo
+24960     +    noprint
+24961     +    outtree = &tempDS;
+24962     +    &var;
+24963     +  run;
+24964     +
+24965     +  %if (&SYSERR > 4) %then %do;
+24966     +    data &clusDS; nclus = 0; run;
+24967     +    %goto exit;
+24968     +  %end;
+24969     +
+24970     +  /* sort and get rid of missing values in the outtree data set */
+24971     +  %tmsort(data=&tempDS(where=(_ccc_ > -99999.0) keep = _ncl_ _ccc_),
+24972     +        out=&tempDS, by=_ncl_, options=, threads=&threads);
+24973     +
+24974     +  data &clusDS; set &tempDS;
+24975     +    keep nclus;
+24976     +    retain loclclus -1 loclccc 0 maxccc 0 maxclus 0
+24977     +   jclus -1 maxjump -1 nclus 0 jccc 0 prevjump 0 jump 0 occc 0 oncl 0;
+24978     +
+24979     +   if _N_ = 1 then do;
+24980     +     maxccc = _ccc_;
+24981     +     maxclus = _ncl_;
+24982     +     nclus = _ncl_;
+24983     +     occc = _ccc_;
+24984     +     oncl = _ncl_;
+24985     +   end;
+24986     +   else if (_N_ = 2) then do;
+24987     +     jump = _ccc_ - occc;
+24988     +     if (jump > 0) then do;
+24989     +       maxjump = jump;
+24990     +       jclus = _ncl_;
+24991     +     end;
+24992     +     if (_ccc_ > maxccc) then do;
+24993     +       maxccc = _ccc_;
+24994     +       maxclus = _ncl_;
+24995     +     end;
+24996     +     occc = _ccc_;
+24997     +     oncl = _ncl_;
+24998     +   end;
+24999     +
+25000     +   else if (_N_ > 2) then do;
+25001     +     prevjump = jump;
+25002     +     jump = _ccc_ - occc;
+25003     +
+25004     +     if ((prevjump > 0) & (jump < 0) & (loclclus < 0)) then do;
+25005     +        loclclus = oncl;
+25006     +        loclccc = occc;
+25007     +     end;
+25008     +     if (_ccc_ > maxccc) then do;
+25009     +       maxccc = _ccc_;
+25010     +       maxclus = _ncl_;
+25011     +     end;
+25012     +     if ((jump > 0) & (jump > maxjump)) then do;
+25013     +       jclus = _ncl_;
+25014     +       maxjump = jump;
+25015     +       jccc = _ccc_;
+25016     +     end;
+25017     +
+25018     +     occc = _ccc_;
+25019     +     oncl = _ncl_;
+25020     +
+25021     +     if ((loclclus > 0) & (jclus > 0)) then nclus = MIN(loclclus, jclus);
+25022     +     else if (loclclus > 0) then nclus = loclclus;
+25023     +     else if (jclus > 0) then nclus = jclus;
+25024     +     else nclus = maxclus;
+25025     +   end;
+25026     +  run;
+25027     +
+25028     +  %exit: ;
+25029     +
+25030     +%MEND tmgetncl;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(TM_CLUSTER):   filename temp catalog 'sashelp.emtext.tmfast.source';
+NOTE: %INCLUDE(레벨 1) 파일 TEMP은(는) 파일 SASHELP.EMTEXT.TMFAST.SOURCE입니다.
+25031     + /*
+25032     +
+25033     +  Macro:   tmfast.sas
+25034     +  Purpose: Call proc fastclus with given defaults and parameters.
+25035     +  Syntax:  %tmfast(data=, clusters=, outstat=, vars=);
+25036     +
+25037     +  Required Parameters:  data=      The input data set.
+25038     +                        clusters=  The maximum number of clusters
+25039     +
+25040     +  Optional Parameters:  vars=      Variables to be used
+25041     +                        outstat=   The name of the OUTSTAT data set
+25042     +                        outseed=   The name of the OUTSEED data set
+25043     +
+25044     +  Either outstat or outseed mut be given, but not both.
+25045     +  History:
+25046     +  2001/01/16 - Bill Wheeler - Initial Coding.
+25047     +
+25048     +*/
+25049     +%MACRO tmfast(data=, clusters=, outstat=, outseed=,
+25050     +                 id=, out=, vars=);
+25051     + /* defaults */
+25052     + %if (&id ne ) %then %let id = id &id;
+25053     + %if (&out ne ) %then %let out = out = &out;
+25054     + %if (&vars ne ) %then %let var = var &vars;
+25055     + %else %let var = ;
+25056     +
+25057     + %if &outseed= %then
+25058     + %do;
+25059     +   proc fastclus data = &data
+25060     +   maxclusters = &clusters noprint
+25061     +   outstat = &outstat &out;
+25062     +   &var;
+25063     +   &id;
+25064     + %end;
+25065     + %else
+25066     + %do;
+25067     +   proc fastclus data = &data
+25068     +   maxclusters = &clusters noprint
+25069     +   outseed = &outseed &out;
+25070     +   &var;
+25071     +   &id;
+25072     + %end;
+25073     +%MEND tmfast;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(TM_CLUSTER):   filename temp catalog 'sashelp.emtext.tmemclus.source';
+NOTE: %INCLUDE(레벨 1) 파일 TEMP은(는) 파일 SASHELP.EMTEXT.TMEMCLUS.SOURCE입니다.
+25074     +
+25075     + /*
+25076     +
+25077     +  Macro:   tmemclus.sas
+25078     +  Purpose: Call proc emclus with given defaults and parameters.
+25079     +  Syntax:  %tmemclus(data=, role=, clusters=, seed=,
+25080     +                   outstat=, out=, vars=, cov=, iter=, secclus=,
+25081     +                   seciter=, min=, method=, eps=, init=, print=,
+25082     +                   p=, outliers=, decvar=, initstd=, dist=,
+25083     +                   secstd=, nobs=, threads=);
+25084     +  Required Parameters:  data=      The input data set.
+25085     +                        role=      Train or score
+25086     +                        clusters=  The number of primary clusters
+25087     +
+25088     +  Optional Parameters:  vars=      Variables to be used
+25089     +                   cov=       Type of covariance matrix
+25090     +                   iter=      Number of EM iterations
+25091     +                   secclus    Number of secondary clusters
+25092     +                   seciter    Number of k-means iterations
+25093     +                   min=       Minimum number of obs in a cluster
+25094     +                   method=    Standard or scaled
+25095     +                   eps=       Stopping tolerance
+25096     +                   init=      Random, Fastclus, or Emclus
+25097     +                   print=     All, last, or none
+25098     +                   p=
+25099     +                   outliers=  Keep, cluster, or ignore
+25100     +                   outstat=   Name of OUTSTAT data set
+25101     +                   out=       Name of OUT data set
+25102     +                   seed=      Name of SEED data set
+25103     +                   decvar=    Proportion to decrease variances
+25104     +                   initstd=   Initial standard deviation
+25105     +                   dist=      Minimum distance between clusters
+25106     +                   secstd=    Secondary cluster max std dev.
+25107     +                   nobs=      Number of obs read in each iteration
+25108     +  History:
+25109     +  2001/01/16 - Bill Wheeler - Initial Coding.
+25110     +  2001/11/29 - Bill Wheeler - Updated for version 8 or 9
+25111     +*/
+25112     +%MACRO tmemclus(data=, role=, clusters=, seed=,
+25113     + outstat=, out=, vars=, cov=, iter=, secclus=,
+25114     + seciter=, min=, method=, eps=, init=, print=,
+25115     + p=, outliers=, decvar=, initstd=, dist=, secstd=, nobs=, threads=);
+25116     +
+25117     + %local saveout saveseed op1 op2 op3 op4;
+25118     +
+25119     + %LET saveout = &out;
+25120     + %LET saveseed = &outstat;
+25121     +
+25122     + /* defaults */
+25123     + %if &role= %then %let role = TRAIN;
+25124     + %if &seed ne %then %let seed = seed=&seed;
+25125     + %if &vars= %then %let var = ;
+25126     + %else %let var = var &vars;
+25127     + %if &cov ne %then %let cov = cov = &cov;
+25128     + %if &iter ne %then %let iter = iter = &iter;
+25129     + %if &init ne %then %let init = init = &init;
+25130     + %if &eps ne  %then %let eps = eps = &eps;
+25131     + %if &min ne %then %let min = min = &min;
+25132     + %if &seciter ne %then %let seciter = seciter = &seciter;
+25133     + %if &print ne %then %let print = print = &print;
+25134     + %if &p ne %then %let p = p = &p;
+25135     + %if &outliers ne %then %let outliers = outliers = &outliers;
+25136     + %if &method ne %then %let method = method = &method;
+25137     + %if &decvar ne %then %let decvar = decvar = &decvar;
+25138     + %if &outstat ne %then %let outstat = outstat = &outstat;
+25139     + %if &out ne %then %let out = out = &out;
+25140     + %if (&threads >= 0)  %then %let threads = threads = &threads;
+25141     + %else %let threads = ;
+25142     +
+25143     + %LET op1 = ;
+25144     + %LET op2 = ;
+25145     + %LET op3 = ;
+25146     + %LET op4 = ;
+25147     + %if ^(&initstd=) %then %let op1 = %str(initstd = &initstd);
+25148     + %if ^(&dist=) %then %let op2 = %str(dist = &dist);
+25149     + %if ^(&secstd=) %then %let op3 = %str(secstd = &secstd);
+25150     + %if ^(&nobs=) %then %let op4 = %str(nobs = &nobs);
+25151     +
+25152     +
+25153     + %IF &SYSVER < 9 %THEN %DO;
+25154     +    %LET cov = ;
+25155     +    %LET decvar = ;
+25156     +    %LET outliers = ;
+25157     +    %LET out = ;
+25158     + %END;
+25159     +
+25160     +
+25161     + %if %upcase(&role) = TRAIN %then
+25162     + %do;
+25163     +   proc emclus data = &data
+25164     +   clusters = &clusters
+25165     +   &seed
+25166     +   &outstat
+25167     +   &out
+25168     +   &init
+25169     +   &eps
+25170     +   &method
+25171     +   &secclus
+25172     +   &min
+25173     +   &print
+25174     +   &outliers
+25175     +   &iter
+25176     +   &op1 &op2
+25177     +   &op3 &op4
+25178     +   &decvar
+25179     +   &cov
+25180     +   &threads
+25181     +   ;
+25182     +   &var;
+25183     + %end;
+25184     + %else
+25185     +  %do;
+25186     +    proc emclus data = &data
+25187     +    role = score
+25188     +    clusters = &clusters
+25189     +    &seed
+25190     +    &out
+25191     +    &cov
+25192     +    ;
+25193     +    &var;
+25194     +  %end;
+25195     +
+25196     + %IF &SYSVER < 9 and &saveout ^= %THEN %DO;
+25197     +   proc emclus data = &data
+25198     +   role = score
+25199     +   clusters = &clusters
+25200     +   seed = &saveseed
+25201     +   &saveout
+25202     +   ;
+25203     +   &var;
+25204     + %END;
+25205     +
+25206     +
+25207     +%MEND tmemclus;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(TM_CLUSTER):   filename temp catalog 'sashelp.emtext.tmpred.source';
+NOTE: %INCLUDE(레벨 1) 파일 TEMP은(는) 파일 SASHELP.EMTEXT.TMPRED.SOURCE입니다.
+25208     +
+25209     +/*
+25210     +  Macro: tmpred(inds,outds,clusters,type=,ignore=,freqDS=)
+25211     +
+25212     +  Description: This macro will take output from
+25213     +     emclus and generate predicted
+25214     +      predicted clusters.
+25215     +
+25216     +  Parms: inds - input data set, produced by emclus.
+25217     +   outds - data set with clusters created by this macro.
+25218     +   clusters - number of clusters that should be on this data set
+25219     +   type - valid values: 'max' or 'prob'.  Max will just take the
+25220     +      cluster with the highest probability as the predicted cluster.
+25221     +      In the case of a tie the first cluster with that value will
+25222     +       selected.
+25223     +      Prob will attempt to select multiple clusters based on
+25224     +      how many clusters were requested.  That is if 3 clusters
+25225     +      were requested, any cluster with prob>1/3 will be selected
+25226     +      as the predicted cluster. THIS OPTION IS UNTESTED.
+25227     +*/
+25228     +
+25229     +%macro tmpred(inds,outds,clusters,type=, ignore=0, freqDS=, compress=1);
+25230     +
+25231     +  %local _str newfreqDS _flag;
+25232     +
+25233     +  * set the optional arguments;
+25234     +  %if &type= %then %let type=max;
+25235     +  %if &ignore = 1 %then %let
+25236     +    _str = if _CLUSTER_ = &clusters then _CLUSTER_ = .;
+25237     +  %else %let _str = ;
+25238     +  %if %str(&freqDS) ^= %str() %then %do;
+25239     +   %let newfreqDS = &freqDS(keep=_c1-_c&clusters);
+25240     +   %let _flag = 1;
+25241     +  %end;
+25242     +  %else %let _flag = 0;
+25243     +
+25244     +  %if &compress = 1 %then %let compress = compress=Y;
+25245     +  %else %let compress = ;
+25246     +
+25247     +  data &outds(&compress drop=_c1-_c&clusters)
+25248     +    %if &_flag = 1 %then %do;
+25249     +    &newfreqDS
+25250     +    %end;
+25251     +    ;
+25252     +    set &inds end=eof;
+25253     +   * array for holding all probabilities;
+25254     +    array _p prob1--prob&clusters;
+25255     +    array _c(&clusters);
+25256     +    retain _c 0;
+25257     +   * get rid of working columns;
+25258     +    drop _max_ _i /*prob1--prob&clusters*/ _WARN_;
+25259     +    /* keep the largest probability and the cluster */
+25260     +    _max_ = 0;
+25261     +    do _i = 1 to &clusters;
+25262     +      if _p(_i) > _max_ then do;
+25263     +        _max_ = _p(_i);
+25264     +        _CLUSTER_ = _i;
+25265     +      end;
+25266     +    end;
+25267     +    if (_CLUSTER_ >= 1) and (_CLUSTER_ <= &clusters) then
+25268     +      _c(_CLUSTER_) = _c(_CLUSTER_) + 1;
+25269     +    else _CLUSTER_ = .;
+25270     +    &_str;
+25271     +    %if &_flag = 1 %then %do;
+25272     +      if eof then do;
+25273     +        output &freqDS;
+25274     +                output &outDS;
+25275     +          end;
+25276     +          else output &outDS;
+25277     +        %end;
+25278     +
+25279     +    run;
+25280     +%mend tmpred;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(TM_CLUSTER):   filename temp catalog 'sashelp.emtext.tmsort.source';
+NOTE: %INCLUDE(레벨 1) 파일 TEMP은(는) 파일 SASHELP.EMTEXT.TMSORT.SOURCE입니다.
+25281     + /*
+25282     +PROC SORT macro
+25283     +
+25284     +%tmsort(data=, out=, by=);
+25285     +
+25286     +data=      - name of input data set (outtree data set from PROC CLUSTER)
+25287     +out=       - name of the output data set
+25288     +by=        - by statement
+25289     +options=   - proc options
+25290     +*/
+25291     +
+25292     +%macro tmsort(data=, out=, by=, options=, threads=THREADS);
+25293     +  %if %BQUOTE(&out) ^= %then %let out = out =  &out;
+25294     +  %if &SYSVER < 9 %then %let threads = ;
+25295     +
+25296     +  proc sort data = %STR(&data) &threads &options
+25297     +    &out;
+25298     +    by &by;
+25299     +  run;
+25300     +
+25301     +%mend tmsort;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(TM_CLUSTER):   proc sql noprint;
+MPRINT(TM_CLUSTER):   select count(*) into: numTerms from EMWS5.TextFilter_terms a where a.numdocs>=2 and _ispar in('+',' ') ;
+MPRINT(TM_CLUSTER):   select count (*) into: numdocs from EMWS5.TextTopic_TRAIN a;
+MPRINT(TM_CLUSTER):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.05 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TMGETNCL):   proc fastclus data = _svdcolpro noprint maxclusters = 10 mean = _clusTemp1;
+MPRINT(TMGETNCL):   var TextCluster3_SVD1 - TextCluster3_SVD44 ;
+MPRINT(TMGETNCL):   run;
+
+NOTE: 데이터셋 WORK._CLUSTEMP1은(는) 10개의 관측값과 51개의 변수를 가지고 있습니다.
+NOTE: 프로시저 FASTCLUS 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(TMGETNCL):   proc cluster data = _clusTemp1 method = WARD pseudo noprint outtree = _clusTemp1;
+MPRINT(TMGETNCL):   var TextCluster3_SVD1 - TextCluster3_SVD44;
+MPRINT(TMGETNCL):   run;
+
+NOTE: 데이터셋 WORK._CLUSTEMP1은(는) 19개의 관측값과 60개의 변수를 가지고 있습니다.
+NOTE: 프로시저 CLUSTER 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TMSORT):   proc sort data = _clusTemp1(where=(_ccc_ > -99999.0) keep = _ncl_ _ccc_) out = _clusTemp1;
+MPRINT(TMSORT):   by _ncl_;
+MPRINT(TMSORT):   run;
+
+NOTE: 9개의 관측값을 데이터셋 WORK._CLUSTEMP1.에서 읽었습니다.
+      WHERE _ccc_>-99999;
+NOTE: 데이터셋 WORK._CLUSTEMP1은(는) 9개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TMGETNCL):  ;
+MPRINT(TMGETNCL):   data _clusTemp;
+MPRINT(TMGETNCL):   set _clusTemp1;
+MPRINT(TMGETNCL):   keep nclus;
+MPRINT(TMGETNCL):   retain loclclus -1 loclccc 0 maxccc 0 maxclus 0 jclus -1 maxjump -1 nclus 0 jccc 0 prevjump 0 jump 0 occc 0 oncl 0;
+MPRINT(TMGETNCL):   if _N_ = 1 then do;
+MPRINT(TMGETNCL):   maxccc = _ccc_;
+MPRINT(TMGETNCL):   maxclus = _ncl_;
+MPRINT(TMGETNCL):   nclus = _ncl_;
+MPRINT(TMGETNCL):   occc = _ccc_;
+MPRINT(TMGETNCL):   oncl = _ncl_;
+MPRINT(TMGETNCL):   end;
+MPRINT(TMGETNCL):   else if (_N_ = 2) then do;
+MPRINT(TMGETNCL):   jump = _ccc_ - occc;
+MPRINT(TMGETNCL):   if (jump > 0) then do;
+MPRINT(TMGETNCL):   maxjump = jump;
+MPRINT(TMGETNCL):   jclus = _ncl_;
+MPRINT(TMGETNCL):   end;
+MPRINT(TMGETNCL):   if (_ccc_ > maxccc) then do;
+MPRINT(TMGETNCL):   maxccc = _ccc_;
+MPRINT(TMGETNCL):   maxclus = _ncl_;
+MPRINT(TMGETNCL):   end;
+MPRINT(TMGETNCL):   occc = _ccc_;
+MPRINT(TMGETNCL):   oncl = _ncl_;
+MPRINT(TMGETNCL):   end;
+MPRINT(TMGETNCL):   else if (_N_ > 2) then do;
+MPRINT(TMGETNCL):   prevjump = jump;
+MPRINT(TMGETNCL):   jump = _ccc_ - occc;
+MPRINT(TMGETNCL):   if ((prevjump > 0) & (jump < 0) & (loclclus < 0)) then do;
+MPRINT(TMGETNCL):   loclclus = oncl;
+MPRINT(TMGETNCL):   loclccc = occc;
+MPRINT(TMGETNCL):   end;
+MPRINT(TMGETNCL):   if (_ccc_ > maxccc) then do;
+MPRINT(TMGETNCL):   maxccc = _ccc_;
+MPRINT(TMGETNCL):   maxclus = _ncl_;
+MPRINT(TMGETNCL):   end;
+MPRINT(TMGETNCL):   if ((jump > 0) & (jump > maxjump)) then do;
+MPRINT(TMGETNCL):   jclus = _ncl_;
+MPRINT(TMGETNCL):   maxjump = jump;
+MPRINT(TMGETNCL):   jccc = _ccc_;
+MPRINT(TMGETNCL):   end;
+MPRINT(TMGETNCL):   occc = _ccc_;
+MPRINT(TMGETNCL):   oncl = _ncl_;
+MPRINT(TMGETNCL):   if ((loclclus > 0) & (jclus > 0)) then nclus = MIN(loclclus, jclus);
+MPRINT(TMGETNCL):   else if (loclclus > 0) then nclus = loclclus;
+MPRINT(TMGETNCL):   else if (jclus > 0) then nclus = jclus;
+MPRINT(TMGETNCL):   else nclus = maxclus;
+MPRINT(TMGETNCL):   end;
+MPRINT(TMGETNCL):   run;
+
+NOTE: 9개의 관측값을 데이터셋 WORK._CLUSTEMP1.에서 읽었습니다.
+NOTE: 데이터셋 WORK._CLUSTEMP은(는) 9개의 관측값과 1개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TMGETNCL):   ;
+MPRINT(TM_CLUSTER):  ;
+MPRINT(TM_CLUSTER):   proc sql noprint;
+MPRINT(TM_CLUSTER):   select max(nclus) into: numClus from _clusTemp ;
+MPRINT(TM_CLUSTER):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(TM_CLUSTER):   proc sql noprint;
+MPRINT(TM_CLUSTER):   select count(*) into: nobs from _svdcolpro;
+MPRINT(TM_CLUSTER):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TMFAST):   proc fastclus data = _svdcolpro maxclusters = 6 noprint outstat = _fastclusstat ;
+MPRINT(TMFAST):   var TextCluster3_SVD1 - TextCluster3_SVD44;
+MPRINT(TMFAST):   ;
+MPRINT(TM_CLUSTER):  ;
+MPRINT(TM_CLUSTER):   run;
+
+NOTE: 데이터셋 WORK._FASTCLUSSTAT은(는) 40개의 관측값과 47개의 변수를 가지고 있습니다.
+NOTE: 프로시저 FASTCLUS 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TM_CLUSTER):   proc sql noprint;
+MPRINT(TM_CLUSTER):   select max(CLUSTER) into :numClus from _fastclusstat where upcase(_TYPE_)='SEED' ;
+MPRINT(TM_CLUSTER):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TMEMCLUS):   proc emclus data = _svdcolpro clusters = 6 seed=_fastclusstat outstat = EMWS5.TextCluster3_emoutstat out = _tmutildoc init = FASTCLUS eps = .1 print = NONE iter = 5 decvar = 0 ;
+MPRINT(TMEMCLUS):   var TextCluster3_SVD1 - TextCluster3_SVD44;
+MPRINT(TM_CLUSTER):  ;
+MPRINT(TM_CLUSTER):   run;
+
+NOTE: The standard EM algorithm will be run.
+NOTE: DIST is set to 0.1359857201
+NOTE: EPS is set to 0.1
+NOTE: INITSTD is set to 15.234961025
+NOTE: ITER is set to 5
+NOTE: MAXTIME is set to 2147483647
+WARNING: The maximum number of 5 iterations in the EM algorithm has been reached. Parameter estimates may not be accurate.
+WARNING: Some variances were estimated to be less than the minimum allowable variance. Parameter estimates may not be accurate.
+NOTE: 500개의 관측값을 데이터셋 WORK._SVDCOLPRO.에서 읽었습니다.
+NOTE: 40개의 관측값을 데이터셋 WORK._FASTCLUSSTAT.에서 읽었습니다.
+NOTE: 데이터셋 EMWS5.TEXTCLUSTER3_EMOUTSTAT은(는) 13개의 관측값과 51개의 변수를 가지고 있습니다.
+NOTE: 데이터셋 WORK._TMUTILDOC은(는) 500개의 관측값과 52개의 변수를 가지고 있습니다.
+NOTE: 프로시저 EMCLUS 실행(총 프로세스 시간):
+      실행 시간           0.09 초
+      cpu 시간            0.07 초
+      
+
+MPRINT(TMPRED):   * set the optional arguments;
+MPRINT(TMPRED):   data EMWS5.TextCluster3_docs(compress=Y drop=_c1-_c6) _clusstat(keep=_c1-_c6) ;
+MPRINT(TMPRED):   set _tmutildoc end=eof;
+MPRINT(TMPRED):   * array for holding all probabilities;
+MPRINT(TMPRED):   array _p prob1--prob6;
+MPRINT(TMPRED):   array _c(6);
+MPRINT(TMPRED):   retain _c 0;
+MPRINT(TMPRED):   * get rid of working columns;
+MPRINT(TMPRED):   drop _max_ _i _WARN_;
+MPRINT(TMPRED):   _max_ = 0;
+MPRINT(TMPRED):   do _i = 1 to 6;
+MPRINT(TMPRED):   if _p(_i) > _max_ then do;
+MPRINT(TMPRED):   _max_ = _p(_i);
+MPRINT(TMPRED):   _CLUSTER_ = _i;
+MPRINT(TMPRED):   end;
+MPRINT(TMPRED):   end;
+MPRINT(TMPRED):   if (_CLUSTER_ >= 1) and (_CLUSTER_ <= 6) then _c(_CLUSTER_) = _c(_CLUSTER_) + 1;
+MPRINT(TMPRED):   else _CLUSTER_ = .;
+MPRINT(TMPRED):   ;
+MPRINT(TMPRED):   if eof then do;
+MPRINT(TMPRED):   output _clusstat;
+MPRINT(TMPRED):   output EMWS5.TextCluster3_docs;
+MPRINT(TMPRED):   end;
+MPRINT(TMPRED):   else output EMWS5.TextCluster3_docs;
+MPRINT(TMPRED):   run;
+
+NOTE: 500개의 관측값을 데이터셋 WORK._TMUTILDOC.에서 읽었습니다.
+NOTE: 데이터셋 EMWS5.TEXTCLUSTER3_DOCS은(는) 500개의 관측값과 52개의 변수를 가지고 있습니다.
+NOTE: 데이터셋 'EMWS5.TEXTCLUSTER3_DOCS'을(를) 압축해서 크기가 0.00%(으)로 줄었습니다. 
+      압축된 파일은 4페이지입니다. 압축되지 않은 파일은 4페이지가 필요합니다.
+NOTE: 데이터셋 WORK._CLUSSTAT은(는) 1개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TM_CLUSTER):  ;
+MPRINT(TM_CLUSTER):   data EMWS5.TextCluster3_docs;
+MPRINT(TM_CLUSTER):   set EMWS5.TextCluster3_docs;
+MPRINT(TM_CLUSTER):   rename prob1-prob6 = TextCluster3_prob1-TextCluster3_prob6;
+MPRINT(TM_CLUSTER):   run;
+
+NOTE: 500개의 관측값을 데이터셋 EMWS5.TEXTCLUSTER3_DOCS.에서 읽었습니다.
+NOTE: 데이터셋 EMWS5.TEXTCLUSTER3_DOCS은(는) 500개의 관측값과 52개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TM_CLUSTER):   data _clusstat;
+MPRINT(TM_CLUSTER):   array c(6) _c1-_c6;
+MPRINT(TM_CLUSTER):   set _clusstat;
+MPRINT(TM_CLUSTER):   totalobs=0;
+MPRINT(TM_CLUSTER):   do _CLUSTER_ = 1 to 6;
+MPRINT(TM_CLUSTER):   Freq = c(_CLUSTER_);
+MPRINT(TM_CLUSTER):   totalobs=totalobs+c(_CLUSTER_);
+MPRINT(TM_CLUSTER):   output;
+MPRINT(TM_CLUSTER):   end;
+MPRINT(TM_CLUSTER):   call symput ('totNumDocs', totalobs);
+MPRINT(TM_CLUSTER):   run;
+
+NOTE: 다음의 위치에서 숫자형 값이 문자형 값으로 변환되었습니다. (행):(칼럼)
+      451:154   
+NOTE: 1개의 관측값을 데이터셋 WORK._CLUSSTAT.에서 읽었습니다.
+NOTE: 데이터셋 WORK._CLUSSTAT은(는) 6개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TM_CLUSTER):   data _clusstat;
+MPRINT(TM_CLUSTER):   set _clusstat;
+MPRINT(TM_CLUSTER):   Percent = Freq/ 500;
+MPRINT(TM_CLUSTER):   run;
+
+NOTE: 6개의 관측값을 데이터셋 WORK._CLUSSTAT.에서 읽었습니다.
+NOTE: 데이터셋 WORK._CLUSSTAT은(는) 6개의 관측값과 10개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TM_CLUSTER):   data _clustermean(rename=(TextCluster3_SVD1 - TextCluster3_SVD44 = _mean1-_mean44));
+MPRINT(TM_CLUSTER):   set EMWS5.TextCluster3_emoutstat(keep=cluster _TYPE_ TextCluster3_SVD1 - TextCluster3_SVD44);
+MPRINT(TM_CLUSTER):   if _TYPE_ = "MEAN";
+MPRINT(TM_CLUSTER):   keep cluster TextCluster3_SVD1 - TextCluster3_SVD44 ;
+MPRINT(TM_CLUSTER):   run;
+
+NOTE: 13개의 관측값을 데이터셋 EMWS5.TEXTCLUSTER3_EMOUTSTAT.에서 읽었습니다.
+NOTE: 데이터셋 WORK._CLUSTERMEAN은(는) 6개의 관측값과 45개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TM_CLUSTER):   proc sql;
+MPRINT(TM_CLUSTER):   create table _meandocs(drop=cluster) as select a.*, b.* from EMWS5.TextCluster3_docs a left join _clustermean b on a._cluster_=b.cluster ;
+NOTE: Table WORK._MEANDOCS created, with 500 rows and 96 columns.
+
+MPRINT(TM_CLUSTER):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.04 초
+      
+
+MPRINT(TM_CLUSTER):   data _rmscalc;
+MPRINT(TM_CLUSTER):   merge _meandocs(in=inhere) _clusstat;
+MPRINT(TM_CLUSTER):   array _means(44) _mean1-_mean44;
+MPRINT(TM_CLUSTER):   array _svds(44) TextCluster3_SVD1 - TextCluster3_SVD44;
+MPRINT(TM_CLUSTER):   by _cluster_;
+MPRINT(TM_CLUSTER):   error=0;
+MPRINT(TM_CLUSTER):   do i = 1 to 44;
+MPRINT(TM_CLUSTER):   error +( (_svds{i}-_means{i}) * (_svds{i}-_means{i}));
+MPRINT(TM_CLUSTER):   end;
+MPRINT(TM_CLUSTER):   drop i;
+MPRINT(TM_CLUSTER):   run;
+
+NOTE: 500개의 관측값을 데이터셋 WORK._MEANDOCS.에서 읽었습니다.
+NOTE: 6개의 관측값을 데이터셋 WORK._CLUSSTAT.에서 읽었습니다.
+NOTE: 데이터셋 WORK._RMSCALC은(는) 500개의 관측값과 106개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TM_CLUSTER):   proc summary data=_rmscalc nway;
+MPRINT(TM_CLUSTER):   class _cluster_;
+MPRINT(TM_CLUSTER):   var error;
+MPRINT(TM_CLUSTER):   output out=_meanerr mean=meane sum=sume;
+MPRINT(TM_CLUSTER):   run;
+
+NOTE: 500개의 관측값을 데이터셋 WORK._RMSCALC.에서 읽었습니다.
+NOTE: 데이터셋 WORK._MEANERR은(는) 6개의 관측값과 5개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SUMMARY 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.04 초
+      
+
+MPRINT(TM_CLUSTER):   data _rmsse;
+MPRINT(TM_CLUSTER):   set _meanerr;
+MPRINT(TM_CLUSTER):   if _freq_ gt 1 then do;
+MPRINT(TM_CLUSTER):   _rmsstd_=sqrt(sume/((_freq_-1)*(44)));
+MPRINT(TM_CLUSTER):   end;
+MPRINT(TM_CLUSTER):   else do;
+MPRINT(TM_CLUSTER):   _rmsstd_=0;
+MPRINT(TM_CLUSTER):   end;
+MPRINT(TM_CLUSTER):   keep _cluster_ _rmsstd_;
+MPRINT(TM_CLUSTER):   run;
+
+NOTE: 6개의 관측값을 데이터셋 WORK._MEANERR.에서 읽었습니다.
+NOTE: 데이터셋 WORK._RMSSE은(는) 6개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TM_CLUSTER):   proc sql;
+MPRINT(TM_CLUSTER):   create table _clusstat2(drop=cluster) as select a.*,b.* from _clustermean a left join _rmsse b on a.cluster=b._cluster_;
+NOTE: Table WORK._CLUSSTAT2 created, with 6 rows and 46 columns.
+
+MPRINT(TM_CLUSTER):   create table EMWS5.TextCluster3_clusters as select a.*, b.freq, b.percent from _clusstat2(keep=_cluster_ _mean1-_mean44 _rmsstd_) a right join _clusstat b on a._cluster_=b._cluster_ where b.freq>0 ;
+NOTE: Table EMWS5.TEXTCLUSTER3_CLUSTERS created, with 6 rows and 48 columns.
+
+MPRINT(TM_CLUSTER):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.05 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TM_CLUSTER):   filename temp catalog 'sashelp.emtext.tmterm1.source';
+MPRINT(TM_CLUSTER):   proc sort data=EMWS5.TextFilter_terms out=_terms_;
+MPRINT(TM_CLUSTER):   by key _ispar;
+MPRINT(TM_CLUSTER):   run;
+
+NOTE: 입력 데이터셋이 이미 정렬되어 있습니다; 출력 데이터셋에 복사되었습니다.
+NOTE: 2184개의 관측값을 데이터셋 EMWS5.TEXTFILTER_TERMS_DATA.에서 읽었습니다.
+      WHERE KEEP='Y';
+NOTE: 1870개의 관측값을 데이터셋 EMWS5.TEXTFILTER_TERM_STRINGS.에서 읽었습니다.
+NOTE: 2184개의 관측값을 데이터셋 EMWS5.TEXTFILTER_TERMS.에서 읽었습니다.
+NOTE: 데이터셋 WORK._TERMS_은(는) 2184개의 관측값과 13개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.09 초
+      cpu 시간            0.06 초
+      
+
+MPRINT(TM_CLUSTER):   data _terms_;
+MPRINT(TM_CLUSTER):   set _terms_;
+MPRINT(TM_CLUSTER):   by key _ispar;
+MPRINT(TM_CLUSTER):   if first.key then output;
+MPRINT(TM_CLUSTER):   else;
+MPRINT(TM_CLUSTER):   run;
+
+NOTE: 2184개의 관측값을 데이터셋 WORK._TERMS_.에서 읽었습니다.
+NOTE: 데이터셋 WORK._TERMS_은(는) 1869개의 관측값과 13개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TM_CLUSTER):   data _terms_;
+MPRINT(TM_CLUSTER):   set _terms_;
+MPRINT(TM_CLUSTER):   if _ispar='+' then Term=_ispar || ' ' || term;
+MPRINT(TM_CLUSTER):   run;
+
+NOTE: 1869개의 관측값을 데이터셋 WORK._TERMS_.에서 읽었습니다.
+NOTE: 데이터셋 WORK._TERMS_은(는) 1869개의 관측값과 13개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TMSORT):   proc sort data = EMWS5.TextFilter_tmout threads out = _tmout_;
+MPRINT(TMSORT):   by _termnum_;
+MPRINT(TMSORT):   run;
+
+NOTE: 3584개의 관측값을 데이터셋 EMWS5.TEXTFILTER_TMOUT.에서 읽었습니다.
+NOTE: 데이터셋 WORK._TMOUT_은(는) 3584개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.04 초
+      
+
+MPRINT(TM_CLUSTER):  ;
+MPRINT(TM_CLUSTER):   data _tmout_;
+MPRINT(TM_CLUSTER):   merge _tmout_ (in=_A_) _terms_ (rename=(key=_termnum_ term=_term_) keep=key term );
+MPRINT(TM_CLUSTER):   by _termnum_;
+MPRINT(TM_CLUSTER):   if _A_;
+MPRINT(TM_CLUSTER):   run;
+
+NOTE: 3584개의 관측값을 데이터셋 WORK._TMOUT_.에서 읽었습니다.
+NOTE: 1869개의 관측값을 데이터셋 WORK._TERMS_.에서 읽었습니다.
+NOTE: 데이터셋 WORK._TMOUT_은(는) 3584개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(TM_CLUSTER):   data _docs_;
+MPRINT(TM_CLUSTER):   set EMWS5.TextCluster3_docs (rename=(index=_document_) keep=index _cluster_);
+MPRINT(TM_CLUSTER):   _SEGMNT_=_cluster_;
+MPRINT(TM_CLUSTER):  ;
+MPRINT(TM_CLUSTER):   run;
+
+NOTE: 500개의 관측값을 데이터셋 EMWS5.TEXTCLUSTER3_DOCS.에서 읽었습니다.
+NOTE: 데이터셋 WORK._DOCS_은(는) 500개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TMTERM1):   proc sql THREADS;
+MPRINT(TMTERM1):   create view _CMB as select t1.*, t2._segmnt_ as cluster from _tmout_ t1, _docs_ t2 where t1._document_ = t2._document_ ;
+NOTE: SQL view WORK._CMB has been defined.
+MPRINT(TMTERM1):   quit ;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TMTERM1):   proc summary data=_CMB nway ;
+MPRINT(TMTERM1):   class cluster _term_ ;
+MPRINT(TMTERM1):   var _count_ ;
+MPRINT(TMTERM1):   output out=_TFREQ sum=total ;
+MPRINT(TMTERM1):   run ;
+
+NOTE: 3584개의 관측값을 데이터셋 WORK._TMOUT_.에서 읽었습니다.
+NOTE: 500개의 관측값을 데이터셋 WORK._DOCS_.에서 읽었습니다.
+NOTE: 3584개의 관측값을 데이터셋 WORK._CMB.에서 읽었습니다.
+NOTE: 데이터셋 WORK._TFREQ은(는) 2163개의 관측값과 5개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SUMMARY 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TMTERM1):   proc summary data=_CMB( keep= cluster _document_ ) ;
+MPRINT(TMTERM1):   class cluster ;
+MPRINT(TMTERM1):   var _document_ ;
+MPRINT(TMTERM1):   output out=_SUM n=n ;
+MPRINT(TMTERM1):   run ;
+
+NOTE: 3584개의 관측값을 데이터셋 WORK._TMOUT_.에서 읽었습니다.
+NOTE: 500개의 관측값을 데이터셋 WORK._DOCS_.에서 읽었습니다.
+NOTE: 3584개의 관측값을 데이터셋 WORK._CMB.에서 읽었습니다.
+NOTE: 데이터셋 WORK._SUM은(는) 7개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SUMMARY 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.06 초
+      
+
+MPRINT(TMTERM1):   data _null_ ;
+MPRINT(TMTERM1):   set _SUM ;
+MPRINT(TMTERM1):   if _type_ = 1 then call symput( 'CLUSIZE' || left( put( cluster, best. )), put( _freq_, best. ));
+MPRINT(TMTERM1):   else if _type_ = 0 then call symput( 'CLUSALL', put( _freq_, best. )) ;
+MPRINT(TMTERM1):   run ;
+
+NOTE: 7개의 관측값을 데이터셋 WORK._SUM.에서 읽었습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TMTERM1):   proc sql THREADS;
+MPRINT(TMTERM1):   drop table _SUM;
+NOTE: 테이블 WORK._SUM 을(를) 삭제했습니다.
+MPRINT(TMTERM1):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TMSORT):   proc sort data = _TFREQ THREADS out = _TFREQ;
+MPRINT(TMSORT):   by cluster descending _freq_;
+MPRINT(TMSORT):   run;
+
+NOTE: 2163개의 관측값을 데이터셋 WORK._TFREQ.에서 읽었습니다.
+NOTE: 데이터셋 WORK._TFREQ은(는) 2163개의 관측값과 5개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.04 초
+      
+
+MPRINT(TMTERM1):  ;
+MPRINT(TMTERM1):   data _UNQT( keep= _term_ _freq_ cluster ) ;
+MPRINT(TMTERM1):   set _TFREQ ;
+MPRINT(TMTERM1):   by cluster ;
+MPRINT(TMTERM1):   if first.cluster then n_term = 0 ;
+MPRINT(TMTERM1):   n_term + 1 ;
+MPRINT(TMTERM1):   if n_term le 30 ;
+MPRINT(TMTERM1):   run ;
+
+NOTE: 2163개의 관측값을 데이터셋 WORK._TFREQ.에서 읽었습니다.
+NOTE: 데이터셋 WORK._UNQT은(는) 157개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TMSORT):   proc sort data = _UNQT THREADS nodupkey out = _UNQT( keep= _term_ );
+MPRINT(TMSORT):   by _term_;
+MPRINT(TMSORT):   run;
+
+NOTE: 157개의 관측값을 데이터셋 WORK._UNQT.에서 읽었습니다.
+NOTE: 중복 키값을 가지고 있는 42개의 관측값이 삭제되었습니다.
+NOTE: 데이터셋 WORK._UNQT은(는) 115개의 관측값과 1개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.07 초
+      
+
+MPRINT(TMTERM1):  ;
+MPRINT(TMTERM1):   proc sql THREADS;
+MPRINT(TMTERM1):   create table _CLCDF as select distinct cluster, _term_, _freq_ from _TFREQ where _term_ in ( select _term_ from _UNQT ) order by _term_, cluster ;
+NOTE: Table WORK._CLCDF created, with 322 rows and 3 columns.
+
+MPRINT(TMTERM1):   quit ;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TMTERM1):   proc sql THREADS;
+MPRINT(TMTERM1):   drop table _UNQT;
+NOTE: 테이블 WORK._UNQT 을(를) 삭제했습니다.
+MPRINT(TMTERM1):   drop table _TFREQ;
+NOTE: 테이블 WORK._TFREQ 을(를) 삭제했습니다.
+MPRINT(TMTERM1):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TMTERM1):   proc transpose data=_CLCDF out=_CLCDF prefix=clus ;
+MPRINT(TMTERM1):   by _term_ ;
+MPRINT(TMTERM1):   var _freq_ ;
+MPRINT(TMTERM1):   id cluster;
+MPRINT(TMTERM1):   run ;
+
+NOTE: 322개의 관측값을 데이터셋 WORK._CLCDF.에서 읽었습니다.
+NOTE: 데이터셋 WORK._CLCDF은(는) 115개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: 프로시저 TRANSPOSE 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TMTERM1):   data _CLCDF ;
+MPRINT(TMTERM1):   length _term_ $100;
+MPRINT(TMTERM1):   array a_clus ( 6 ) 4 clus1 - clus6 ;
+MPRINT(TMTERM1):   set _CLCDF ;
+MPRINT(TMTERM1):   do _i_ = 1 to 6 ;
+MPRINT(TMTERM1):   if a_clus( _i_ ) = . then a_clus( _i_ ) = 0 ;
+MPRINT(TMTERM1):   end ;
+MPRINT(TMTERM1):   sumfreq = sum( of clus1 - clus6 ) ;
+MPRINT(TMTERM1):   if (clus1 = 0) or (clus1 < 0) then cdf1 = 0;
+MPRINT(TMTERM1):   else do;
+MPRINT(TMTERM1):   num = sumfreq - clus1 ;
+MPRINT(TMTERM1):   div = 3584 - 7;
+MPRINT(TMTERM1):   if div > 0 then do;
+MPRINT(TMTERM1):   propor = num/div;
+MPRINT(TMTERM1):   cdf1 = CDF( 'binomial', clus1 , propor , 7 ) ;
+MPRINT(TMTERM1):   end;
+MPRINT(TMTERM1):   else if num = 0 then cdf1 = 1;
+MPRINT(TMTERM1):   else cdf1 = 0;
+MPRINT(TMTERM1):   end;
+MPRINT(TMTERM1):   if (clus2 = 0) or (clus2 < 0) then cdf2 = 0;
+MPRINT(TMTERM1):   else do;
+MPRINT(TMTERM1):   num = sumfreq - clus2 ;
+MPRINT(TMTERM1):   div = 3584 - 553;
+MPRINT(TMTERM1):   if div > 0 then do;
+MPRINT(TMTERM1):   propor = num/div;
+MPRINT(TMTERM1):   cdf2 = CDF( 'binomial', clus2 , propor , 553 ) ;
+MPRINT(TMTERM1):   end;
+MPRINT(TMTERM1):   else if num = 0 then cdf2 = 1;
+MPRINT(TMTERM1):   else cdf2 = 0;
+MPRINT(TMTERM1):   end;
+MPRINT(TMTERM1):   if (clus3 = 0) or (clus3 < 0) then cdf3 = 0;
+MPRINT(TMTERM1):   else do;
+MPRINT(TMTERM1):   num = sumfreq - clus3 ;
+MPRINT(TMTERM1):   div = 3584 - 537;
+MPRINT(TMTERM1):   if div > 0 then do;
+MPRINT(TMTERM1):   propor = num/div;
+MPRINT(TMTERM1):   cdf3 = CDF( 'binomial', clus3 , propor , 537 ) ;
+MPRINT(TMTERM1):   end;
+MPRINT(TMTERM1):   else if num = 0 then cdf3 = 1;
+MPRINT(TMTERM1):   else cdf3 = 0;
+MPRINT(TMTERM1):   end;
+MPRINT(TMTERM1):   if (clus4 = 0) or (clus4 < 0) then cdf4 = 0;
+MPRINT(TMTERM1):   else do;
+MPRINT(TMTERM1):   num = sumfreq - clus4 ;
+MPRINT(TMTERM1):   div = 3584 - 378;
+MPRINT(TMTERM1):   if div > 0 then do;
+MPRINT(TMTERM1):   propor = num/div;
+MPRINT(TMTERM1):   cdf4 = CDF( 'binomial', clus4 , propor , 378 ) ;
+MPRINT(TMTERM1):   end;
+MPRINT(TMTERM1):   else if num = 0 then cdf4 = 1;
+MPRINT(TMTERM1):   else cdf4 = 0;
+MPRINT(TMTERM1):   end;
+MPRINT(TMTERM1):   if (clus5 = 0) or (clus5 < 0) then cdf5 = 0;
+MPRINT(TMTERM1):   else do;
+MPRINT(TMTERM1):   num = sumfreq - clus5 ;
+MPRINT(TMTERM1):   div = 3584 - 440;
+MPRINT(TMTERM1):   if div > 0 then do;
+MPRINT(TMTERM1):   propor = num/div;
+MPRINT(TMTERM1):   cdf5 = CDF( 'binomial', clus5 , propor , 440 ) ;
+MPRINT(TMTERM1):   end;
+MPRINT(TMTERM1):   else if num = 0 then cdf5 = 1;
+MPRINT(TMTERM1):   else cdf5 = 0;
+MPRINT(TMTERM1):   end;
+MPRINT(TMTERM1):   if (clus6 = 0) or (clus6 < 0) then cdf6 = 0;
+MPRINT(TMTERM1):   else do;
+MPRINT(TMTERM1):   num = sumfreq - clus6 ;
+MPRINT(TMTERM1):   div = 3584 - 1669;
+MPRINT(TMTERM1):   if div > 0 then do;
+MPRINT(TMTERM1):   propor = num/div;
+MPRINT(TMTERM1):   cdf6 = CDF( 'binomial', clus6 , propor , 1669 ) ;
+MPRINT(TMTERM1):   end;
+MPRINT(TMTERM1):   else if num = 0 then cdf6 = 1;
+MPRINT(TMTERM1):   else cdf6 = 0;
+MPRINT(TMTERM1):   end;
+MPRINT(TMTERM1):   saveplus=0;
+MPRINT(TMTERM1):   if kindex(kleft(ktrim(_term_)),'+')=1 then do;
+MPRINT(TMTERM1):   saveplus=1;
+MPRINT(TMTERM1):   _term_ = ksubstr(kleft(ktrim(_term_)),3);
+MPRINT(TMTERM1):   end;
+MPRINT(TMTERM1):   if kindex(kleft(ktrim(_term_)),' ')>0 then _term_ = "'"||kleft(ktrim(_term_)) || "'  ";
+MPRINT(TMTERM1):   else _term_ = kleft(ktrim(_term_)) || ' ';
+MPRINT(TMTERM1):   if saveplus=1 then do;
+MPRINT(TMTERM1):   _term_='+'||kleft(ktrim(_term_));
+MPRINT(TMTERM1):   end;
+MPRINT(TMTERM1):   drop _i_ propor sumfreq div num saveplus;
+MPRINT(TMTERM1):   run ;
+
+NOTE: 115개의 관측값을 데이터셋 WORK._CLCDF.에서 읽었습니다.
+NOTE: 데이터셋 WORK._CLCDF은(는) 115개의 관측값과 14개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.04 초
+      
+
+MPRINT(TMTERM1):   data _CLCDFTR ;
+MPRINT(TMTERM1):   array a_cdf ( 6 ) cdf1 - cdf6 ;
+MPRINT(TMTERM1):   array a_count ( 6 ) clus1 - clus6 ;
+MPRINT(TMTERM1):   length clus 4 ;
+MPRINT(TMTERM1):   set _CLCDF ;
+MPRINT(TMTERM1):   keep _term_ cdf clus doc_count;
+MPRINT(TMTERM1):   do clus = 1 to 6 ;
+MPRINT(TMTERM1):   cdf = a_cdf( clus ) ;
+MPRINT(TMTERM1):   doc_count = a_count( clus ) ;
+MPRINT(TMTERM1):   if cdf > 0 then output ;
+MPRINT(TMTERM1):   end ;
+MPRINT(TMTERM1):   run ;
+
+NOTE: 115개의 관측값을 데이터셋 WORK._CLCDF.에서 읽었습니다.
+NOTE: 데이터셋 WORK._CLCDFTR은(는) 322개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TMTERM1):   proc sql THREADS;
+MPRINT(TMTERM1):   drop table _CLCDF;
+NOTE: 테이블 WORK._CLCDF 을(를) 삭제했습니다.
+MPRINT(TMTERM1):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(TMSORT):   proc sort data = _CLCDFTR THREADS out = _CLCDFTR;
+MPRINT(TMSORT):   by clus descending cdf descending doc_count _term_;
+MPRINT(TMSORT):   run;
+
+NOTE: 322개의 관측값을 데이터셋 WORK._CLCDFTR.에서 읽었습니다.
+NOTE: 데이터셋 WORK._CLCDFTR은(는) 322개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.04 초
+      
+
+MPRINT(TMTERM1):  ;
+MPRINT(TMTERM1):   data _desc_;
+MPRINT(TMTERM1):   set _CLCDFTR (rename=(clus=cluster));
+MPRINT(TMTERM1):   format clus_desc $450.;
+MPRINT(TMTERM1):   retain oldclus 0 clus_desc '' count 0;
+MPRINT(TMTERM1):   keep _CLUSTER_ clus_desc ;
+MPRINT(TMTERM1):   if _N_ = 1 then do;
+MPRINT(TMTERM1):   oldclus = cluster;
+MPRINT(TMTERM1):   count = 1;
+MPRINT(TMTERM1):   end;
+MPRINT(TMTERM1):   if (count <= 15) and (cluster = oldclus) then do;
+MPRINT(TMTERM1):   if (_N_ = 1) then clus_desc = left(trim(_term_));
+MPRINT(TMTERM1):   else clus_desc = kleft(trim(clus_desc)) || "  " || kleft(trim(_term_));
+MPRINT(TMTERM1):   count = count + 1;
+MPRINT(TMTERM1):   if (_N_ = 322) then do;
+MPRINT(TMTERM1):   _CLUSTER_ = oldclus;
+MPRINT(TMTERM1):   clus_desc = left(trim(clus_desc));
+MPRINT(TMTERM1):   output;
+MPRINT(TMTERM1):   end;
+MPRINT(TMTERM1):   else delete;
+MPRINT(TMTERM1):   end;
+MPRINT(TMTERM1):   else if (count > 15) and (cluster = oldclus) then do;
+MPRINT(TMTERM1):   if (_N_ = 322) then do;
+MPRINT(TMTERM1):   _CLUSTER_ = oldclus;
+MPRINT(TMTERM1):   clus_desc = left(trim(clus_desc));
+MPRINT(TMTERM1):   output;
+MPRINT(TMTERM1):   end;
+MPRINT(TMTERM1):   else delete;
+MPRINT(TMTERM1):   end;
+MPRINT(TMTERM1):   else do;
+MPRINT(TMTERM1):   _CLUSTER_ = oldclus;
+MPRINT(TMTERM1):   oldclus = cluster;
+MPRINT(TMTERM1):   clus_desc = left(trim(clus_desc));
+MPRINT(TMTERM1):   output;
+MPRINT(TMTERM1):   count = 2;
+MPRINT(TMTERM1):   clus_desc = left(trim(_term_));
+MPRINT(TMTERM1):   if (_N_ = 322) then do;
+MPRINT(TMTERM1):   _CLUSTER_ = oldclus;
+MPRINT(TMTERM1):   clus_desc = left(trim(clus_desc));
+MPRINT(TMTERM1):   output;
+MPRINT(TMTERM1):   end;
+MPRINT(TMTERM1):   end;
+MPRINT(TMTERM1):   run;
+
+NOTE: 322개의 관측값을 데이터셋 WORK._CLCDFTR.에서 읽었습니다.
+NOTE: 데이터셋 WORK._DESC_은(는) 6개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TMTERM1):   proc sql THREADS;
+MPRINT(TMTERM1):   drop table _CLCDFTR;
+NOTE: 테이블 WORK._CLCDFTR 을(를) 삭제했습니다.
+MPRINT(TMTERM1):   drop view _CMB;
+NOTE: View WORK._CMB 을(를) 삭제했습니다.
+MPRINT(TMTERM1):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TM_CLUSTER):  ;
+MPRINT(TMSORT):   proc sort data = EMWS5.TextCluster3_clusters threads out = EMWS5.TextCluster3_clusters;
+MPRINT(TMSORT):   by _cluster_;
+MPRINT(TMSORT):   run;
+
+NOTE: 6개의 관측값을 데이터셋 EMWS5.TEXTCLUSTER3_CLUSTERS.에서 읽었습니다.
+NOTE: 데이터셋 EMWS5.TEXTCLUSTER3_CLUSTERS은(는) 6개의 관측값과 48개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TM_CLUSTER):  ;
+MPRINT(TMSORT):   proc sort data = _desc_ threads out = _desc_;
+MPRINT(TMSORT):   by _cluster_;
+MPRINT(TMSORT):   run;
+
+NOTE: 6개의 관측값을 데이터셋 WORK._DESC_.에서 읽었습니다.
+NOTE: 데이터셋 WORK._DESC_은(는) 6개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TM_CLUSTER):  ;
+MPRINT(TM_CLUSTER):   data _desc_;
+MPRINT(TM_CLUSTER):   merge EMWS5.TextCluster3_clusters _desc_;
+MPRINT(TM_CLUSTER):   by _cluster_;
+MPRINT(TM_CLUSTER):   run;
+
+NOTE: 6개의 관측값을 데이터셋 EMWS5.TEXTCLUSTER3_CLUSTERS.에서 읽었습니다.
+NOTE: 6개의 관측값을 데이터셋 WORK._DESC_.에서 읽었습니다.
+NOTE: 데이터셋 WORK._DESC_은(는) 6개의 관측값과 49개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TMSORT):   proc sort data = _desc_ threads out = EMWS5.TextCluster3_clusters;
+MPRINT(TMSORT):   by _cluster_;
+MPRINT(TMSORT):   run;
+
+NOTE: 6개의 관측값을 데이터셋 WORK._DESC_.에서 읽었습니다.
+NOTE: 데이터셋 EMWS5.TEXTCLUSTER3_CLUSTERS은(는) 6개의 관측값과 49개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TM_CLUSTER):  ;
+MPRINT(TM_CLUSTER):   filename temp;
+NOTE: Fileref TEMP을(를) 삭제했습니다.
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):   * add the info to EMINFO to forward on to other nodes ;
+MPRINT(TRAIN):   data EMWS5.TextCluster3_EMINFO;
+MPRINT(TRAIN):   length TARGET KEY $32 DATA $43;
+MPRINT(TRAIN):   key="LastTMNode";
+MPRINT(TRAIN):   data="TextCluster3";
+MPRINT(TRAIN):   output;
+MPRINT(TRAIN):   key="LastTMNodeType";
+MPRINT(TRAIN):   data="TextCluster";
+MPRINT(TRAIN):   output;
+MPRINT(TRAIN):   key="LastTextCluster";
+MPRINT(TRAIN):   data="TextCluster3";
+MPRINT(TRAIN):   output;
+MPRINT(TRAIN):   key="PRESCORECODE";
+MPRINT(TRAIN):   data="TextCluster3";
+MPRINT(TRAIN):   output;
+MPRINT(TRAIN):   run;
+
+NOTE: 변수 TARGET이(가) 초기화되지 않았습니다.
+NOTE: 데이터셋 EMWS5.TEXTCLUSTER3_EMINFO은(는) 4개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):   proc sql noprint;
+MPRINT(TRAIN):   select count(*) into :svdkeep from EMWS5.TextCluster3_svd_s where keep=1;
+MPRINT(TRAIN):   select count(*) into :cluscnt from EMWS5.TextCluster3_clusters;
+MPRINT(TRAIN):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(TRAIN):   data EMWS5.TextCluster3_tmconfig;
+MPRINT(TRAIN):   set EMWS5.TextCluster3_tmconfig;
+MPRINT(TRAIN):   clus_alg = "1.0";
+MPRINT(TRAIN):   maxsvd = 100;
+MPRINT(TRAIN):   svdkeep= 44;
+MPRINT(TRAIN):   last_prescore = "TextTopic                                  ";
+MPRINT(TRAIN):   run;
+
+NOTE: 1개의 관측값을 데이터셋 EMWS5.TEXTCLUSTER3_TMCONFIG.에서 읽었습니다.
+NOTE: 데이터셋 EMWS5.TEXTCLUSTER3_TMCONFIG은(는) 1개의 관측값과 33개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   length KEY $32 DELETE $1 UNAME $32 ROLE $32 LEVEL $10 ORDER $8 COMMENT $64 LOWERLIMIT 8 UPPERLIMIT 8;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_CLUSTER_");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("SEGMENT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("NOMINAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 1개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD1");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 1개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 2개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD2");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 3개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD3");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 3개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 4개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD4");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 4개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 5개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD5");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 5개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 6개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD6");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 6개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 7개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD7");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 7개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 8개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD8");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 8개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 9개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD9");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 9개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 10개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD10");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 10개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 11개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD11");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 11개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 12개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD12");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 12개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 13개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD13");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 13개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 14개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD14");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 14개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 15개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD15");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 15개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 16개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD16");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 16개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 17개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD17");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 17개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 18개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD18");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 18개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 19개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD19");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 19개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 20개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD20");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 20개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 21개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD21");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 21개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 22개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD22");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 22개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 23개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD23");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 23개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 24개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD24");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 24개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 25개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD25");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 25개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 26개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD26");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 26개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 27개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD27");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 27개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 28개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD28");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 28개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 29개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD29");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 29개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 30개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD30");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 30개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 31개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD31");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 31개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 32개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD32");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 32개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 33개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD33");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 33개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 34개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD34");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 34개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 35개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD35");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 35개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 36개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD36");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 36개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 37개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD37");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 37개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 38개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD38");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 38개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 39개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD39");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 39개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 40개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD40");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 40개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 41개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD41");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 41개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 42개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD42");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 42개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 43개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD43");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 43개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 44개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_SVD44");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("INPUT");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("INTERVAL");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 44개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 45개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_PROB1");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("REJECTED");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 45개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 46개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_PROB2");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("REJECTED");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 46개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 47개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_PROB3");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("REJECTED");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 47개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 48개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_PROB4");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("REJECTED");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 48개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 49개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_PROB5");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("REJECTED");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 49개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 50개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.04 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(EM_METACHANGE):   data WORK.EM_METACHANGE;
+MPRINT(EM_METACHANGE):   set WORK.EM_METACHANGE end=eof;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   if eof then do;
+MPRINT(EM_METACHANGE):   KEY = upcase("CDELTA_TRAIN");
+MPRINT(EM_METACHANGE):   UNAME = upcase("TextCluster3_PROB6");
+MPRINT(EM_METACHANGE):   DELETE = upcase("N");
+MPRINT(EM_METACHANGE):   ROLE = upcase("REJECTED");
+MPRINT(EM_METACHANGE):   LEVEL = upcase("");
+MPRINT(EM_METACHANGE):   ORDER = upcase("");
+MPRINT(EM_METACHANGE):   COMMENT = "";
+MPRINT(EM_METACHANGE):   LOWERLIMIT = .;
+MPRINT(EM_METACHANGE):   UPPERLIMIT = .;
+MPRINT(EM_METACHANGE):   output;
+MPRINT(EM_METACHANGE):   end;
+MPRINT(EM_METACHANGE):   run;
+
+NOTE: 50개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 51개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):   filename temp;
+WARNING: 파일 이름 TEMP이(가) 논리적으로 할당되지 않았습니다.
+MPRINT(MAIN):  ;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * End TRAIN: TextCluster3;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+25638      *------------------------------------------------------------*;
+25639      * End TRAIN: TextCluster3;
+25640      *------------------------------------------------------------*;
+
+25641      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+25642      * Close any missing semi colons;
+MPRINT(EM_DIAGRAM):   * Close any missing semi colons;
+25643      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+25644      ;
+MPRINT(EM_DIAGRAM):   ;
+25645      ;
+MPRINT(EM_DIAGRAM):   ;
+25646      ;
+MPRINT(EM_DIAGRAM):   ;
+25647      ;
+MPRINT(EM_DIAGRAM):   ;
+25648      quit;
+MPRINT(EM_DIAGRAM):   quit;
+25649      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+25650      * Close any unbalanced quotes;
+MPRINT(EM_DIAGRAM):   * Close any unbalanced quotes;
+25651      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+25652      /*; *"; *'; */
+25653      ;
+MPRINT(EM_DIAGRAM):   ;
+25654      run;
+MPRINT(EM_DIAGRAM):   run;
+25655      quit;
+MPRINT(EM_DIAGRAM):   quit;
+25656      /* Reset EM Options */
+25657      options formchar="|----|+|---+=|-/\<>*";
+MPRINT(EM_DIAGRAM):   options formchar="|----|+|---+=|-/\<>*";
+25658      options nocenter ls=256 ps=10000;
+MPRINT(EM_DIAGRAM):   options nocenter ls=256 ps=10000;
+25659      goptions reset=all device=GIF NODISPLAY;
+MPRINT(EM_DIAGRAM):   goptions reset=all device=GIF NODISPLAY;
+25660      proc sort data=WORK.EM_METACHANGE;
+MPRINT(EM_DIAGRAM):    proc sort data=WORK.EM_METACHANGE;
+25661      by key uname;
+MPRINT(EM_DIAGRAM):   by key uname;
+25662      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 51개의 관측값을 데이터셋 WORK.EM_METACHANGE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_METACHANGE은(는) 51개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.00 초
+      
+
+25663      filename x "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\TextCluster3\CDELTA_TRAIN.sas";
+MPRINT(EM_DIAGRAM):    filename x "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\TextCluster3\CDELTA_TRAIN.sas";
+25664      data _null_;
+MPRINT(EM_DIAGRAM):   data _null_;
+25665      file x;
+MPRINT(EM_DIAGRAM):   file x;
+25666      put 'if upcase(NAME) = "TEXTCLUSTER3_CLUSTER_" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_CLUSTER_" then do;';
+25667      put 'ROLE = "SEGMENT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "SEGMENT";';
+25668      put 'LEVEL = "NOMINAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "NOMINAL";';
+25669      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25670      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25671      put 'if upcase(NAME) = "TEXTCLUSTER3_PROB1" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_PROB1" then do;';
+25672      put 'ROLE = "REJECTED";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "REJECTED";';
+25673      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25674      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25675      put 'if upcase(NAME) = "TEXTCLUSTER3_PROB2" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_PROB2" then do;';
+25676      put 'ROLE = "REJECTED";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "REJECTED";';
+25677      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25678      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25679      put 'if upcase(NAME) = "TEXTCLUSTER3_PROB3" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_PROB3" then do;';
+25680      put 'ROLE = "REJECTED";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "REJECTED";';
+25681      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25682      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25683      put 'if upcase(NAME) = "TEXTCLUSTER3_PROB4" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_PROB4" then do;';
+25684      put 'ROLE = "REJECTED";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "REJECTED";';
+25685      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25686      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25687      put 'if upcase(NAME) = "TEXTCLUSTER3_PROB5" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_PROB5" then do;';
+25688      put 'ROLE = "REJECTED";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "REJECTED";';
+25689      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25690      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25691      put 'if upcase(NAME) = "TEXTCLUSTER3_PROB6" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_PROB6" then do;';
+25692      put 'ROLE = "REJECTED";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "REJECTED";';
+25693      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25694      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25695      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD1" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD1" then do;';
+25696      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25697      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25698      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25699      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25700      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD10" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD10" then do;';
+25701      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25702      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25703      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25704      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25705      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD11" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD11" then do;';
+25706      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25707      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25708      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25709      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25710      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD12" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD12" then do;';
+25711      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25712      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25713      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25714      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25715      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD13" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD13" then do;';
+25716      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25717      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25718      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25719      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25720      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD14" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD14" then do;';
+25721      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25722      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25723      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25724      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25725      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD15" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD15" then do;';
+25726      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25727      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25728      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25729      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25730      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD16" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD16" then do;';
+25731      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25732      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25733      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25734      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25735      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD17" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD17" then do;';
+25736      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25737      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25738      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25739      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25740      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD18" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD18" then do;';
+25741      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25742      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25743      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25744      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25745      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD19" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD19" then do;';
+25746      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25747      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25748      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25749      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25750      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD2" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD2" then do;';
+25751      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25752      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25753      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25754      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25755      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD20" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD20" then do;';
+25756      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25757      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25758      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25759      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25760      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD21" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD21" then do;';
+25761      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25762      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25763      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25764      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25765      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD22" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD22" then do;';
+25766      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25767      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25768      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25769      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25770      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD23" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD23" then do;';
+25771      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25772      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25773      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25774      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25775      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD24" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD24" then do;';
+25776      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25777      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25778      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25779      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25780      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD25" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD25" then do;';
+25781      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25782      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25783      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25784      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25785      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD26" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD26" then do;';
+25786      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25787      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25788      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25789      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25790      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD27" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD27" then do;';
+25791      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25792      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25793      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25794      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25795      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD28" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD28" then do;';
+25796      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25797      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25798      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25799      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25800      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD29" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD29" then do;';
+25801      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25802      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25803      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25804      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25805      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD3" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD3" then do;';
+25806      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25807      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25808      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25809      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25810      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD30" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD30" then do;';
+25811      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25812      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25813      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25814      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25815      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD31" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD31" then do;';
+25816      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25817      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25818      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25819      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25820      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD32" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD32" then do;';
+25821      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25822      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25823      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25824      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25825      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD33" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD33" then do;';
+25826      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25827      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25828      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25829      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25830      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD34" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD34" then do;';
+25831      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25832      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25833      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25834      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25835      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD35" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD35" then do;';
+25836      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25837      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25838      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25839      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25840      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD36" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD36" then do;';
+25841      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25842      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25843      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25844      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25845      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD37" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD37" then do;';
+25846      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25847      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25848      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25849      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25850      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD38" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD38" then do;';
+25851      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25852      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25853      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25854      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25855      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD39" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD39" then do;';
+25856      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25857      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25858      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25859      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25860      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD4" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD4" then do;';
+25861      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25862      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25863      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25864      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25865      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD40" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD40" then do;';
+25866      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25867      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25868      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25869      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25870      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD41" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD41" then do;';
+25871      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25872      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25873      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25874      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25875      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD42" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD42" then do;';
+25876      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25877      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25878      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25879      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25880      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD43" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD43" then do;';
+25881      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25882      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25883      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25884      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25885      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD44" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD44" then do;';
+25886      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25887      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25888      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25889      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25890      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD5" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD5" then do;';
+25891      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25892      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25893      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25894      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25895      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD6" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD6" then do;';
+25896      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25897      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25898      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25899      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25900      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD7" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD7" then do;';
+25901      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25902      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25903      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25904      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25905      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD8" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD8" then do;';
+25906      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25907      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25908      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25909      put 'else ';
+MPRINT(EM_DIAGRAM):   put 'else ';
+25910      put 'if upcase(NAME) = "TEXTCLUSTER3_SVD9" then do;';
+MPRINT(EM_DIAGRAM):   put 'if upcase(NAME) = "TEXTCLUSTER3_SVD9" then do;';
+25911      put 'ROLE = "INPUT";';
+MPRINT(EM_DIAGRAM):   put 'ROLE = "INPUT";';
+25912      put 'LEVEL = "INTERVAL";';
+MPRINT(EM_DIAGRAM):   put 'LEVEL = "INTERVAL";';
+25913      put 'end;';
+MPRINT(EM_DIAGRAM):   put 'end;';
+25914      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 파일 X:
+      파일 이름=C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\TextCluster3\CDELTA_TRAIN.sas,
+      RECFM=V,LRECL=32767,파일 크기 (바이트)=0,
+      마지막 수정일=2018년 11월 17일 17시43분32초,
+      생성 시간=2018년 11월 17일 17시42분52초
+
+NOTE: 248개의 레코드를 파일 X에 기록했습니다.
+      최소 레코드 길이는 4입니다.
+      최대 레코드 길이는 50입니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+25915      filename x;
+MPRINT(EM_DIAGRAM):   filename x;
+NOTE: Fileref X을(를) 삭제했습니다.
+MPRINT(EM_DIAGRAM):    proc printto;
+MPRINT(EM_DIAGRAM):   run;

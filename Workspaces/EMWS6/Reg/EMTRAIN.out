@@ -1,0 +1,208 @@
+ 
+                                                                                               
+ 
+ 
+변수 요약
+
+            측도 레     빈도
+역할           벨       개수
+
+INPUT       BINARY        6 
+INPUT       INTERVAL      7 
+INPUT       NOMINAL       3 
+REJECTED    INTERVAL      8 
+TARGET      BINARY        1 
+ 
+                                                                                               
+ 
+ 
+모델 이벤트
+
+                      측도     레벨
+ 타겟      이벤트     레벨      수        순서       레이블
+
+RESPOND      1       BINARY      2     Descending          
+ 
+                                                                                               
+ 
+ 
+예측 및 의사결정 변수
+
+유형            변수       레이블
+
+TARGET       RESPOND                           
+PREDICTED    P_RESPOND1    Predicted: RESPOND=1
+RESIDUAL     R_RESPOND1    Residual: RESPOND=1 
+PREDICTED    P_RESPOND0    Predicted: RESPOND=0
+RESIDUAL     R_RESPOND0    Residual: RESPOND=0 
+FROM         F_RESPOND     From: RESPOND       
+INTO         I_RESPOND     Into: RESPOND       
+ 
+                                                                                               
+ 
+ 
+
+The DMREG Procedure
+
+                Model Information
+
+Training Data Set              WORK.EM_DMREG.VIEW
+DMDB Catalog                   WORK.REG_DMDB     
+Target Variable                RESPOND           
+Target Measurement Level       Ordinal           
+Number of Target Categories    2                 
+Error                          MBernoulli        
+Link Function                  Logit             
+Number of Model Parameters     29                
+Number of Observations         3714              
+
+
+          Target Profile
+ 
+ Ordered                     Total
+   Value     RESPOND     Frequency
+
+       1     1                 276
+       2     0                3438
+ 
+                                                                                               
+ 
+ 
+
+The DMREG Procedure
+
+Newton-Raphson Ridge Optimization
+
+Without Parameter Scaling
+
+Parameter Estimates              27
+
+                                      Optimization Start
+
+Active Constraints                           0  Objective Function                982.93286325
+Max Abs Gradient Element          44.284329564                                                
+
+
+                                                                                        Ratio
+                                                                                      Between
+                                                                                       Actual
+                                                       Objective   Max Abs                and
+                 Function       Active      Objective   Function  Gradient          Predicted
+Iter   Restarts     Calls  Constraints       Function     Change   Element   Ridge     Change
+
+   1          0         2            0      937.22765    45.7052   52.0137       0      0.808
+   2          0         3            0      930.44219     6.7855    3.7984       0      1.053
+   3          0         4            0      930.38916     0.0530    0.0361       0      1.008
+   4          0         5            0      930.38915   7.205E-6   5.04E-6       0      1.000
+
+                                     Optimization Results
+
+Iterations                                   4  Function Calls                               7
+Hessian Calls                                5  Active Constraints                           0
+Objective Function                930.38915201  Max Abs Gradient Element          5.0398108E-6
+Ridge                                        0  Actual Over Pred Change           1.0001011396
+
+Convergence criterion (GCONV=1E-6) satisfied.                                                  
+
+
+     Likelihood Ratio Test for Global Null Hypothesis: BETA=0
+ 
+     -2 Log Likelihood          Likelihood
+  Intercept     Intercept &          Ratio
+       Only      Covariates     Chi-Square       DF     Pr > ChiSq
+
+   1965.866        1860.778       105.0874       26         <.0001
+
+
+         Type 3 Analysis of Effects
+ 
+                          Wald
+Effect        DF    Chi-Square    Pr > ChiSq
+
+AGE            1       14.7644        0.0001
+BUY12          1        1.0446        0.3067
+BUY18          1       11.6610        0.0006
+BUY6           1        0.6287        0.4278
+CLIMATE        2        2.6729        0.2628
+COA6           1        4.5161        0.0336
+DISCBUY        1        0.2761        0.5992
+FICO           1        9.8723        0.0017
+INCOME         1        2.3993        0.1214
+LOC            5        2.9602        0.7061
+MARRIED        1       10.6453        0.0011
+ORGSRC         6       12.0251        0.0614
+OWNHOME        1        4.3354        0.0373
+RETURN24       1        0.0737        0.7861
+SEX            1        0.0251        0.8741
+VALUE24        1        0.7374        0.3905
+
+
+                         Analysis of Maximum Likelihood Estimates
+ 
+                               Standard         Wald                Standardized
+Parameter      DF   Estimate      Error   Chi-Square   Pr > ChiSq       Estimate   Exp(Est)
+
+Intercept       1     3.5429     1.5450         5.26       0.0218                    34.565
+AGE             1    -0.0275    0.00716        14.76       0.0001        -0.1528      0.973
+BUY12           1    -0.2577     0.2521         1.04       0.3067        -0.0603      0.773
+BUY18           1     0.5987     0.1753        11.66       0.0006         0.1875      1.820
+BUY6            1    -0.2080     0.2623         0.63       0.4278        -0.0386      0.812
+CLIMATE   10    1     0.2489     0.1966         1.60       0.2056                     1.283
+CLIMATE   20    1    -0.2476     0.1572         2.48       0.1151                     0.781
+COA6      0     1    -0.3264     0.1536         4.52       0.0336                     0.722
+DISCBUY   0     1     0.0381     0.0726         0.28       0.5992                     1.039
+FICO            1   -0.00673    0.00214         9.87       0.0017        -0.1085      0.993
+INCOME          1   -0.00630    0.00407         2.40       0.1214        -0.0564      0.994
+LOC       A     1    -0.1865     0.2593         0.52       0.4720                     0.830
+LOC       B     1     0.1298     0.2162         0.36       0.5484                     1.139
+LOC       C     1     0.1486     0.2409         0.38       0.5373                     1.160
+LOC       D     1     0.1703     0.2413         0.50       0.4804                     1.186
+LOC       E     1     0.0552     0.2136         0.07       0.7960                     1.057
+LOC       F     0          0          .          .          .                  .       .   
+LOC       G     0          0          .          .          .                  .       .   
+MARRIED   0     1    -0.2432     0.0745        10.65       0.0011                     0.784
+ORGSRC    C     1    -0.0876     0.1962         0.20       0.6550                     0.916
+ORGSRC    D     1    -0.1293     0.1812         0.51       0.4754                     0.879
+ORGSRC    I     1    -0.3660     0.6422         0.32       0.5687                     0.694
+ORGSRC    O     1     0.0478     0.1692         0.08       0.7776                     1.049
+ORGSRC    P     1     0.4829     0.1663         8.44       0.0037                     1.621
+ORGSRC    R     1    -0.0134     0.2027         0.00       0.9474                     0.987
+OWNHOME   0     1     0.1579     0.0758         4.34       0.0373                     1.171
+RETURN24  0     1    -0.0329     0.1214         0.07       0.7861                     0.968
+SEX       F     1     0.0103     0.0653         0.03       0.8741                     1.010
+VALUE24         1   0.000462   0.000538         0.74       0.3905         0.0397      1.000
+
+
+    Odds Ratio Estimates
+              
+                        Point
+Effect               Estimate
+
+AGE                     0.973
+BUY12                   0.773
+BUY18                   1.820
+BUY6                    0.812
+CLIMATE  10 vs 30       1.284
+CLIMATE  20 vs 30       0.782
+COA6     0 vs 1         0.521
+DISCBUY  0 vs 1         1.079
+FICO                    0.993
+INCOME                  0.994
+LOC      A vs H         1.140
+LOC      B vs H         1.564
+LOC      C vs H         1.593
+LOC      D vs H         1.628
+LOC      E vs H         1.451
+LOC      F vs H          .   
+LOC      G vs H          .   
+MARRIED  0 vs 1         0.615
+ORGSRC   C vs U         0.858
+ORGSRC   D vs U         0.823
+ORGSRC   I vs U         0.649
+ORGSRC   O vs U         0.982
+ORGSRC   P vs U         1.518
+ORGSRC   R vs U         0.924
+OWNHOME  0 vs 1         1.371
+RETURN24 0 vs 1         0.936
+SEX      F vs M         1.021
+VALUE24                 1.000

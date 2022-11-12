@@ -1,0 +1,1321 @@
+*------------------------------------------------------------*
+사용자:                Administrator
+날짜:                2018년 11월 06일
+시간:                10시16분43초
+사이트:                10503192
+플랫폼:            X64_10HOME
+관리 릴리스: 9.04.01M4P110916
+EM 버전:          14.2
+* 
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 06일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "10시16분36초" );
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 분석 로그";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+*------------------------------------------------------------*
+* 분석 로그
+날짜:                2018년 11월 06일
+시간:                10시16분36초
+*------------------------------------------------------------*
+MPRINT(EM_DIAGRAM):    filename O3VYVRV6 "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS4\PRINCOMP\EMTRAIN.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   proc printto print=O3VYVRV6 new;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _LOG "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS4\PRINCOMP\EMLOG.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 06일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "10시16분36초" );
+MPRINT(EM_DIAGRAM):   file _LOG;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "사용자:                Administrator";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "사이트:                10503192";
+MPRINT(EM_DIAGRAM):   put "플랫폼:            X64_10HOME";
+MPRINT(EM_DIAGRAM):   put "관리 릴리스: 9.04.01M4P110916";
+MPRINT(EM_DIAGRAM):   put "EM 버전:          14.2";
+MPRINT(EM_DIAGRAM):   put "* ";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _LOGIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS4\PRINCOMP\EMTRAIN.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_COPYFILE):   data _null_;
+MPRINT(EM_COPYFILE):   length line $20000;
+MPRINT(EM_COPYFILE):   file _LOG MOD lrecl=20000;
+MPRINT(EM_COPYFILE):   fid=fopen("_LOGIN",'i',20000,'v');
+MPRINT(EM_COPYFILE):   if fid > 0 then do;
+MPRINT(EM_COPYFILE):   do while(^fread(fid));
+MPRINT(EM_COPYFILE):   rlen = frlen(fid);
+MPRINT(EM_COPYFILE):   rc= fget(fid,line,20000);
+MPRINT(EM_COPYFILE):   start = length(line)-length(left(line))+1;
+MPRINT(EM_COPYFILE):   line=strip(line);
+MPRINT(EM_COPYFILE):   put @start line;
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   if fid > 0 then rc=fclose(fid);
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   run;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _LOGIN;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   file _LOG mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   filename _LOGIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS4\PRINCOMP\EMSCORE.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   file _LOG mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _LOGIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS4\PRINCOMP\EMREPORT.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _LOGIN;
+MPRINT(EM_DIAGRAM):    filename _LOG;
+MPRINT(EM_DIAGRAM):    filename _OUT "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS4\PRINCOMP\EMOUTPUT.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 06일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "10시16분36초" );
+MPRINT(EM_DIAGRAM):   file _OUT;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "사용자:                Administrator";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 분석 출력";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _OUTIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS4\PRINCOMP\EMTRAIN.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   ;
+MPRINT(EM_COPYFILE):   data _null_;
+MPRINT(EM_COPYFILE):   length line $20000;
+MPRINT(EM_COPYFILE):   file _OUT MOD lrecl=20000;
+MPRINT(EM_COPYFILE):   fid=fopen("_OUTIN",'i',20000,'v');
+MPRINT(EM_COPYFILE):   if fid > 0 then do;
+MPRINT(EM_COPYFILE):   do while(^fread(fid));
+MPRINT(EM_COPYFILE):   rlen = frlen(fid);
+MPRINT(EM_COPYFILE):   rc= fget(fid,line,20000);
+MPRINT(EM_COPYFILE):   start = length(line)-length(left(line))+1;
+MPRINT(EM_COPYFILE):   line=strip(line);
+MPRINT(EM_COPYFILE):   put @start line;
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   if fid > 0 then rc=fclose(fid);
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   run;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _OUTIN;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   file _OUT mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   put // "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 스코어 출력";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _OUTIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS4\PRINCOMP\EMSCORE.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _OUTIN;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   file _OUT mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   put // "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 리포트 출력";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _OUTIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS4\PRINCOMP\EMREPORT.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _OUTIN;
+MPRINT(EM_DIAGRAM):    filename _OUT;
+MPRINT(EM_DIAGRAM):    filename _emtool_ 'C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS4\PRINCOMP\EMRUNSTATUS.xml' encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):    filename _emtool_ 'C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS4\PRINCOMP\EMRUNSTATUS.xml' encoding="UTF-8" NOBOM;
+22127      proc freq data=EMWS4.PRINCOMP_VariableSet noprint;
+MPRINT(EM_DIAGRAM):    proc freq data=EMWS4.PRINCOMP_VariableSet noprint;
+22128      table ROLE*LEVEL/out=WORK.PRINCOMPMETA;
+MPRINT(EM_DIAGRAM):   table ROLE*LEVEL/out=WORK.PRINCOMPMETA;
+22129      run;
+MPRINT(EM_DIAGRAM):   run;
+ 
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_VARIABLESET.에서 읽었습니다.
+NOTE: 데이터셋 WORK.PRINCOMPMETA은(는) 1개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: 프로시저 FREQ 실행(총 프로세스 시간):
+      실행 시간           0.05 초
+      cpu 시간            0.04 초
+ 
+ 
+22130      proc print data=WORK.PRINCOMPMETA label noobs;
+MPRINT(EM_DIAGRAM):   proc print data=WORK.PRINCOMPMETA label noobs;
+22131      var ROLE LEVEL COUNT;
+MPRINT(EM_DIAGRAM):   var ROLE LEVEL COUNT;
+22132      label ROLE = "%sysfunc(sasmsg(sashelp.dmine, meta_role_vlabel, NOQUOTE))" LEVEL = "%sysfunc(sasmsg(sashelp.dmine, meta_level_vlabel, NOQUOTE))" COUNT = "%sysfunc(sasmsg(sashelp.dmine, rpt_count_vlabel, NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label ROLE = "역할" LEVEL = "측도 레벨" COUNT = "빈도 개수";
+22133      title9 ' ';
+MPRINT(EM_DIAGRAM):   title9 ' ';
+22134      title10 "%sysfunc(sasmsg(sashelp.dmine, rpt_varSummary_title  , NOQUOTE))";
+MPRINT(EM_DIAGRAM):   title10 "변수 요약";
+MPRINT(EM_DIAGRAM):   run;
+22135      run;
+ 
+NOTE: 1개의 관측값을 데이터셋 WORK.PRINCOMPMETA.에서 읽었습니다.
+NOTE: 출력 결과 (프로시저: PRINT, 페이지: 1)
+NOTE: 프로시저 PRINT 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.03 초
+ 
+ 
+22136      title10;
+MPRINT(EM_DIAGRAM):   title10;
+22137      data WORK.M3CI3X92;
+MPRINT(EM_DIAGRAM):    data WORK.M3CI3X92;
+22138      set WORK.M3CI3X92;
+MPRINT(EM_DIAGRAM):   set WORK.M3CI3X92;
+22139      if role = 'INPUT' and use in ('Y','D') then do;
+MPRINT(EM_DIAGRAM):   if role = 'INPUT' and use in ('Y','D') then do;
+22140      role = 'INPUT';
+MPRINT(EM_DIAGRAM):   role = 'INPUT';
+22141      output;
+MPRINT(EM_DIAGRAM):   output;
+22142      end;
+MPRINT(EM_DIAGRAM):   end;
+22143      if role = 'REJECTED' and use = 'Y' then do;
+MPRINT(EM_DIAGRAM):   if role = 'REJECTED' and use = 'Y' then do;
+22144      role = 'INPUT';
+MPRINT(EM_DIAGRAM):   role = 'INPUT';
+22145      output;
+MPRINT(EM_DIAGRAM):   output;
+22146      end;
+MPRINT(EM_DIAGRAM):   end;
+22147      if role = 'FREQ' then do;
+MPRINT(EM_DIAGRAM):   if role = 'FREQ' then do;
+22148      role = 'FREQ';
+MPRINT(EM_DIAGRAM):   role = 'FREQ';
+22149      output;
+MPRINT(EM_DIAGRAM):   output;
+22150      end;
+MPRINT(EM_DIAGRAM):   end;
+22151      run;
+MPRINT(EM_DIAGRAM):   run;
+ 
+NOTE: 4개의 관측값을 데이터셋 WORK.M3CI3X92.에서 읽었습니다.
+NOTE: 데이터셋 WORK.M3CI3X92은(는) 4개의 관측값과 21개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+ 
+ 
+22152      *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------* ;
+22153      * EM: DMDBClass Macro ;
+MPRINT(EM_DIAGRAM):   * EM: DMDBClass Macro ;
+22154      *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+22155      %macro DMDBClass;
+22156
+22157      %mend DMDBClass;
+22158      *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+22159      * EM: DMDBVar Macro ;
+MPRINT(EM_DIAGRAM):   * EM: DMDBVar Macro ;
+22160      *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+22161      %macro DMDBVar;
+22162          FASHION LEISURE ORIGINAL STRETCH
+22163      %mend DMDBVar;
+22164      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+22165      * EM: Create DMDB;
+MPRINT(EM_DIAGRAM):   * EM: Create DMDB;
+22166      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+22167      proc dmdb batch data=EMWS4.Ids_DATA
+22168      dmdbcat=WORK.EM_DMDB
+22169      maxlevel = 513
+22170      ;
+MPRINT(EM_DIAGRAM):   proc dmdb batch data=EMWS4.Ids_DATA dmdbcat=WORK.EM_DMDB maxlevel = 513 ;
+MPRINT(EM_DIAGRAM):   var
+22171      var %DMDBVar;
+MPRINT(DMDBVAR):   FASHION LEISURE ORIGINAL STRETCH
+MPRINT(EM_DIAGRAM):  ;
+22172      run;
+MPRINT(EM_DIAGRAM):   run;
+ 
+NOTE: Records processed = 689   Memory used = 511K.
+NOTE: View EMWS4.IDS_DATA.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.07 초
+      cpu 시간            0.06 초
+ 
+NOTE: 689개의 관측값을 데이터셋 DM_LIB.JEAN.에서 읽었습니다.
+NOTE: 689개의 관측값을 데이터셋 EMWS4.IDS_DATA.에서 읽었습니다.
+NOTE: 프로시저 DMDB 실행(총 프로세스 시간):
+      실행 시간           0.09 초
+      cpu 시간            0.07 초
+ 
+ 
+MPRINT(EM_DIAGRAM):   quit;
+MPRINT(EM_DIAGRAM):   *--- end code ---*;
+22173      quit;
+22174      *--- end code ---*;
+ 
+22175      *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------* ;
+22176      * PRINCOMP: Input Variables Macro ;
+MPRINT(EM_DIAGRAM):   * PRINCOMP: Input Variables Macro ;
+22177      *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+22178      %macro INPUTS;
+22179          FASHION LEISURE ORIGINAL STRETCH
+22180      %mend INPUTS;
+22181      proc dmneurl data=EMWS4.Ids_DATA dmdbcat=WORK.EM_DMDB
+22182      outstat=EMWS4.PRINCOMP_OUTSTAT outclass=EMWS4.PRINCOMP_OUTCLASS
+22183      CORR
+22184      NOMONITOR
+22185      ;
+MPRINT(EM_DIAGRAM):   proc dmneurl data=EMWS4.Ids_DATA dmdbcat=WORK.EM_DMDB outstat=EMWS4.PRINCOMP_OUTSTAT outclass=EMWS4.PRINCOMP_OUTCLASS CORR NOMONITOR ;
+MPRINT(EM_DIAGRAM):   var
+22186      var %INPUTS;
+MPRINT(INPUTS):   FASHION LEISURE ORIGINAL STRETCH
+MPRINT(EM_DIAGRAM):  ;
+22187      ;
+MPRINT(EM_DIAGRAM):   ;
+22188      run;
+MPRINT(EM_DIAGRAM):   run;
+ 
+NOTE: 데이터셋 EMWS4.PRINCOMP_OUTCLASS은(는) 0개의 관측값과 3개의 변수를 가지고 있습니다.
+ 
+Building X'X  for target:  rows=5 memory=0.00 meg.
+689 records read
+689 records read
+NOTE: 데이터셋 EMWS4.PRINCOMP_OUTSTAT은(는) 10개의 관측값과 6개의 변수를 가지고 있습니다.
+*** Total Number of Runs through Data :        2
+*** Total Number of NL Optimizations  :        0
+NOTE: View EMWS4.IDS_DATA.VIEW 실행(총 프로세스 시간):
+      실행 시간           1.29 초
+      cpu 시간            0.26 초
+ 
+NOTE: 689개의 관측값을 데이터셋 DM_LIB.JEAN.에서 읽었습니다.
+NOTE: 출력 결과 (프로시저: DMNEURL, 페이지: 2-3)
+NOTE: 프로시저 DMNEURL 실행(총 프로세스 시간):
+      실행 시간           1.31 초
+      cpu 시간            0.28 초
+ 
+ 
+22189      data EMWS4.PRINCOMP_STDMEAN;
+MPRINT(EM_DIAGRAM):    data EMWS4.PRINCOMP_STDMEAN;
+22190      set EMWS4.PRINCOMP_OUTSTAT;
+MPRINT(EM_DIAGRAM):   set EMWS4.PRINCOMP_OUTSTAT;
+22191      if _TYPE_='_STDEV_' or _TYPE_='_MEAN_' then output;
+MPRINT(EM_DIAGRAM):   if _TYPE_='_STDEV_' or _TYPE_='_MEAN_' then output;
+22192      DROP _EIGVAL_;
+MPRINT(EM_DIAGRAM):   DROP _EIGVAL_;
+22193      run;
+MPRINT(EM_DIAGRAM):   run;
+ 
+NOTE: 10개의 관측값을 데이터셋 EMWS4.PRINCOMP_OUTSTAT.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_STDMEAN은(는) 2개의 관측값과 5개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+ 
+ 
+22194      /*----create a data set of eigenvalue-eigenvector pairs---*/
+22195      data EMWS4.PRINCOMP_EIGENVECTOR;
+MPRINT(EM_DIAGRAM):    data EMWS4.PRINCOMP_EIGENVECTOR;
+22196      set EMWS4.PRINCOMP_OUTSTAT;
+MPRINT(EM_DIAGRAM):   set EMWS4.PRINCOMP_OUTSTAT;
+22197      if upcase(_TYPE_)='_V_MAP_' or upcase(_TYPE_)='_C_MAP_' or upcase(_TYPE_)='_MEAN_' or upcase(_TYPE_)='_STDEV_' or upcase(_TYPE_)='_EIGVAL_' or _EIGVAL_=0 then delete;
+MPRINT(EM_DIAGRAM):   if upcase(_TYPE_)='_V_MAP_' or upcase(_TYPE_)='_C_MAP_' or upcase(_TYPE_)='_MEAN_' or upcase(_TYPE_)='_STDEV_' or upcase(_TYPE_)='_EIGVAL_' or _EIGVAL_=0 then delete;
+22198      drop _TYPE_;
+MPRINT(EM_DIAGRAM):   drop _TYPE_;
+22199      rename _EIGVAL_=Eigenvalue;
+MPRINT(EM_DIAGRAM):   rename _EIGVAL_=Eigenvalue;
+22200      /*--------- eigenvalue data set------------ */
+ 
+NOTE: 10개의 관측값을 데이터셋 EMWS4.PRINCOMP_OUTSTAT.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_EIGENVECTOR은(는) 4개의 관측값과 5개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+ 
+ 
+22201      data EMWS4.PRINCOMP_EIGEN;
+MPRINT(EM_DIAGRAM):   data EMWS4.PRINCOMP_EIGEN;
+22202      set EMWS4.PRINCOMP_EIGENVECTOR;
+MPRINT(EM_DIAGRAM):   set EMWS4.PRINCOMP_EIGENVECTOR;
+22203      Keep EigenValue;
+MPRINT(EM_DIAGRAM):   Keep EigenValue;
+ 
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_EIGENVECTOR.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_EIGEN은(는) 4개의 관측값과 1개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.00 초
+ 
+ 
+22204      proc transpose data=EMWS4.PRINCOMP_EIGEN out=EMWS4.PRINCOMP_EIGEN prefix=PC_;
+MPRINT(EM_DIAGRAM):   proc transpose data=EMWS4.PRINCOMP_EIGEN out=EMWS4.PRINCOMP_EIGEN prefix=PC_;
+ 
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_EIGEN.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_EIGEN은(는) 1개의 관측값과 5개의 변수를 가지고 있습니다.
+NOTE: 프로시저 TRANSPOSE 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+ 
+ 
+22205      proc transpose data=EMWS4.PRINCOMP_EIGEN out=EMWS4.PRINCOMP_EIGEN;
+MPRINT(EM_DIAGRAM):   proc transpose data=EMWS4.PRINCOMP_EIGEN out=EMWS4.PRINCOMP_EIGEN;
+22206      /*----------Eigenvector data set ------------*/
+ 
+NOTE: 1개의 관측값을 데이터셋 EMWS4.PRINCOMP_EIGEN.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_EIGEN은(는) 4개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: 프로시저 TRANSPOSE 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+ 
+ 
+22207      data EMWS4.PRINCOMP_EIGENVECTOR;
+MPRINT(EM_DIAGRAM):   data EMWS4.PRINCOMP_EIGENVECTOR;
+22208      merge EMWS4.PRINCOMP_EIGEN EMWS4.PRINCOMP_EIGENVECTOR;
+MPRINT(EM_DIAGRAM):   merge EMWS4.PRINCOMP_EIGEN EMWS4.PRINCOMP_EIGENVECTOR;
+22209      DROP EigenValue;
+MPRINT(EM_DIAGRAM):   DROP EigenValue;
+ 
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_EIGEN.에서 읽었습니다.
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_EIGENVECTOR.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_EIGENVECTOR은(는) 4개의 관측값과 5개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+ 
+ 
+22210      proc sort data=EMWS4.PRINCOMP_EIGEN;
+MPRINT(EM_DIAGRAM):   proc sort data=EMWS4.PRINCOMP_EIGEN;
+22211      by EigenValue;
+MPRINT(EM_DIAGRAM):   by EigenValue;
+ 
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_EIGEN.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_EIGEN은(는) 4개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+ 
+ 
+22212      data EMWS4.PRINCOMP_EIGEN;
+MPRINT(EM_DIAGRAM):   data EMWS4.PRINCOMP_EIGEN;
+22213      set EMWS4.PRINCOMP_EIGEN;
+MPRINT(EM_DIAGRAM):   set EMWS4.PRINCOMP_EIGEN;
+22214      Difference=Eigenvalue-lag(Eigenvalue);
+MPRINT(EM_DIAGRAM):   Difference=Eigenvalue-lag(Eigenvalue);
+22215      ProportionalEigenvalue=EigenValue/4;
+MPRINT(EM_DIAGRAM):   ProportionalEigenvalue=EigenValue/4;
+22216      LagProportionalEigenvalue=lag(ProportionalEigenvalue);
+MPRINT(EM_DIAGRAM):   LagProportionalEigenvalue=lag(ProportionalEigenvalue);
+22217      label EigenValue = "고유값";
+MPRINT(EM_DIAGRAM):   label EigenValue = "고유값";
+22218      label Difference = "차분";
+MPRINT(EM_DIAGRAM):   label Difference = "차분";
+ 
+NOTE: 결측값을 사용한 연산의 결과로 결측값을 생성했습니다.
+      생성 정보: (발생횟수) || (행):(칼럼).
+      1 || 22214:22
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_EIGEN.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_EIGEN은(는) 4개의 관측값과 5개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+ 
+ 
+22219      proc sort data=EMWS4.PRINCOMP_EIGEN;
+MPRINT(EM_DIAGRAM):   proc sort data=EMWS4.PRINCOMP_EIGEN;
+22220      by DESCENDING EigenValue;
+MPRINT(EM_DIAGRAM):   by DESCENDING EigenValue;
+22221      run;
+MPRINT(EM_DIAGRAM):   run;
+ 
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_EIGEN.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_EIGEN은(는) 4개의 관측값과 5개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+ 
+ 
+22222      data EMWS4.PRINCOMP_EIGEN;
+MPRINT(EM_DIAGRAM):    data EMWS4.PRINCOMP_EIGEN;
+22223      set EMWS4.PRINCOMP_EIGEN;
+MPRINT(EM_DIAGRAM):   set EMWS4.PRINCOMP_EIGEN;
+22224      CumProportionalEigenvalue+ProportionalEigenvalue;
+MPRINT(EM_DIAGRAM):   CumProportionalEigenvalue+ProportionalEigenvalue;
+22225      /* to avoid  CumProportionalEigenvalue > 1 because of the precision */
+22226      if CumProportionalEigenvalue > 1.0 then CumProportionalEigenvalue=1.0;
+MPRINT(EM_DIAGRAM):   if CumProportionalEigenvalue > 1.0 then CumProportionalEigenvalue=1.0;
+22227      LogEigenvalue=Log(Eigenvalue);
+MPRINT(EM_DIAGRAM):   LogEigenvalue=Log(Eigenvalue);
+22228      length Exported $8;
+MPRINT(EM_DIAGRAM):   length Exported $8;
+22229      Exported = 'NO';
+MPRINT(EM_DIAGRAM):   Exported = 'NO';
+22230      label LogEigenvalue = "로그 고유값";
+MPRINT(EM_DIAGRAM):   label LogEigenvalue = "로그 고유값";
+22231      label Exported = "내보냄";
+MPRINT(EM_DIAGRAM):   label Exported = "내보냄";
+ 
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_EIGEN.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_EIGEN은(는) 4개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.03 초
+ 
+ 
+22232      data WORK._DSEIGENCHART;
+MPRINT(EM_DIAGRAM):   data WORK._DSEIGENCHART;
+22233      set EMWS4.PRINCOMP_EIGEN;
+MPRINT(EM_DIAGRAM):   set EMWS4.PRINCOMP_EIGEN;
+22234      PC_=_N_;
+MPRINT(EM_DIAGRAM):   PC_=_N_;
+22235      DROP _NAME_;
+MPRINT(EM_DIAGRAM):   DROP _NAME_;
+22236      run;
+MPRINT(EM_DIAGRAM):   run;
+ 
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_EIGEN.에서 읽었습니다.
+NOTE: 데이터셋 WORK._DSEIGENCHART은(는) 4개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+ 
+ 
+22237      data WORK._EMPRINDSSUBEIGEN;
+MPRINT(EM_DIAGRAM):    data WORK._EMPRINDSSUBEIGEN;
+22238      set EMWS4.PRINCOMP_EIGEN;
+MPRINT(EM_DIAGRAM):   set EMWS4.PRINCOMP_EIGEN;
+22239      if ( CumProportionalEigenvalue GE 0.99 ) or (LagProportionalEigenvalue LT 0.001 and CumProportionalEigenvalue GE 0.9 )
+22240      or ( _N_ > 4-1)
+22241      then delete;
+MPRINT(EM_DIAGRAM):   if ( CumProportionalEigenvalue GE 0.99 ) or (LagProportionalEigenvalue LT 0.001 and CumProportionalEigenvalue GE 0.9 ) or ( _N_ > 4-1) then delete;
+22242      run;
+MPRINT(EM_DIAGRAM):   run;
+ 
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_EIGEN.에서 읽었습니다.
+NOTE: 데이터셋 WORK._EMPRINDSSUBEIGEN은(는) 3개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+ 
+ 
+22243      data EMWS4.PRINCOMP_EIGEN;
+MPRINT(EM_DIAGRAM):    data EMWS4.PRINCOMP_EIGEN;
+22244      length PC 8.;
+MPRINT(EM_DIAGRAM):   length PC 8.;
+22245      set EMWS4.PRINCOMP_EIGEN;
+MPRINT(EM_DIAGRAM):   set EMWS4.PRINCOMP_EIGEN;
+22246      if _N_ < 4+1 then Exported = 'YES';
+MPRINT(EM_DIAGRAM):   if _N_ < 4+1 then Exported = 'YES';
+22247      Drop LagProportionalEigenvalue;
+MPRINT(EM_DIAGRAM):   Drop LagProportionalEigenvalue;
+22248      PC = _N_;
+MPRINT(EM_DIAGRAM):   PC = _N_;
+22249      format PC 8.;
+MPRINT(EM_DIAGRAM):   format PC 8.;
+22250      rename _NAME_ = Component;
+MPRINT(EM_DIAGRAM):   rename _NAME_ = Component;
+22251      label _NAME_ = "주성분";
+MPRINT(EM_DIAGRAM):   label _NAME_ = "주성분";
+22252      rename ProportionalEigenvalue = Proportion;
+MPRINT(EM_DIAGRAM):   rename ProportionalEigenvalue = Proportion;
+22253      label ProportionalEigenvalue = "고유값 비율";
+MPRINT(EM_DIAGRAM):   label ProportionalEigenvalue = "고유값 비율";
+22254      rename CumProportionalEigenvalue = Cumulative;
+MPRINT(EM_DIAGRAM):   rename CumProportionalEigenvalue = Cumulative;
+22255      label CumProportionalEigenvalue ="누적 고유값 비율";
+MPRINT(EM_DIAGRAM):   label CumProportionalEigenvalue = "누적 고유값 비율";
+22256      label PC = "PC ID";
+MPRINT(EM_DIAGRAM):   label PC = "PC ID";
+22257      run;
+MPRINT(EM_DIAGRAM):   run;
+ 
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_EIGEN.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_EIGEN은(는) 4개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+ 
+ 
+22258      data EMWS4.PRINCOMP_SUBEIGENVECTOR;
+MPRINT(EM_DIAGRAM):    data EMWS4.PRINCOMP_SUBEIGENVECTOR;
+22259      set EMWS4.PRINCOMP_EIGENVECTOR;
+MPRINT(EM_DIAGRAM):   set EMWS4.PRINCOMP_EIGENVECTOR;
+22260      if _N_ > 4 then delete;
+MPRINT(EM_DIAGRAM):   if _N_ > 4 then delete;
+ 
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_EIGENVECTOR.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_SUBEIGENVECTOR은(는) 4개의 관측값과 5개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+ 
+ 
+22261      data WORK._EMPRINDSSUBEIGEN;
+MPRINT(EM_DIAGRAM):   data WORK._EMPRINDSSUBEIGEN;
+22262      set EMWS4.PRINCOMP_EIGEN;
+MPRINT(EM_DIAGRAM):   set EMWS4.PRINCOMP_EIGEN;
+22263      if _N_ > 4 then delete;
+MPRINT(EM_DIAGRAM):   if _N_ > 4 then delete;
+22264      run;
+MPRINT(EM_DIAGRAM):   run;
+ 
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_EIGEN.에서 읽었습니다.
+NOTE: 데이터셋 WORK._EMPRINDSSUBEIGEN은(는) 4개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+ 
+ 
+22265      proc transpose data=EMWS4.PRINCOMP_EIGENVECTOR name=Variable label=Label out=EMWS4.PRINCOMP_EIGENVECTOR;
+MPRINT(EM_DIAGRAM):    proc transpose data=EMWS4.PRINCOMP_EIGENVECTOR name=Variable label=Label out=EMWS4.PRINCOMP_EIGENVECTOR;
+22266      run;
+MPRINT(EM_DIAGRAM):   run;
+ 
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_EIGENVECTOR.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_EIGENVECTOR은(는) 4개의 관측값과 5개의 변수를 가지고 있습니다.
+NOTE: 프로시저 TRANSPOSE 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+ 
+ 
+22267      data EMWS4.PRINCOMP_EIGENVECTOR;
+MPRINT(EM_DIAGRAM):   data EMWS4.PRINCOMP_EIGENVECTOR;
+22268      set EMWS4.PRINCOMP_EIGENVECTOR;
+MPRINT(EM_DIAGRAM):   set EMWS4.PRINCOMP_EIGENVECTOR;
+22269      label Label = "레이블";
+MPRINT(EM_DIAGRAM):   label Label = "레이블";
+22270      label Variable = "변수";
+MPRINT(EM_DIAGRAM):   label Variable = "변수";
+22271      run;
+MPRINT(EM_DIAGRAM):   run;
+ 
+NOTE: 변수 Label이(가) 초기화되지 않았습니다.
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_EIGENVECTOR.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_EIGENVECTOR은(는) 4개의 관측값과 5개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+ 
+ 
+22272      data _null_;
+MPRINT(EM_DIAGRAM):    data _null_;
+22273      file print;
+MPRINT(EM_DIAGRAM):   file print;
+22274      put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+22275      put "%sysfunc(sasmsg(sashelp.dmine, rpt_princomp_sum_title , NOQUOTE))";
+MPRINT(EM_DIAGRAM):   put "내보낸 주성분 요약";
+22276      put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+22277      put " ";
+MPRINT(EM_DIAGRAM):   put " ";
+22278      put "%sysfunc(sasmsg(sashelp.dmine, rpt_princomp_sum_remark , NOQUOTE))";
+MPRINT(EM_DIAGRAM):   put "주:입력변수 개수가 최대 주성분 개수로 사용됩니다.";
+22279      put ' ';
+MPRINT(EM_DIAGRAM):   put ' ';
+22280      put "%sysfunc(sasmsg(sashelp.dmine, rpt_princomp_sum_ninput , NOQUOTE, 4))";
+MPRINT(EM_DIAGRAM):   put "총 입력변수 개수: 4";
+22281      put "%sysfunc(sasmsg(sashelp.dmine, rpt_princomp_sum_maxpc , NOQUOTE, 4))";
+MPRINT(EM_DIAGRAM):   put "최대 주성분 개수 임계치: 4";
+22282      put "%sysfunc(sasmsg(sashelp.dmine, rpt_princomp_sum_cumcut , NOQUOTE, 0.99))";
+MPRINT(EM_DIAGRAM):   put "누적 고유값 비율 임계치: 0.99";
+22283      put "%sysfunc(sasmsg(sashelp.dmine, rpt_princomp_sum_increcut , NOQUOTE, 0.001))";
+MPRINT(EM_DIAGRAM):   put "고유값 비율 증가 임계치: 0.001";
+22284      put "%sysfunc(sasmsg(sashelp.dmine, rpt_princomp_sum_nselpc , NOQUOTE, 4))";
+MPRINT(EM_DIAGRAM):   put "선택된 주성분 개수: 4";
+22285      put "%sysfunc(sasmsg(sashelp.dmine, rpt_princomp_sum_totvar , NOQUOTE, 1))";
+MPRINT(EM_DIAGRAM):   put "선택된 주성분에 의해 설명된 총 변동: 1";
+22286      run;
+MPRINT(EM_DIAGRAM):   run;
+ 
+NOTE: 10 줄을 파일 PRINT에 기록했습니다.
+NOTE: DATA 스텝이 4 페이지를 인쇄했습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.05 초
+      cpu 시간            0.06 초
+ 
+ 
+22287      data EMWS4.PRINCOMP_EMSCOREVAR;
+MPRINT(EM_DIAGRAM):    data EMWS4.PRINCOMP_EMSCOREVAR;
+22288      length Name $32 formula $70 file $200;
+MPRINT(EM_DIAGRAM):   length Name $32 formula $70 file $200;
+22289      keep NAME Formula file;
+MPRINT(EM_DIAGRAM):   keep NAME Formula file;
+22290      name='';
+MPRINT(EM_DIAGRAM):   name='';
+22291      file="OPTCODE\"!!"_ALL_.sas";
+MPRINT(EM_DIAGRAM):   file="OPTCODE\"!!"_ALL_.sas";
+22292      output;
+MPRINT(EM_DIAGRAM):   output;
+22293      name = "PC_1";
+MPRINT(EM_DIAGRAM):   name = "PC_1";
+22294      file="OPTCODE\PC_1.sas";
+MPRINT(EM_DIAGRAM):   file="OPTCODE\PC_1.sas";
+22295      output;
+MPRINT(EM_DIAGRAM):   output;
+22296      name = "PC_2";
+MPRINT(EM_DIAGRAM):   name = "PC_2";
+22297      file="OPTCODE\PC_2.sas";
+MPRINT(EM_DIAGRAM):   file="OPTCODE\PC_2.sas";
+22298      output;
+MPRINT(EM_DIAGRAM):   output;
+22299      name = "PC_3";
+MPRINT(EM_DIAGRAM):   name = "PC_3";
+22300      file="OPTCODE\PC_3.sas";
+MPRINT(EM_DIAGRAM):   file="OPTCODE\PC_3.sas";
+22301      output;
+MPRINT(EM_DIAGRAM):   output;
+22302      name = "PC_4";
+MPRINT(EM_DIAGRAM):   name = "PC_4";
+22303      file="OPTCODE\PC_4.sas";
+MPRINT(EM_DIAGRAM):   file="OPTCODE\PC_4.sas";
+22304      output;
+MPRINT(EM_DIAGRAM):   output;
+22305      run;
+MPRINT(EM_DIAGRAM):   run;
+ 
+NOTE: 변수 formula이(가) 초기화되지 않았습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_EMSCOREVAR은(는) 5개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+ 
+ 
+MPRINT(EM_DIAGRAM):    proc printto;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 06일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "10시16분40초" );
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 스코어 로그";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+*------------------------------------------------------------*
+* 스코어 로그
+날짜:                2018년 11월 06일
+시간:                10시16분40초
+*------------------------------------------------------------*
+MPRINT(EM_DIAGRAM):    filename O2NH9ELU "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS4\PRINCOMP\EMSCORE.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   proc printto print=O2NH9ELU new;
+MPRINT(EM_DIAGRAM):   run;
+22407      %em_getActionStatus(emlib=EMWS4, nodeid=PRINCOMP);
+MPRINT(EM_DIAGRAM):
+MPRINT(EM_GETACTIONSTATUS):   proc display c=sashelp.emutil.getactionstatus.scl;
+MPRINT(EM_GETACTIONSTATUS):   run;
+ 
+22408      %let em_Train = Y;
+22409      %let em_Report = Y;
+22410      %let em_Score = Y;
+22411      %let em_Run = Y;
+NOTE: 프로시저 DISPLAY 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+ 
+ 
+MPRINT(EM_GETACTIONSTATUS):
+MPRINT(EM_DIAGRAM):  ;
+ 
+22412      filename emflow "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS4\PRINCOMP\EMFLOWSCORE.sas";
+MPRINT(EM_DIAGRAM):    filename emflow "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS4\PRINCOMP\EMFLOWSCORE.sas";
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * PRINCOMP: Scoring DATA data;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+22413      *------------------------------------------------------------*;
+22414      * PRINCOMP: Scoring DATA data;
+22415      *------------------------------------------------------------*;
+22416      data EMWS4.PRINCOMP_TRAIN
+22417      / view=EMWS4.PRINCOMP_TRAIN
+22418      ;
+MPRINT(EM_DIAGRAM):   data EMWS4.PRINCOMP_TRAIN / view=EMWS4.PRINCOMP_TRAIN ;
+22419      set EMWS4.Ids_DATA
+22420      ;
+MPRINT(EM_DIAGRAM):   set EMWS4.Ids_DATA ;
+22421      %inc emflow;
+MPRINT(EM_DIAGRAM):   **********************************************************;
+MPRINT(EM_DIAGRAM):   **** 주성분 분석에 대한 스코어링 코드 시작;
+MPRINT(EM_DIAGRAM):   **********************************************************;
+MPRINT(EM_DIAGRAM):   LENGTH _FORMAT $200;
+MPRINT(EM_DIAGRAM):   LENGTH _NORMFMT
+MPRINT(DMNORLEN):   $32
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   ;
+MPRINT(EM_DIAGRAM):   * 구간 변수에 대한 결측값 처리;
+MPRINT(EM_DIAGRAM):   ;
+MPRINT(EM_DIAGRAM):   length _D1 8;
+MPRINT(EM_DIAGRAM):   if FASHION=. then _D1 = 0;
+MPRINT(EM_DIAGRAM):   else _D1=(FASHION-92.2626995645863)/32.6162823909176;
+MPRINT(EM_DIAGRAM):   length _D2 8;
+MPRINT(EM_DIAGRAM):   if LEISURE=. then _D2 = 0;
+MPRINT(EM_DIAGRAM):   else _D2=(LEISURE-1916.41944847605)/350.839963390581;
+MPRINT(EM_DIAGRAM):   length _D3 8;
+MPRINT(EM_DIAGRAM):   if ORIGINAL=. then _D3 = 0;
+MPRINT(EM_DIAGRAM):   else _D3=(ORIGINAL-1849.38461538461)/291.607974629673;
+MPRINT(EM_DIAGRAM):   length _D4 8;
+MPRINT(EM_DIAGRAM):   if STRETCH=. then _D4 = 0;
+MPRINT(EM_DIAGRAM):   else _D4=(STRETCH-444.040638606676)/211.690142352824;
+MPRINT(EM_DIAGRAM):   * 주성분 1;
+MPRINT(EM_DIAGRAM):   ;
+MPRINT(EM_DIAGRAM):   length PC_1 8;
+MPRINT(EM_DIAGRAM):   label PC_1 = "주성분 1";
+MPRINT(EM_DIAGRAM):   PC_1 = 0.0811070332*_D1+ -0.650811075*_D2+ 0.6164608047*_D3+ 0.4357093875*_D4;
+MPRINT(EM_DIAGRAM):   * 주성분 2;
+MPRINT(EM_DIAGRAM):   ;
+MPRINT(EM_DIAGRAM):   length PC_2 8;
+MPRINT(EM_DIAGRAM):   label PC_2 = "주성분 2";
+MPRINT(EM_DIAGRAM):   PC_2 = 0.9219224386*_D1+ 0.1931706993*_D2+ 0.2449556111*_D3+ -0.229653754*_D4;
+MPRINT(EM_DIAGRAM):   * 주성분 3;
+MPRINT(EM_DIAGRAM):   ;
+MPRINT(EM_DIAGRAM):   length PC_3 8;
+MPRINT(EM_DIAGRAM):   label PC_3 = "주성분 3";
+MPRINT(EM_DIAGRAM):   PC_3 = 0.2655615675*_D1+ 0.2355188487*_D2+ -0.387599793*_D3+ 0.8507492733*_D4;
+MPRINT(EM_DIAGRAM):   * 주성분 4;
+MPRINT(EM_DIAGRAM):   ;
+MPRINT(EM_DIAGRAM):   length PC_4 8;
+MPRINT(EM_DIAGRAM):   label PC_4 = "주성분 4";
+MPRINT(EM_DIAGRAM):   PC_4 = -0.270106868*_D1+ 0.6954573299*_D2+ 0.6401087603*_D3+ 0.1834179844*_D4;
+MPRINT(EM_DIAGRAM):   ;
+MPRINT(EM_DIAGRAM):   DROP _FORMAT _NORMFMT _D1 _D2 _D3 _D4 ;
+22495      run;
+MPRINT(EM_DIAGRAM):   run;
+ 
+NOTE: DATA STEP 뷰가 파일 EMWS4.PRINCOMP_TRAIN에 저장되었습니다.
+NOTE: 저장된 DATA STEP 뷰는 다른 운영 체제에서 실행할 수 없습니다.
+NOTE: View EMWS4.IDS_DATA.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.07 초
+      cpu 시간            0.06 초
+ 
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.09 초
+      cpu 시간            0.09 초
+ 
+ 
+MPRINT(EM_DIAGRAM):   quit;
+22496      quit;
+22497      filename emflow;
+MPRINT(EM_DIAGRAM):   filename emflow;
+NOTE: Fileref EMFLOW을(를) 삭제했습니다.
+22498      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+22499      * PRINCOMP: Computing metadata for TRAIN data;
+MPRINT(EM_DIAGRAM):   * PRINCOMP: Computing metadata for TRAIN data;
+22500      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+ 
+NOTE: View EMWS4.PRINCOMP_TRAIN.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.19 초
+      cpu 시간            0.18 초
+ 
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * &nodeid: Computing Metadata for TRAIN data;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   filename _delta "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS4\PRINCOMP\CDELTA_TRAIN.sas";
+MPRINT(EMADVISECOLUMNS):   proc display c=sashelp.emmeta.advisecolumns.scl;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    options validvarname=any;
+MPRINT(EMADVISECOLUMNS):   proc contents data=EMWS4.PRINCOMP_TRAIN out=_tempAdvisor noprint;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):   options validvarname=V7;
+MPRINT(EMADVISECOLUMNS):    data _null_;
+MPRINT(EMADVISECOLUMNS):   dsid = open('EMWS4.PRINCOMP_TRAIN');
+MPRINT(EMADVISECOLUMNS):   call symput('_dsidTable', strip(put(dsid, best.)));
+MPRINT(EMADVISECOLUMNS):   if dsid then do;
+MPRINT(EMADVISECOLUMNS):   call symput('_engineTable', attrc(dsid, 'ENGINE'));
+MPRINT(EMADVISECOLUMNS):   dsid = close(dsid);
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    proc contents data=EMWS4.PRINCOMP_TRAIN out=WORK.M0JDJBR0 noprint;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    data WORK.M0JDJBR0;
+MPRINT(EMADVISECOLUMNS):   length NAME $ 64 TYPE $ 1 LABEL $ 200 FORMAT $ 36 INFORMAT $36 INDEX $ 1 INDEXTYPE $ 9;
+MPRINT(EMADVISECOLUMNS):   label NAME =;
+MPRINT(EMADVISECOLUMNS):   set WORK.M0JDJBR0(keep=name type length label format formatl formatd informat informl informd idxusage rename=(type=itype));
+MPRINT(EMADVISECOLUMNS):   if itype = 1 then type = 'N';
+MPRINT(EMADVISECOLUMNS):   else type = 'C';
+MPRINT(EMADVISECOLUMNS):   if formatl > 0 then do;
+MPRINT(EMADVISECOLUMNS):   if format ne '' then do;
+MPRINT(EMADVISECOLUMNS):   if type='N' then format = strip(format)!!strip(put(formatl, best12.))!!'.'!!strip(put(formatd, best12.));
+MPRINT(EMADVISECOLUMNS):   else format = strip(format)!!strip(put(formatl, best12.))!!'.';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else format = strip(put(formatl, best12.))!!'.'!!strip(put(formatd, best12.));
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else if format ne '' then format = strip(format)!!'.';
+MPRINT(EMADVISECOLUMNS):   if informl > 0 then do;
+MPRINT(EMADVISECOLUMNS):   if informat ne ' ' then do;
+MPRINT(EMADVISECOLUMNS):   if type='N' then informat = strip(informat)!!strip(put(informl, best12.))!!'.'!!strip(put(informd, best12.));
+MPRINT(EMADVISECOLUMNS):   else informat = strip(informat)!!strip(put(informl, best12.))!!'.';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else informat = strip(put(informl, best12.))!!'.'!!strip(put(informd, best12.));
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else if informat ne '' then informat = strip(informat)!!'.';
+MPRINT(EMADVISECOLUMNS):   if idxusage = 'NONE' then index ="N";
+MPRINT(EMADVISECOLUMNS):   else index = "Y";
+MPRINT(EMADVISECOLUMNS):   indextype = idxusage;
+MPRINT(EMADVISECOLUMNS):   drop idxusage itype formatl formatd informl informd;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    data WORK.M0JDJBR0;
+MPRINT(EMADVISECOLUMNS):   length UNAME $64;
+MPRINT(EMADVISECOLUMNS):   set WORK.M0JDJBR0;
+MPRINT(EMADVISECOLUMNS):   UNAME = upcase(NAME);
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    proc sort data=WORK.M0V0REIX NOTHREADS;
+MPRINT(EMADVISECOLUMNS):   by UNAME;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    data WORK.M0V0REIX;
+MPRINT(EMADVISECOLUMNS):   drop UNAME;
+MPRINT(EMADVISECOLUMNS):   set WORK.M0V0REIX;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    data WORK.M2MO_58C(keep=NAME ATTR);
+MPRINT(EMADVISECOLUMNS):   length ATTR $ 20;
+MPRINT(EMADVISECOLUMNS):   set WORK.M0V0REIX;
+MPRINT(EMADVISECOLUMNS):   if level ne "INTERVAL" then do;
+MPRINT(EMADVISECOLUMNS):   if order = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   attr = 'ORDER';
+MPRINT(EMADVISECOLUMNS):   output;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if format ne ' ' and formattype = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   attr = 'FORMATTYPE';
+MPRINT(EMADVISECOLUMNS):   output;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if role = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   attr = 'ROLE';
+MPRINT(EMADVISECOLUMNS):   output;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if level = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   attr = 'LEVEL';
+MPRINT(EMADVISECOLUMNS):   output;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if type = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   attr = 'TYPE';
+MPRINT(EMADVISECOLUMNS):   output;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if index = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   attr = 'INDEX';
+MPRINT(EMADVISECOLUMNS):   output;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if report = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   attr = 'REPORT';
+MPRINT(EMADVISECOLUMNS):   output;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):   proc sort NOTHREADS;
+MPRINT(EMADVISECOLUMNS):   by attr;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    data WORK.M0V0REIX;
+MPRINT(EMADVISECOLUMNS):   length NAME $64 ROLE $ 32 LEVEL $ 10 ORDER $ 8 CREATOR $32 FORMATTYPE $ 10 FAMILY $ 10 LOWERLIMIT 8 UPPERLIMIT 8 REPORT $1 DISTRIBUTION $ 20 COMMENT $64;
+MPRINT(EMADVISECOLUMNS):   length levelAssigned 8 roleAssigned 8 PRICE 8;
+MPRINT(EMADVISECOLUMNS):   set WORK.M0V0REIX;
+MPRINT(EMADVISECOLUMNS):   if formattype = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   if format ne ' ' then do;
+MPRINT(EMADVISECOLUMNS):   if type = 'N' then do;
+MPRINT(EMADVISECOLUMNS):   pos = indexc(format,'.1234567890');
+MPRINT(EMADVISECOLUMNS):   if pos > 1 then tempfmt = substr(format,1, pos-1);
+MPRINT(EMADVISECOLUMNS):   else tempfmt = ' ';
+MPRINT(EMADVISECOLUMNS):   flen = length(tempfmt);
+MPRINT(EMADVISECOLUMNS):   select;
+MPRINT(EMADVISECOLUMNS):   when(tempfmt in ("DATE" "DAY" "DDMMYY" "DOWNAME" "JULDAY" "JULIAN" "MMDDYY" "MMDDYYD" "MMDDYYC" "MMDDYYN" "MMDDYYP" "MMDDYYS" "MONNAME" "MONTH" "MONYY" "NENGO" "QTR" "QTRR" "WEEKDATE" "WEEKDATX" "WEEKDAY" "WORDDATE" "WORDDATX"
+"YEAR" "YYMMDD" "YYMON" "YYMMDDC" "YYMMDDD" "YYMMDDN" "YYMMDDP" "YYMMDDS" "EURDFDE" "NJDATE" "NLDATE" "EURDFDD" "EURDFDWN" "EURDFMN" "EURDFMY" "EURDFWK" "EURDFWKX" "EURDFWDX" "EURDFDN" "EURDFDE" )) formattype = 'DATE';
+MPRINT(EMADVISECOLUMNS):   when(tempfmt in ("DATETIME" "EURDFDT" "TOD" )) formattype = "DATETIME";
+MPRINT(EMADVISECOLUMNS):   when(tempfmt in ("HHMM" "HOUR" "MMSS" "TIME" "TIMEAMPM" )) formattype = "TIME";
+MPRINT(EMADVISECOLUMNS):   when(tempfmt in ("COMMA" "COMMAX" "DOLLAR" "DOLLARX" "E" "FRACT" "NEGPAREN" "PERCENT")) formattype="QUANTITY";
+MPRINT(EMADVISECOLUMNS):   when(tempfmt in ("BINARY" "HEX" "IB" "OCTAL" "PD" "PIB" "PK" "RB" "SSN" "Z" "ZD")) formattype = "CODING";
+MPRINT(EMADVISECOLUMNS):   otherwise do;
+MPRINT(EMADVISECOLUMNS):   formattype = "USER";
+MPRINT(EMADVISECOLUMNS):   if compress(tempfmt, '0123456789.', '') = '' then formattype='NUM';
+MPRINT(EMADVISECOLUMNS):   else if substr(tempfmt, 1, 6)='NLDATE' then formattype = "DATE";
+MPRINT(EMADVISECOLUMNS):   else if substr(tempfmt, 1, 6)='NLDATM' then formattype = "DATETIME";
+MPRINT(EMADVISECOLUMNS):   else if substr(tempfmt, 1, 4)='NLTIM' then formattype = "TIME";
+MPRINT(EMADVISECOLUMNS):   else if flen >= 4 then do;
+MPRINT(EMADVISECOLUMNS):   str = substr(tempfmt,1,4);
+MPRINT(EMADVISECOLUMNS):   if str in ("MMYY" "YYMM" "YYQR") then formattype ="DATE";
+MPRINT(EMADVISECOLUMNS):   else if str = "S370" then formattype = "CODING";
+MPRINT(EMADVISECOLUMNS):   else if str = "BEST" then formattype = "NUM";
+MPRINT(EMADVISECOLUMNS):   drop str;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else if flen >=3 and substr(tempfmt,1,3) = "YYQ" then formatType = "DATE";
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   drop flen tempfmt pos;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else do;
+MPRINT(EMADVISECOLUMNS):   formatType = "CATEGORY";
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if formatType = "NUM" then do;
+MPRINT(EMADVISECOLUMNS):   if index = "Y" then formatType = "DISCRETE";
+MPRINT(EMADVISECOLUMNS):   else formatType = "QUANTITY";
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if level = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   if formatType in ("CATEGORY", "CODING", "ID") or type = "C" then level = "NOMINAL";
+MPRINT(EMADVISECOLUMNS):   else level = "INTERVAL";
+MPRINT(EMADVISECOLUMNS):   levelAssigned = 1;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else level = upcase(level);
+MPRINT(EMADVISECOLUMNS):   if role = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   length name_prefix $8 _uname $64;
+MPRINT(EMADVISECOLUMNS):   drop name_prefix _uname _freqflag;
+MPRINT(EMADVISECOLUMNS):   retain _freqflag;
+MPRINT(EMADVISECOLUMNS):   if LENGTH> 80 then ROLE = 'TEXT';
+MPRINT(EMADVISECOLUMNS):   _uname = upcase(NAME);
+MPRINT(EMADVISECOLUMNS):   select(_uname);
+MPRINT(EMADVISECOLUMNS):   when('_PARTIND_') do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'ID';
+MPRINT(EMADVISECOLUMNS):   LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   when('_WARN_') ROLE = 'ASSESS';
+MPRINT(EMADVISECOLUMNS):   when('EM_SEGMENT') do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'SEGMENT';
+MPRINT(EMADVISECOLUMNS):   LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   when('_NODE_') do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'SEGMENT';
+MPRINT(EMADVISECOLUMNS):   LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   when('EM_CLASSTARGET') ROLE = 'ASSESS';
+MPRINT(EMADVISECOLUMNS):   when('EM_VALUETARGET') ROLE = 'ASSESS';
+MPRINT(EMADVISECOLUMNS):   when('EM_PREDICTION') ROLE = 'PREDICT';
+MPRINT(EMADVISECOLUMNS):   when('EM_PROBABILITY') ROLE = 'PREDICT';
+MPRINT(EMADVISECOLUMNS):   when('EM_EVENTPROBABILITY') ROLE = 'PREDICT';
+MPRINT(EMADVISECOLUMNS):   when('EM_CLASSIFICATION') ROLE = 'CLASSIFICATION';
+MPRINT(EMADVISECOLUMNS):   when('EM_DECISION') ROLE = 'DECISION';
+MPRINT(EMADVISECOLUMNS):   when('EM_PROFIT') ROLE = 'ASSESS';
+MPRINT(EMADVISECOLUMNS):   when('EM_LOSS') ROLE = 'ASSESS';
+MPRINT(EMADVISECOLUMNS):   when('EM_ROI') ROLE = 'ASSESS';
+MPRINT(EMADVISECOLUMNS):   when('URI') ROLE = 'URL';
+MPRINT(EMADVISECOLUMNS):   when('FILTERED') ROLE = 'TEXTLOC';
+MPRINT(EMADVISECOLUMNS):   otherwise do;
+MPRINT(EMADVISECOLUMNS):   if upcase(NAME) =: 'ZIP' then do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'REJECTED';
+MPRINT(EMADVISECOLUMNS):   LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   COMMENT = 'Rejected by: Exceed the maximum class level of %s';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else if upcase(NAME) in('FREQ', 'FREQUENCY') then do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'FREQ';
+MPRINT(EMADVISECOLUMNS):   if TYPE = 'C' then ROLE = 'INPUT';
+MPRINT(EMADVISECOLUMNS):   else if _freqflag =1 then ROLE='REJECTED';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else do;
+MPRINT(EMADVISECOLUMNS):   name_prefix = scan(_uname, 1, '_');
+MPRINT(EMADVISECOLUMNS):   if scan(_uname, 2, '_') = '' then name_prefix='';
+MPRINT(EMADVISECOLUMNS):   if name_prefix in('F', 'I', 'U') then do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'CLASSIFICATION';
+MPRINT(EMADVISECOLUMNS):   LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else if name_prefix in('Q') then ROLE = 'ASSESS';
+MPRINT(EMADVISECOLUMNS):   else if name_prefix in('P', 'V') then ROLE = 'PREDICT';
+MPRINT(EMADVISECOLUMNS):   else if name_prefix in('R', 'RS', 'RT', 'RD', 'RDS', 'RDT', 'RA', 'RAS', 'RAT') then ROLE = 'RESIDUAL';
+MPRINT(EMADVISECOLUMNS):   else if name_prefix ='D' then do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'DECISION';
+MPRINT(EMADVISECOLUMNS):   LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else if name_prefix ='B' then do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'SEGMENT';
+MPRINT(EMADVISECOLUMNS):   LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else if name_prefix in('EP', 'BP', 'CP', 'EL', 'CL', 'BL', 'W', 'ROI', 'IC') then ROLE = 'ASSESS';
+MPRINT(EMADVISECOLUMNS):   else do;
+MPRINT(EMADVISECOLUMNS):   array _ROLE_ (19) $32 _TEMPORARY_ ('ASSESS','CLASSIFICATION','CENSOR', 'COST', 'CROSSID', 'DECISION', 'ID','INPUT', 'LABEL', 'MISSING','PREDICT','REFERRER','REJECTED', 'RESIDUAL','SEGMENT', 'SEQUENCE','TARGET', 'TEXT', 'TIMEID');
+MPRINT(EMADVISECOLUMNS):   drop _found_ i;
+MPRINT(EMADVISECOLUMNS):   _found_=0;
+MPRINT(EMADVISECOLUMNS):   do i=1 to 19 until(_found_=1);
+MPRINT(EMADVISECOLUMNS):   if index(_uname, trim(_ROLE_{i}))=1 then do;
+MPRINT(EMADVISECOLUMNS):   ROLE=_ROLE_{i};
+MPRINT(EMADVISECOLUMNS):   if ROLE = 'ID' then LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   else if ROLE = 'SEGMENT' then LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   else if ROLE = 'TIMEID' and TYPE='N' then LEVEL = 'INTERVAL';
+MPRINT(EMADVISECOLUMNS):   _found_=1;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if length(_uname)>2 then do;
+MPRINT(EMADVISECOLUMNS):   if substr(reverse(trim(_uname)), 1, 3) = 'DI_' then do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'ID';
+MPRINT(EMADVISECOLUMNS):   LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if ROLE='FREQ' then _freqflag=1;
+MPRINT(EMADVISECOLUMNS):   else if ROLE = 'CLASSIFICATION' then LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   if symexist('RATEMKG_ROLE') then do;
+MPRINT(EMADVISECOLUMNS):   if upcase(symget('RATEMKG_ROLE')) in('Y', 'YES') then do;
+MPRINT(EMADVISECOLUMNS):   if _uname =: 'POLICY' then ROLE = 'POLICYID';
+MPRINT(EMADVISECOLUMNS):   else if _uname in ('PARTITION', '_PARTIND_') then ROLE = 'PARTITION';
+MPRINT(EMADVISECOLUMNS):   else if type = 'N' then do;
+MPRINT(EMADVISECOLUMNS):   if _uname = 'EXPOSURE' then ROLE = 'EXPOSURE';
+MPRINT(EMADVISECOLUMNS):   else if _uname = 'YEAR' then ROLE = 'YEAR';
+MPRINT(EMADVISECOLUMNS):   else if _uname = 'WEIGHT' then ROLE = 'WEIGHT';
+MPRINT(EMADVISECOLUMNS):   else if _uname = 'OFFSET' then ROLE = 'OFFSET';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if role = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   if formattype in('DATE', 'DATETIME', 'TIME') then role = 'TIMEID';
+MPRINT(EMADVISECOLUMNS):   else role = 'INPUT';
+MPRINT(EMADVISECOLUMNS):   roleAssigned = 1;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else role = upcase(role);
+MPRINT(EMADVISECOLUMNS):   if REPORT = '' then REPORT = 'N';
+MPRINT(EMADVISECOLUMNS):   if symexist('dmwb_product') then do;
+MPRINT(EMADVISECOLUMNS):   if upcase(symget('dmwb_product')) = 'FACTORYMINER_DATASOURCE' then do;
+MPRINT(EMADVISECOLUMNS):   if ROLE ^in('INPUT', 'TARGET', 'REJECTED', 'SEGMENT', 'FREQ', 'ID', 'KEY') then ROLE='REJECTED';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    data WORK.M0V0REIX;
+MPRINT(EMADVISECOLUMNS):   set WORK.M0V0REIX;
+MPRINT(EMADVISECOLUMNS):   label NAME = "변수 이름" TYPE = "유형" ROLE = "역할" LEVEL= "측도 레벨" ORDER= "순서" CREATOR= "생성자" FORMATTYPE= "출력형식 유형" FAMILY= "군" DISTRIBUTION= "분포" PRICE= "가격" LOWERLIMIT= "하한" UPPERLIMIT= "상한" REPORT=
+"리 포트" COMMENT= "주석" INDEX= "인덱스" INDEXTYPE= "인덱스 유형" LABEL= "레이블" LENGTH= "길이";
+MPRINT(EMADVISECOLUMNS):   drop levelAssigned roleAssigned;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   proc sort data=WORK.COLUMNMETA;
+MPRINT(EM_DIAGRAM):   by NAME;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * &nodeid: Merge incoming metadata;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   proc contents data=EMWS4.Ids_DATA noprint out=_temp2(keep=NAME);
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   proc sort data=_temp2;
+MPRINT(EM_DIAGRAM):   by NAME;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   proc sort data=EMWS4.Ids_CMeta_DATA out=_temp;
+MPRINT(EM_DIAGRAM):   by NAME;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data EMWS4.PRINCOMP_CMeta_TRAIN;
+MPRINT(EM_DIAGRAM):   merge WORK.COLUMNMETA(in=_a) _temp2(in=_b) _temp(drop=FORMAT INFORMAT LENGTH INDEX INDEXTYPE in=_c) end=_eof_;
+MPRINT(EM_DIAGRAM):   by NAME;
+MPRINT(EM_DIAGRAM):   if (^_a and _b) or (^_c and _a and _b) then delete;
+MPRINT(EM_DIAGRAM):   if ^_b then CREATOR = "PRINCOMP";
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * PRINCOMP: Apply Delta Code;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   if name='FASHION' then do;
+MPRINT(EM_DIAGRAM):   role = 'REJECTED';
+MPRINT(EM_DIAGRAM):   comment = "PRINCOMP: PRINREJECTED";
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   if name='LEISURE' then do;
+MPRINT(EM_DIAGRAM):   role = 'REJECTED';
+MPRINT(EM_DIAGRAM):   comment = "PRINCOMP: PRINREJECTED";
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   if name='ORIGINAL' then do;
+MPRINT(EM_DIAGRAM):   role = 'REJECTED';
+MPRINT(EM_DIAGRAM):   comment = "PRINCOMP: PRINREJECTED";
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   if name='STRETCH' then do;
+MPRINT(EM_DIAGRAM):   role = 'REJECTED';
+MPRINT(EM_DIAGRAM):   comment = "PRINCOMP: PRINREJECTED";
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   filename _delta;
+NOTE: View EMWS4.PRINCOMP_TRAIN.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.08 초
+      cpu 시간            0.07 초
+ 
+22854      options nosource;
+MPRINT(EM_DIAGRAM):    options nosource;
+MPRINT(EM_DIAGRAM):   data EMWS4.PRINCOMP_FULLCMETA;
+MPRINT(EM_DIAGRAM):   set EMWS4.PRINCOMP_CMETA_TRAIN;
+MPRINT(EM_DIAGRAM):   run;
+ 
+NOTE: 9개의 관측값을 데이터셋 EMWS4.PRINCOMP_CMETA_TRAIN.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_FULLCMETA은(는) 9개의 관측값과 20개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+ 
+ 
+MPRINT(EM_DIAGRAM):    data EMWS4.PRINCOMP_CMETA_TRAIN;
+MPRINT(EM_DIAGRAM):   set EMWS4.PRINCOMP_CMETA_TRAIN;
+MPRINT(EM_DIAGRAM):   if ROLE ='REJECTED' then delete;
+MPRINT(EM_DIAGRAM):   run;
+ 
+NOTE: 9개의 관측값을 데이터셋 EMWS4.PRINCOMP_CMETA_TRAIN.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_CMETA_TRAIN은(는) 5개의 관측값과 20개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+ 
+ 
+MPRINT(EM_DIAGRAM):
+MPRINT(EXPLORESAMPLE):   filename x catalog 'sashelp.emutil.exploreobs.source';
+MPRINT(EXPLORESAMPLE):   filename x;
+NOTE: Fileref X을(를) 삭제했습니다.
+NOTE: EXPLOREOBS EMWS4.PRINCOMP_TRAIN : vars= 9 : recl= 72 : max=60000 : def= 6000
+MPRINT(EXPLORESAMPLE):   ;
+MPRINT(HPDM_PERFORMANCE):  ;
+PERFORMANCE  DETAILS
+MPRINT(EXPLORESAMPLE):  ;
+MPRINT(EXPLORESAMPLE):   proc sql;
+MPRINT(EXPLORESAMPLE):   reset noprint;
+MPRINT(EXPLORESAMPLE):   select count(*) into :popsize from EMWS4.PRINCOMP_TRAIN;
+NOTE: 변수 _FORMAT이(가) 초기화되지 않았습니다.
+NOTE: 변수 _NORMFMT이(가) 초기화되지 않았습니다.
+NOTE: 689개의 관측값을 데이터셋 DM_LIB.JEAN.에서 읽었습니다.
+NOTE: View EMWS4.PRINCOMP_TRAIN.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.13 초
+      cpu 시간            0.12 초
+ 
+NOTE: 689개의 관측값을 데이터셋 EMWS4.IDS_DATA.에서 읽었습니다.
+MPRINT(EXPLORESAMPLE):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.16 초
+      cpu 시간            0.17 초
+ 
+ 
+MPRINT(EXPLORESAMPLE):   data EMWS4.PRINCOMP_SAMPLE_DATA;
+MPRINT(EXPLORESAMPLE):   set EMWS4.PRINCOMP_TRAIN ;
+MPRINT(EXPLORESAMPLE):   run;
+ 
+NOTE: 변수 _FORMAT이(가) 초기화되지 않았습니다.
+NOTE: 변수 _NORMFMT이(가) 초기화되지 않았습니다.
+NOTE: 689개의 관측값을 데이터셋 DM_LIB.JEAN.에서 읽었습니다.
+NOTE: View EMWS4.PRINCOMP_TRAIN.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.13 초
+      cpu 시간            0.14 초
+ 
+NOTE: 689개의 관측값을 데이터셋 EMWS4.IDS_DATA.에서 읽었습니다.
+NOTE: 689개의 관측값을 데이터셋 EMWS4.PRINCOMP_TRAIN.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_SAMPLE_DATA은(는) 689개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.17 초
+      cpu 시간            0.17 초
+ 
+ 
+MPRINT(EM_DIAGRAM):  ;
+ 
+MPRINT(EM_DIAGRAM):    data EMWS4.PRINCOMP_PRINPLOT;
+MPRINT(EM_DIAGRAM):   set EMWS4.PRINCOMP_SAMPLE_DATA;
+MPRINT(EM_DIAGRAM):   KEEP PC_1 PC_2 PC_3 PC_4 ;
+MPRINT(EM_DIAGRAM):   label PC_1 = "PC 1";
+MPRINT(EM_DIAGRAM):   label PC_2 = "PC 2";
+MPRINT(EM_DIAGRAM):   label PC_3 = "PC 3";
+MPRINT(EM_DIAGRAM):   label PC_4 = "PC 4";
+MPRINT(EM_DIAGRAM):   ;
+MPRINT(EM_DIAGRAM):   run;
+ 
+NOTE: 689개의 관측값을 데이터셋 EMWS4.PRINCOMP_SAMPLE_DATA.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_PRINPLOT은(는) 689개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.04 초
+ 
+ 
+MPRINT(EM_DIAGRAM):   proc transpose data=EMWS4.PRINCOMP_SUBEIGENVECTOR name=Variable label=Label out=EMWS4.PRINCOMP_PRINCOEFFPLOT;
+MPRINT(EM_DIAGRAM):   run;
+ 
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_SUBEIGENVECTOR.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_PRINCOEFFPLOT은(는) 4개의 관측값과 5개의 변수를 가지고 있습니다.
+NOTE: 프로시저 TRANSPOSE 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+ 
+ 
+MPRINT(EM_DIAGRAM):   data EMWS4.PRINCOMP_PRINCOEFFPLOT;
+MPRINT(EM_DIAGRAM):   set EMWS4.PRINCOMP_PRINCOEFFPLOT;
+MPRINT(EM_DIAGRAM):   label Label = "레이블";
+MPRINT(EM_DIAGRAM):   label Variable = "변수";
+MPRINT(EM_DIAGRAM):   _ABS_PC_1_ = ABS(PC_1);
+MPRINT(EM_DIAGRAM):   label PC_1 = "주성분 1";
+MPRINT(EM_DIAGRAM):   label PC_2 = "주성분 2";
+MPRINT(EM_DIAGRAM):   label PC_3 = "주성분 3";
+MPRINT(EM_DIAGRAM):   label PC_4 = "주성분 4";
+MPRINT(EM_DIAGRAM):   run;
+ 
+NOTE: 변수 Label이(가) 초기화되지 않았습니다.
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_PRINCOEFFPLOT.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_PRINCOEFFPLOT은(는) 4개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.05 초
+      cpu 시간            0.04 초
+ 
+ 
+MPRINT(EM_DIAGRAM):   proc sort data = EMWS4.PRINCOMP_PRINCOEFFPLOT;
+MPRINT(EM_DIAGRAM):   by DECENDING _ABS_PC_1_;
+MPRINT(EM_DIAGRAM):   run;
+ 
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_PRINCOEFFPLOT.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_PRINCOEFFPLOT은(는) 4개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+ 
+ 
+MPRINT(EM_DIAGRAM):   data EMWS4.PRINCOMP_PRINCOEFFPLOT;
+MPRINT(EM_DIAGRAM):   set EMWS4.PRINCOMP_PRINCOEFFPLOT;
+MPRINT(EM_DIAGRAM):   drop _ABS_PC_1_;
+MPRINT(EM_DIAGRAM):   run;
+ 
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_PRINCOEFFPLOT.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_PRINCOEFFPLOT은(는) 4개의 관측값과 5개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+ 
+ 
+MPRINT(EM_DIAGRAM):   options source;
+MPRINT(EM_DIAGRAM):    proc printto;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 06일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "10시16분43초" );
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 리포트 로그";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+*------------------------------------------------------------*
+* 리포트 로그
+날짜:                2018년 11월 06일
+시간:                10시16분43초
+*------------------------------------------------------------*
+MPRINT(EM_DIAGRAM):    filename O0OATI2B "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS4\PRINCOMP\EMREPORT.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   proc printto print=O0OATI2B new;
+MPRINT(EM_DIAGRAM):   run;
+23096      %em_getActionStatus(emlib=EMWS4, nodeid=PRINCOMP);
+MPRINT(EM_DIAGRAM):
+MPRINT(EM_GETACTIONSTATUS):   proc display c=sashelp.emutil.getactionstatus.scl;
+MPRINT(EM_GETACTIONSTATUS):   run;
+ 
+23097      %let em_Train = Y;
+23098      %let em_Report = Y;
+23099      %let em_Score = Y;
+23100      %let em_Run = Y;
+NOTE: 프로시저 DISPLAY 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+ 
+ 
+MPRINT(EM_GETACTIONSTATUS):
+MPRINT(EM_DIAGRAM):  ;
+ 
+MPRINT(EM_DIAGRAM):    proc printto;
+MPRINT(EM_DIAGRAM):   run;

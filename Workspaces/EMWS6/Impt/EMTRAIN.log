@@ -1,0 +1,744 @@
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 20일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "10시17분34초" );
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 분석 로그";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+*------------------------------------------------------------*
+* 분석 로그
+날짜:                2018년 11월 20일
+시간:                10시17분34초
+*------------------------------------------------------------*
+MPRINT(EM_DIAGRAM):    filename O3HWS1NH "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Impt\EMTRAIN.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   proc printto print=O3HWS1NH new;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _LOG "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Impt\EMLOG.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 20일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "10시17분34초" );
+MPRINT(EM_DIAGRAM):   file _LOG;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "사용자:                Administrator";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "사이트:                10503192";
+MPRINT(EM_DIAGRAM):   put "플랫폼:            X64_10HOME";
+MPRINT(EM_DIAGRAM):   put "관리 릴리스: 9.04.01M4P110916";
+MPRINT(EM_DIAGRAM):   put "EM 버전:          14.2";
+MPRINT(EM_DIAGRAM):   put "* ";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _LOGIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Impt\EMTRAIN.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_COPYFILE):   data _null_;
+MPRINT(EM_COPYFILE):   length line $20000;
+MPRINT(EM_COPYFILE):   file _LOG MOD lrecl=20000;
+MPRINT(EM_COPYFILE):   fid=fopen("_LOGIN",'i',20000,'v');
+MPRINT(EM_COPYFILE):   if fid > 0 then do;
+MPRINT(EM_COPYFILE):   do while(^fread(fid));
+MPRINT(EM_COPYFILE):   rlen = frlen(fid);
+MPRINT(EM_COPYFILE):   rc= fget(fid,line,20000);
+MPRINT(EM_COPYFILE):   start = length(line)-length(left(line))+1;
+MPRINT(EM_COPYFILE):   line=strip(line);
+MPRINT(EM_COPYFILE):   put @start line;
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   if fid > 0 then rc=fclose(fid);
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   run;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _LOGIN;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   file _LOG mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   filename _LOGIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Impt\EMSCORE.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   file _LOG mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _LOGIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Impt\EMREPORT.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _LOGIN;
+MPRINT(EM_DIAGRAM):    filename _LOG;
+MPRINT(EM_DIAGRAM):    filename _OUT "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Impt\EMOUTPUT.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 20일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "10시17분34초" );
+MPRINT(EM_DIAGRAM):   file _OUT;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "사용자:                Administrator";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 분석 출력";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _OUTIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Impt\EMTRAIN.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   ;
+MPRINT(EM_COPYFILE):   data _null_;
+MPRINT(EM_COPYFILE):   length line $20000;
+MPRINT(EM_COPYFILE):   file _OUT MOD lrecl=20000;
+MPRINT(EM_COPYFILE):   fid=fopen("_OUTIN",'i',20000,'v');
+MPRINT(EM_COPYFILE):   if fid > 0 then do;
+MPRINT(EM_COPYFILE):   do while(^fread(fid));
+MPRINT(EM_COPYFILE):   rlen = frlen(fid);
+MPRINT(EM_COPYFILE):   rc= fget(fid,line,20000);
+MPRINT(EM_COPYFILE):   start = length(line)-length(left(line))+1;
+MPRINT(EM_COPYFILE):   line=strip(line);
+MPRINT(EM_COPYFILE):   put @start line;
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   if fid > 0 then rc=fclose(fid);
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   run;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _OUTIN;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   file _OUT mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   put // "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 스코어 출력";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _OUTIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Impt\EMSCORE.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _OUTIN;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   file _OUT mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   put // "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 리포트 출력";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _OUTIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Impt\EMREPORT.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _OUTIN;
+MPRINT(EM_DIAGRAM):    filename _OUT;
+MPRINT(EM_DIAGRAM):    filename _emtool_ 'C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Impt\EMRUNSTATUS.xml' encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):    filename _emtool_ 'C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Impt\EMRUNSTATUS.xml' encoding="UTF-8" NOBOM;
+34208      proc freq data=EMWS6.Impt_VariableSet noprint;
+MPRINT(EM_DIAGRAM):    proc freq data=EMWS6.Impt_VariableSet noprint;
+34209      table ROLE*LEVEL/out=WORK.ImptMETA;
+MPRINT(EM_DIAGRAM):   table ROLE*LEVEL/out=WORK.ImptMETA;
+34210      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 25개의 관측값을 데이터셋 EMWS6.IMPT_VARIABLESET.에서 읽었습니다.
+NOTE: 데이터셋 WORK.IMPTMETA은(는) 5개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: 프로시저 FREQ 실행(총 프로세스 시간):
+      실행 시간           0.05 초
+      cpu 시간            0.04 초
+      
+
+34211      proc print data=WORK.ImptMETA label noobs;
+MPRINT(EM_DIAGRAM):   proc print data=WORK.ImptMETA label noobs;
+34212      var ROLE LEVEL COUNT;
+MPRINT(EM_DIAGRAM):   var ROLE LEVEL COUNT;
+34213      label ROLE = "%sysfunc(sasmsg(sashelp.dmine, meta_role_vlabel, NOQUOTE))" LEVEL = "%sysfunc(sasmsg(sashelp.dmine, meta_level_vlabel, NOQUOTE))" COUNT = "%sysfunc(sasmsg(sashelp.dmine, rpt_count_vlabel, NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label ROLE = "역할" LEVEL = "측도 레벨" COUNT = "빈도 개수";
+34214      title9 ' ';
+MPRINT(EM_DIAGRAM):   title9 ' ';
+34215      title10 "%sysfunc(sasmsg(sashelp.dmine, rpt_varSummary_title  , NOQUOTE))";
+MPRINT(EM_DIAGRAM):   title10 "변수 요약";
+MPRINT(EM_DIAGRAM):   run;
+34216      run;
+
+NOTE: 5개의 관측값을 데이터셋 WORK.IMPTMETA.에서 읽었습니다.
+NOTE: 출력 결과 (프로시저: PRINT, 페이지: 7)
+NOTE: 프로시저 PRINT 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+34217      title10;
+MPRINT(EM_DIAGRAM):   title10;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Impt: 분석용 메타데이터 준비;
+MPRINT(EM_DIAGRAM):   ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   data WORK.M03NGCQD;
+MPRINT(EM_DIAGRAM):   set WORK.M03NGCQD;
+MPRINT(EM_DIAGRAM):   where(use = 'Y' or (ROLE ne 'REJECTED' and USE = 'D'));
+MPRINT(EM_DIAGRAM):   if (role = 'REJECTED') then role = 'INPUT';
+MPRINT(EM_DIAGRAM):   if role = 'INPUT' and METHOD='DEFAULT' then do;
+MPRINT(EM_DIAGRAM):   if level ne 'INTERVAL' then METHOD = "COUNT";
+MPRINT(EM_DIAGRAM):   else METHOD = "MEAN";
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else if role = 'TARGET' and METHOD='DEFAULT' then do;
+MPRINT(EM_DIAGRAM):   if level ne 'INTERVAL' then METHOD = "NONE";
+MPRINT(EM_DIAGRAM):   else METHOD = "NONE";
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   run;
+34235      data WORK.Impt_TREEINPUTS;
+MPRINT(EM_DIAGRAM):    data WORK.Impt_TREEINPUTS;
+34236      set WORK.M25996KJ;
+MPRINT(EM_DIAGRAM):   set WORK.M25996KJ;
+34237      if ROLE ne 'FREQ' then do;
+MPRINT(EM_DIAGRAM):   if ROLE ne 'FREQ' then do;
+34238      if ((ROLE in('TARGET','REJECTED') and useTree='D') or useTree='N') then delete;
+MPRINT(EM_DIAGRAM):   if ((ROLE in('TARGET','REJECTED') and useTree='D') or useTree='N') then delete;
+34239      ROLE = 'INPUT';
+MPRINT(EM_DIAGRAM):   ROLE = 'INPUT';
+34240      end;
+MPRINT(EM_DIAGRAM):   end;
+34241      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 17개의 관측값을 데이터셋 WORK.M25996KJ.에서 읽었습니다.
+NOTE: 데이터셋 WORK.IMPT_TREEINPUTS은(는) 16개의 관측값과 23개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+34242      data WORK.M25996KJ;
+MPRINT(EM_DIAGRAM):   data WORK.M25996KJ;
+34243      set WORK.M25996KJ;
+MPRINT(EM_DIAGRAM):   set WORK.M25996KJ;
+34244      if METHOD in("TREE", "TREESURR") then role = 'TARGET';
+MPRINT(EM_DIAGRAM):   if METHOD in("TREE", "TREESURR") then role = 'TARGET';
+34245      else if (role = 'REJECTED') then role = 'INPUT';
+MPRINT(EM_DIAGRAM):   else if (role = 'REJECTED') then role = 'INPUT';
+34246      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 17개의 관측값을 데이터셋 WORK.M25996KJ.에서 읽었습니다.
+NOTE: 데이터셋 WORK.M25996KJ은(는) 17개의 관측값과 23개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+34247      *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------* ;
+34248      * Impt: DMDBClass Macro ;
+MPRINT(EM_DIAGRAM):   * Impt: DMDBClass Macro ;
+34249      *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+34250      %macro DMDBClass;
+34251          CLIMATE(ASC) COA6(ASC) DISCBUY(ASC) LOC(ASC) MARRIED(ASC) ORGSRC(ASC)
+34252         OWNHOME(ASC) RESPOND(DESC) RETURN24(ASC) SEX(ASC)
+34253      %mend DMDBClass;
+34254      *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+34255      * Impt: DMDBVar Macro ;
+MPRINT(EM_DIAGRAM):   * Impt: DMDBVar Macro ;
+34256      *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+34257      %macro DMDBVar;
+34258          AGE BUY12 BUY18 BUY6 FICO INCOME VALUE24
+34259      %mend DMDBVar;
+34260      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+34261      * Impt: Create DMDB;
+MPRINT(EM_DIAGRAM):   * Impt: Create DMDB;
+34262      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+34263      proc dmdb batch data=EMWS6.Part2_TRAIN
+34264      dmdbcat=WORK.Impt_DMDB
+34265      classout=WORK.Impt_DMDBCLASSOUT
+34266      varout=WORK.IMPUTE_3A1U1RB_DMDBVAROUT
+34267      maxlevel = 513
+34268      ;
+MPRINT(EM_DIAGRAM):   proc dmdb batch data=EMWS6.Part2_TRAIN dmdbcat=WORK.Impt_DMDB classout=WORK.Impt_DMDBCLASSOUT varout=WORK.IMPUTE_3A1U1RB_DMDBVAROUT maxlevel = 513 ;
+MPRINT(EM_DIAGRAM):   class
+34269      class %DMDBClass;
+MPRINT(DMDBCLASS):   CLIMATE(ASC) COA6(ASC) DISCBUY(ASC) LOC(ASC) MARRIED(ASC) ORGSRC(ASC) OWNHOME(ASC) RESPOND(DESC) RETURN24(ASC) SEX(ASC)
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   var
+34270      var %DMDBVar;
+MPRINT(DMDBVAR):   AGE BUY12 BUY18 BUY6 FICO INCOME VALUE24
+MPRINT(EM_DIAGRAM):  ;
+34271      target
+34272      RESPOND
+34273      ;
+MPRINT(EM_DIAGRAM):   target RESPOND ;
+34274      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: Records processed = 3999   Memory used = 511K.
+NOTE: 3999개의 관측값을 데이터셋 EMWS6.PART2_TRAIN.에서 읽었습니다.
+NOTE: 데이터셋 WORK.IMPT_DMDBCLASSOUT은(는) 36개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: 데이터셋 WORK.IMPUTE_3A1U1RB_DMDBVAROUT은(는) 7개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: 프로시저 DMDB 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.04 초
+      
+
+MPRINT(EM_DIAGRAM):   quit;
+MPRINT(EM_DIAGRAM):   *--- end code ---*;
+34275      quit;
+34276      *--- end code ---*;
+
+34277      proc sort data=WORK.Impt_DMDBCLASSOUT;
+MPRINT(EM_DIAGRAM):    proc sort data=WORK.Impt_DMDBCLASSOUT;
+34278      by NAME;
+MPRINT(EM_DIAGRAM):   by NAME;
+34279      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 36개의 관측값을 데이터셋 WORK.IMPT_DMDBCLASSOUT.에서 읽었습니다.
+NOTE: 데이터셋 WORK.IMPT_DMDBCLASSOUT은(는) 36개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+34280      data WORK.Impt_DMDBCLASSOUT;
+MPRINT(EM_DIAGRAM):   data WORK.Impt_DMDBCLASSOUT;
+34281      retain missFlag;
+MPRINT(EM_DIAGRAM):   retain missFlag;
+34282      set WORK.Impt_DMDBCLASSOUT;
+MPRINT(EM_DIAGRAM):   set WORK.Impt_DMDBCLASSOUT;
+34283      by NAME;
+MPRINT(EM_DIAGRAM):   by NAME;
+34284      output;
+MPRINT(EM_DIAGRAM):   output;
+34285      if first.name then missflag = 0;
+MPRINT(EM_DIAGRAM):   if first.name then missflag = 0;
+34286      if (TYPE='C' and CRAW='') or (TYPE='N' and NRAW=.) then missflag = 1;
+MPRINT(EM_DIAGRAM):   if (TYPE='C' and CRAW='') or (TYPE='N' and NRAW=.) then missflag = 1;
+34287      if last.name and ^missFlag then do;
+MPRINT(EM_DIAGRAM):   if last.name and ^missFlag then do;
+34288      if type = 'C' then do;
+MPRINT(EM_DIAGRAM):   if type = 'C' then do;
+34289      LEVEL= '';
+MPRINT(EM_DIAGRAM):   LEVEL= '';
+34290      CRAW = '';
+MPRINT(EM_DIAGRAM):   CRAW = '';
+34291      NRAW = .;
+MPRINT(EM_DIAGRAM):   NRAW = .;
+34292      end;
+MPRINT(EM_DIAGRAM):   end;
+34293      else do;
+MPRINT(EM_DIAGRAM):   else do;
+34294      LEVEL='.';
+MPRINT(EM_DIAGRAM):   LEVEL='.';
+34295      CRAW = '.';
+MPRINT(EM_DIAGRAM):   CRAW = '.';
+34296      NRAW= .;
+MPRINT(EM_DIAGRAM):   NRAW= .;
+34297      end;
+MPRINT(EM_DIAGRAM):   end;
+34298      FREQUENCY = 0;
+MPRINT(EM_DIAGRAM):   FREQUENCY = 0;
+34299      FREQPERCENT = 0;
+MPRINT(EM_DIAGRAM):   FREQPERCENT = 0;
+34300      NMISSPERCENT = 0;
+MPRINT(EM_DIAGRAM):   NMISSPERCENT = 0;
+34301      output;
+MPRINT(EM_DIAGRAM):   output;
+34302      end;
+MPRINT(EM_DIAGRAM):   end;
+34303      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 36개의 관측값을 데이터셋 WORK.IMPT_DMDBCLASSOUT.에서 읽었습니다.
+NOTE: 데이터셋 WORK.IMPT_DMDBCLASSOUT은(는) 42개의 관측값과 10개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+34304      data WORK.Impt_MISS(KEEP=NAME NMISS PERCENTMISS);
+MPRINT(EM_DIAGRAM):    data WORK.Impt_MISS(KEEP=NAME NMISS PERCENTMISS);
+34305      length NAME $32;
+MPRINT(EM_DIAGRAM):   length NAME $32;
+34306      set
+34307      WORK.Impt_DMDBCLASSOUT(rename=(freqpercent=PERCENTMISS frequency=NMISS) where=((TYPE='C' and CRAW='') or (TYPE='N' and NRAW=.)))
+34308      WORK.IMPUTE_3A1U1RB_DMDBVAROUT
+34309      ;
+MPRINT(EM_DIAGRAM):   set WORK.Impt_DMDBCLASSOUT(rename=(freqpercent=PERCENTMISS frequency=NMISS) where=((TYPE='C' and CRAW='') or (TYPE='N' and NRAW=.))) WORK.IMPUTE_3A1U1RB_DMDBVAROUT ;
+34310      if (NMISS ne . and N ne .) then PERCENTMISS = (NMISS/(NMISS+N))*100;
+MPRINT(EM_DIAGRAM):   if (NMISS ne . and N ne .) then PERCENTMISS = (NMISS/(NMISS+N))*100;
+34311      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 10개의 관측값을 데이터셋 WORK.IMPT_DMDBCLASSOUT.에서 읽었습니다.
+      WHERE ((TYPE='C') and (CRAW=' ')) or ((TYPE='N') and (NRAW=.));
+NOTE: 7개의 관측값을 데이터셋 WORK.IMPUTE_3A1U1RB_DMDBVAROUT.에서 읽었습니다.
+NOTE: 데이터셋 WORK.IMPT_MISS은(는) 17개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+34312      proc sort data=WORK.M03NGCQD NOTHREADS;
+MPRINT(EM_DIAGRAM):   proc sort data=WORK.M03NGCQD NOTHREADS;
+34313      by NAME;
+MPRINT(EM_DIAGRAM):   by NAME;
+34314      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 17개의 관측값을 데이터셋 WORK.M03NGCQD.에서 읽었습니다.
+NOTE: 데이터셋 WORK.M03NGCQD은(는) 17개의 관측값과 23개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+34315      proc sort data=WORK.Impt_MISS NOTHREADS;
+MPRINT(EM_DIAGRAM):   proc sort data=WORK.Impt_MISS NOTHREADS;
+34316      by NAME;
+MPRINT(EM_DIAGRAM):   by NAME;
+34317      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 17개의 관측값을 데이터셋 WORK.IMPT_MISS.에서 읽었습니다.
+NOTE: 데이터셋 WORK.IMPT_MISS은(는) 17개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+34318      data WORK.M03NGCQD;
+MPRINT(EM_DIAGRAM):   data WORK.M03NGCQD;
+34319      merge WORK.M03NGCQD WORK.Impt_MISS(in=_b);
+MPRINT(EM_DIAGRAM):   merge WORK.M03NGCQD WORK.Impt_MISS(in=_b);
+34320      by NAME;
+MPRINT(EM_DIAGRAM):   by NAME;
+34321      if _b then output;
+MPRINT(EM_DIAGRAM):   if _b then output;
+34322      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 17개의 관측값을 데이터셋 WORK.M03NGCQD.에서 읽었습니다.
+NOTE: 17개의 관측값을 데이터셋 WORK.IMPT_MISS.에서 읽었습니다.
+NOTE: 데이터셋 WORK.M03NGCQD은(는) 17개의 관측값과 25개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+34323      data WORK.M03NGCQD;
+MPRINT(EM_DIAGRAM):   data WORK.M03NGCQD;
+34324      set WORK.M03NGCQD;
+MPRINT(EM_DIAGRAM):   set WORK.M03NGCQD;
+34325      if 0<PERCENTMISS<50 and method ne 'NONE' then IMPUTE = 1;
+MPRINT(EM_DIAGRAM):   if 0<PERCENTMISS<50 and method ne 'NONE' then IMPUTE = 1;
+34326      else IMPUTE = 0;
+MPRINT(EM_DIAGRAM):   else IMPUTE = 0;
+34327      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 17개의 관측값을 데이터셋 WORK.M03NGCQD.에서 읽었습니다.
+NOTE: 데이터셋 WORK.M03NGCQD은(는) 17개의 관측값과 26개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+34328      proc dmdb data=WORK.M03NGCQD outtable=WORK.NEWNAMES nameserver;
+MPRINT(EM_DIAGRAM):    proc dmdb data=WORK.M03NGCQD outtable=WORK.NEWNAMES nameserver;
+34329      names NAME;
+MPRINT(EM_DIAGRAM):   names NAME;
+34330      prefix M_ IMP_;
+MPRINT(EM_DIAGRAM):   prefix M_ IMP_;
+34331      where IMPUTE=1;
+MPRINT(EM_DIAGRAM):   where IMPUTE=1;
+34332      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 7개의 관측값을 데이터셋 WORK.M03NGCQD.에서 읽었습니다.
+      WHERE IMPUTE=1;
+NOTE: 데이터셋 WORK.NEWNAMES은(는) 7개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: 프로시저 DMDB 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+34333      data WORK.M03NGCQD;
+MPRINT(EM_DIAGRAM):   data WORK.M03NGCQD;
+34334      merge WORK.M03NGCQD WORK.NEWNAMES;
+MPRINT(EM_DIAGRAM):   merge WORK.M03NGCQD WORK.NEWNAMES;
+34335      by NAME;
+MPRINT(EM_DIAGRAM):   by NAME;
+34336      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 17개의 관측값을 데이터셋 WORK.M03NGCQD.에서 읽었습니다.
+NOTE: 7개의 관측값을 데이터셋 WORK.NEWNAMES.에서 읽었습니다.
+NOTE: 데이터셋 WORK.M03NGCQD은(는) 17개의 관측값과 28개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+34337      proc dmdb data=WORK.M03NGCQD outtable=WORK.NEWNAMES nameserver;
+MPRINT(EM_DIAGRAM):   proc dmdb data=WORK.M03NGCQD outtable=WORK.NEWNAMES nameserver;
+34338      names NAME;
+MPRINT(EM_DIAGRAM):   names NAME;
+34339      prefix M_;
+MPRINT(EM_DIAGRAM):   prefix M_;
+34340      where IMPUTE=0;
+MPRINT(EM_DIAGRAM):   where IMPUTE=0;
+34341      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 10개의 관측값을 데이터셋 WORK.M03NGCQD.에서 읽었습니다.
+      WHERE IMPUTE=0;
+NOTE: 데이터셋 WORK.NEWNAMES은(는) 10개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: 프로시저 DMDB 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+34342      data WORK.M03NGCQD;
+MPRINT(EM_DIAGRAM):   data WORK.M03NGCQD;
+34343      merge WORK.M03NGCQD WORK.NEWNAMES;
+MPRINT(EM_DIAGRAM):   merge WORK.M03NGCQD WORK.NEWNAMES;
+34344      by NAME;
+MPRINT(EM_DIAGRAM):   by NAME;
+34345      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 17개의 관측값을 데이터셋 WORK.M03NGCQD.에서 읽었습니다.
+NOTE: 10개의 관측값을 데이터셋 WORK.NEWNAMES.에서 읽었습니다.
+NOTE: 데이터셋 WORK.M03NGCQD은(는) 17개의 관측값과 28개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.00 초
+      
+
+34346      data WORK.Impt;
+MPRINT(EM_DIAGRAM):    data WORK.Impt;
+34347      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 데이터셋 WORK.IMPT은(는) 1개의 관측값과 0개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.00 초
+      
+
+34348      data WORK._IMPUTEDS;
+MPRINT(EM_DIAGRAM):    data WORK._IMPUTEDS;
+34349      MARRIED = 1;
+MPRINT(EM_DIAGRAM):   MARRIED = 1;
+34350      ORGSRC = 'O';
+MPRINT(EM_DIAGRAM):   ORGSRC = 'O';
+34351      OWNHOME = 0;
+MPRINT(EM_DIAGRAM):   OWNHOME = 0;
+34352      SEX = 'M';
+MPRINT(EM_DIAGRAM):   SEX = 'M';
+34353      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 데이터셋 WORK._IMPUTEDS은(는) 1개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+34354      data WORK.Impt;
+MPRINT(EM_DIAGRAM):   data WORK.Impt;
+34355      merge WORK.Impt WORK._IMPUTEDS;
+MPRINT(EM_DIAGRAM):   merge WORK.Impt WORK._IMPUTEDS;
+34356      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 1개의 관측값을 데이터셋 WORK.IMPT.에서 읽었습니다.
+NOTE: 1개의 관측값을 데이터셋 WORK._IMPUTEDS.에서 읽었습니다.
+NOTE: 데이터셋 WORK.IMPT은(는) 1개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.03 초
+      
+
+34357      proc sort data=WORK.METASET3ECZ4X4 out=_imputevar(keep=NAME METHOD);
+MPRINT(EM_DIAGRAM):    proc sort data=WORK.METASET3ECZ4X4 out=_imputevar(keep=NAME METHOD);
+34358      by NAME;
+MPRINT(EM_DIAGRAM):   by NAME;
+34359      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 3개의 관측값을 데이터셋 WORK.METASET3ECZ4X4.에서 읽었습니다.
+NOTE: 데이터셋 WORK._IMPUTEVAR은(는) 3개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+34360      proc sort data=WORK.IMPUTE_3A1U1RB_DMDBVAROUT;
+MPRINT(EM_DIAGRAM):   proc sort data=WORK.IMPUTE_3A1U1RB_DMDBVAROUT;
+34361      by NAME;
+MPRINT(EM_DIAGRAM):   by NAME;
+34362      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 7개의 관측값을 데이터셋 WORK.IMPUTE_3A1U1RB_DMDBVAROUT.에서 읽었습니다.
+NOTE: 데이터셋 WORK.IMPUTE_3A1U1RB_DMDBVAROUT은(는) 7개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+34363      data _null_;
+MPRINT(EM_DIAGRAM):   data _null_;
+34364      merge WORK.IMPUTE_3A1U1RB_DMDBVAROUT(in=_a) _imputeVar(in=_b);
+MPRINT(EM_DIAGRAM):   merge WORK.IMPUTE_3A1U1RB_DMDBVAROUT(in=_a) _imputeVar(in=_b);
+34365      by NAME;
+MPRINT(EM_DIAGRAM):   by NAME;
+34366      if _N_=1 then do;
+MPRINT(EM_DIAGRAM):   if _N_=1 then do;
+34367      call execute("data WORK._IMPUTEDMDB;");
+MPRINT(EM_DIAGRAM):   call execute("data WORK._IMPUTEDMDB;");
+34368      end;
+MPRINT(EM_DIAGRAM):   end;
+34369      if _a and _b then do;
+MPRINT(EM_DIAGRAM):   if _a and _b then do;
+34370      select(METHOD);
+MPRINT(EM_DIAGRAM):   select(METHOD);
+34371      when('MEAN') value=mean;
+MPRINT(EM_DIAGRAM):   when('MEAN') value=mean;
+34372      when('MIN') value=min;
+MPRINT(EM_DIAGRAM):   when('MIN') value=min;
+34373      when('MAX') value=max;
+MPRINT(EM_DIAGRAM):   when('MAX') value=max;
+34374      when('RANGE') value=(max-min);
+MPRINT(EM_DIAGRAM):   when('RANGE') value=(max-min);
+34375      when('MIDRANGE') value=(max+min)/2;
+MPRINT(EM_DIAGRAM):   when('MIDRANGE') value=(max+min)/2;
+34376      otherwise;
+MPRINT(EM_DIAGRAM):   otherwise;
+34377      end;
+MPRINT(EM_DIAGRAM):   end;
+34378      call execute(NAME!!'='!!strip(put(value, best.))!!';');
+MPRINT(EM_DIAGRAM):   call execute(NAME!!'='!!strip(put(value, best.))!!';');
+34379      end;
+MPRINT(EM_DIAGRAM):   end;
+34380      run;
+MPRINT(EM_DIAGRAM):   run;
+
+WARNING: 입력 데이터셋으로 BY 변수 NAME에 대해 여러 길이가 지정되었습니다. 예상하지 못한 결과를 발생시킬 수 있습니다.
+MPRINT(EM_DIAGRAM):   data WORK._IMPUTEDMDB;
+MPRINT(EM_DIAGRAM):   AGE =44.516359918;
+MPRINT(EM_DIAGRAM):   FICO =694.69766859;
+MPRINT(EM_DIAGRAM):   INCOME =47.564928425;
+NOTE: 7개의 관측값을 데이터셋 WORK.IMPUTE_3A1U1RB_DMDBVAROUT.에서 읽었습니다.
+NOTE: 3개의 관측값을 데이터셋 WORK._IMPUTEVAR.에서 읽었습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+NOTE: CALL EXECUTE가 행을 생성했습니다.
+1         + data WORK._IMPUTEDMDB;
+2         + AGE                             =44.516359918;
+3         + FICO                            =694.69766859;
+4         + INCOME                          =47.564928425;
+
+NOTE: 데이터셋 WORK._IMPUTEDMDB은(는) 1개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+34381      data WORK.Impt;
+MPRINT(EM_DIAGRAM):   data WORK.Impt;
+34382      merge WORK.Impt WORK._IMPUTEDMDB;
+MPRINT(EM_DIAGRAM):   merge WORK.Impt WORK._IMPUTEDMDB;
+34383      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 1개의 관측값을 데이터셋 WORK.IMPT.에서 읽었습니다.
+NOTE: 1개의 관측값을 데이터셋 WORK._IMPUTEDMDB.에서 읽었습니다.
+NOTE: 데이터셋 WORK.IMPT은(는) 1개의 관측값과 7개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+34384      proc transpose data=WORK.Impt out=WORK._IMPVALUE(drop =_LABEL_ rename=(_NAME_=NAME COL1=VALUE));
+MPRINT(EM_DIAGRAM):    proc transpose data=WORK.Impt out=WORK._IMPVALUE(drop =_LABEL_ rename=(_NAME_=NAME COL1=VALUE));
+34385      var
+34386      MARRIED
+34387      ORGSRC
+34388      OWNHOME
+34389      SEX
+34390      AGE
+34391      FICO
+34392      INCOME
+34393      ;
+MPRINT(EM_DIAGRAM):   var MARRIED ORGSRC OWNHOME SEX AGE FICO INCOME ;
+34394      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 입력 데이터셋에 숫자형 변수가 출력 데이터셋에서 문자형으로 변경됩니다.
+WARNING: DROP, KEEP 또는 RENAME의 변수 _LABEL_은(는) 참조되지 않습니다.
+NOTE: 1개의 관측값을 데이터셋 WORK.IMPT.에서 읽었습니다.
+NOTE: 데이터셋 WORK._IMPVALUE은(는) 7개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: 프로시저 TRANSPOSE 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+34395      proc sort data=WORK._IMPVALUE NOTHREADS;
+MPRINT(EM_DIAGRAM):   proc sort data=WORK._IMPVALUE NOTHREADS;
+34396      by NAME;
+MPRINT(EM_DIAGRAM):   by NAME;
+34397      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 7개의 관측값을 데이터셋 WORK._IMPVALUE.에서 읽었습니다.
+NOTE: 데이터셋 WORK._IMPVALUE은(는) 7개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+34398      data EMWS6.Impt_META;
+MPRINT(EM_DIAGRAM):   data EMWS6.Impt_META;
+34399      merge WORK.M03NGCQD WORK._IMPVALUE;
+MPRINT(EM_DIAGRAM):   merge WORK.M03NGCQD WORK._IMPVALUE;
+34400      by NAME;
+MPRINT(EM_DIAGRAM):   by NAME;
+34401      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 17개의 관측값을 데이터셋 WORK.M03NGCQD.에서 읽었습니다.
+NOTE: 7개의 관측값을 데이터셋 WORK._IMPVALUE.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.IMPT_META은(는) 17개의 관측값과 29개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+34402      proc print data=EMWS6.Impt_META(obs=500) label noobs;
+MPRINT(EM_DIAGRAM):    proc print data=EMWS6.Impt_META(obs=500) label noobs;
+34403      label NAME = "%sysfunc(sasmsg(sashelp.dmine, meta_name_vlabel,          NOQUOTE))" LABEL = "%sysfunc(sasmsg(sashelp.dmine, meta_label_vlabel,         NOQUOTE))" PERCENTMISS = "%sysfunc(sasmsg(sashelp.dmine, rpt_percentmissing_vlabel, NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label NAME = "변수 이름" LABEL = "레이블" PERCENTMISS = "결측률";
+34404      var NAME LABEL PERCENTMISS;
+MPRINT(EM_DIAGRAM):   var NAME LABEL PERCENTMISS;
+34405      where IMP eq '' and PERCENTMISS>50;
+MPRINT(EM_DIAGRAM):   where IMP eq '' and PERCENTMISS>50;
+34406      title9 "%sysfunc(sasmsg(sashelp.dmine, rpt_rejectedsummary_title, NOQUOTE))";
+MPRINT(EM_DIAGRAM):   title9 "기각된 변수 요약";
+34407      title10 "%sysfunc(sasmsg(sashelp.dmine, rpt_numberobs_title,         NOQUOTE))";
+MPRINT(EM_DIAGRAM):   title10 "관측치 수";
+MPRINT(EM_DIAGRAM):   run;
+34408      run;
+
+NOTE: 데이터셋 EMWS6.IMPT_META에서 선택된 관측값이 없습니다.
+NOTE: 0개의 관측값을 데이터셋 EMWS6.IMPT_META.에서 읽었습니다.
+      WHERE (IMP=' ') and (PERCENTMISS>50);
+NOTE: 프로시저 PRINT 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(EM_DIAGRAM):    proc printto;
+MPRINT(EM_DIAGRAM):   run;

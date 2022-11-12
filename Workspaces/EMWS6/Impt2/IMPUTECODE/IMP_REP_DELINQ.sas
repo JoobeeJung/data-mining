@@ -1,0 +1,4 @@
+label IMP_REP_DELINQ = 'Imputed: Replacement: DELINQ';
+length IMP_REP_DELINQ 8;
+IMP_REP_DELINQ = REP_DELINQ;
+if missing(REP_DELINQ) then IMP_REP_DELINQ = 0.4240816807;

@@ -1,0 +1,1081 @@
+NOTE: 프로시저 PRINTTO 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+Traverser: Traverser 불러옴.  MPCONNECT 명령은 !sascmdv -nosyntaxcheck -noasynchio -noobjectserver입니다. 
+Traverser: 플로우 Traversal 시작 
+17196      data _null_;
+MPRINT(EM_DIAGRAM):    data _null_;
+17197      file emwipmsg;
+MPRINT(EM_DIAGRAM):   file emwipmsg;
+17198      put '<Node Id="Ids5" Event="Run" Pid="18784" Gridid=""/>';
+MPRINT(EM_DIAGRAM):   put '<Node Id="Ids5" Event="Run" Pid="18784" Gridid=""/>';
+17199      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 파일 EMWIPMSG:
+      Local Host Name=DESKTOP-IOK0OJ9,
+      Local Host IP addr=fe80::9141:5c52:98cb:6d54%2,
+      Peer Hostname Name=DESKTOP-IOK0OJ9,
+      Peer IP addr=127.0.0.1,Peer Name=N/A,
+      Peer Portno=62153,Lrecl=32767,Recfm=Variable
+
+NOTE: 1개의 레코드를 파일 EMWIPMSG에 기록했습니다.
+      최소 레코드 길이는 51입니다.
+      최대 레코드 길이는 51입니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+17200      %let emloopmode =;
+*------------------------------------------------------------* 
+* 
+* Ids5 : Beginning update before running 
+* datetime : 20NOV2018:11:37:11 
+* 
+*------------------------------------------------------------* 
+MPRINT(EM_DIAGRAM):     filename _emtool_ 'C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Ids5\PROPERTIES.xml' encoding="UTF-8" NOBOM;
+17202      %let _HPDMGRIDHOST=;
+17203      %let _HPDMGRIDINSTALLLOC=;
+17204      %let _HPDMGRIDDATASERVER=;
+17205      %hpdm_gridSetOPtions;
+MPRINT(EM_DIAGRAM):   
+MPRINT(HPDM_GRIDSETOPTIONS):   data _null_;
+MPRINT(HPDM_GRIDSETOPTIONS):   length optionString string $2000;
+MPRINT(HPDM_GRIDSETOPTIONS):   optionString = reverse(getoption('SET'));
+MPRINT(HPDM_GRIDSETOPTIONS):   index = index(optionString, reverse('GRIDHOST'));
+MPRINT(HPDM_GRIDSETOPTIONS):   if index then do;
+MPRINT(HPDM_GRIDSETOPTIONS):   string = reverse(substr(optionString, 1, index-4));
+MPRINT(HPDM_GRIDSETOPTIONS):   host = '"'!!strip(tranwrd(scan(string, 1, ']'), '"', ''))!!'"';
+MPRINT(HPDM_GRIDSETOPTIONS):   call symput('_HPDMGRIDHOST', strip(host));
+MPRINT(HPDM_GRIDSETOPTIONS):   end;
+MPRINT(HPDM_GRIDSETOPTIONS):   index = index(optionString, reverse('GRIDINSTALLLOC'));
+MPRINT(HPDM_GRIDSETOPTIONS):   if index then do;
+MPRINT(HPDM_GRIDSETOPTIONS):   string = reverse(substr(optionString, 1, index-4));
+MPRINT(HPDM_GRIDSETOPTIONS):   install = '"'!!strip(tranwrd(scan(string, 1, ']'), '"', ''))!!'"';
+MPRINT(HPDM_GRIDSETOPTIONS):   call symput('_HPDMGRIDINSTALLLOC', strip(install));
+MPRINT(HPDM_GRIDSETOPTIONS):   end;
+MPRINT(HPDM_GRIDSETOPTIONS):   index = index(optionString, reverse('GRIDDATASERVER'));
+MPRINT(HPDM_GRIDSETOPTIONS):   if index then do;
+MPRINT(HPDM_GRIDSETOPTIONS):   string = reverse(substr(optionString, 1, index-4));
+MPRINT(HPDM_GRIDSETOPTIONS):   server = '"'!!strip(tranwrd(scan(string, 1, ']'), '"', ''))!!'"';
+MPRINT(HPDM_GRIDSETOPTIONS):   call symput('_HPDMGRIDDATASERVER', strip(server));
+MPRINT(HPDM_GRIDSETOPTIONS):   end;
+MPRINT(HPDM_GRIDSETOPTIONS):   run;
+
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(EM_DIAGRAM):  ;
+
+*------------------------------------------------------------* 
+* 
+* Ids5 : End update 
+* datetime : 20NOV2018:11:37:11 
+* 
+*------------------------------------------------------------* 
+17206      %em_getactionstatus(emlib =EMWS6, nodeid=Ids5);
+MPRINT(EM_DIAGRAM):   
+MPRINT(EM_GETACTIONSTATUS):   proc display c=sashelp.emutil.getactionstatus.scl;
+MPRINT(EM_GETACTIONSTATUS):   run;
+
+17207      %let em_Train = N;
+17208      %let em_Score = N;
+17209      %let em_Report = N;
+17210      %let em_Run = N;
+NOTE: 프로시저 DISPLAY 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(EM_GETACTIONSTATUS):   
+MPRINT(EM_DIAGRAM):  ;
+
+노드 "Ids5"은(는) 이미 실행되었습니다. 
+노드 "Ids5" 성공함. 
+17211      data _null_;
+MPRINT(EM_DIAGRAM):    data _null_;
+17212      file emwipmsg;
+MPRINT(EM_DIAGRAM):   file emwipmsg;
+17213      put '<Node Id="Ids5" Event="Complete" Pid="18784" Gridid=""/>';
+MPRINT(EM_DIAGRAM):   put '<Node Id="Ids5" Event="Complete" Pid="18784" Gridid=""/>';
+17214      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 파일 EMWIPMSG:
+      Local Host Name=DESKTOP-IOK0OJ9,
+      Local Host IP addr=fe80::9141:5c52:98cb:6d54%2,
+      Peer Hostname Name=DESKTOP-IOK0OJ9,
+      Peer IP addr=127.0.0.1,Peer Name=N/A,
+      Peer Portno=62153,Lrecl=32767,Recfm=Variable
+
+NOTE: 1개의 레코드를 파일 EMWIPMSG에 기록했습니다.
+      최소 레코드 길이는 56입니다.
+      최대 레코드 길이는 56입니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+Traverser: WaitingNode "REPL" 
+Traverser: WaitingNode "IMPT2" 
+Traverser: WaitingNode "HPSVM" 
+traverser_readyNode_note 
+17215      data _null_;
+MPRINT(EM_DIAGRAM):    data _null_;
+17216      file emwipmsg;
+MPRINT(EM_DIAGRAM):   file emwipmsg;
+17217      put '<Node Id="Part4" Event="Run" Pid="18784" Gridid=""/>';
+MPRINT(EM_DIAGRAM):   put '<Node Id="Part4" Event="Run" Pid="18784" Gridid=""/>';
+17218      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 파일 EMWIPMSG:
+      Local Host Name=DESKTOP-IOK0OJ9,
+      Local Host IP addr=fe80::9141:5c52:98cb:6d54%2,
+      Peer Hostname Name=DESKTOP-IOK0OJ9,
+      Peer IP addr=127.0.0.1,Peer Name=N/A,
+      Peer Portno=62153,Lrecl=32767,Recfm=Variable
+
+NOTE: 1개의 레코드를 파일 EMWIPMSG에 기록했습니다.
+      최소 레코드 길이는 52입니다.
+      최대 레코드 길이는 52입니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+17219      %let emloopmode =;
+*------------------------------------------------------------* 
+* 
+* Part4 : Beginning update before running 
+* datetime : 20NOV2018:11:37:12 
+* 
+*------------------------------------------------------------* 
+MPRINT(EM_DIAGRAM):     data WORK.Part4_FILTERSET;
+MPRINT(EM_DIAGRAM):   length PORT $32 USE $1;
+MPRINT(EM_DIAGRAM):   DROP DELTACODE APPLYDELTA APPLYSCORE IMPORTPORT;
+MPRINT(EM_DIAGRAM):   set EMWS6.Ids5_exportSet ;
+MPRINT(EM_DIAGRAM):   PORT = '';
+MPRINT(EM_DIAGRAM):   USE = '';
+MPRINT(EM_DIAGRAM):   where role in( "RAW" "TRAIN" "DOCUMENT" ) and EXPORT = 'Y' ;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _emtool_ 'C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Part4\PROPERTIES.xml' encoding="UTF-8" NOBOM;
+17238      %let _HPDMGRIDHOST=;
+17239      %let _HPDMGRIDINSTALLLOC=;
+17240      %let _HPDMGRIDDATASERVER=;
+17241      %hpdm_gridSetOPtions;
+MPRINT(EM_DIAGRAM):   
+MPRINT(HPDM_GRIDSETOPTIONS):   data _null_;
+MPRINT(HPDM_GRIDSETOPTIONS):   length optionString string $2000;
+MPRINT(HPDM_GRIDSETOPTIONS):   optionString = reverse(getoption('SET'));
+MPRINT(HPDM_GRIDSETOPTIONS):   index = index(optionString, reverse('GRIDHOST'));
+MPRINT(HPDM_GRIDSETOPTIONS):   if index then do;
+MPRINT(HPDM_GRIDSETOPTIONS):   string = reverse(substr(optionString, 1, index-4));
+MPRINT(HPDM_GRIDSETOPTIONS):   host = '"'!!strip(tranwrd(scan(string, 1, ']'), '"', ''))!!'"';
+MPRINT(HPDM_GRIDSETOPTIONS):   call symput('_HPDMGRIDHOST', strip(host));
+MPRINT(HPDM_GRIDSETOPTIONS):   end;
+MPRINT(HPDM_GRIDSETOPTIONS):   index = index(optionString, reverse('GRIDINSTALLLOC'));
+MPRINT(HPDM_GRIDSETOPTIONS):   if index then do;
+MPRINT(HPDM_GRIDSETOPTIONS):   string = reverse(substr(optionString, 1, index-4));
+MPRINT(HPDM_GRIDSETOPTIONS):   install = '"'!!strip(tranwrd(scan(string, 1, ']'), '"', ''))!!'"';
+MPRINT(HPDM_GRIDSETOPTIONS):   call symput('_HPDMGRIDINSTALLLOC', strip(install));
+MPRINT(HPDM_GRIDSETOPTIONS):   end;
+MPRINT(HPDM_GRIDSETOPTIONS):   index = index(optionString, reverse('GRIDDATASERVER'));
+MPRINT(HPDM_GRIDSETOPTIONS):   if index then do;
+MPRINT(HPDM_GRIDSETOPTIONS):   string = reverse(substr(optionString, 1, index-4));
+MPRINT(HPDM_GRIDSETOPTIONS):   server = '"'!!strip(tranwrd(scan(string, 1, ']'), '"', ''))!!'"';
+MPRINT(HPDM_GRIDSETOPTIONS):   call symput('_HPDMGRIDDATASERVER', strip(server));
+MPRINT(HPDM_GRIDSETOPTIONS):   end;
+MPRINT(HPDM_GRIDSETOPTIONS):   run;
+
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(EM_DIAGRAM):  ;
+
+*------------------------------------------------------------* 
+* 
+* Part4 : End update 
+* datetime : 20NOV2018:11:37:12 
+* 
+*------------------------------------------------------------* 
+17242      %em_getactionstatus(emlib =EMWS6, nodeid=Part4);
+MPRINT(EM_DIAGRAM):   
+MPRINT(EM_GETACTIONSTATUS):   proc display c=sashelp.emutil.getactionstatus.scl;
+MPRINT(EM_GETACTIONSTATUS):   run;
+
+17243      %let em_Train = N;
+17244      %let em_Score = N;
+17245      %let em_Report = N;
+17246      %let em_Run = N;
+NOTE: 프로시저 DISPLAY 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(EM_GETACTIONSTATUS):   
+MPRINT(EM_DIAGRAM):  ;
+
+노드 "Part4"은(는) 이미 실행되었습니다. 
+노드 "Part4" 성공함. 
+17247      data _null_;
+MPRINT(EM_DIAGRAM):    data _null_;
+17248      file emwipmsg;
+MPRINT(EM_DIAGRAM):   file emwipmsg;
+17249      put '<Node Id="Part4" Event="Complete" Pid="18784" Gridid=""/>';
+MPRINT(EM_DIAGRAM):   put '<Node Id="Part4" Event="Complete" Pid="18784" Gridid=""/>';
+17250      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 파일 EMWIPMSG:
+      Local Host Name=DESKTOP-IOK0OJ9,
+      Local Host IP addr=fe80::9141:5c52:98cb:6d54%2,
+      Peer Hostname Name=DESKTOP-IOK0OJ9,
+      Peer IP addr=127.0.0.1,Peer Name=N/A,
+      Peer Portno=62153,Lrecl=32767,Recfm=Variable
+
+NOTE: 1개의 레코드를 파일 EMWIPMSG에 기록했습니다.
+      최소 레코드 길이는 57입니다.
+      최대 레코드 길이는 57입니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+Traverser: WaitingNode "IMPT2" 
+Traverser: WaitingNode "HPSVM" 
+traverser_readyNode_note 
+17251      data _null_;
+MPRINT(EM_DIAGRAM):    data _null_;
+17252      file emwipmsg;
+MPRINT(EM_DIAGRAM):   file emwipmsg;
+17253      put '<Node Id="Repl" Event="Run" Pid="18784" Gridid=""/>';
+MPRINT(EM_DIAGRAM):   put '<Node Id="Repl" Event="Run" Pid="18784" Gridid=""/>';
+17254      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 파일 EMWIPMSG:
+      Local Host Name=DESKTOP-IOK0OJ9,
+      Local Host IP addr=fe80::9141:5c52:98cb:6d54%2,
+      Peer Hostname Name=DESKTOP-IOK0OJ9,
+      Peer IP addr=127.0.0.1,Peer Name=N/A,
+      Peer Portno=62153,Lrecl=32767,Recfm=Variable
+
+NOTE: 1개의 레코드를 파일 EMWIPMSG에 기록했습니다.
+      최소 레코드 길이는 51입니다.
+      최대 레코드 길이는 51입니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+17255      %let emloopmode =;
+*------------------------------------------------------------* 
+* 
+* Repl : Beginning update before running 
+* datetime : 20NOV2018:11:37:12 
+* 
+*------------------------------------------------------------* 
+MPRINT(EM_DIAGRAM):     data WORK.Repl_FILTERSET;
+MPRINT(EM_DIAGRAM):   length PORT $32 USE $1;
+MPRINT(EM_DIAGRAM):   DROP DELTACODE APPLYDELTA APPLYSCORE IMPORTPORT;
+MPRINT(EM_DIAGRAM):   set EMWS6.Part4_exportSet ;
+MPRINT(EM_DIAGRAM):   PORT = '';
+MPRINT(EM_DIAGRAM):   USE = '';
+MPRINT(EM_DIAGRAM):   where role in( "RAW" "TRAIN" "VALIDATE" "TEST" "SCORE" "TRANSACTION" "DOCUMENT" "RULES" "REPORTFIT" "RANK" "SCOREDIST" "ESTIMATE" "TREE" "CLUSSTAT" "CLUSMEAN" "VARMAP" ) and EXPORT = 'Y' ;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Repl: Generation of macros and macro variables;
+MPRINT(EM_DIAGRAM):   * To see the code generated, set the EM_DEBUG macro variable to SOURCE or _ALL_;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Repl: EM Macro Variables and Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   * System Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   length string $2000;
+MPRINT(EM_DIAGRAM):   string = 'DataMining2018';
+MPRINT(EM_DIAGRAM):   call symput('EM_PROJECTNAME', trim(string));
+MPRINT(EM_DIAGRAM):   string = 'W12_Preprocessing';
+MPRINT(EM_DIAGRAM):   call symput('EM_WSNAME', trim(string));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   * Properties Macro Variables ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Files Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Import Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Export Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Decision Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Statement Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   set EMWS6.Ids5_EMINFO;
+MPRINT(EM_DIAGRAM):   where key in('HPDMSAMPLE', 'IDSTABLE');
+MPRINT(EM_DIAGRAM):   if key = 'HPDMSAMPLE' then call symput('_ForceGrid', '1');
+MPRINT(EM_DIAGRAM):   else call symput('_IDS_TABLE', DATA);
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(HPDM_PERFORMANCE):  ;
+PERFORMANCE  DETAILS
+MPRINT(EM_DIAGRAM):  ;
+17493      %let emexceptionString =;
+17494      %let EMEXCEPTIONSTRING=;
+17495      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+17496      * UPDATE: Repl;
+MPRINT(EM_DIAGRAM):   * UPDATE: Repl;
+17497      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+17498      %let EM_ACTION = UPDATE;
+17499      %let syscc = 0;
+17500      filename x CATALOG 'SASHELP.EMUTIL.EM_VARMACRO.SOURCE';
+MPRINT(EM_DIAGRAM):     filename x CATALOG 'SASHELP.EMUTIL.EM_VARMACRO.SOURCE';
+17501      %inc x;
+NOTE: %INCLUDE(레벨 1) 파일 X은(는) 파일 SASHELP.EMUTIL.EM_VARMACRO.SOURCE입니다.
+17503     +%macro em_varMacro(name=emMacro, metadata=, where=, key=NAME, nummacro=, maxvar=-1);
+17505     +   filename macFile catalog 'work.emutil.macro.source';
+17506     +   %let _METAOBS = 0;
+17507     +   %let _maxvar = &maxvar;
+17508     +   %if "&_maxvar" eq "" %then %let maxvar = -1;
+17510     +   %if (%sysfunc(exist(&metadata))<1 and %sysfunc(exist(&metadata, VIEW))<1)
+17511     +                   or (&metadata eq ) %then %do;
+17512     +       %put * No metadata data set defined;
+17513     +       %goto doend;
+17514     +   %end;
+17516     +   data _null_;
+17517     +      length _STRING_ $80;
+17518     +      retain _STRING_ '' maxvar 0;
+17519     +      set &metadata end=eof;
+17520     +      file macFile;
+17521     +      %if %nrbquote(&where) ne %then %do;
+17522     +          %let whereClause = where (%nrbquote(&where));
+17523     +          %unquote(&whereClause);
+17524     +      %end;
+17525     +      if _N_=1 then do;
+17526     +         string = "%"!!"macro &name;";
+17527     +         put string;
+17528     +      end;
+17529     +      maxvar +1;
+17530     +      if (length(_STRING_) + length(trim(&key))+ 4 < 80) then do;
+17531     +         _STRING_ = trim(_STRING_)!!' '!!trim(&key);
+17532     +         if eof
+17533     +            %if  %sysevalf(&_maxvar > 0) %then %do;
+17534     +                or maxvar >= &maxvar
+17535     +            %end;
+17536     +            then do;
+17537     +            put _STRING_;
+17538     +            string = "%"!!"mend &name;";
+17539     +            put string;
+17540     +            string = strip(put(_N_, best.));
+17541     +            call symput('_METAOBS', string);
+17542     +            %if (&nummacro ne ) %then %do;
+17543     +                put "%" "global &nummacro;";
+17544     +                put "%" "let &nummacro = " string ";";
+17545     +            %end;
+17546     +            stop;
+17547     +         end;
+17548     +      end;
+17549     +      else do;
+17550     +         put _STRING_;
+17551     +         _string_ = TRIM(&key);
+17552     +         if eof
+17553     +            %if  %sysevalf(&_maxvar > 0) %then %do;
+17554     +              or maxvar >= &maxvar
+17555     +           %end;
+17556     +            then do;
+17557     +            put _STRING_;
+17558     +            string = "%"!!"mend &name;";
+17559     +            put string;
+17560     +        end;
+17561     +      end;
+17562     +      if eof
+17563     +         %if  %sysevalf(&_maxvar > 0) %then %do;
+17564     +             or maxvar >= &maxvar
+17565     +         %end;
+17566     +         then do;
+17567     +         string = strip(put(_N_, best.));
+17568     +         call symput('_METAOBS', string);
+17569     +         %if (&nummacro ne ) %then %do;
+17570     +             put "%" "global &nummacro;";
+17571     +             put "%" "let &nummacro = " string ";";
+17572     +         %end;
+17573     +         stop;
+17574     +      end;
+17575     +   run;
+17577     +   %doend:
+17578     +   %if ^&_METAOBS %then %do;
+17579     +       data _null_;
+17580     +          file macFile;
+17581     +          put "%" "macro &name;";
+17582     +          put "%" "mend &name;";
+17583     +          %if (&nummacro ne ) %then %do;
+17584     +              put "%" "global &nummacro;";
+17585     +              put "%" "let &nummacro = 0;";
+17586     +          %end;
+17587     +      run;
+17588     +   %end;
+17589     +   %inc macFile;
+17590     +   filename macFile;
+17591     +%mend em_varMacro;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+17592      filename X;
+MPRINT(EM_DIAGRAM):   filename X;
+NOTE: Fileref X을(를) 삭제했습니다.
+17593       %macro main;
+17594      
+17595         filename temp catalog 'sashelp.emmdfy.Replace_macros.source';
+17596         %include temp;
+17597         filename temp;
+17598      
+17599         %if %upcase(&EM_ACTION) = CREATE %then %do;
+17600      
+17601             filename temp catalog 'sashelp.emmdfy.Replace_create.source';
+17602             %include temp;
+17603             filename temp;
+17604             %create;
+17605         %end;
+17606         %else
+17607         %if %upcase(&EM_ACTION) = TRAIN %then %do;
+17608      
+17609             filename temp catalog 'sashelp.emmdfy.Replace_train.source';
+17610             %include temp;
+17611             filename temp;
+17612             %train;
+17613         %end;
+17614         %else
+17615         %if %upcase(&EM_ACTION) = SCORE %then %do;
+17616      
+17617             filename temp catalog 'sashelp.emmdfy.Replace_score.source';
+17618             %include temp;
+17619             filename temp;
+17620             %score;
+17621         %end;
+17622         %if %upcase(&EM_ACTION) = REPORT %then %do;
+17623      
+17624             filename temp catalog 'sashelp.emmdfy.Replace_report.source';
+17625             %include temp;
+17626             filename temp;
+17627             %report;
+17628         %end;
+17629         %if %upcase(&EM_ACTION) = OPENOUTCLASSTABLE %then %do;
+17630             filename temp catalog 'sashelp.emmdfy.replace_makeoutclass.source';
+17631             %include temp;
+17632             filename temp;
+17633             %em_replace_openoutclass;
+17634         %end;
+17635         %if %upcase(&EM_ACTION) = CLOSEOUTCLASSTABLE %then %do;
+17636             filename temp catalog 'sashelp.emmdfy.replace_makeoutclass.source';
+17637             %include temp;
+17638             filename temp;
+17639             %em_replace_closeoutclass;
+17640         %end;
+17641      %mend main;
+17642      
+17643      %main;
+MPRINT(MAIN):   filename temp catalog 'sashelp.emmdfy.Replace_macros.source';
+NOTE: %INCLUDE(레벨 1) 파일 TEMP은(는) 파일 SASHELP.EMMDFY.REPLACE_MACROS.SOURCE입니다.
+17644     +%macro SetProperties;
+17645     +   %em_checkmacro(name=EM_PROPERTY_UNKNOWNLEVEL,    global=Y, value=MODE);
+17646     +   %em_checkmacro(name=EM_PROPERTY_CALCMETHOD,      global=Y, value=NONE);
+17647     +   %em_checkmacro(name=EM_PROPERTY_PERCENTSCUTOFF,  global=Y, value=0.5);
+17648     +   %em_checkmacro(name=EM_PROPERTY_SPACINGSCUTOFF,  global=Y, value=9);
+17649     +   %em_checkMacro(name=EM_PROPERTY_MADSCUTOFF,      global=Y, value=9);
+17650     +   %em_checkMacro(name=EM_PROPERTY_STDDEVCUTOFF,    global=Y, value=3);
+17651     +   %em_checkmacro(name=EM_PROPERTY_REPLACEMETHOD,   global=Y, value=COMPUTED);
+17652     +   %em_checkmacro(name=EM_PROPERTY_HIDEVARIABLE,    global=Y, value=N);
+17653     +   %em_checkmacro(name=EM_PROPERTY_INTERVALMETHOD,  global=Y, value=NONE);
+17654     +   %em_checkmacro(name=EM_PROPERTY_REPORTCOUNT,     global=Y, value=Y);
+17655     +
+17656     +%mend SetProperties;
+17657     +
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(MAIN):   filename temp;
+NOTE: Fileref TEMP을(를) 삭제했습니다.
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * End UPDATE: Repl;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+17658      *------------------------------------------------------------*;
+17659      * End UPDATE: Repl;
+17660      *------------------------------------------------------------*;
+17661      
+
+17662      %em_delMacro;
+MPRINT(EM_DIAGRAM):   
+MPRINT(EM_DIAGRAM):  ;
+
+MPRINT(EM_DIAGRAM):    filename _emtool_ 'C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\PROPERTIES.xml' encoding="UTF-8" NOBOM;
+17664      %let _HPDMGRIDHOST=;
+17665      %let _HPDMGRIDINSTALLLOC=;
+17666      %let _HPDMGRIDDATASERVER=;
+17667      %hpdm_gridSetOPtions;
+MPRINT(EM_DIAGRAM):   
+MPRINT(HPDM_GRIDSETOPTIONS):   data _null_;
+MPRINT(HPDM_GRIDSETOPTIONS):   length optionString string $2000;
+MPRINT(HPDM_GRIDSETOPTIONS):   optionString = reverse(getoption('SET'));
+MPRINT(HPDM_GRIDSETOPTIONS):   index = index(optionString, reverse('GRIDHOST'));
+MPRINT(HPDM_GRIDSETOPTIONS):   if index then do;
+MPRINT(HPDM_GRIDSETOPTIONS):   string = reverse(substr(optionString, 1, index-4));
+MPRINT(HPDM_GRIDSETOPTIONS):   host = '"'!!strip(tranwrd(scan(string, 1, ']'), '"', ''))!!'"';
+MPRINT(HPDM_GRIDSETOPTIONS):   call symput('_HPDMGRIDHOST', strip(host));
+MPRINT(HPDM_GRIDSETOPTIONS):   end;
+MPRINT(HPDM_GRIDSETOPTIONS):   index = index(optionString, reverse('GRIDINSTALLLOC'));
+MPRINT(HPDM_GRIDSETOPTIONS):   if index then do;
+MPRINT(HPDM_GRIDSETOPTIONS):   string = reverse(substr(optionString, 1, index-4));
+MPRINT(HPDM_GRIDSETOPTIONS):   install = '"'!!strip(tranwrd(scan(string, 1, ']'), '"', ''))!!'"';
+MPRINT(HPDM_GRIDSETOPTIONS):   call symput('_HPDMGRIDINSTALLLOC', strip(install));
+MPRINT(HPDM_GRIDSETOPTIONS):   end;
+MPRINT(HPDM_GRIDSETOPTIONS):   index = index(optionString, reverse('GRIDDATASERVER'));
+MPRINT(HPDM_GRIDSETOPTIONS):   if index then do;
+MPRINT(HPDM_GRIDSETOPTIONS):   string = reverse(substr(optionString, 1, index-4));
+MPRINT(HPDM_GRIDSETOPTIONS):   server = '"'!!strip(tranwrd(scan(string, 1, ']'), '"', ''))!!'"';
+MPRINT(HPDM_GRIDSETOPTIONS):   call symput('_HPDMGRIDDATASERVER', strip(server));
+MPRINT(HPDM_GRIDSETOPTIONS):   end;
+MPRINT(HPDM_GRIDSETOPTIONS):   run;
+
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(EM_DIAGRAM):  ;
+
+*------------------------------------------------------------* 
+* 
+* Repl : End update 
+* datetime : 20NOV2018:11:37:13 
+* 
+*------------------------------------------------------------* 
+17668      %em_getactionstatus(emlib =EMWS6, nodeid=Repl);
+MPRINT(EM_DIAGRAM):   
+MPRINT(EM_GETACTIONSTATUS):   proc display c=sashelp.emutil.getactionstatus.scl;
+MPRINT(EM_GETACTIONSTATUS):   run;
+
+17669      %let em_filemodtime=;
+17670      data _null_;
+MPRINT(EM_GETACTIONSTATUS):   data _null_;
+17671      format modate best.;
+MPRINT(EM_GETACTIONSTATUS):   format modate best.;
+17672      set sashelp.Vextfl;
+MPRINT(EM_GETACTIONSTATUS):   set sashelp.Vextfl;
+17673      where fileref eq "#LN00171";
+MPRINT(EM_GETACTIONSTATUS):   where fileref eq "#LN00171";
+17674      call symput('EM_FILEMODTIME', put(modate, best.));
+MPRINT(EM_GETACTIONSTATUS):   call symput('EM_FILEMODTIME', put(modate, best.));
+17675      run;
+MPRINT(EM_GETACTIONSTATUS):   run;
+
+NOTE: 1개의 관측값을 데이터셋 SASHELP.VEXTFL.에서 읽었습니다.
+      WHERE fileref='#LN00171';
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+17676      %symdel em_filemodtime;
+WARNING: 매크로 변수 EM_FILEMODTIME을(를) 삭제하는 데 실패했습니다. 변수를 찾을 수 없습니다.
+NOTE: View EMWS6.REPL_NEWVALUES.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.04 초
+      
+17677      %let em_Train = N;
+17678      %let em_Score = N;
+17679      %let em_Report = N;
+17680      %let em_Run = N;
+NOTE: 프로시저 DISPLAY 실행(총 프로세스 시간):
+      실행 시간           0.12 초
+      cpu 시간            0.11 초
+      
+
+MPRINT(EM_GETACTIONSTATUS):     
+MPRINT(EM_DIAGRAM):  ;
+
+노드 "Repl"은(는) 이미 실행되었습니다. 
+노드 "Repl" 성공함. 
+17681      data _null_;
+MPRINT(EM_DIAGRAM):    data _null_;
+17682      file emwipmsg;
+MPRINT(EM_DIAGRAM):   file emwipmsg;
+17683      put '<Node Id="Repl" Event="Complete" Pid="18784" Gridid=""/>';
+MPRINT(EM_DIAGRAM):   put '<Node Id="Repl" Event="Complete" Pid="18784" Gridid=""/>';
+17684      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 파일 EMWIPMSG:
+      Local Host Name=DESKTOP-IOK0OJ9,
+      Local Host IP addr=fe80::9141:5c52:98cb:6d54%2,
+      Peer Hostname Name=DESKTOP-IOK0OJ9,
+      Peer IP addr=127.0.0.1,Peer Name=N/A,
+      Peer Portno=62153,Lrecl=32767,Recfm=Variable
+
+NOTE: 1개의 레코드를 파일 EMWIPMSG에 기록했습니다.
+      최소 레코드 길이는 56입니다.
+      최대 레코드 길이는 56입니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+Traverser: WaitingNode "HPSVM" 
+traverser_readyNode_note 
+17685      data _null_;
+MPRINT(EM_DIAGRAM):    data _null_;
+17686      file emwipmsg;
+MPRINT(EM_DIAGRAM):   file emwipmsg;
+17687      put '<Node Id="Impt2" Event="Run" Pid="18784" Gridid=""/>';
+MPRINT(EM_DIAGRAM):   put '<Node Id="Impt2" Event="Run" Pid="18784" Gridid=""/>';
+17688      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 파일 EMWIPMSG:
+      Local Host Name=DESKTOP-IOK0OJ9,
+      Local Host IP addr=fe80::9141:5c52:98cb:6d54%2,
+      Peer Hostname Name=DESKTOP-IOK0OJ9,
+      Peer IP addr=127.0.0.1,Peer Name=N/A,
+      Peer Portno=62153,Lrecl=32767,Recfm=Variable
+
+NOTE: 1개의 레코드를 파일 EMWIPMSG에 기록했습니다.
+      최소 레코드 길이는 52입니다.
+      최대 레코드 길이는 52입니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+17689      %let emloopmode =;
+*------------------------------------------------------------* 
+* 
+* Impt2 : Beginning update before running 
+* datetime : 20NOV2018:11:37:13 
+* 
+*------------------------------------------------------------* 
+MPRINT(EM_DIAGRAM):     data WORK.Impt2_FILTERSET;
+MPRINT(EM_DIAGRAM):   length PORT $32 USE $1;
+MPRINT(EM_DIAGRAM):   DROP DELTACODE APPLYDELTA APPLYSCORE IMPORTPORT;
+MPRINT(EM_DIAGRAM):   set EMWS6.Repl_exportSet ;
+MPRINT(EM_DIAGRAM):   PORT = '';
+MPRINT(EM_DIAGRAM):   USE = '';
+MPRINT(EM_DIAGRAM):   where role in( "RAW" "TRAIN" "VALIDATE" "TEST" ) and EXPORT = 'Y' ;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _emtool_ 'C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Impt2\PROPERTIES.xml' encoding="UTF-8" NOBOM;
+17709      %let _HPDMGRIDHOST=;
+17710      %let _HPDMGRIDINSTALLLOC=;
+17711      %let _HPDMGRIDDATASERVER=;
+17712      %hpdm_gridSetOPtions;
+MPRINT(EM_DIAGRAM):   
+MPRINT(HPDM_GRIDSETOPTIONS):   data _null_;
+MPRINT(HPDM_GRIDSETOPTIONS):   length optionString string $2000;
+MPRINT(HPDM_GRIDSETOPTIONS):   optionString = reverse(getoption('SET'));
+MPRINT(HPDM_GRIDSETOPTIONS):   index = index(optionString, reverse('GRIDHOST'));
+MPRINT(HPDM_GRIDSETOPTIONS):   if index then do;
+MPRINT(HPDM_GRIDSETOPTIONS):   string = reverse(substr(optionString, 1, index-4));
+MPRINT(HPDM_GRIDSETOPTIONS):   host = '"'!!strip(tranwrd(scan(string, 1, ']'), '"', ''))!!'"';
+MPRINT(HPDM_GRIDSETOPTIONS):   call symput('_HPDMGRIDHOST', strip(host));
+MPRINT(HPDM_GRIDSETOPTIONS):   end;
+MPRINT(HPDM_GRIDSETOPTIONS):   index = index(optionString, reverse('GRIDINSTALLLOC'));
+MPRINT(HPDM_GRIDSETOPTIONS):   if index then do;
+MPRINT(HPDM_GRIDSETOPTIONS):   string = reverse(substr(optionString, 1, index-4));
+MPRINT(HPDM_GRIDSETOPTIONS):   install = '"'!!strip(tranwrd(scan(string, 1, ']'), '"', ''))!!'"';
+MPRINT(HPDM_GRIDSETOPTIONS):   call symput('_HPDMGRIDINSTALLLOC', strip(install));
+MPRINT(HPDM_GRIDSETOPTIONS):   end;
+MPRINT(HPDM_GRIDSETOPTIONS):   index = index(optionString, reverse('GRIDDATASERVER'));
+MPRINT(HPDM_GRIDSETOPTIONS):   if index then do;
+MPRINT(HPDM_GRIDSETOPTIONS):   string = reverse(substr(optionString, 1, index-4));
+MPRINT(HPDM_GRIDSETOPTIONS):   server = '"'!!strip(tranwrd(scan(string, 1, ']'), '"', ''))!!'"';
+MPRINT(HPDM_GRIDSETOPTIONS):   call symput('_HPDMGRIDDATASERVER', strip(server));
+MPRINT(HPDM_GRIDSETOPTIONS):   end;
+MPRINT(HPDM_GRIDSETOPTIONS):   run;
+
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(EM_DIAGRAM):  ;
+
+*------------------------------------------------------------* 
+* 
+* Impt2 : End update 
+* datetime : 20NOV2018:11:37:13 
+* 
+*------------------------------------------------------------* 
+17713      %em_getactionstatus(emlib =EMWS6, nodeid=Impt2);
+MPRINT(EM_DIAGRAM):   
+MPRINT(EM_GETACTIONSTATUS):   proc display c=sashelp.emutil.getactionstatus.scl;
+MPRINT(EM_GETACTIONSTATUS):   run;
+
+17714      %let em_Train = N;
+17715      %let em_Score = N;
+17716      %let em_Report = N;
+17717      %let em_Run = N;
+NOTE: 프로시저 DISPLAY 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(EM_GETACTIONSTATUS):   
+MPRINT(EM_DIAGRAM):  ;
+
+노드 "Impt2"은(는) 이미 실행되었습니다. 
+노드 "Impt2" 성공함. 
+17718      data _null_;
+MPRINT(EM_DIAGRAM):    data _null_;
+17719      file emwipmsg;
+MPRINT(EM_DIAGRAM):   file emwipmsg;
+17720      put '<Node Id="Impt2" Event="Complete" Pid="18784" Gridid=""/>';
+MPRINT(EM_DIAGRAM):   put '<Node Id="Impt2" Event="Complete" Pid="18784" Gridid=""/>';
+17721      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 파일 EMWIPMSG:
+      Local Host Name=DESKTOP-IOK0OJ9,
+      Local Host IP addr=fe80::9141:5c52:98cb:6d54%2,
+      Peer Hostname Name=DESKTOP-IOK0OJ9,
+      Peer IP addr=127.0.0.1,Peer Name=N/A,
+      Peer Portno=62153,Lrecl=32767,Recfm=Variable
+
+NOTE: 1개의 레코드를 파일 EMWIPMSG에 기록했습니다.
+      최소 레코드 길이는 57입니다.
+      최대 레코드 길이는 57입니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+traverser_readyNode_note 
+17722      data _null_;
+MPRINT(EM_DIAGRAM):    data _null_;
+17723      file emwipmsg;
+MPRINT(EM_DIAGRAM):   file emwipmsg;
+17724      put '<Node Id="HPSVM" Event="Run" Pid="18784" Gridid=""/>';
+MPRINT(EM_DIAGRAM):   put '<Node Id="HPSVM" Event="Run" Pid="18784" Gridid=""/>';
+17725      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 파일 EMWIPMSG:
+      Local Host Name=DESKTOP-IOK0OJ9,
+      Local Host IP addr=fe80::9141:5c52:98cb:6d54%2,
+      Peer Hostname Name=DESKTOP-IOK0OJ9,
+      Peer IP addr=127.0.0.1,Peer Name=N/A,
+      Peer Portno=62153,Lrecl=32767,Recfm=Variable
+
+NOTE: 1개의 레코드를 파일 EMWIPMSG에 기록했습니다.
+      최소 레코드 길이는 52입니다.
+      최대 레코드 길이는 52입니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+17726      %let emloopmode =;
+*------------------------------------------------------------* 
+* 
+* HPSVM : Beginning update before running 
+* datetime : 20NOV2018:11:37:14 
+* 
+*------------------------------------------------------------* 
+MPRINT(EM_DIAGRAM):     data WORK.HPSVM_FILTERSET;
+MPRINT(EM_DIAGRAM):   length PORT $32 USE $1;
+MPRINT(EM_DIAGRAM):   DROP DELTACODE APPLYDELTA APPLYSCORE IMPORTPORT;
+MPRINT(EM_DIAGRAM):   set EMWS6.Impt2_exportSet ;
+MPRINT(EM_DIAGRAM):   PORT = '';
+MPRINT(EM_DIAGRAM):   USE = '';
+MPRINT(EM_DIAGRAM):   where role in( "RAW" "TRAIN" "VALIDATE" "TEST" "SCORE" "TRANSACTION" "DOCUMENT" "RULES" "REPORTFIT" "RANK" "SCOREDIST" "ESTIMATE" "TREE" "CLUSSTAT" "CLUSMEAN" "VARMAP" ) and EXPORT = 'Y' ;
+MPRINT(EM_DIAGRAM):   run;
+NOTE: 이 SAS 세션은 WORK 내의 임의의 레지스트리를 사용합니다. 이 세션을 종료할 때 모든 변경 사항은 저장되지 않습니다.
+17757      data _null_;
+MPRINT(EM_DIAGRAM):    data _null_;
+17758      set EMWS6.Impt2_CMeta_TRAIN (obs=1);
+MPRINT(EM_DIAGRAM):   set EMWS6.Impt2_CMeta_TRAIN (obs=1);
+17759      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 1개의 관측값을 데이터셋 EMWS6.IMPT2_CMETA_TRAIN.에서 읽었습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+17760      data _null_;
+MPRINT(EM_DIAGRAM):    data _null_;
+17761      set EMWS6.Impt2_CMeta_TRAIN (obs=1);
+MPRINT(EM_DIAGRAM):   set EMWS6.Impt2_CMeta_TRAIN (obs=1);
+17762      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 1개의 관측값을 데이터셋 EMWS6.IMPT2_CMETA_TRAIN.에서 읽었습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+17763      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+17764      * HPSVM: Update Variables Set;
+MPRINT(EM_DIAGRAM):   * HPSVM: Update Variables Set;
+17765      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+
+17766      data EMWS6.HPSVM_VariableSet;
+MPRINT(EM_DIAGRAM):    data EMWS6.HPSVM_VariableSet;
+17767      length USE $1;
+MPRINT(EM_DIAGRAM):   length USE $1;
+17768      label USE = "사용";
+MPRINT(EM_DIAGRAM):   label USE = "사용";
+17769      length REPORT $1;
+MPRINT(EM_DIAGRAM):   length REPORT $1;
+17770      label REPORT = "리포트";
+MPRINT(EM_DIAGRAM):   label REPORT = "리포트";
+17771      set EMWS6.Impt2_CMeta_TRAIN;
+MPRINT(EM_DIAGRAM):   set EMWS6.Impt2_CMeta_TRAIN;
+17772      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 변수 USE이(가) 초기화되지 않았습니다.
+NOTE: 24개의 관측값을 데이터셋 EMWS6.IMPT2_CMETA_TRAIN.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.HPSVM_VARIABLESET은(는) 24개의 관측값과 21개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+17773      * HPSVM: End of Update Variables Set;
+MPRINT(EM_DIAGRAM):    * HPSVM: End of Update Variables Set;
+17774      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * HPSVM: Generation of macros and macro variables;
+MPRINT(EM_DIAGRAM):   * To see the code generated, set the EM_DEBUG macro variable to SOURCE or _ALL_;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * HPSVM: EM Macro Variables and Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   * System Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   length string $2000;
+MPRINT(EM_DIAGRAM):   string = 'DataMining2018';
+MPRINT(EM_DIAGRAM):   call symput('EM_PROJECTNAME', trim(string));
+MPRINT(EM_DIAGRAM):   string = 'W12_Preprocessing';
+MPRINT(EM_DIAGRAM):   call symput('EM_WSNAME', trim(string));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   * Properties Macro Variables ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Files Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Import Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Export Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Decision Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Statement Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   set EMWS6.Ids5_EMINFO;
+MPRINT(EM_DIAGRAM):   where key in('HPDMSAMPLE', 'IDSTABLE');
+MPRINT(EM_DIAGRAM):   if key = 'HPDMSAMPLE' then call symput('_ForceGrid', '1');
+MPRINT(EM_DIAGRAM):   else call symput('_IDS_TABLE', DATA);
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(HPDM_PERFORMANCE):  ;
+PERFORMANCE  DETAILS
+MPRINT(EM_DIAGRAM):  ;
+17974      data EM_TARGETDECINFO;
+MPRINT(EM_DIAGRAM):    data EM_TARGETDECINFO;
+17975      length TARGET $32 DECDATA DECMETA $43;
+MPRINT(EM_DIAGRAM):   length TARGET $32 DECDATA DECMETA $43;
+17976      TARGET="BAD";
+MPRINT(EM_DIAGRAM):   TARGET="BAD";
+17977      DECDATA="EMWS6.HPSVM_BAD_DD";
+MPRINT(EM_DIAGRAM):   DECDATA="EMWS6.HPSVM_BAD_DD";
+17978      DECMETA="EMWS6.HPSVM_BAD_DM";
+MPRINT(EM_DIAGRAM):   DECMETA="EMWS6.HPSVM_BAD_DM";
+17979      output;
+MPRINT(EM_DIAGRAM):   output;
+17980      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 데이터셋 WORK.EM_TARGETDECINFO은(는) 1개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+17981      %let emexceptionString =;
+17982      %let EMEXCEPTIONSTRING=;
+17983      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+17984      * UPDATE: HPSVM;
+MPRINT(EM_DIAGRAM):   * UPDATE: HPSVM;
+17985      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+17986      %let EM_ACTION = UPDATE;
+17987      %let syscc = 0;
+17988      %macro main;
+17989      
+17990         %if %upcase(&EM_ACTION) = CREATE %then %do;
+17991             filename temp catalog 'sashelp.hpdm.hpsvm_create.source';
+17992             %include temp;
+17993             filename temp;
+17994             %hpdm_hpsvm_create;
+17995         %end;
+17996      
+17997         %else
+17998         %if %upcase(&EM_ACTION) = TRAIN %then %do;
+17999             filename temp catalog 'sashelp.hpdm.hpsvm_train.source';
+18000             %include temp;
+18001             filename temp;
+18002             %hpdm_hpsvm_train;
+18003         %end;
+18004      
+18005         %else
+18006         %if %upcase(&EM_ACTION) = REPORT %then %do;
+18007             filename temp catalog 'sashelp.hpdm.hpsvm_report.source';
+18008             %include temp;
+18009             filename temp;
+18010             %hpdm_hpsvm_report;
+18011         %end;
+18012      
+18013      
+18014         %else
+18015         %if %upcase(&EM_ACTION) = SCORE %then %do;
+18016             filename temp catalog 'sashelp.hpdm.hpsvm_score.source';
+18017             %include temp;
+18018             filename temp;
+18019             %hpdm_hpsvm_score;
+18020         %end;
+18021      
+18022      
+18023      %mend main;
+18024      
+18025      %main;
+MPRINT(EM_DIAGRAM):    
+MPRINT(EM_DIAGRAM):  ;
+18026      
+18027      
+18028      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+18029      * End UPDATE: HPSVM;
+MPRINT(EM_DIAGRAM):   * End UPDATE: HPSVM;
+18030      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+
+18031      %em_delMacro;
+MPRINT(EM_DIAGRAM):   
+MPRINT(EM_DIAGRAM):  ;
+
+MPRINT(EM_DIAGRAM):    filename _emtool_ 'C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\PROPERTIES.xml' encoding="UTF-8" NOBOM;
+18033      %let _HPDMGRIDHOST=;
+18034      %let _HPDMGRIDINSTALLLOC=;
+18035      %let _HPDMGRIDDATASERVER=;
+18036      %hpdm_gridSetOPtions;
+MPRINT(EM_DIAGRAM):   
+MPRINT(HPDM_GRIDSETOPTIONS):   data _null_;
+MPRINT(HPDM_GRIDSETOPTIONS):   length optionString string $2000;
+MPRINT(HPDM_GRIDSETOPTIONS):   optionString = reverse(getoption('SET'));
+MPRINT(HPDM_GRIDSETOPTIONS):   index = index(optionString, reverse('GRIDHOST'));
+MPRINT(HPDM_GRIDSETOPTIONS):   if index then do;
+MPRINT(HPDM_GRIDSETOPTIONS):   string = reverse(substr(optionString, 1, index-4));
+MPRINT(HPDM_GRIDSETOPTIONS):   host = '"'!!strip(tranwrd(scan(string, 1, ']'), '"', ''))!!'"';
+MPRINT(HPDM_GRIDSETOPTIONS):   call symput('_HPDMGRIDHOST', strip(host));
+MPRINT(HPDM_GRIDSETOPTIONS):   end;
+MPRINT(HPDM_GRIDSETOPTIONS):   index = index(optionString, reverse('GRIDINSTALLLOC'));
+MPRINT(HPDM_GRIDSETOPTIONS):   if index then do;
+MPRINT(HPDM_GRIDSETOPTIONS):   string = reverse(substr(optionString, 1, index-4));
+MPRINT(HPDM_GRIDSETOPTIONS):   install = '"'!!strip(tranwrd(scan(string, 1, ']'), '"', ''))!!'"';
+MPRINT(HPDM_GRIDSETOPTIONS):   call symput('_HPDMGRIDINSTALLLOC', strip(install));
+MPRINT(HPDM_GRIDSETOPTIONS):   end;
+MPRINT(HPDM_GRIDSETOPTIONS):   index = index(optionString, reverse('GRIDDATASERVER'));
+MPRINT(HPDM_GRIDSETOPTIONS):   if index then do;
+MPRINT(HPDM_GRIDSETOPTIONS):   string = reverse(substr(optionString, 1, index-4));
+MPRINT(HPDM_GRIDSETOPTIONS):   server = '"'!!strip(tranwrd(scan(string, 1, ']'), '"', ''))!!'"';
+MPRINT(HPDM_GRIDSETOPTIONS):   call symput('_HPDMGRIDDATASERVER', strip(server));
+MPRINT(HPDM_GRIDSETOPTIONS):   end;
+MPRINT(HPDM_GRIDSETOPTIONS):   run;
+
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(EM_DIAGRAM):  ;
+
+*------------------------------------------------------------* 
+* 
+* HPSVM : End update 
+* datetime : 20NOV2018:11:37:14 
+* 
+*------------------------------------------------------------* 
+18037      %em_getactionstatus(emlib =EMWS6, nodeid=HPSVM);
+MPRINT(EM_DIAGRAM):   
+MPRINT(EM_GETACTIONSTATUS):   proc display c=sashelp.emutil.getactionstatus.scl;
+MPRINT(EM_GETACTIONSTATUS):   run;
+
+18038      %let em_Train = Y;
+18039      %let em_Report = Y;
+18040      %let em_Score = Y;
+18041      %let em_Run = Y;
+NOTE: 프로시저 DISPLAY 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(EM_GETACTIONSTATUS):   
+MPRINT(EM_DIAGRAM):  ;
+
+18042      %let emloopmode =;
+18043      %let emloopnumber =0;
+18044      %let emloopId =HPSVM;
+*------------------------------------------------------------* 
+* 
+* HPSVM : Running 
+* datetime : 20NOV2018:11:37:14 
+* 
+*------------------------------------------------------------* 
+18045      %let SYSCC =0;
+18046      %let EMGROUPMODE =;
+18047      %let EMGROUPID =;
+MPRINT(EM_DIAGRAM):      filename temp catalog 'sashelp.emutil.em_vardist.source';
+MPRINT(EM_DIAGRAM):   filename temp;
+MPRINT(EM_DIAGRAM):   filename temp catalog 'sashelp.emutil.em_classdist.source';
+MPRINT(EM_DIAGRAM):   filename temp;
+MPRINT(EM_DIAGRAM):   filename temp catalog 'sashelp.emutil.em_checksetinit.source';
+MPRINT(EM_DIAGRAM):   filename temp;
+MPRINT(EM_DIAGRAM):   filename temp catalog 'sashelp.emutil.em_checkerror.source';
+MPRINT(EM_DIAGRAM):   filename temp;
+MPRINT(EM_DIAGRAM):   filename temp catalog 'sashelp.emutil.em_odsliston.source';
+MPRINT(EM_DIAGRAM):   filename temp;
+MPRINT(EM_DIAGRAM):   filename temp catalog 'sashelp.emutil.em_odslistoff.source';
+MPRINT(EM_DIAGRAM):   filename temp;
+MPRINT(EM_DIAGRAM):   filename temp catalog 'sashelp.emutil.em_getvarname.source';
+MPRINT(EM_DIAGRAM):   filename temp;
+MPRINT(EM_DIAGRAM):   filename temp catalog 'sashelp.emassmt.em_assess.source';
+MPRINT(EM_DIAGRAM):   filename temp;
+MPRINT(EM_DIAGRAM):    filename L12WVI6M "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMTRAIN.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   proc printto log=L12WVI6M new;
+MPRINT(EM_DIAGRAM):   run;

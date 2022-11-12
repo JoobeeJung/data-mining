@@ -1,0 +1,191 @@
+*------------------------------------------------------------*
+사용자:                Administrator
+날짜:                2018년 11월 20일
+시간:                10시01분44초
+*------------------------------------------------------------*
+* 분석 출력
+*------------------------------------------------------------*
+ 
+ 
+ 
+ 
+변수 요약
+ 
+           측도     빈도
+ 역할      레벨     개수
+ 
+TARGET    BINARY      1
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+적합통계량
+Valid: Misclassification Rate (_VMISC_)에 근거한 모델 선택
+ 
+                                                             Train:                     Valid:
+                                                Valid:       Average       Train:       Average
+선택된 모델                               Misclassification  Squared Misclassification  Squared
+ 모델  노드   모델 설명                          Rate         Error         Rate         Error
+ 
+  Y    Tree   의사결정트리(Decision Tree)      0.076667     0.070876      0.076769     0.070789
+       Reg    회귀(Regression)                 0.077000     0.068663      0.076769     0.069923
+       Neural 신경망(Neural Network)           0.077000     0.065062      0.076519     0.070597
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+적합통계량 테이블
+타겟: RESPOND
+ 
+데이터 역할=Train
+ 
+통계량                                                       Tree        Reg     Neural
+ 
+분석: Bin-Based Two-Way Kolmogorov-Smirnov 확률 임계값       0.08       0.07       0.07
+분석: Kolmogorov-Smirnov 통계량                              0.00       0.25       0.34
+Train: Akaike's Information Criterion                         .      2115.17    2096.57
+Train: Average Squared Error                                 0.07       0.07       0.07
+분석: Roc 인덱스                                             0.50       0.67       0.74
+Train: Average Error Function                                 .         0.26       0.24
+분석: 누적 반응검출률                                       10.00      24.43      34.85
+분석: 반응검출률                                             5.00       9.12      11.07
+선택 기준: Valid: Misclassification Rate                     0.08       0.08       0.08
+Train: Degrees of Freedom for Error                           .      3972.00    3908.00
+Train: Model Degrees of Freedom                               .        27.00      91.00
+Train: Total Degrees of Freedom                           3999.00    3999.00    3999.00
+Train: Divisor for ASE                                    7998.00    7998.00    7998.00
+Train: Error Function                                         .      2061.17    1914.57
+Train: Final Prediction Error                                 .         0.07       0.07
+분석: 이득                                                   0.00     144.24     248.45
+분석: Gini 계수                                              0.00       0.33       0.48
+분석: Bin-Based Two-Way Kolmogorov-Smirnov 통계량            0.00       0.26       0.35
+분석: Kolmogorov-Smirnov 확률 임계값                          .         0.07       0.07
+분석: 누적 향상도                                            1.00       2.44       3.48
+분석: 향상도                                                 1.00       1.82       2.21
+Train: Maximum Absolute Error                                0.92       0.98       0.99
+Train: Misclassification Rate                                0.08       0.08       0.08
+Train: Mean Square Error                                      .         0.07       0.07
+Train: Sum of Frequencies                                 3999.00    3999.00    3999.00
+Train: Number of Estimate Weights                             .        27.00      91.00
+Train: Root Average Squared Error                            0.27       0.26       0.26
+분석: 누적반응률                                             7.68      18.75      26.75
+분석: 반응률                                                 7.68      14.00      17.00
+Train: Root Final Prediction Error                            .         0.26       0.26
+Train: Root Mean Squared Error                                .         0.26       0.26
+Train: Schwarz's Bayesian Criterion                           .      2285.11    2669.30
+Train: Sum of Squared Errors                               566.86     549.17     520.36
+Train: Sum of Case Weights Times Freq                         .      7998.00    7998.00
+Train: Number of Wrong Classifications                        .          .       306.00
+ 
+ 
+데이터 역할=Valid
+ 
+통계량                                                       Tree        Reg     Neural
+ 
+평가: Kolmogorov-Smirnov 통계량                              0.00       0.18       0.15
+Valid: Average Squared Error                                 0.07       0.07       0.07
+평가: Roc 인덱스                                             0.50       0.63       0.61
+Valid: Average Error Function                                 .         0.26       0.27
+평가: Bin-Based Two-Way Kolmogorov-Smirnov 확률 임계값       0.00       0.07       0.06
+평가: 누적 반응검출률                                       10.00      18.70      19.13
+평가: 반응검출률                                             5.00       7.39       7.83
+Valid: Divisor for VASE                                   6000.00    6000.00    6000.00
+Valid: Error Function                                         .      1581.77    1608.14
+평가: 이득                                                   0.00      86.96      91.30
+평가: Gini 계수                                              0.00       0.26       0.21
+평가: Bin-Based Two-Way Kolmogorov-Smirnov 통계량            0.00       0.17       0.15
+평가: Kolmogorov-Smirnov 확률 임계값                          .         0.05       0.06
+평가: 누적 향상도                                            1.00       1.87       1.91
+평가: 향상도                                                 1.00       1.48       1.57
+Valid: Maximum Absolute Error                                0.92       0.98       0.99
+Valid: Misclassification Rate                                0.08       0.08       0.08
+Valid: Mean Square Error                                      .         0.07       0.07
+Valid: Sum of Frequencies                                 3000.00    3000.00    3000.00
+Valid: Root Average Squared Error                            0.27       0.26       0.27
+평가: 누적반응률                                             7.67      14.33      14.67
+평가: 반응률                                                 7.67      11.33      12.00
+Valid: Root Mean Square Error                                 .         0.26       0.27
+Valid: Sum of Squared Errors                               424.73     419.54     423.58
+Valid: Sum of Case Weights Times Freq                         .      6000.00    6000.00
+Valid: Number of Wrong Classifications                        .          .       231.00
+ 
+ 
+데이터 역할=Test
+ 
+통계량                                                        Tree        Reg     Neural
+ 
+검증:  Kolmogorov-Smirnov 통계량                              0.00       0.20       0.17
+Test: Average Squared Error                                   0.07       0.07       0.07
+검증:  Roc 인덱스                                             0.50       0.64       0.64
+Test: Average Error Function                                   .         0.26       0.27
+검증:  Bin-Based Two-Way Kolmogorov-Smirnov 확률 임계값       0.00       0.07       0.06
+검증: 누적 반응검출률                                        10.03      16.09      20.87
+검증: 반응검출률                                              5.00       5.22      11.74
+Test: Divisor for TASE                                     6002.00    6002.00    6002.00
+Test: Error Function                                           .      1584.03    1592.85
+검증: 이득                                                    0.00      60.39     108.07
+검증:  Gini 계수                                              0.00       0.27       0.28
+검증:  Bin-Based Two-Way Kolmogorov-Smirnov 통계량            0.00       0.21       0.19
+검증:  Kolmogorov-Smirnov 확률 임계값                          .         0.07       0.07
+검증: 누적 향상도                                             1.00       1.60       2.08
+검증: 향상도                                                  1.00       1.04       2.35
+Test: Maximum Absolute Error                                  0.92       0.98       0.99
+Test: Misclassification Rate                                  0.08       0.08       0.08
+Test: Lower 95% Conf. Limit for TMISC                          .         0.07        .
+Test: Upper 95% Conf. Limit for TMISC                          .         0.09        .
+Test: Mean Square Error                                        .         0.07       0.07
+Test: Sum of Frequencies                                   3001.00    3001.00    3001.00
+Test: Root Average Squared Error                              0.27       0.26       0.27
+검증: 누적반응률                                              7.66      12.29      15.95
+검증: 반응률                                                  7.66       8.00      18.00
+Test: Root Mean Square Error                                   .         0.26       0.27
+Test: Sum of Squared Errors                                 424.75     421.08     424.04
+Test: Sum of Weights Times Freqs                           6002.00    6002.00    6002.00
+Test: Number of Wrong Classifications                          .          .       232.00
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+이벤트 분류 테이블
+Valid: Misclassification Rate (_VMISC_)에 근거한 모델 선택
+ 
+모델                               데이터            타겟    False    True     False    True
+노드   모델 설명                   역할      타겟   레이블 Negative Negative Positive Positive
+ 
+Tree   의사결정트리(Decision Tree) TRAIN    RESPOND           307     3692       0        0
+Tree   의사결정트리(Decision Tree) VALIDATE RESPOND           230     2770       0        0
+Reg    회귀(Regression)            TRAIN    RESPOND           307     3692       .        0
+Reg    회귀(Regression)            VALIDATE RESPOND           230     2769       1        0
+Neural 신경망(Neural Network)      TRAIN    RESPOND           306     3692       .        1
+Neural 신경망(Neural Network)      VALIDATE RESPOND           230     2769       1        .
+
+
+*------------------------------------------------------------*
+* 스코어 출력
+*------------------------------------------------------------*
+
+
+*------------------------------------------------------------*
+* 리포트 출력
+*------------------------------------------------------------*

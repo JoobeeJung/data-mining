@@ -1,0 +1,2516 @@
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 20일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "10시10분04초" );
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 리포트 로그";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+*------------------------------------------------------------*
+* 리포트 로그
+날짜:                2018년 11월 20일
+시간:                10시10분04초
+*------------------------------------------------------------*
+MPRINT(EM_DIAGRAM):    filename O25CUB0P "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Score\EMREPORT.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   proc printto print=O25CUB0P new;
+MPRINT(EM_DIAGRAM):   run;
+24602      data WORK.SCOREFREQMETA;
+MPRINT(EM_DIAGRAM):    data WORK.SCOREFREQMETA;
+24603      length NAME $32 ROLE $32 LEVEL $8;
+MPRINT(EM_DIAGRAM):   length NAME $32 ROLE $32 LEVEL $8;
+24604      NAME="I_RESPOND";
+MPRINT(EM_DIAGRAM):   NAME="I_RESPOND";
+24605      ROLE="INPUT";
+MPRINT(EM_DIAGRAM):   ROLE="INPUT";
+24606      LEVEL="NOMINAL";
+MPRINT(EM_DIAGRAM):   LEVEL="NOMINAL";
+24607      TYPE="C";
+MPRINT(EM_DIAGRAM):   TYPE="C";
+24608      output;
+MPRINT(EM_DIAGRAM):   output;
+24609      NAME="_NODE_";
+MPRINT(EM_DIAGRAM):   NAME="_NODE_";
+24610      ROLE="INPUT";
+MPRINT(EM_DIAGRAM):   ROLE="INPUT";
+24611      LEVEL="NOMINAL";
+MPRINT(EM_DIAGRAM):   LEVEL="NOMINAL";
+24612      TYPE="N";
+MPRINT(EM_DIAGRAM):   TYPE="N";
+24613      output;
+MPRINT(EM_DIAGRAM):   output;
+24614      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 데이터셋 WORK.SCOREFREQMETA은(는) 2개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+24615      data WORK.SCOREHISTMETA;
+MPRINT(EM_DIAGRAM):    data WORK.SCOREHISTMETA;
+24616      length NAME $32 ROLE $32 LEVEL $8;
+MPRINT(EM_DIAGRAM):   length NAME $32 ROLE $32 LEVEL $8;
+24617      NAME="P_RESPOND1";
+MPRINT(EM_DIAGRAM):   NAME="P_RESPOND1";
+24618      ROLE="INPUT";
+MPRINT(EM_DIAGRAM):   ROLE="INPUT";
+24619      LEVEL="INTERVAL";
+MPRINT(EM_DIAGRAM):   LEVEL="INTERVAL";
+24620      TYPE="N";
+MPRINT(EM_DIAGRAM):   TYPE="N";
+24621      output;
+MPRINT(EM_DIAGRAM):   output;
+24622      NAME="P_RESPOND0";
+MPRINT(EM_DIAGRAM):   NAME="P_RESPOND0";
+24623      ROLE="INPUT";
+MPRINT(EM_DIAGRAM):   ROLE="INPUT";
+24624      LEVEL="INTERVAL";
+MPRINT(EM_DIAGRAM):   LEVEL="INTERVAL";
+24625      TYPE="N";
+MPRINT(EM_DIAGRAM):   TYPE="N";
+24626      output;
+MPRINT(EM_DIAGRAM):   output;
+24627      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 데이터셋 WORK.SCOREHISTMETA은(는) 2개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+NOTE: View EMWS6.MDLCOMP_TRAIN.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.11 초
+      cpu 시간            0.11 초
+      
+24628      ods listing close;
+MPRINT(EM_DIAGRAM):    ods listing close;
+24629      ods output onewayfreqs=WORK.TEMPFREQ;
+MPRINT(EM_DIAGRAM):   ods output onewayfreqs=WORK.TEMPFREQ;
+24630      proc freq data = EMWS6.MdlComp_TRAIN order=formatted addnames;
+MPRINT(EM_DIAGRAM):   proc freq data = EMWS6.MdlComp_TRAIN order=formatted addnames;
+24631      table I_RESPOND / missing;
+MPRINT(EM_DIAGRAM):   table I_RESPOND / missing;
+24632      table _NODE_ / missing;
+MPRINT(EM_DIAGRAM):   table _NODE_ / missing;
+24633      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 변수 _WARN_이(가) 초기화되지 않았습니다.
+NOTE: 3999개의 관측값을 데이터셋 EMWS6.PART_TRAIN.에서 읽었습니다.
+NOTE: View EMWS6.MDLCOMP_TRAIN.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.15 초
+      cpu 시간            0.15 초
+      
+NOTE: 3999개의 관측값을 데이터셋 EMWS6.TREE_TRAIN.에서 읽었습니다.
+NOTE: 데이터셋 WORK.TEMPFREQ은(는) 2개의 관측값과 10개의 변수를 가지고 있습니다.
+NOTE: 3999개의 관측값을 데이터셋 EMWS6.MDLCOMP_TRAIN.에서 읽었습니다.
+NOTE: 프로시저 FREQ 실행(총 프로세스 시간):
+      실행 시간           0.20 초
+      cpu 시간            0.20 초
+      
+
+MPRINT(EM_DIAGRAM):   quit;
+24634      quit;
+24635      ods listing;
+MPRINT(EM_DIAGRAM):   ods listing;
+24636      data WORK.Score_BAR(keep=_VARIABLE_ TYPE COUNT PERCENT _X_ _XLABEL_);
+MPRINT(EM_DIAGRAM):    data WORK.Score_BAR(keep=_VARIABLE_ TYPE COUNT PERCENT _X_ _XLABEL_);
+24637      label _VARIABLE_ = "%sysfunc(sasmsg(sashelp.dmine, rpt_variable_vlabel, NOQUOTE))" Type = "%sysfunc(sasmsg(sashelp.dmine, rpt_type_vlabel,         NOQUOTE))" _X_ = "%sysfunc(sasmsg(sashelp.dmine, rpt_numValue_vlabel, NOQUOTE))" _XLABEL_ =
+24638         "%sysfunc(sasmsg(sashelp.dmine, rpt_fmtValue_vlabel ,    NOQUOTE))" COUNT = "%sysfunc(sasmsg(sashelp.dmine, rpt_count_vlabel,        NOQUOTE))" PERCENT = "%sysfunc(sasmsg(sashelp.dmine, rpt_percent_vlabel,      NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label _VARIABLE_ = "변수" Type = "유형" _X_ = "숫자값" _XLABEL_ = "출력형식 값" COUNT = "빈도 개수" PERCENT = "백분율";
+24639      dsid = open("WORK.TEMPFREQ");
+MPRINT(EM_DIAGRAM):   dsid = open("WORK.TEMPFREQ");
+24640      varnum = varnum(dsid, 'VARIABLE');
+MPRINT(EM_DIAGRAM):   varnum = varnum(dsid, 'VARIABLE');
+24641      freqnum = varnum(dsid, 'FREQUENCY');
+MPRINT(EM_DIAGRAM):   freqnum = varnum(dsid, 'FREQUENCY');
+24642      pvarnum = varnum(dsid, 'PERCENT');
+MPRINT(EM_DIAGRAM):   pvarnum = varnum(dsid, 'PERCENT');
+24643      typenum = varnum(dsid, '_TYPE_');
+MPRINT(EM_DIAGRAM):   typenum = varnum(dsid, '_TYPE_');
+24644      length _VARIABLE_ $32 TYPE $1 _XLABEL_ $32;
+MPRINT(EM_DIAGRAM):   length _VARIABLE_ $32 TYPE $1 _XLABEL_ $32;
+24645      do while(^fetch(dsid));
+MPRINT(EM_DIAGRAM):   do while(^fetch(dsid));
+24646      _VARIABLE_ = strip(getvarc(dsid, varnum));
+MPRINT(EM_DIAGRAM):   _VARIABLE_ = strip(getvarc(dsid, varnum));
+24647      count = getvarn(dsid, freqnum);
+MPRINT(EM_DIAGRAM):   count = getvarn(dsid, freqnum);
+24648      percent= getvarn(dsid, pvarnum);
+MPRINT(EM_DIAGRAM):   percent= getvarn(dsid, pvarnum);
+24649      vvarnum = varnum(dsid, _VARIABLE_);
+MPRINT(EM_DIAGRAM):   vvarnum = varnum(dsid, _VARIABLE_);
+24650      type = vartype(dsid, vvarnum);
+MPRINT(EM_DIAGRAM):   type = vartype(dsid, vvarnum);
+24651      fvarnum = varnum(dsid, 'F_'!!substr(_VARIABLE_, 1, 30));
+MPRINT(EM_DIAGRAM):   fvarnum = varnum(dsid, 'F_'!!substr(_VARIABLE_, 1, 30));
+24652      _XLABEL_ = left(getvarc(dsid, fvarnum));
+MPRINT(EM_DIAGRAM):   _XLABEL_ = left(getvarc(dsid, fvarnum));
+24653      _X_ = .;
+MPRINT(EM_DIAGRAM):   _X_ = .;
+24654      if TYPE eq 'N' then _X_ = getvarn(dsid, vvarnum);
+MPRINT(EM_DIAGRAM):   if TYPE eq 'N' then _X_ = getvarn(dsid, vvarnum);
+24655      output;
+MPRINT(EM_DIAGRAM):   output;
+24656      end;
+MPRINT(EM_DIAGRAM):   end;
+24657      dsid = close(dsid);
+MPRINT(EM_DIAGRAM):   dsid = close(dsid);
+24658      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 데이터셋 WORK.SCORE_BAR은(는) 2개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.04 초
+      
+
+24659      proc sort data=WORK.Score_BAR NOTHREADS;
+MPRINT(EM_DIAGRAM):   proc sort data=WORK.Score_BAR NOTHREADS;
+24660      by _VARIABLE_;
+MPRINT(EM_DIAGRAM):   by _VARIABLE_;
+24661      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.SCORE_BAR.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SCORE_BAR은(는) 2개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+24662      proc sort data=WORK.M2ZTS8R0;
+MPRINT(EM_DIAGRAM):   proc sort data=WORK.M2ZTS8R0;
+24663      by Name;
+MPRINT(EM_DIAGRAM):   by Name;
+24664      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.M2ZTS8R0.에서 읽었습니다.
+NOTE: 데이터셋 WORK.M2ZTS8R0은(는) 2개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+24665      data WORK.Score_BAR;
+MPRINT(EM_DIAGRAM):   data WORK.Score_BAR;
+24666      merge WORK.Score_BAR(in=_a) WORK.M2ZTS8R0(keep=Name Role rename=(Name=_Variable_));
+MPRINT(EM_DIAGRAM):   merge WORK.Score_BAR(in=_a) WORK.M2ZTS8R0(keep=Name Role rename=(Name=_Variable_));
+24667      by _Variable_;
+MPRINT(EM_DIAGRAM):   by _Variable_;
+24668      label Role = "%sysfunc(sasmsg(sashelp.dmine, meta_role_vlabel ,  NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label Role = "역할";
+24669      if _a then output;
+MPRINT(EM_DIAGRAM):   if _a then output;
+24670      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.SCORE_BAR.에서 읽었습니다.
+NOTE: 2개의 관측값을 데이터셋 WORK.M2ZTS8R0.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SCORE_BAR은(는) 2개의 관측값과 7개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+24671      data WORK.Score_BAR;
+MPRINT(EM_DIAGRAM):    data WORK.Score_BAR;
+24672      length DATAROLE $8 TYPE $14;
+MPRINT(EM_DIAGRAM):   length DATAROLE $8 TYPE $14;
+24673      retain DATAROLE "TRAIN";
+MPRINT(EM_DIAGRAM):   retain DATAROLE "TRAIN";
+24674      set WORK.Score_BAR;
+MPRINT(EM_DIAGRAM):   set WORK.Score_BAR;
+24675      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.SCORE_BAR.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SCORE_BAR은(는) 2개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+24676      proc append base=EMWS6.Score_BAR data=WORK.Score_BAR;
+MPRINT(EM_DIAGRAM):   proc append base=EMWS6.Score_BAR data=WORK.Score_BAR;
+24677      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: WORK.SCORE_BAR 을(를)EMWS6.SCORE_BAR(으)로 추가하는 중입니다.
+NOTE: BASE 데이터셋이 존재하지 않습니다. DATA 파일이 BASE 파일에 복사됩니다.
+NOTE: 2개의 관측값을 데이터셋 WORK.SCORE_BAR.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.SCORE_BAR은(는) 2개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: 프로시저 APPEND 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.03 초
+      
+
+24678      %var_profile(DATA=EMWS6.MdlComp_TRAIN, OUTPUT=work.Score_VARHIST, METADATA=WORK.SCOREHISTMETA, COMPUTESTAT=N, BINDATA=_bindata, STAT=_STAT, PCTLSTAT=work.Score_SUMDATA, FREQ=, BIN=Y, NUMBARS= 16);
+MPRINT(EM_DIAGRAM):   
+*------------------------------------------------------------*
+* Score: 요약 통계량 계산
+*------------------------------------------------------------*
+MPRINT(VAR_PROFILE):   filename _mac catalog 'WORK.MACROS.VARIABLES.SOURCE';
+MPRINT(VAR_PROFILE):   data _null;
+MPRINT(VAR_PROFILE):   set WORK.SCOREHISTMETA(where=(LEVEL = 'INTERVAL' and ROLE ne 'FREQ')) end=eof;
+MPRINT(VAR_PROFILE):   if eof then call symput('_nobs', put(_N_, best.));
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.SCOREHISTMETA.에서 읽었습니다.
+      WHERE (LEVEL='INTERVAL') and (ROLE not = 'FREQ');
+NOTE: 데이터셋 WORK._NULL은(는) 2개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(VAR_PROFILE):   data _null_;
+MPRINT(VAR_PROFILE):   file _mac;
+MPRINT(VAR_PROFILE):   length _VARS $80;
+MPRINT(VAR_PROFILE):   retain _vars;
+MPRINT(VAR_PROFILE):   if _n_ =1 then put '%macro _vars;';
+MPRINT(VAR_PROFILE):   set WORK.SCOREHISTMETA end=eof;
+MPRINT(VAR_PROFILE):   where LEVEL = 'INTERVAL' or ROLE='FREQ';
+MPRINT(VAR_PROFILE):   if ROLE='FREQ' then call symput('FREQ', trim(NAME));
+MPRINT(VAR_PROFILE):   else do;
+MPRINT(VAR_PROFILE):   if length(strip(_vars)) + length(strip(NAME)) + 1 <80 then _vars = strip(_vars)!! ' ' !!strip(NAME);
+MPRINT(VAR_PROFILE):   else do;
+MPRINT(VAR_PROFILE):   put _Vars;
+MPRINT(VAR_PROFILE):   _vars = strip(NAME);
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   if eof then do;
+MPRINT(VAR_PROFILE):   put _Vars;
+MPRINT(VAR_PROFILE):   put '%mend _vars;';
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: 파일 _MAC:
+      Catalog Name=WORK.MACROS.VARIABLES.SOURCE,
+      카탈로그 페이지 크기=4096,
+      카탈로그 페이지 번호=4,
+      생성일=2018년 11월 20일 화 오전 10시 10분 05초,
+      마지막 수정일=2018년 11월 20일 화 오전 10시 10분 05초,
+      파일 이름=C:\Users\ADMINI~1\AppData\Local\Temp\SAS Temporary Files\_TD12596_DESKTOP-IOK0OJ9_\Prc2\macros.sas7bcat,
+      생성된 릴리즈=9.0401M4,
+      생성된 호스트=X64_10HOME,
+      소유자 이름=BUILTIN\Administrators,
+      파일 크기=             5KB,
+      파일 크기 (바이트)=5120
+
+NOTE: 3개의 레코드를 파일 _MAC에 기록했습니다.
+      최소 레코드 길이는 12입니다.
+      최대 레코드 길이는 21입니다.
+NOTE: 2개의 관측값을 데이터셋 WORK.SCOREHISTMETA.에서 읽었습니다.
+      WHERE (LEVEL='INTERVAL') or (ROLE='FREQ');
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+NOTE: %INCLUDE(레벨 1) 파일 _MAC은(는) 파일 WORK.MACROS.VARIABLES.SOURCE입니다.
+24679     +%macro _vars;
+24680     +P_RESPOND1 P_RESPOND0
+24681     +%mend _vars;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(VAR_PROFILE):   filename _mac;
+NOTE: Fileref _MAC을(를) 삭제했습니다.
+*------------------------------------------------------------*
+* computingmidpoints_note
+*------------------------------------------------------------*
+MPRINT(VAR_PROFILE):   filename fref catalog 'work.em.profileformat.source';
+MPRINT(VAR_PROFILE):   proc dmdb data=EMWS6.MdlComp_TRAIN(obs=1000000) classout=_CLASSOUT maxlevel=17;
+MPRINT(VAR_PROFILE):   class
+MPRINT(_VARS):   P_RESPOND1 P_RESPOND0
+MPRINT(VAR_PROFILE):   ;
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: 변수 _WARN_이(가) 초기화되지 않았습니다.
+NOTE: Records processed = 3999   Memory used = 511K.
+NOTE: 3999개의 관측값을 데이터셋 EMWS6.PART_TRAIN.에서 읽었습니다.
+NOTE: View EMWS6.MDLCOMP_TRAIN.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.10 초
+      cpu 시간            0.10 초
+      
+NOTE: 3999개의 관측값을 데이터셋 EMWS6.TREE_TRAIN.에서 읽었습니다.
+NOTE: 3999개의 관측값을 데이터셋 EMWS6.MDLCOMP_TRAIN.에서 읽었습니다.
+NOTE: 데이터셋 WORK._CLASSOUT은(는) 2개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: 프로시저 DMDB 실행(총 프로세스 시간):
+      실행 시간           0.13 초
+      cpu 시간            0.14 초
+      
+
+MPRINT(VAR_PROFILE):   proc freq data=_CLASSOUT ORDER=DATA noprint;
+MPRINT(VAR_PROFILE):   table NAME / OUT = _COUNT(where=(COUNT<17));
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK._CLASSOUT.에서 읽었습니다.
+NOTE: 데이터셋 WORK._COUNT은(는) 2개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: 프로시저 FREQ 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(VAR_PROFILE):   proc sort data=_COUNT(keep=NAME COUNT rename=(COUNT=_NUMCLASSBINS_));
+MPRINT(VAR_PROFILE):   by NAME;
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK._COUNT.에서 읽었습니다.
+NOTE: 데이터셋 WORK._COUNT은(는) 2개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(VAR_PROFILE):   proc sort data=_CLASSOUT;
+MPRINT(VAR_PROFILE):   by NAME;
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK._CLASSOUT.에서 읽었습니다.
+NOTE: 데이터셋 WORK._CLASSOUT은(는) 2개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(VAR_PROFILE):   proc transpose data=_CLASSOUT out=_DISCRETEMID(DROP=_NAME_ RENAME=(NAME=VARIABLE)) prefix=_MIDPOINT;
+MPRINT(VAR_PROFILE):   var NRAW;
+MPRINT(VAR_PROFILE):   by NAME;
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK._CLASSOUT.에서 읽었습니다.
+NOTE: 데이터셋 WORK._DISCRETEMID은(는) 2개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: 프로시저 TRANSPOSE 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(VAR_PROFILE):   proc delete data=WORK._CLASSOUT;
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: WORK._CLASSOUT(memtype=DATA)을(를) 삭제하는 중입니다.
+NOTE: 프로시저 DELETE 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(VAR_PROFILE):   data _null_;
+MPRINT(VAR_PROFILE):   dsid = open('_DISCRETEMID');
+MPRINT(VAR_PROFILE):   if dsid then do;
+MPRINT(VAR_PROFILE):   call symput('NUMCLASSBARS', left(trim(put(attrn(dsid, 'NVARS')-1, best12.))));
+MPRINT(VAR_PROFILE):   dsid = close(dsid);
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(VAR_PROFILE):   data _DISCRETEMID;
+MPRINT(VAR_PROFILE):   merge _DISCRETEMID _COUNT(in=_b rename=(NAME=VARIABLE));
+MPRINT(VAR_PROFILE):   keep VARIABLE _MIDPOINT1--_MIDPOINT1 _NUMCLASSBINS_;
+MPRINT(VAR_PROFILE):   by VARIABLE;
+MPRINT(VAR_PROFILE):   if _b then output;
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK._DISCRETEMID.에서 읽었습니다.
+NOTE: 2개의 관측값을 데이터셋 WORK._COUNT.에서 읽었습니다.
+NOTE: 데이터셋 WORK._DISCRETEMID은(는) 2개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(VAR_PROFILE):   data _EMVARDIST / view=_EMVARDIST;
+MPRINT(VAR_PROFILE):   set EMWS6.MdlComp_TRAIN(keep
+MPRINT(VAR_PROFILE):  =P_RESPOND1 P_RESPOND0 obs=1000000);
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: DATA STEP 뷰가 파일 WORK._EMVARDIST에 저장되었습니다.
+NOTE: 저장된 DATA STEP 뷰는 다른 운영 체제에서 실행할 수 없습니다.
+NOTE: View EMWS6.MDLCOMP_TRAIN.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.09 초
+      cpu 시간            0.07 초
+      
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.12 초
+      cpu 시간            0.12 초
+      
+
+MPRINT(VAR_PROFILE):   proc stdize data=_EMVARDIST outstat=work.Score_SUMDATA out=_null_ pctlpts=(0 5 25 50 75 95 100);
+MPRINT(VAR_PROFILE):   var
+MPRINT(_VARS):   P_RESPOND1 P_RESPOND0
+MPRINT(VAR_PROFILE):   ;
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: 변수 _WARN_이(가) 초기화되지 않았습니다.
+WARNING: The scale estimator for variable P_RESPOND1 is less than or equal to 0. Variable P_RESPOND1 will not be standardized and a missing value is assigned to its scale estimator.
+WARNING: The scale estimator for variable P_RESPOND0 is less than or equal to 0. Variable P_RESPOND0 will not be standardized and a missing value is assigned to its scale estimator.
+NOTE: 3999개의 관측값을 데이터셋 EMWS6.PART_TRAIN.에서 읽었습니다.
+NOTE: 3999개의 관측값을 데이터셋 EMWS6.TREE_TRAIN.에서 읽었습니다.
+NOTE: View WORK._EMVARDIST.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.62 초
+      cpu 시간            0.31 초
+      
+NOTE: 3999개의 관측값을 데이터셋 EMWS6.MDLCOMP_TRAIN.에서 읽었습니다.
+NOTE: 3999개의 관측값을 데이터셋 WORK._EMVARDIST.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SCORE_SUMDATA은(는) 15개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: 프로시저 STDIZE 실행(총 프로세스 시간):
+      실행 시간           0.66 초
+      cpu 시간            0.34 초
+      
+
+MPRINT(VAR_PROFILE):   proc datasets lib=WORK NOLIST;
+MPRINT(VAR_PROFILE):   delete _EMVARDIST / mt=view;
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: WORK._EMVARDIST(memtype=VIEW)을(를) 삭제하는 중입니다.
+MPRINT(VAR_PROFILE):   quit;
+
+NOTE: 프로시저 DATASETS 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(VAR_PROFILE):   proc transpose data=work.Score_SUMDATA out=_bindata(rename=(_NAME_=VARIABLE COL1=MIN COL2=P5 COL3=P95 COL4=MAX));
+MPRINT(VAR_PROFILE):   where _type_ in('P0', 'P5', 'P95', 'P100');
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: 4개의 관측값을 데이터셋 WORK.SCORE_SUMDATA.에서 읽었습니다.
+      WHERE _type_ in ('P0', 'P100', 'P5', 'P95');
+NOTE: 데이터셋 WORK._BINDATA은(는) 2개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: 프로시저 TRANSPOSE 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(VAR_PROFILE):   proc sort data=_bindata;
+MPRINT(VAR_PROFILE):   by VARIABLE;
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK._BINDATA.에서 읽었습니다.
+NOTE: 데이터셋 WORK._BINDATA은(는) 2개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(VAR_PROFILE):   data _bindata;
+MPRINT(VAR_PROFILE):   set _bindata;
+MPRINT(VAR_PROFILE):   length Format $12;
+MPRINT(VAR_PROFILE):   array _midpoint{28};
+MPRINT(VAR_PROFILE):   array _bounds{28};
+MPRINT(VAR_PROFILE):   if (max - min)>1e-10 then do;
+MPRINT(VAR_PROFILE):   step = abs(P95-P5)/16;
+MPRINT(VAR_PROFILE):   lstep = abs(p5- min)/5;
+MPRINT(VAR_PROFILE):   ustep = abs(max-p95)/5;
+MPRINT(VAR_PROFILE):   ;
+MPRINT(VAR_PROFILE):   if lstep<=step and ustep<=step then do;
+MPRINT(VAR_PROFILE):   step = abs(MIN-MAX)/16;
+MPRINT(VAR_PROFILE):   START=MIN;
+MPRINT(VAR_PROFILE):   do i=1 to 16;
+MPRINT(VAR_PROFILE):   _bounds(i) = MIN + i*step;
+MPRINT(VAR_PROFILE):   if abs(_bounds{i})< 1e-10 then _bounds(i)= 0;
+MPRINT(VAR_PROFILE):   _midpoint(i) = MIN+ (i-0.5)*step;
+MPRINT(VAR_PROFILE):   if abs(_midpoint{i})< 1e-10 then _midpoint(i)= 0;
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   else do;
+MPRINT(VAR_PROFILE):   if lstep<=step then do;
+MPRINT(VAR_PROFILE):   step = abs(MIN-P95)/16;
+MPRINT(VAR_PROFILE):   do i=1 to 16;
+MPRINT(VAR_PROFILE):   _bounds(i) = MIN + i*step;
+MPRINT(VAR_PROFILE):   if abs(_bounds{i})< 1e-10 then _bounds(i)= 0;
+MPRINT(VAR_PROFILE):   _midpoint(i) = MIN+ (i-0.5)*step;
+MPRINT(VAR_PROFILE):   if abs(_midpoint{i})< 1e-10 then _midpoint(i)= 0;
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   do i=1 to 5;
+MPRINT(VAR_PROFILE):   numbars = 16 + i;
+MPRINT(VAR_PROFILE):   _bounds(numbars) = P95 + i*ustep;
+MPRINT(VAR_PROFILE):   if abs(_bounds{numbars})< 1e-10 then _bounds(numbars)= 0;
+MPRINT(VAR_PROFILE):   _midpoint(numbars) = P95 + (i-0.5)*ustep + abs(ustep-step)/2;
+MPRINT(VAR_PROFILE):   if abs(_bounds{numbars})< 1e-10 then _bounds(numbars)= 0;
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   else do;
+MPRINT(VAR_PROFILE):   do i=1 to 5;
+MPRINT(VAR_PROFILE):   _bounds(i) = P5 - (5-i)*lstep;
+MPRINT(VAR_PROFILE):   if abs(_bounds{i})< 1e-10 then _bounds(i)= 0;
+MPRINT(VAR_PROFILE):   _midpoint(i) = P5 - (5 - i + 0.5)*lstep - abs(lstep-step)/2;
+MPRINT(VAR_PROFILE):   if abs(_midpoint{i})< 1e-10 then _midpoint(i)= 0;
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   if ustep<= step then do;
+MPRINT(VAR_PROFILE):   step = abs(P5-MAX)/16;
+MPRINT(VAR_PROFILE):   do i=1 to 16;
+MPRINT(VAR_PROFILE):   numbars = i+5;
+MPRINT(VAR_PROFILE):   _bounds(numbars) = P5 + i*step;
+MPRINT(VAR_PROFILE):   if abs(_bounds{numbars})< 1e-10 then _bounds(numbars)= 0;
+MPRINT(VAR_PROFILE):   _midpoint(numbars) = P5 + (i-0.5)*step;
+MPRINT(VAR_PROFILE):   if abs(_midpoint{numbars})< 1e-10 then _midpoint(numbars)= 0;
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   else do;
+MPRINT(VAR_PROFILE):   do i=1 to 16;
+MPRINT(VAR_PROFILE):   numbars = i+5;
+MPRINT(VAR_PROFILE):   _bounds(numbars) = P5 + i*step;
+MPRINT(VAR_PROFILE):   if abs(_bounds{numbars})< 1e-10 then _bounds(numbars)= 0;
+MPRINT(VAR_PROFILE):   _midpoint(numbars) = P5 + (i-0.5)*step;
+MPRINT(VAR_PROFILE):   if abs(_midpoint{numbars})< 1e-10 then _midpoint(numbars)= 0;
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   do i=1 to 5;
+MPRINT(VAR_PROFILE):   numbars = 16+5+i;
+MPRINT(VAR_PROFILE):   _bounds(numbars) = P95 + i*ustep;
+MPRINT(VAR_PROFILE):   if abs(_bounds{numbars})< 1e-10 then _bounds(numbars)= 0;
+MPRINT(VAR_PROFILE):   _midpoint(numbars) = P95 + (i-0.5)*ustep + abs(ustep-step)/2;
+MPRINT(VAR_PROFILE):  if abs(_midpoint{numbars})< 1e-10 then _midpoint(numbars)= 0;
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   else do;
+MPRINT(VAR_PROFILE):   _bounds(1) = MIN;
+MPRINT(VAR_PROFILE):   _midpoint(1) = MIN;
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   Format = 'F'!!trim(left(put(_n_,6.)))!!'_';
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK._BINDATA.에서 읽었습니다.
+NOTE: 데이터셋 WORK._BINDATA은(는) 2개의 관측값과 69개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(VAR_PROFILE):   data _bindata;
+MPRINT(VAR_PROFILE):   merge _bindata _DISCRETEMID(in = _b);
+MPRINT(VAR_PROFILE):   by VARIABLE;
+MPRINT(VAR_PROFILE):   if _b then _DISCRETE=1;
+MPRINT(VAR_PROFILE):   else _DISCRETE=0;
+MPRINT(VAR_PROFILE):   run;
+
+WARNING: 입력 데이터셋으로 BY 변수 VARIABLE에 대해 여러 길이가 지정되었습니다. 예상하지 못한 결과를 발생시킬 수 있습니다.
+NOTE: 2개의 관측값을 데이터셋 WORK._BINDATA.에서 읽었습니다.
+NOTE: 2개의 관측값을 데이터셋 WORK._DISCRETEMID.에서 읽었습니다.
+NOTE: 데이터셋 WORK._BINDATA은(는) 2개의 관측값과 71개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(VAR_PROFILE):   data _null_;
+MPRINT(VAR_PROFILE):   file fref;
+MPRINT(VAR_PROFILE):   set _bindata end=eof;
+MPRINT(VAR_PROFILE):   array _bounds{26};
+MPRINT(VAR_PROFILE):   array _midpoint{26};
+MPRINT(VAR_PROFILE):   if _n_=1 then put 'proc format;';
+MPRINT(VAR_PROFILE):   put 'value ' Format;
+MPRINT(VAR_PROFILE):   if _DISCRETE then do;
+MPRINT(VAR_PROFILE):   do i=1 to 16;
+MPRINT(VAR_PROFILE):   _MID = _midpoint{i};
+MPRINT(VAR_PROFILE):   if _MID ne . and i<= _NUMCLASSBINS_ then put _MID '="' _MID '"';
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   put ';';
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   else do;
+MPRINT(VAR_PROFILE):   if min eq max then do;
+MPRINT(VAR_PROFILE):   put 'low - high ="' MIN '";';
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   else do;
+MPRINT(VAR_PROFILE):   _LB = MIN;
+MPRINT(VAR_PROFILE):   _MID = _midpoint{1};
+MPRINT(VAR_PROFILE):   _UB = _bounds{1};
+MPRINT(VAR_PROFILE):   put 'LOW -' _UB '="' _MID '"';
+MPRINT(VAR_PROFILE):   do i=1 to 26-1;
+MPRINT(VAR_PROFILE):   _LB = _bounds{i};
+MPRINT(VAR_PROFILE):   j=i+1;
+MPRINT(VAR_PROFILE):   _MID = _midpoint{j};
+MPRINT(VAR_PROFILE):   _UB = _bounds{j};
+MPRINT(VAR_PROFILE):   if (_UB ne .) and (_LB ne _UB) then do;
+MPRINT(VAR_PROFILE):   if _UB>=MAX then put _LB '-HIGH="' _MID '"';
+MPRINT(VAR_PROFILE):   else put _LB '-' _UB '="' _MID '"';
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   put ';';
+MPRINT(VAR_PROFILE):   if eof then put 'run;';
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: 파일 FREF:
+      Catalog Name=WORK.EM.PROFILEFORMAT.SOURCE,
+      카탈로그 페이지 크기=4096,
+      카탈로그 페이지 번호=4,
+      생성일=2018년 11월 20일 화 오전 10시 10분 06초,
+      마지막 수정일=2018년 11월 20일 화 오전 10시 10분 06초,
+      파일 이름=C:\Users\ADMINI~1\AppData\Local\Temp\SAS Temporary Files\_TD12596_DESKTOP-IOK0OJ9_\Prc2\em.sas7bcat,
+      생성된 릴리즈=9.0401M4,
+      생성된 호스트=X64_10HOME,
+      소유자 이름=BUILTIN\Administrators,
+      파일 크기=             5KB,
+      파일 크기 (바이트)=5120
+
+NOTE: 10개의 레코드를 파일 FREF에 기록했습니다.
+      최소 레코드 길이는 1입니다.
+      최대 레코드 길이는 29입니다.
+NOTE: 2개의 관측값을 데이터셋 WORK._BINDATA.에서 읽었습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+NOTE: %INCLUDE(레벨 1) 파일 FREF은(는) 파일 WORK.EM.PROFILEFORMAT.SOURCE입니다.
+24682     +proc format;
+MPRINT(VAR_PROFILE):   proc format;
+24683     +value F1_
+24684     +0.9232308077 ="0.9232308077 "
+24685     +;
+MPRINT(VAR_PROFILE):   value F1_ 0.9232308077 ="0.9232308077 " ;
+NOTE: 출력형식 'F1_'을(를) 생성했습니다.
+MPRINT(VAR_PROFILE):   ;
+24686     +;
+24687     +value F2_
+24688     +0.0767691923 ="0.0767691923 "
+24689     +;
+MPRINT(VAR_PROFILE):   value F2_ 0.0767691923 ="0.0767691923 " ;
+NOTE: 출력형식 'F2_'을(를) 생성했습니다.
+MPRINT(VAR_PROFILE):   ;
+MPRINT(VAR_PROFILE):   run;
+24690     +;
+24691     +run;
+
+NOTE: 프로시저 FORMAT 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(VAR_PROFILE):   filename fref;
+NOTE: Fileref FREF을(를) 삭제했습니다.
+MPRINT(VAR_PROFILE):   data _binneddata / view=_binneddata;
+MPRINT(VAR_PROFILE):   set EMWS6.MdlComp_TRAIN(obs=1000000);
+MPRINT(VAR_PROFILE):   format P_RESPOND0 F1_. P_RESPOND1 F2_. ;
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: DATA STEP 뷰가 파일 WORK._BINNEDDATA에 저장되었습니다.
+NOTE: 저장된 DATA STEP 뷰는 다른 운영 체제에서 실행할 수 없습니다.
+NOTE: View EMWS6.MDLCOMP_TRAIN.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.11 초
+      cpu 시간            0.11 초
+      
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.15 초
+      cpu 시간            0.14 초
+      
+
+MPRINT(VAR_PROFILE):   proc dmdb data=_binneddata(obs=1000000) classout=_temptab(rename=(NAME=VARIABLE FREQUENCY=COUNT FREQPERCENT=PERCENT));
+MPRINT(VAR_PROFILE):   class
+MPRINT(_VARS):   P_RESPOND1 P_RESPOND0
+MPRINT(VAR_PROFILE):   ;
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: 변수 _WARN_이(가) 초기화되지 않았습니다.
+NOTE: Records processed = 3999   Memory used = 511K.
+NOTE: 3999개의 관측값을 데이터셋 EMWS6.PART_TRAIN.에서 읽었습니다.
+NOTE: 3999개의 관측값을 데이터셋 EMWS6.TREE_TRAIN.에서 읽었습니다.
+NOTE: View WORK._BINNEDDATA.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.21 초
+      cpu 시간            0.20 초
+      
+NOTE: 3999개의 관측값을 데이터셋 EMWS6.MDLCOMP_TRAIN.에서 읽었습니다.
+NOTE: 3999개의 관측값을 데이터셋 WORK._BINNEDDATA.에서 읽었습니다.
+NOTE: 데이터셋 WORK._TEMPTAB은(는) 2개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: 프로시저 DMDB 실행(총 프로세스 시간):
+      실행 시간           0.25 초
+      cpu 시간            0.24 초
+      
+
+MPRINT(VAR_PROFILE):   data work.Score_VARHIST;
+MPRINT(VAR_PROFILE):   label VALUE = "값";
+MPRINT(VAR_PROFILE):   label VARIABLE = "변수";
+MPRINT(VAR_PROFILE):   label COUNT = "빈도 개수";
+MPRINT(VAR_PROFILE):   label PERCENT = "백분율";
+MPRINT(VAR_PROFILE):   set _temptab;
+MPRINT(VAR_PROFILE):   format VALUE 12.3 count;
+MPRINT(VAR_PROFILE):   value = inputn(level, 'best12.');
+MPRINT(VAR_PROFILE):   keep VARIABLE COUNT PERCENT VALUE;
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK._TEMPTAB.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SCORE_VARHIST은(는) 2개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.06 초
+      cpu 시간            0.04 초
+      
+
+MPRINT(VAR_PROFILE):   proc datasets lib=work nolist mt=(DATA VIEW);
+MPRINT(VAR_PROFILE):   delete _TEMPTAB _BINNEDDATA _MINMAXDATA;
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: 파일 WORK._MINMAXDATA(memtype=(DATA VIEW))을(를) 찾을 수 없지만, DELETE 문장에 나타납니다.
+NOTE: WORK._TEMPTAB(memtype=DATA)을(를) 삭제하는 중입니다.
+NOTE: WORK._BINNEDDATA(memtype=VIEW)을(를) 삭제하는 중입니다.
+MPRINT(VAR_PROFILE):   quit;
+
+NOTE: 프로시저 DATASETS 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(EM_DIAGRAM):  ;
+
+24692      data work.Score_VARHIST;
+MPRINT(EM_DIAGRAM):    data work.Score_VARHIST;
+24693      length DATAROLE $8 TYPE $14;
+MPRINT(EM_DIAGRAM):   length DATAROLE $8 TYPE $14;
+24694      retain DATAROLE "TRAIN" TYPE "";
+MPRINT(EM_DIAGRAM):   retain DATAROLE "TRAIN" TYPE "";
+24695      set work.Score_VARHIST(rename=(VALUE=X));
+MPRINT(EM_DIAGRAM):   set work.Score_VARHIST(rename=(VALUE=X));
+24696      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.SCORE_VARHIST.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SCORE_VARHIST은(는) 2개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+24697      proc append base=work.Score_HIST data=work.Score_VARHIST;
+MPRINT(EM_DIAGRAM):   proc append base=work.Score_HIST data=work.Score_VARHIST;
+24698      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: WORK.SCORE_VARHIST 을(를)WORK.SCORE_HIST(으)로 추가하는 중입니다.
+NOTE: BASE 데이터셋이 존재하지 않습니다. DATA 파일이 BASE 파일에 복사됩니다.
+NOTE: 2개의 관측값을 데이터셋 WORK.SCORE_VARHIST.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SCORE_HIST은(는) 2개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: 프로시저 APPEND 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+24699      proc transpose data=work.Score_SUMDATA out=work.Score_SUMDATA( rename=(_NAME_=VARIABLE _LABEL_=LABEL LOCATION=MEAN SCALE=STD P0=MIN P50=MEDIAN P100=MAX));
+MPRINT(EM_DIAGRAM):    proc transpose data=work.Score_SUMDATA out=work.Score_SUMDATA( rename=(_NAME_=VARIABLE _LABEL_=LABEL LOCATION=MEAN SCALE=STD P0=MIN P50=MEDIAN P100=MAX));
+24700      where _TYPE_ in('LOCATION' 'SCALE' 'N' 'P0' 'P25' 'P50' 'P75' 'P100');
+MPRINT(EM_DIAGRAM):   where _TYPE_ in('LOCATION' 'SCALE' 'N' 'P0' 'P25' 'P50' 'P75' 'P100');
+24701      id _type_;
+MPRINT(EM_DIAGRAM):   id _type_;
+24702      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 8개의 관측값을 데이터셋 WORK.SCORE_SUMDATA.에서 읽었습니다.
+      WHERE _TYPE_ in ('LOCATION', 'N', 'P0', 'P100', 'P25', 'P50', 'P75', 'SCALE');
+NOTE: 데이터셋 WORK.SCORE_SUMDATA은(는) 2개의 관측값과 10개의 변수를 가지고 있습니다.
+NOTE: 프로시저 TRANSPOSE 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+24703      data work.Score_SUMDATA;
+MPRINT(EM_DIAGRAM):   data work.Score_SUMDATA;
+24704      length DATAROLE $8 TYPE $14;
+MPRINT(EM_DIAGRAM):   length DATAROLE $8 TYPE $14;
+24705      retain DATAROLE "TRAIN" Type "";
+MPRINT(EM_DIAGRAM):   retain DATAROLE "TRAIN" Type "";
+24706      set work.Score_SUMDATA;
+MPRINT(EM_DIAGRAM):   set work.Score_SUMDATA;
+24707      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.SCORE_SUMDATA.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SCORE_SUMDATA은(는) 2개의 관측값과 12개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+24708      proc append base=WORK.ScoreSTAT data=work.Score_SUMDATA;
+MPRINT(EM_DIAGRAM):   proc append base=WORK.ScoreSTAT data=work.Score_SUMDATA;
+24709      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: WORK.SCORE_SUMDATA 을(를)WORK.SCORESTAT(으)로 추가하는 중입니다.
+NOTE: BASE 데이터셋이 존재하지 않습니다. DATA 파일이 BASE 파일에 복사됩니다.
+NOTE: 2개의 관측값을 데이터셋 WORK.SCORE_SUMDATA.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SCORESTAT은(는) 2개의 관측값과 12개의 변수를 가지고 있습니다.
+NOTE: 프로시저 APPEND 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+24710      data WORK.SCOREFREQMETA;
+MPRINT(EM_DIAGRAM):    data WORK.SCOREFREQMETA;
+24711      length NAME $32 ROLE $32 LEVEL $8;
+MPRINT(EM_DIAGRAM):   length NAME $32 ROLE $32 LEVEL $8;
+24712      NAME="I_RESPOND";
+MPRINT(EM_DIAGRAM):   NAME="I_RESPOND";
+24713      ROLE="INPUT";
+MPRINT(EM_DIAGRAM):   ROLE="INPUT";
+24714      LEVEL="NOMINAL";
+MPRINT(EM_DIAGRAM):   LEVEL="NOMINAL";
+24715      TYPE="C";
+MPRINT(EM_DIAGRAM):   TYPE="C";
+24716      output;
+MPRINT(EM_DIAGRAM):   output;
+24717      NAME="_NODE_";
+MPRINT(EM_DIAGRAM):   NAME="_NODE_";
+24718      ROLE="INPUT";
+MPRINT(EM_DIAGRAM):   ROLE="INPUT";
+24719      LEVEL="NOMINAL";
+MPRINT(EM_DIAGRAM):   LEVEL="NOMINAL";
+24720      TYPE="N";
+MPRINT(EM_DIAGRAM):   TYPE="N";
+24721      output;
+MPRINT(EM_DIAGRAM):   output;
+24722      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 데이터셋 WORK.SCOREFREQMETA은(는) 2개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+24723      data WORK.SCOREHISTMETA;
+MPRINT(EM_DIAGRAM):    data WORK.SCOREHISTMETA;
+24724      length NAME $32 ROLE $32 LEVEL $8;
+MPRINT(EM_DIAGRAM):   length NAME $32 ROLE $32 LEVEL $8;
+24725      NAME="P_RESPOND1";
+MPRINT(EM_DIAGRAM):   NAME="P_RESPOND1";
+24726      ROLE="INPUT";
+MPRINT(EM_DIAGRAM):   ROLE="INPUT";
+24727      LEVEL="INTERVAL";
+MPRINT(EM_DIAGRAM):   LEVEL="INTERVAL";
+24728      TYPE="N";
+MPRINT(EM_DIAGRAM):   TYPE="N";
+24729      output;
+MPRINT(EM_DIAGRAM):   output;
+24730      NAME="P_RESPOND0";
+MPRINT(EM_DIAGRAM):   NAME="P_RESPOND0";
+24731      ROLE="INPUT";
+MPRINT(EM_DIAGRAM):   ROLE="INPUT";
+24732      LEVEL="INTERVAL";
+MPRINT(EM_DIAGRAM):   LEVEL="INTERVAL";
+24733      TYPE="N";
+MPRINT(EM_DIAGRAM):   TYPE="N";
+24734      output;
+MPRINT(EM_DIAGRAM):   output;
+24735      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 데이터셋 WORK.SCOREHISTMETA은(는) 2개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+NOTE: View EMWS6.MDLCOMP_VALIDATE.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.11 초
+      cpu 시간            0.10 초
+      
+24736      ods listing close;
+MPRINT(EM_DIAGRAM):    ods listing close;
+24737      ods output onewayfreqs=WORK.TEMPFREQ;
+MPRINT(EM_DIAGRAM):   ods output onewayfreqs=WORK.TEMPFREQ;
+24738      proc freq data = EMWS6.MdlComp_VALIDATE order=formatted addnames;
+MPRINT(EM_DIAGRAM):   proc freq data = EMWS6.MdlComp_VALIDATE order=formatted addnames;
+24739      table I_RESPOND / missing;
+MPRINT(EM_DIAGRAM):   table I_RESPOND / missing;
+24740      table _NODE_ / missing;
+MPRINT(EM_DIAGRAM):   table _NODE_ / missing;
+24741      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 변수 _WARN_이(가) 초기화되지 않았습니다.
+NOTE: 3000개의 관측값을 데이터셋 EMWS6.PART_VALIDATE.에서 읽었습니다.
+NOTE: View EMWS6.MDLCOMP_VALIDATE.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.12 초
+      cpu 시간            0.11 초
+      
+NOTE: 3000개의 관측값을 데이터셋 EMWS6.TREE_VALIDATE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.TEMPFREQ은(는) 2개의 관측값과 10개의 변수를 가지고 있습니다.
+NOTE: 3000개의 관측값을 데이터셋 EMWS6.MDLCOMP_VALIDATE.에서 읽었습니다.
+NOTE: 프로시저 FREQ 실행(총 프로세스 시간):
+      실행 시간           0.17 초
+      cpu 시간            0.18 초
+      
+
+MPRINT(EM_DIAGRAM):   quit;
+24742      quit;
+24743      ods listing;
+MPRINT(EM_DIAGRAM):   ods listing;
+24744      data WORK.Score_BAR(keep=_VARIABLE_ TYPE COUNT PERCENT _X_ _XLABEL_);
+MPRINT(EM_DIAGRAM):    data WORK.Score_BAR(keep=_VARIABLE_ TYPE COUNT PERCENT _X_ _XLABEL_);
+24745      label _VARIABLE_ = "%sysfunc(sasmsg(sashelp.dmine, rpt_variable_vlabel, NOQUOTE))" Type = "%sysfunc(sasmsg(sashelp.dmine, rpt_type_vlabel,         NOQUOTE))" _X_ = "%sysfunc(sasmsg(sashelp.dmine, rpt_numValue_vlabel, NOQUOTE))" _XLABEL_ =
+24746         "%sysfunc(sasmsg(sashelp.dmine, rpt_fmtValue_vlabel ,    NOQUOTE))" COUNT = "%sysfunc(sasmsg(sashelp.dmine, rpt_count_vlabel,        NOQUOTE))" PERCENT = "%sysfunc(sasmsg(sashelp.dmine, rpt_percent_vlabel,      NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label _VARIABLE_ = "변수" Type = "유형" _X_ = "숫자값" _XLABEL_ = "출력형식 값" COUNT = "빈도 개수" PERCENT = "백분율";
+24747      dsid = open("WORK.TEMPFREQ");
+MPRINT(EM_DIAGRAM):   dsid = open("WORK.TEMPFREQ");
+24748      varnum = varnum(dsid, 'VARIABLE');
+MPRINT(EM_DIAGRAM):   varnum = varnum(dsid, 'VARIABLE');
+24749      freqnum = varnum(dsid, 'FREQUENCY');
+MPRINT(EM_DIAGRAM):   freqnum = varnum(dsid, 'FREQUENCY');
+24750      pvarnum = varnum(dsid, 'PERCENT');
+MPRINT(EM_DIAGRAM):   pvarnum = varnum(dsid, 'PERCENT');
+24751      typenum = varnum(dsid, '_TYPE_');
+MPRINT(EM_DIAGRAM):   typenum = varnum(dsid, '_TYPE_');
+24752      length _VARIABLE_ $32 TYPE $1 _XLABEL_ $32;
+MPRINT(EM_DIAGRAM):   length _VARIABLE_ $32 TYPE $1 _XLABEL_ $32;
+24753      do while(^fetch(dsid));
+MPRINT(EM_DIAGRAM):   do while(^fetch(dsid));
+24754      _VARIABLE_ = strip(getvarc(dsid, varnum));
+MPRINT(EM_DIAGRAM):   _VARIABLE_ = strip(getvarc(dsid, varnum));
+24755      count = getvarn(dsid, freqnum);
+MPRINT(EM_DIAGRAM):   count = getvarn(dsid, freqnum);
+24756      percent= getvarn(dsid, pvarnum);
+MPRINT(EM_DIAGRAM):   percent= getvarn(dsid, pvarnum);
+24757      vvarnum = varnum(dsid, _VARIABLE_);
+MPRINT(EM_DIAGRAM):   vvarnum = varnum(dsid, _VARIABLE_);
+24758      type = vartype(dsid, vvarnum);
+MPRINT(EM_DIAGRAM):   type = vartype(dsid, vvarnum);
+24759      fvarnum = varnum(dsid, 'F_'!!substr(_VARIABLE_, 1, 30));
+MPRINT(EM_DIAGRAM):   fvarnum = varnum(dsid, 'F_'!!substr(_VARIABLE_, 1, 30));
+24760      _XLABEL_ = left(getvarc(dsid, fvarnum));
+MPRINT(EM_DIAGRAM):   _XLABEL_ = left(getvarc(dsid, fvarnum));
+24761      _X_ = .;
+MPRINT(EM_DIAGRAM):   _X_ = .;
+24762      if TYPE eq 'N' then _X_ = getvarn(dsid, vvarnum);
+MPRINT(EM_DIAGRAM):   if TYPE eq 'N' then _X_ = getvarn(dsid, vvarnum);
+24763      output;
+MPRINT(EM_DIAGRAM):   output;
+24764      end;
+MPRINT(EM_DIAGRAM):   end;
+24765      dsid = close(dsid);
+MPRINT(EM_DIAGRAM):   dsid = close(dsid);
+24766      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 데이터셋 WORK.SCORE_BAR은(는) 2개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.04 초
+      
+
+24767      proc sort data=WORK.Score_BAR NOTHREADS;
+MPRINT(EM_DIAGRAM):   proc sort data=WORK.Score_BAR NOTHREADS;
+24768      by _VARIABLE_;
+MPRINT(EM_DIAGRAM):   by _VARIABLE_;
+24769      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.SCORE_BAR.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SCORE_BAR은(는) 2개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+24770      proc sort data=WORK.M2KH43TX;
+MPRINT(EM_DIAGRAM):   proc sort data=WORK.M2KH43TX;
+24771      by Name;
+MPRINT(EM_DIAGRAM):   by Name;
+24772      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.M2KH43TX.에서 읽었습니다.
+NOTE: 데이터셋 WORK.M2KH43TX은(는) 2개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+24773      data WORK.Score_BAR;
+MPRINT(EM_DIAGRAM):   data WORK.Score_BAR;
+24774      merge WORK.Score_BAR(in=_a) WORK.M2KH43TX(keep=Name Role rename=(Name=_Variable_));
+MPRINT(EM_DIAGRAM):   merge WORK.Score_BAR(in=_a) WORK.M2KH43TX(keep=Name Role rename=(Name=_Variable_));
+24775      by _Variable_;
+MPRINT(EM_DIAGRAM):   by _Variable_;
+24776      label Role = "%sysfunc(sasmsg(sashelp.dmine, meta_role_vlabel ,  NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label Role = "역할";
+24777      if _a then output;
+MPRINT(EM_DIAGRAM):   if _a then output;
+24778      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.SCORE_BAR.에서 읽었습니다.
+NOTE: 2개의 관측값을 데이터셋 WORK.M2KH43TX.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SCORE_BAR은(는) 2개의 관측값과 7개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+24779      data WORK.Score_BAR;
+MPRINT(EM_DIAGRAM):    data WORK.Score_BAR;
+24780      length DATAROLE $8 TYPE $14;
+MPRINT(EM_DIAGRAM):   length DATAROLE $8 TYPE $14;
+24781      retain DATAROLE "VALIDATE";
+MPRINT(EM_DIAGRAM):   retain DATAROLE "VALIDATE";
+24782      set WORK.Score_BAR;
+MPRINT(EM_DIAGRAM):   set WORK.Score_BAR;
+24783      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.SCORE_BAR.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SCORE_BAR은(는) 2개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+24784      proc append base=EMWS6.Score_BAR data=WORK.Score_BAR;
+MPRINT(EM_DIAGRAM):   proc append base=EMWS6.Score_BAR data=WORK.Score_BAR;
+24785      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: WORK.SCORE_BAR 을(를)EMWS6.SCORE_BAR(으)로 추가하는 중입니다.
+NOTE: 2개의 관측값을 데이터셋 WORK.SCORE_BAR.에서 읽었습니다.
+NOTE: 2개 관측값이 추가되었습니다.
+NOTE: 데이터셋 EMWS6.SCORE_BAR은(는) 4개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: 프로시저 APPEND 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+24786      %var_profile(DATA=EMWS6.MdlComp_VALIDATE, OUTPUT=work.Score_VARHIST, METADATA=WORK.SCOREHISTMETA, COMPUTESTAT=N, BINDATA=_bindata, STAT=_STAT, PCTLSTAT=work.Score_SUMDATA, FREQ=, BIN=Y, NUMBARS= 16);
+MPRINT(EM_DIAGRAM):   
+*------------------------------------------------------------*
+* Score: 요약 통계량 계산
+*------------------------------------------------------------*
+MPRINT(VAR_PROFILE):   filename _mac catalog 'WORK.MACROS.VARIABLES.SOURCE';
+MPRINT(VAR_PROFILE):   data _null;
+MPRINT(VAR_PROFILE):   set WORK.SCOREHISTMETA(where=(LEVEL = 'INTERVAL' and ROLE ne 'FREQ')) end=eof;
+MPRINT(VAR_PROFILE):   if eof then call symput('_nobs', put(_N_, best.));
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.SCOREHISTMETA.에서 읽었습니다.
+      WHERE (LEVEL='INTERVAL') and (ROLE not = 'FREQ');
+NOTE: 데이터셋 WORK._NULL은(는) 2개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(VAR_PROFILE):   data _null_;
+MPRINT(VAR_PROFILE):   file _mac;
+MPRINT(VAR_PROFILE):   length _VARS $80;
+MPRINT(VAR_PROFILE):   retain _vars;
+MPRINT(VAR_PROFILE):   if _n_ =1 then put '%macro _vars;';
+MPRINT(VAR_PROFILE):   set WORK.SCOREHISTMETA end=eof;
+MPRINT(VAR_PROFILE):   where LEVEL = 'INTERVAL' or ROLE='FREQ';
+MPRINT(VAR_PROFILE):   if ROLE='FREQ' then call symput('FREQ', trim(NAME));
+MPRINT(VAR_PROFILE):   else do;
+MPRINT(VAR_PROFILE):   if length(strip(_vars)) + length(strip(NAME)) + 1 <80 then _vars = strip(_vars)!! ' ' !!strip(NAME);
+MPRINT(VAR_PROFILE):   else do;
+MPRINT(VAR_PROFILE):   put _Vars;
+MPRINT(VAR_PROFILE):   _vars = strip(NAME);
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   if eof then do;
+MPRINT(VAR_PROFILE):   put _Vars;
+MPRINT(VAR_PROFILE):   put '%mend _vars;';
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: 파일 _MAC:
+      Catalog Name=WORK.MACROS.VARIABLES.SOURCE,
+      카탈로그 페이지 크기=4096,
+      카탈로그 페이지 번호=5,
+      생성일=2018년 11월 20일 화 오전 10시 10분 05초,
+      마지막 수정일=2018년 11월 20일 화 오전 10시 10분 05초,
+      파일 이름=C:\Users\ADMINI~1\AppData\Local\Temp\SAS Temporary Files\_TD12596_DESKTOP-IOK0OJ9_\Prc2\macros.sas7bcat,
+      생성된 릴리즈=9.0401M4,
+      생성된 호스트=X64_10HOME,
+      소유자 이름=BUILTIN\Administrators,
+      파일 크기=            17KB,
+      파일 크기 (바이트)=17408
+
+NOTE: 3개의 레코드를 파일 _MAC에 기록했습니다.
+      최소 레코드 길이는 12입니다.
+      최대 레코드 길이는 21입니다.
+NOTE: 2개의 관측값을 데이터셋 WORK.SCOREHISTMETA.에서 읽었습니다.
+      WHERE (LEVEL='INTERVAL') or (ROLE='FREQ');
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+NOTE: %INCLUDE(레벨 1) 파일 _MAC은(는) 파일 WORK.MACROS.VARIABLES.SOURCE입니다.
+24787     +%macro _vars;
+24788     +P_RESPOND1 P_RESPOND0
+24789     +%mend _vars;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(VAR_PROFILE):   filename _mac;
+NOTE: Fileref _MAC을(를) 삭제했습니다.
+MPRINT(VAR_PROFILE):   data _binneddata / view=_binneddata;
+MPRINT(VAR_PROFILE):   set EMWS6.MdlComp_VALIDATE(obs=1000000);
+MPRINT(VAR_PROFILE):   format P_RESPOND0 F1_. P_RESPOND1 F2_. ;
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: DATA STEP 뷰가 파일 WORK._BINNEDDATA에 저장되었습니다.
+NOTE: 저장된 DATA STEP 뷰는 다른 운영 체제에서 실행할 수 없습니다.
+NOTE: View EMWS6.MDLCOMP_VALIDATE.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.10 초
+      cpu 시간            0.09 초
+      
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.13 초
+      cpu 시간            0.12 초
+      
+
+MPRINT(VAR_PROFILE):   proc dmdb data=_binneddata(obs=1000000) classout=_temptab(rename=(NAME=VARIABLE FREQUENCY=COUNT FREQPERCENT=PERCENT));
+MPRINT(VAR_PROFILE):   class
+MPRINT(_VARS):   P_RESPOND1 P_RESPOND0
+MPRINT(VAR_PROFILE):   ;
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: 변수 _WARN_이(가) 초기화되지 않았습니다.
+NOTE: Records processed = 3000   Memory used = 511K.
+NOTE: 3000개의 관측값을 데이터셋 EMWS6.PART_VALIDATE.에서 읽었습니다.
+NOTE: 3000개의 관측값을 데이터셋 EMWS6.TREE_VALIDATE.에서 읽었습니다.
+NOTE: View WORK._BINNEDDATA.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.17 초
+      cpu 시간            0.18 초
+      
+NOTE: 3000개의 관측값을 데이터셋 EMWS6.MDLCOMP_VALIDATE.에서 읽었습니다.
+NOTE: 3000개의 관측값을 데이터셋 WORK._BINNEDDATA.에서 읽었습니다.
+NOTE: 데이터셋 WORK._TEMPTAB은(는) 2개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: 프로시저 DMDB 실행(총 프로세스 시간):
+      실행 시간           0.21 초
+      cpu 시간            0.23 초
+      
+
+MPRINT(VAR_PROFILE):   data work.Score_VARHIST;
+MPRINT(VAR_PROFILE):   label VALUE = "값";
+MPRINT(VAR_PROFILE):   label VARIABLE = "변수";
+MPRINT(VAR_PROFILE):   label COUNT = "빈도 개수";
+MPRINT(VAR_PROFILE):   label PERCENT = "백분율";
+MPRINT(VAR_PROFILE):   set _temptab;
+MPRINT(VAR_PROFILE):   format VALUE 12.3 count;
+MPRINT(VAR_PROFILE):   value = inputn(level, 'best12.');
+MPRINT(VAR_PROFILE):   keep VARIABLE COUNT PERCENT VALUE;
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK._TEMPTAB.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SCORE_VARHIST은(는) 2개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.04 초
+      
+
+MPRINT(VAR_PROFILE):   proc datasets lib=work nolist mt=(DATA VIEW);
+MPRINT(VAR_PROFILE):   delete _TEMPTAB _BINNEDDATA _MINMAXDATA;
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: 파일 WORK._MINMAXDATA(memtype=(DATA VIEW))을(를) 찾을 수 없지만, DELETE 문장에 나타납니다.
+NOTE: WORK._TEMPTAB(memtype=DATA)을(를) 삭제하는 중입니다.
+NOTE: WORK._BINNEDDATA(memtype=VIEW)을(를) 삭제하는 중입니다.
+MPRINT(VAR_PROFILE):   quit;
+
+NOTE: 프로시저 DATASETS 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(EM_DIAGRAM):  ;
+
+24790      data work.Score_VARHIST;
+MPRINT(EM_DIAGRAM):    data work.Score_VARHIST;
+24791      length DATAROLE $8 TYPE $14;
+MPRINT(EM_DIAGRAM):   length DATAROLE $8 TYPE $14;
+24792      retain DATAROLE "VALIDATE" TYPE "";
+MPRINT(EM_DIAGRAM):   retain DATAROLE "VALIDATE" TYPE "";
+24793      set work.Score_VARHIST(rename=(VALUE=X));
+MPRINT(EM_DIAGRAM):   set work.Score_VARHIST(rename=(VALUE=X));
+24794      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.SCORE_VARHIST.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SCORE_VARHIST은(는) 2개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.00 초
+      
+
+24795      proc append base=work.Score_HIST data=work.Score_VARHIST;
+MPRINT(EM_DIAGRAM):   proc append base=work.Score_HIST data=work.Score_VARHIST;
+24796      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: WORK.SCORE_VARHIST 을(를)WORK.SCORE_HIST(으)로 추가하는 중입니다.
+NOTE: 2개의 관측값을 데이터셋 WORK.SCORE_VARHIST.에서 읽었습니다.
+NOTE: 2개 관측값이 추가되었습니다.
+NOTE: 데이터셋 WORK.SCORE_HIST은(는) 4개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: 프로시저 APPEND 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+24797      proc stdize data=EMWS6.MdlComp_VALIDATE(obs=1000000) outstat=work.Score_SUMDATA out=_null_ pctlpts=(0 5 25 50 75 95 100);
+MPRINT(EM_DIAGRAM):    proc stdize data=EMWS6.MdlComp_VALIDATE(obs=1000000) outstat=work.Score_SUMDATA out=_null_ pctlpts=(0 5 25 50 75 95 100);
+24798      var
+24799      P_RESPOND1
+24800      P_RESPOND0
+24801      ;
+MPRINT(EM_DIAGRAM):   var P_RESPOND1 P_RESPOND0 ;
+24802      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 변수 _WARN_이(가) 초기화되지 않았습니다.
+WARNING: The scale estimator for variable P_RESPOND1 is less than or equal to 0. Variable P_RESPOND1 will not be standardized and a missing value is assigned to its scale estimator.
+WARNING: The scale estimator for variable P_RESPOND0 is less than or equal to 0. Variable P_RESPOND0 will not be standardized and a missing value is assigned to its scale estimator.
+NOTE: 3000개의 관측값을 데이터셋 EMWS6.PART_VALIDATE.에서 읽었습니다.
+NOTE: View EMWS6.MDLCOMP_VALIDATE.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.64 초
+      cpu 시간            0.25 초
+      
+NOTE: 3000개의 관측값을 데이터셋 EMWS6.TREE_VALIDATE.에서 읽었습니다.
+NOTE: 3000개의 관측값을 데이터셋 EMWS6.MDLCOMP_VALIDATE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SCORE_SUMDATA은(는) 15개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: 프로시저 STDIZE 실행(총 프로세스 시간):
+      실행 시간           0.67 초
+      cpu 시간            0.28 초
+      
+
+MPRINT(EM_DIAGRAM):   quit;
+24803      quit;
+
+24804      proc transpose data=work.Score_SUMDATA out=work.Score_SUMDATA( rename=(_NAME_=VARIABLE _LABEL_=LABEL LOCATION=MEAN SCALE=STD P0=MIN P50=MEDIAN P100=MAX));
+MPRINT(EM_DIAGRAM):    proc transpose data=work.Score_SUMDATA out=work.Score_SUMDATA( rename=(_NAME_=VARIABLE _LABEL_=LABEL LOCATION=MEAN SCALE=STD P0=MIN P50=MEDIAN P100=MAX));
+24805      where _TYPE_ in('LOCATION' 'SCALE' 'N' 'P0' 'P25' 'P50' 'P75' 'P100');
+MPRINT(EM_DIAGRAM):   where _TYPE_ in('LOCATION' 'SCALE' 'N' 'P0' 'P25' 'P50' 'P75' 'P100');
+24806      id _type_;
+MPRINT(EM_DIAGRAM):   id _type_;
+24807      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 8개의 관측값을 데이터셋 WORK.SCORE_SUMDATA.에서 읽었습니다.
+      WHERE _TYPE_ in ('LOCATION', 'N', 'P0', 'P100', 'P25', 'P50', 'P75', 'SCALE');
+NOTE: 데이터셋 WORK.SCORE_SUMDATA은(는) 2개의 관측값과 10개의 변수를 가지고 있습니다.
+NOTE: 프로시저 TRANSPOSE 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+24808      data work.Score_SUMDATA;
+MPRINT(EM_DIAGRAM):   data work.Score_SUMDATA;
+24809      length DATAROLE $8 TYPE $14;
+MPRINT(EM_DIAGRAM):   length DATAROLE $8 TYPE $14;
+24810      retain DATAROLE "VALIDATE" Type "";
+MPRINT(EM_DIAGRAM):   retain DATAROLE "VALIDATE" Type "";
+24811      set work.Score_SUMDATA;
+MPRINT(EM_DIAGRAM):   set work.Score_SUMDATA;
+24812      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.SCORE_SUMDATA.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SCORE_SUMDATA은(는) 2개의 관측값과 12개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+24813      proc append base=WORK.ScoreSTAT data=work.Score_SUMDATA;
+MPRINT(EM_DIAGRAM):   proc append base=WORK.ScoreSTAT data=work.Score_SUMDATA;
+24814      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: WORK.SCORE_SUMDATA 을(를)WORK.SCORESTAT(으)로 추가하는 중입니다.
+NOTE: 2개의 관측값을 데이터셋 WORK.SCORE_SUMDATA.에서 읽었습니다.
+NOTE: 2개 관측값이 추가되었습니다.
+NOTE: 데이터셋 WORK.SCORESTAT은(는) 4개의 관측값과 12개의 변수를 가지고 있습니다.
+NOTE: 프로시저 APPEND 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+24815      data WORK.SCOREFREQMETA;
+MPRINT(EM_DIAGRAM):    data WORK.SCOREFREQMETA;
+24816      length NAME $32 ROLE $32 LEVEL $8;
+MPRINT(EM_DIAGRAM):   length NAME $32 ROLE $32 LEVEL $8;
+24817      NAME="I_RESPOND";
+MPRINT(EM_DIAGRAM):   NAME="I_RESPOND";
+24818      ROLE="INPUT";
+MPRINT(EM_DIAGRAM):   ROLE="INPUT";
+24819      LEVEL="NOMINAL";
+MPRINT(EM_DIAGRAM):   LEVEL="NOMINAL";
+24820      TYPE="C";
+MPRINT(EM_DIAGRAM):   TYPE="C";
+24821      output;
+MPRINT(EM_DIAGRAM):   output;
+24822      NAME="_NODE_";
+MPRINT(EM_DIAGRAM):   NAME="_NODE_";
+24823      ROLE="INPUT";
+MPRINT(EM_DIAGRAM):   ROLE="INPUT";
+24824      LEVEL="NOMINAL";
+MPRINT(EM_DIAGRAM):   LEVEL="NOMINAL";
+24825      TYPE="N";
+MPRINT(EM_DIAGRAM):   TYPE="N";
+24826      output;
+MPRINT(EM_DIAGRAM):   output;
+24827      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 데이터셋 WORK.SCOREFREQMETA은(는) 2개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+24828      data WORK.SCOREHISTMETA;
+MPRINT(EM_DIAGRAM):    data WORK.SCOREHISTMETA;
+24829      length NAME $32 ROLE $32 LEVEL $8;
+MPRINT(EM_DIAGRAM):   length NAME $32 ROLE $32 LEVEL $8;
+24830      NAME="P_RESPOND1";
+MPRINT(EM_DIAGRAM):   NAME="P_RESPOND1";
+24831      ROLE="INPUT";
+MPRINT(EM_DIAGRAM):   ROLE="INPUT";
+24832      LEVEL="INTERVAL";
+MPRINT(EM_DIAGRAM):   LEVEL="INTERVAL";
+24833      TYPE="N";
+MPRINT(EM_DIAGRAM):   TYPE="N";
+24834      output;
+MPRINT(EM_DIAGRAM):   output;
+24835      NAME="P_RESPOND0";
+MPRINT(EM_DIAGRAM):   NAME="P_RESPOND0";
+24836      ROLE="INPUT";
+MPRINT(EM_DIAGRAM):   ROLE="INPUT";
+24837      LEVEL="INTERVAL";
+MPRINT(EM_DIAGRAM):   LEVEL="INTERVAL";
+24838      TYPE="N";
+MPRINT(EM_DIAGRAM):   TYPE="N";
+24839      output;
+MPRINT(EM_DIAGRAM):   output;
+24840      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 데이터셋 WORK.SCOREHISTMETA은(는) 2개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+NOTE: View EMWS6.MDLCOMP_TEST.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.12 초
+      cpu 시간            0.12 초
+      
+24841      ods listing close;
+MPRINT(EM_DIAGRAM):    ods listing close;
+24842      ods output onewayfreqs=WORK.TEMPFREQ;
+MPRINT(EM_DIAGRAM):   ods output onewayfreqs=WORK.TEMPFREQ;
+24843      proc freq data = EMWS6.MdlComp_TEST order=formatted addnames;
+MPRINT(EM_DIAGRAM):   proc freq data = EMWS6.MdlComp_TEST order=formatted addnames;
+24844      table I_RESPOND / missing;
+MPRINT(EM_DIAGRAM):   table I_RESPOND / missing;
+24845      table _NODE_ / missing;
+MPRINT(EM_DIAGRAM):   table _NODE_ / missing;
+24846      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 변수 _WARN_이(가) 초기화되지 않았습니다.
+NOTE: 3001개의 관측값을 데이터셋 EMWS6.PART_TEST.에서 읽었습니다.
+NOTE: View EMWS6.MDLCOMP_TEST.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.11 초
+      cpu 시간            0.12 초
+      
+NOTE: 3001개의 관측값을 데이터셋 EMWS6.TREE_TEST.에서 읽었습니다.
+NOTE: 데이터셋 WORK.TEMPFREQ은(는) 2개의 관측값과 10개의 변수를 가지고 있습니다.
+NOTE: 3001개의 관측값을 데이터셋 EMWS6.MDLCOMP_TEST.에서 읽었습니다.
+NOTE: 프로시저 FREQ 실행(총 프로세스 시간):
+      실행 시간           0.17 초
+      cpu 시간            0.17 초
+      
+
+MPRINT(EM_DIAGRAM):   quit;
+24847      quit;
+24848      ods listing;
+MPRINT(EM_DIAGRAM):   ods listing;
+24849      data WORK.Score_BAR(keep=_VARIABLE_ TYPE COUNT PERCENT _X_ _XLABEL_);
+MPRINT(EM_DIAGRAM):    data WORK.Score_BAR(keep=_VARIABLE_ TYPE COUNT PERCENT _X_ _XLABEL_);
+24850      label _VARIABLE_ = "%sysfunc(sasmsg(sashelp.dmine, rpt_variable_vlabel, NOQUOTE))" Type = "%sysfunc(sasmsg(sashelp.dmine, rpt_type_vlabel,         NOQUOTE))" _X_ = "%sysfunc(sasmsg(sashelp.dmine, rpt_numValue_vlabel, NOQUOTE))" _XLABEL_ =
+24851         "%sysfunc(sasmsg(sashelp.dmine, rpt_fmtValue_vlabel ,    NOQUOTE))" COUNT = "%sysfunc(sasmsg(sashelp.dmine, rpt_count_vlabel,        NOQUOTE))" PERCENT = "%sysfunc(sasmsg(sashelp.dmine, rpt_percent_vlabel,      NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label _VARIABLE_ = "변수" Type = "유형" _X_ = "숫자값" _XLABEL_ = "출력형식 값" COUNT = "빈도 개수" PERCENT = "백분율";
+24852      dsid = open("WORK.TEMPFREQ");
+MPRINT(EM_DIAGRAM):   dsid = open("WORK.TEMPFREQ");
+24853      varnum = varnum(dsid, 'VARIABLE');
+MPRINT(EM_DIAGRAM):   varnum = varnum(dsid, 'VARIABLE');
+24854      freqnum = varnum(dsid, 'FREQUENCY');
+MPRINT(EM_DIAGRAM):   freqnum = varnum(dsid, 'FREQUENCY');
+24855      pvarnum = varnum(dsid, 'PERCENT');
+MPRINT(EM_DIAGRAM):   pvarnum = varnum(dsid, 'PERCENT');
+24856      typenum = varnum(dsid, '_TYPE_');
+MPRINT(EM_DIAGRAM):   typenum = varnum(dsid, '_TYPE_');
+24857      length _VARIABLE_ $32 TYPE $1 _XLABEL_ $32;
+MPRINT(EM_DIAGRAM):   length _VARIABLE_ $32 TYPE $1 _XLABEL_ $32;
+24858      do while(^fetch(dsid));
+MPRINT(EM_DIAGRAM):   do while(^fetch(dsid));
+24859      _VARIABLE_ = strip(getvarc(dsid, varnum));
+MPRINT(EM_DIAGRAM):   _VARIABLE_ = strip(getvarc(dsid, varnum));
+24860      count = getvarn(dsid, freqnum);
+MPRINT(EM_DIAGRAM):   count = getvarn(dsid, freqnum);
+24861      percent= getvarn(dsid, pvarnum);
+MPRINT(EM_DIAGRAM):   percent= getvarn(dsid, pvarnum);
+24862      vvarnum = varnum(dsid, _VARIABLE_);
+MPRINT(EM_DIAGRAM):   vvarnum = varnum(dsid, _VARIABLE_);
+24863      type = vartype(dsid, vvarnum);
+MPRINT(EM_DIAGRAM):   type = vartype(dsid, vvarnum);
+24864      fvarnum = varnum(dsid, 'F_'!!substr(_VARIABLE_, 1, 30));
+MPRINT(EM_DIAGRAM):   fvarnum = varnum(dsid, 'F_'!!substr(_VARIABLE_, 1, 30));
+24865      _XLABEL_ = left(getvarc(dsid, fvarnum));
+MPRINT(EM_DIAGRAM):   _XLABEL_ = left(getvarc(dsid, fvarnum));
+24866      _X_ = .;
+MPRINT(EM_DIAGRAM):   _X_ = .;
+24867      if TYPE eq 'N' then _X_ = getvarn(dsid, vvarnum);
+MPRINT(EM_DIAGRAM):   if TYPE eq 'N' then _X_ = getvarn(dsid, vvarnum);
+24868      output;
+MPRINT(EM_DIAGRAM):   output;
+24869      end;
+MPRINT(EM_DIAGRAM):   end;
+24870      dsid = close(dsid);
+MPRINT(EM_DIAGRAM):   dsid = close(dsid);
+24871      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 데이터셋 WORK.SCORE_BAR은(는) 2개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.05 초
+      cpu 시간            0.06 초
+      
+
+24872      proc sort data=WORK.Score_BAR NOTHREADS;
+MPRINT(EM_DIAGRAM):   proc sort data=WORK.Score_BAR NOTHREADS;
+24873      by _VARIABLE_;
+MPRINT(EM_DIAGRAM):   by _VARIABLE_;
+24874      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.SCORE_BAR.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SCORE_BAR은(는) 2개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+24875      proc sort data=WORK.M2VN9C73;
+MPRINT(EM_DIAGRAM):   proc sort data=WORK.M2VN9C73;
+24876      by Name;
+MPRINT(EM_DIAGRAM):   by Name;
+24877      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.M2VN9C73.에서 읽었습니다.
+NOTE: 데이터셋 WORK.M2VN9C73은(는) 2개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+24878      data WORK.Score_BAR;
+MPRINT(EM_DIAGRAM):   data WORK.Score_BAR;
+24879      merge WORK.Score_BAR(in=_a) WORK.M2VN9C73(keep=Name Role rename=(Name=_Variable_));
+MPRINT(EM_DIAGRAM):   merge WORK.Score_BAR(in=_a) WORK.M2VN9C73(keep=Name Role rename=(Name=_Variable_));
+24880      by _Variable_;
+MPRINT(EM_DIAGRAM):   by _Variable_;
+24881      label Role = "%sysfunc(sasmsg(sashelp.dmine, meta_role_vlabel ,  NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label Role = "역할";
+24882      if _a then output;
+MPRINT(EM_DIAGRAM):   if _a then output;
+24883      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.SCORE_BAR.에서 읽었습니다.
+NOTE: 2개의 관측값을 데이터셋 WORK.M2VN9C73.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SCORE_BAR은(는) 2개의 관측값과 7개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+24884      data WORK.Score_BAR;
+MPRINT(EM_DIAGRAM):    data WORK.Score_BAR;
+24885      length DATAROLE $8 TYPE $14;
+MPRINT(EM_DIAGRAM):   length DATAROLE $8 TYPE $14;
+24886      retain DATAROLE "TEST";
+MPRINT(EM_DIAGRAM):   retain DATAROLE "TEST";
+24887      set WORK.Score_BAR;
+MPRINT(EM_DIAGRAM):   set WORK.Score_BAR;
+24888      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.SCORE_BAR.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SCORE_BAR은(는) 2개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.00 초
+      
+
+24889      proc append base=EMWS6.Score_BAR data=WORK.Score_BAR;
+MPRINT(EM_DIAGRAM):   proc append base=EMWS6.Score_BAR data=WORK.Score_BAR;
+24890      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: WORK.SCORE_BAR 을(를)EMWS6.SCORE_BAR(으)로 추가하는 중입니다.
+NOTE: 2개의 관측값을 데이터셋 WORK.SCORE_BAR.에서 읽었습니다.
+NOTE: 2개 관측값이 추가되었습니다.
+NOTE: 데이터셋 EMWS6.SCORE_BAR은(는) 6개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: 프로시저 APPEND 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.00 초
+      
+
+24891      %var_profile(DATA=EMWS6.MdlComp_TEST, OUTPUT=work.Score_VARHIST, METADATA=WORK.SCOREHISTMETA, COMPUTESTAT=N, BINDATA=_bindata, STAT=_STAT, PCTLSTAT=work.Score_SUMDATA, FREQ=, BIN=Y, NUMBARS= 16);
+MPRINT(EM_DIAGRAM):   
+*------------------------------------------------------------*
+* Score: 요약 통계량 계산
+*------------------------------------------------------------*
+MPRINT(VAR_PROFILE):   filename _mac catalog 'WORK.MACROS.VARIABLES.SOURCE';
+MPRINT(VAR_PROFILE):   data _null;
+MPRINT(VAR_PROFILE):   set WORK.SCOREHISTMETA(where=(LEVEL = 'INTERVAL' and ROLE ne 'FREQ')) end=eof;
+MPRINT(VAR_PROFILE):   if eof then call symput('_nobs', put(_N_, best.));
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.SCOREHISTMETA.에서 읽었습니다.
+      WHERE (LEVEL='INTERVAL') and (ROLE not = 'FREQ');
+NOTE: 데이터셋 WORK._NULL은(는) 2개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(VAR_PROFILE):   data _null_;
+MPRINT(VAR_PROFILE):   file _mac;
+MPRINT(VAR_PROFILE):   length _VARS $80;
+MPRINT(VAR_PROFILE):   retain _vars;
+MPRINT(VAR_PROFILE):   if _n_ =1 then put '%macro _vars;';
+MPRINT(VAR_PROFILE):   set WORK.SCOREHISTMETA end=eof;
+MPRINT(VAR_PROFILE):   where LEVEL = 'INTERVAL' or ROLE='FREQ';
+MPRINT(VAR_PROFILE):   if ROLE='FREQ' then call symput('FREQ', trim(NAME));
+MPRINT(VAR_PROFILE):   else do;
+MPRINT(VAR_PROFILE):   if length(strip(_vars)) + length(strip(NAME)) + 1 <80 then _vars = strip(_vars)!! ' ' !!strip(NAME);
+MPRINT(VAR_PROFILE):   else do;
+MPRINT(VAR_PROFILE):   put _Vars;
+MPRINT(VAR_PROFILE):   _vars = strip(NAME);
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   if eof then do;
+MPRINT(VAR_PROFILE):   put _Vars;
+MPRINT(VAR_PROFILE):   put '%mend _vars;';
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: 파일 _MAC:
+      Catalog Name=WORK.MACROS.VARIABLES.SOURCE,
+      카탈로그 페이지 크기=4096,
+      카탈로그 페이지 번호=5,
+      생성일=2018년 11월 20일 화 오전 10시 10분 05초,
+      마지막 수정일=2018년 11월 20일 화 오전 10시 10분 07초,
+      파일 이름=C:\Users\ADMINI~1\AppData\Local\Temp\SAS Temporary Files\_TD12596_DESKTOP-IOK0OJ9_\Prc2\macros.sas7bcat,
+      생성된 릴리즈=9.0401M4,
+      생성된 호스트=X64_10HOME,
+      소유자 이름=BUILTIN\Administrators,
+      파일 크기=            21KB,
+      파일 크기 (바이트)=21504
+
+NOTE: 3개의 레코드를 파일 _MAC에 기록했습니다.
+      최소 레코드 길이는 12입니다.
+      최대 레코드 길이는 21입니다.
+NOTE: 2개의 관측값을 데이터셋 WORK.SCOREHISTMETA.에서 읽었습니다.
+      WHERE (LEVEL='INTERVAL') or (ROLE='FREQ');
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+NOTE: %INCLUDE(레벨 1) 파일 _MAC은(는) 파일 WORK.MACROS.VARIABLES.SOURCE입니다.
+24892     +%macro _vars;
+24893     +P_RESPOND1 P_RESPOND0
+24894     +%mend _vars;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(VAR_PROFILE):   filename _mac;
+NOTE: Fileref _MAC을(를) 삭제했습니다.
+MPRINT(VAR_PROFILE):   data _binneddata / view=_binneddata;
+MPRINT(VAR_PROFILE):   set EMWS6.MdlComp_TEST(obs=1000000);
+MPRINT(VAR_PROFILE):   format P_RESPOND0 F1_. P_RESPOND1 F2_. ;
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: DATA STEP 뷰가 파일 WORK._BINNEDDATA에 저장되었습니다.
+NOTE: 저장된 DATA STEP 뷰는 다른 운영 체제에서 실행할 수 없습니다.
+NOTE: View EMWS6.MDLCOMP_TEST.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.10 초
+      cpu 시간            0.10 초
+      
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.13 초
+      cpu 시간            0.13 초
+      
+
+MPRINT(VAR_PROFILE):   proc dmdb data=_binneddata(obs=1000000) classout=_temptab(rename=(NAME=VARIABLE FREQUENCY=COUNT FREQPERCENT=PERCENT));
+MPRINT(VAR_PROFILE):   class
+MPRINT(_VARS):   P_RESPOND1 P_RESPOND0
+MPRINT(VAR_PROFILE):   ;
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: 변수 _WARN_이(가) 초기화되지 않았습니다.
+NOTE: Records processed = 3001   Memory used = 511K.
+NOTE: 3001개의 관측값을 데이터셋 EMWS6.PART_TEST.에서 읽었습니다.
+NOTE: 3001개의 관측값을 데이터셋 EMWS6.TREE_TEST.에서 읽었습니다.
+NOTE: View WORK._BINNEDDATA.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.17 초
+      cpu 시간            0.17 초
+      
+NOTE: 3001개의 관측값을 데이터셋 EMWS6.MDLCOMP_TEST.에서 읽었습니다.
+NOTE: 3001개의 관측값을 데이터셋 WORK._BINNEDDATA.에서 읽었습니다.
+NOTE: 데이터셋 WORK._TEMPTAB은(는) 2개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: 프로시저 DMDB 실행(총 프로세스 시간):
+      실행 시간           0.20 초
+      cpu 시간            0.20 초
+      
+
+MPRINT(VAR_PROFILE):   data work.Score_VARHIST;
+MPRINT(VAR_PROFILE):   label VALUE = "값";
+MPRINT(VAR_PROFILE):   label VARIABLE = "변수";
+MPRINT(VAR_PROFILE):   label COUNT = "빈도 개수";
+MPRINT(VAR_PROFILE):   label PERCENT = "백분율";
+MPRINT(VAR_PROFILE):   set _temptab;
+MPRINT(VAR_PROFILE):   format VALUE 12.3 count;
+MPRINT(VAR_PROFILE):   value = inputn(level, 'best12.');
+MPRINT(VAR_PROFILE):   keep VARIABLE COUNT PERCENT VALUE;
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK._TEMPTAB.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SCORE_VARHIST은(는) 2개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.04 초
+      
+
+MPRINT(VAR_PROFILE):   proc datasets lib=work nolist mt=(DATA VIEW);
+MPRINT(VAR_PROFILE):   delete _TEMPTAB _BINNEDDATA _MINMAXDATA;
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: 파일 WORK._MINMAXDATA(memtype=(DATA VIEW))을(를) 찾을 수 없지만, DELETE 문장에 나타납니다.
+NOTE: WORK._TEMPTAB(memtype=DATA)을(를) 삭제하는 중입니다.
+NOTE: WORK._BINNEDDATA(memtype=VIEW)을(를) 삭제하는 중입니다.
+MPRINT(VAR_PROFILE):   quit;
+
+NOTE: 프로시저 DATASETS 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(EM_DIAGRAM):  ;
+
+24895      data work.Score_VARHIST;
+MPRINT(EM_DIAGRAM):    data work.Score_VARHIST;
+24896      length DATAROLE $8 TYPE $14;
+MPRINT(EM_DIAGRAM):   length DATAROLE $8 TYPE $14;
+24897      retain DATAROLE "TEST" TYPE "";
+MPRINT(EM_DIAGRAM):   retain DATAROLE "TEST" TYPE "";
+24898      set work.Score_VARHIST(rename=(VALUE=X));
+MPRINT(EM_DIAGRAM):   set work.Score_VARHIST(rename=(VALUE=X));
+24899      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.SCORE_VARHIST.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SCORE_VARHIST은(는) 2개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+24900      proc append base=work.Score_HIST data=work.Score_VARHIST;
+MPRINT(EM_DIAGRAM):   proc append base=work.Score_HIST data=work.Score_VARHIST;
+24901      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: WORK.SCORE_VARHIST 을(를)WORK.SCORE_HIST(으)로 추가하는 중입니다.
+NOTE: 2개의 관측값을 데이터셋 WORK.SCORE_VARHIST.에서 읽었습니다.
+NOTE: 2개 관측값이 추가되었습니다.
+NOTE: 데이터셋 WORK.SCORE_HIST은(는) 6개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: 프로시저 APPEND 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.00 초
+      
+
+24902      proc stdize data=EMWS6.MdlComp_TEST(obs=1000000) outstat=work.Score_SUMDATA out=_null_ pctlpts=(0 5 25 50 75 95 100);
+MPRINT(EM_DIAGRAM):    proc stdize data=EMWS6.MdlComp_TEST(obs=1000000) outstat=work.Score_SUMDATA out=_null_ pctlpts=(0 5 25 50 75 95 100);
+24903      var
+24904      P_RESPOND1
+24905      P_RESPOND0
+24906      ;
+MPRINT(EM_DIAGRAM):   var P_RESPOND1 P_RESPOND0 ;
+24907      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 변수 _WARN_이(가) 초기화되지 않았습니다.
+WARNING: The scale estimator for variable P_RESPOND1 is less than or equal to 0. Variable P_RESPOND1 will not be standardized and a missing value is assigned to its scale estimator.
+WARNING: The scale estimator for variable P_RESPOND0 is less than or equal to 0. Variable P_RESPOND0 will not be standardized and a missing value is assigned to its scale estimator.
+NOTE: 3001개의 관측값을 데이터셋 EMWS6.PART_TEST.에서 읽었습니다.
+NOTE: View EMWS6.MDLCOMP_TEST.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.55 초
+      cpu 시간            0.23 초
+      
+NOTE: 3001개의 관측값을 데이터셋 EMWS6.TREE_TEST.에서 읽었습니다.
+NOTE: 3001개의 관측값을 데이터셋 EMWS6.MDLCOMP_TEST.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SCORE_SUMDATA은(는) 15개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: 프로시저 STDIZE 실행(총 프로세스 시간):
+      실행 시간           0.60 초
+      cpu 시간            0.26 초
+      
+
+MPRINT(EM_DIAGRAM):   quit;
+24908      quit;
+
+24909      proc transpose data=work.Score_SUMDATA out=work.Score_SUMDATA( rename=(_NAME_=VARIABLE _LABEL_=LABEL LOCATION=MEAN SCALE=STD P0=MIN P50=MEDIAN P100=MAX));
+MPRINT(EM_DIAGRAM):    proc transpose data=work.Score_SUMDATA out=work.Score_SUMDATA( rename=(_NAME_=VARIABLE _LABEL_=LABEL LOCATION=MEAN SCALE=STD P0=MIN P50=MEDIAN P100=MAX));
+24910      where _TYPE_ in('LOCATION' 'SCALE' 'N' 'P0' 'P25' 'P50' 'P75' 'P100');
+MPRINT(EM_DIAGRAM):   where _TYPE_ in('LOCATION' 'SCALE' 'N' 'P0' 'P25' 'P50' 'P75' 'P100');
+24911      id _type_;
+MPRINT(EM_DIAGRAM):   id _type_;
+24912      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 8개의 관측값을 데이터셋 WORK.SCORE_SUMDATA.에서 읽었습니다.
+      WHERE _TYPE_ in ('LOCATION', 'N', 'P0', 'P100', 'P25', 'P50', 'P75', 'SCALE');
+NOTE: 데이터셋 WORK.SCORE_SUMDATA은(는) 2개의 관측값과 10개의 변수를 가지고 있습니다.
+NOTE: 프로시저 TRANSPOSE 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+24913      data work.Score_SUMDATA;
+MPRINT(EM_DIAGRAM):   data work.Score_SUMDATA;
+24914      length DATAROLE $8 TYPE $14;
+MPRINT(EM_DIAGRAM):   length DATAROLE $8 TYPE $14;
+24915      retain DATAROLE "TEST" Type "";
+MPRINT(EM_DIAGRAM):   retain DATAROLE "TEST" Type "";
+24916      set work.Score_SUMDATA;
+MPRINT(EM_DIAGRAM):   set work.Score_SUMDATA;
+24917      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.SCORE_SUMDATA.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SCORE_SUMDATA은(는) 2개의 관측값과 12개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.00 초
+      
+
+24918      proc append base=WORK.ScoreSTAT data=work.Score_SUMDATA;
+MPRINT(EM_DIAGRAM):   proc append base=WORK.ScoreSTAT data=work.Score_SUMDATA;
+24919      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: WORK.SCORE_SUMDATA 을(를)WORK.SCORESTAT(으)로 추가하는 중입니다.
+NOTE: 2개의 관측값을 데이터셋 WORK.SCORE_SUMDATA.에서 읽었습니다.
+NOTE: 2개 관측값이 추가되었습니다.
+NOTE: 데이터셋 WORK.SCORESTAT은(는) 6개의 관측값과 12개의 변수를 가지고 있습니다.
+NOTE: 프로시저 APPEND 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+24920      data WORK.SCOREFREQMETA;
+MPRINT(EM_DIAGRAM):    data WORK.SCOREFREQMETA;
+24921      length NAME $32 ROLE $32 LEVEL $8;
+MPRINT(EM_DIAGRAM):   length NAME $32 ROLE $32 LEVEL $8;
+24922      NAME="I_RESPOND";
+MPRINT(EM_DIAGRAM):   NAME="I_RESPOND";
+24923      ROLE="INPUT";
+MPRINT(EM_DIAGRAM):   ROLE="INPUT";
+24924      LEVEL="NOMINAL";
+MPRINT(EM_DIAGRAM):   LEVEL="NOMINAL";
+24925      TYPE="C";
+MPRINT(EM_DIAGRAM):   TYPE="C";
+24926      output;
+MPRINT(EM_DIAGRAM):   output;
+24927      NAME="_NODE_";
+MPRINT(EM_DIAGRAM):   NAME="_NODE_";
+24928      ROLE="INPUT";
+MPRINT(EM_DIAGRAM):   ROLE="INPUT";
+24929      LEVEL="NOMINAL";
+MPRINT(EM_DIAGRAM):   LEVEL="NOMINAL";
+24930      TYPE="N";
+MPRINT(EM_DIAGRAM):   TYPE="N";
+24931      output;
+MPRINT(EM_DIAGRAM):   output;
+24932      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 데이터셋 WORK.SCOREFREQMETA은(는) 2개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+24933      data WORK.SCOREHISTMETA;
+MPRINT(EM_DIAGRAM):    data WORK.SCOREHISTMETA;
+24934      length NAME $32 ROLE $32 LEVEL $8;
+MPRINT(EM_DIAGRAM):   length NAME $32 ROLE $32 LEVEL $8;
+24935      NAME="P_RESPOND1";
+MPRINT(EM_DIAGRAM):   NAME="P_RESPOND1";
+24936      ROLE="INPUT";
+MPRINT(EM_DIAGRAM):   ROLE="INPUT";
+24937      LEVEL="INTERVAL";
+MPRINT(EM_DIAGRAM):   LEVEL="INTERVAL";
+24938      TYPE="N";
+MPRINT(EM_DIAGRAM):   TYPE="N";
+24939      output;
+MPRINT(EM_DIAGRAM):   output;
+24940      NAME="P_RESPOND0";
+MPRINT(EM_DIAGRAM):   NAME="P_RESPOND0";
+24941      ROLE="INPUT";
+MPRINT(EM_DIAGRAM):   ROLE="INPUT";
+24942      LEVEL="INTERVAL";
+MPRINT(EM_DIAGRAM):   LEVEL="INTERVAL";
+24943      TYPE="N";
+MPRINT(EM_DIAGRAM):   TYPE="N";
+24944      output;
+MPRINT(EM_DIAGRAM):   output;
+24945      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 데이터셋 WORK.SCOREHISTMETA은(는) 2개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+NOTE: View EMWS6.SCORE_SCORE.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.12 초
+      cpu 시간            0.12 초
+      
+24946      ods listing close;
+MPRINT(EM_DIAGRAM):    ods listing close;
+24947      ods output onewayfreqs=WORK.TEMPFREQ;
+MPRINT(EM_DIAGRAM):   ods output onewayfreqs=WORK.TEMPFREQ;
+24948      proc freq data = EMWS6.Score_SCORE order=formatted addnames;
+MPRINT(EM_DIAGRAM):   proc freq data = EMWS6.Score_SCORE order=formatted addnames;
+24949      table I_RESPOND / missing;
+MPRINT(EM_DIAGRAM):   table I_RESPOND / missing;
+24950      table _NODE_ / missing;
+MPRINT(EM_DIAGRAM):   table _NODE_ / missing;
+24951      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 변수 _WARN_이(가) 초기화되지 않았습니다.
+NOTE: 28735개의 관측값을 데이터셋 DM_LIB.BUYROLL.에서 읽었습니다.
+NOTE: View EMWS6.SCORE_SCORE.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.16 초
+      cpu 시간            0.15 초
+      
+NOTE: 28735개의 관측값을 데이터셋 EMWS6.IDS2_DATA.에서 읽었습니다.
+NOTE: 데이터셋 WORK.TEMPFREQ은(는) 2개의 관측값과 10개의 변수를 가지고 있습니다.
+NOTE: 28735개의 관측값을 데이터셋 EMWS6.SCORE_SCORE.에서 읽었습니다.
+NOTE: 프로시저 FREQ 실행(총 프로세스 시간):
+      실행 시간           0.21 초
+      cpu 시간            0.20 초
+      
+
+MPRINT(EM_DIAGRAM):   quit;
+24952      quit;
+24953      ods listing;
+MPRINT(EM_DIAGRAM):   ods listing;
+24954      data WORK.Score_BAR(keep=_VARIABLE_ TYPE COUNT PERCENT _X_ _XLABEL_);
+MPRINT(EM_DIAGRAM):    data WORK.Score_BAR(keep=_VARIABLE_ TYPE COUNT PERCENT _X_ _XLABEL_);
+24955      label _VARIABLE_ = "%sysfunc(sasmsg(sashelp.dmine, rpt_variable_vlabel, NOQUOTE))" Type = "%sysfunc(sasmsg(sashelp.dmine, rpt_type_vlabel,         NOQUOTE))" _X_ = "%sysfunc(sasmsg(sashelp.dmine, rpt_numValue_vlabel, NOQUOTE))" _XLABEL_ =
+24956         "%sysfunc(sasmsg(sashelp.dmine, rpt_fmtValue_vlabel ,    NOQUOTE))" COUNT = "%sysfunc(sasmsg(sashelp.dmine, rpt_count_vlabel,        NOQUOTE))" PERCENT = "%sysfunc(sasmsg(sashelp.dmine, rpt_percent_vlabel,      NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label _VARIABLE_ = "변수" Type = "유형" _X_ = "숫자값" _XLABEL_ = "출력형식 값" COUNT = "빈도 개수" PERCENT = "백분율";
+24957      dsid = open("WORK.TEMPFREQ");
+MPRINT(EM_DIAGRAM):   dsid = open("WORK.TEMPFREQ");
+24958      varnum = varnum(dsid, 'VARIABLE');
+MPRINT(EM_DIAGRAM):   varnum = varnum(dsid, 'VARIABLE');
+24959      freqnum = varnum(dsid, 'FREQUENCY');
+MPRINT(EM_DIAGRAM):   freqnum = varnum(dsid, 'FREQUENCY');
+24960      pvarnum = varnum(dsid, 'PERCENT');
+MPRINT(EM_DIAGRAM):   pvarnum = varnum(dsid, 'PERCENT');
+24961      typenum = varnum(dsid, '_TYPE_');
+MPRINT(EM_DIAGRAM):   typenum = varnum(dsid, '_TYPE_');
+24962      length _VARIABLE_ $32 TYPE $1 _XLABEL_ $32;
+MPRINT(EM_DIAGRAM):   length _VARIABLE_ $32 TYPE $1 _XLABEL_ $32;
+24963      do while(^fetch(dsid));
+MPRINT(EM_DIAGRAM):   do while(^fetch(dsid));
+24964      _VARIABLE_ = strip(getvarc(dsid, varnum));
+MPRINT(EM_DIAGRAM):   _VARIABLE_ = strip(getvarc(dsid, varnum));
+24965      count = getvarn(dsid, freqnum);
+MPRINT(EM_DIAGRAM):   count = getvarn(dsid, freqnum);
+24966      percent= getvarn(dsid, pvarnum);
+MPRINT(EM_DIAGRAM):   percent= getvarn(dsid, pvarnum);
+24967      vvarnum = varnum(dsid, _VARIABLE_);
+MPRINT(EM_DIAGRAM):   vvarnum = varnum(dsid, _VARIABLE_);
+24968      type = vartype(dsid, vvarnum);
+MPRINT(EM_DIAGRAM):   type = vartype(dsid, vvarnum);
+24969      fvarnum = varnum(dsid, 'F_'!!substr(_VARIABLE_, 1, 30));
+MPRINT(EM_DIAGRAM):   fvarnum = varnum(dsid, 'F_'!!substr(_VARIABLE_, 1, 30));
+24970      _XLABEL_ = left(getvarc(dsid, fvarnum));
+MPRINT(EM_DIAGRAM):   _XLABEL_ = left(getvarc(dsid, fvarnum));
+24971      _X_ = .;
+MPRINT(EM_DIAGRAM):   _X_ = .;
+24972      if TYPE eq 'N' then _X_ = getvarn(dsid, vvarnum);
+MPRINT(EM_DIAGRAM):   if TYPE eq 'N' then _X_ = getvarn(dsid, vvarnum);
+24973      output;
+MPRINT(EM_DIAGRAM):   output;
+24974      end;
+MPRINT(EM_DIAGRAM):   end;
+24975      dsid = close(dsid);
+MPRINT(EM_DIAGRAM):   dsid = close(dsid);
+24976      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 데이터셋 WORK.SCORE_BAR은(는) 2개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.05 초
+      cpu 시간            0.06 초
+      
+
+24977      proc sort data=WORK.Score_BAR NOTHREADS;
+MPRINT(EM_DIAGRAM):   proc sort data=WORK.Score_BAR NOTHREADS;
+24978      by _VARIABLE_;
+MPRINT(EM_DIAGRAM):   by _VARIABLE_;
+24979      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.SCORE_BAR.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SCORE_BAR은(는) 2개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+24980      proc sort data=WORK.M03MAXA0;
+MPRINT(EM_DIAGRAM):   proc sort data=WORK.M03MAXA0;
+24981      by Name;
+MPRINT(EM_DIAGRAM):   by Name;
+24982      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.M03MAXA0.에서 읽었습니다.
+NOTE: 데이터셋 WORK.M03MAXA0은(는) 2개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+24983      data WORK.Score_BAR;
+MPRINT(EM_DIAGRAM):   data WORK.Score_BAR;
+24984      merge WORK.Score_BAR(in=_a) WORK.M03MAXA0(keep=Name Role rename=(Name=_Variable_));
+MPRINT(EM_DIAGRAM):   merge WORK.Score_BAR(in=_a) WORK.M03MAXA0(keep=Name Role rename=(Name=_Variable_));
+24985      by _Variable_;
+MPRINT(EM_DIAGRAM):   by _Variable_;
+24986      label Role = "%sysfunc(sasmsg(sashelp.dmine, meta_role_vlabel ,  NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label Role = "역할";
+24987      if _a then output;
+MPRINT(EM_DIAGRAM):   if _a then output;
+24988      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.SCORE_BAR.에서 읽었습니다.
+NOTE: 2개의 관측값을 데이터셋 WORK.M03MAXA0.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SCORE_BAR은(는) 2개의 관측값과 7개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+24989      data WORK.Score_BAR;
+MPRINT(EM_DIAGRAM):    data WORK.Score_BAR;
+24990      length DATAROLE $8 TYPE $14;
+MPRINT(EM_DIAGRAM):   length DATAROLE $8 TYPE $14;
+24991      retain DATAROLE "SCORE";
+MPRINT(EM_DIAGRAM):   retain DATAROLE "SCORE";
+24992      set WORK.Score_BAR;
+MPRINT(EM_DIAGRAM):   set WORK.Score_BAR;
+24993      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.SCORE_BAR.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SCORE_BAR은(는) 2개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+24994      proc append base=EMWS6.Score_BAR data=WORK.Score_BAR;
+MPRINT(EM_DIAGRAM):   proc append base=EMWS6.Score_BAR data=WORK.Score_BAR;
+24995      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: WORK.SCORE_BAR 을(를)EMWS6.SCORE_BAR(으)로 추가하는 중입니다.
+NOTE: 2개의 관측값을 데이터셋 WORK.SCORE_BAR.에서 읽었습니다.
+NOTE: 2개 관측값이 추가되었습니다.
+NOTE: 데이터셋 EMWS6.SCORE_BAR은(는) 8개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: 프로시저 APPEND 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+24996      %var_profile(DATA=EMWS6.Score_SCORE, OUTPUT=work.Score_VARHIST, METADATA=WORK.SCOREHISTMETA, COMPUTESTAT=N, BINDATA=_bindata, STAT=_STAT, PCTLSTAT=work.Score_SUMDATA, FREQ=, BIN=Y, NUMBARS= 16);
+MPRINT(EM_DIAGRAM):   
+*------------------------------------------------------------*
+* Score: 요약 통계량 계산
+*------------------------------------------------------------*
+MPRINT(VAR_PROFILE):   filename _mac catalog 'WORK.MACROS.VARIABLES.SOURCE';
+MPRINT(VAR_PROFILE):   data _null;
+MPRINT(VAR_PROFILE):   set WORK.SCOREHISTMETA(where=(LEVEL = 'INTERVAL' and ROLE ne 'FREQ')) end=eof;
+MPRINT(VAR_PROFILE):   if eof then call symput('_nobs', put(_N_, best.));
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.SCOREHISTMETA.에서 읽었습니다.
+      WHERE (LEVEL='INTERVAL') and (ROLE not = 'FREQ');
+NOTE: 데이터셋 WORK._NULL은(는) 2개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(VAR_PROFILE):   data _null_;
+MPRINT(VAR_PROFILE):   file _mac;
+MPRINT(VAR_PROFILE):   length _VARS $80;
+MPRINT(VAR_PROFILE):   retain _vars;
+MPRINT(VAR_PROFILE):   if _n_ =1 then put '%macro _vars;';
+MPRINT(VAR_PROFILE):   set WORK.SCOREHISTMETA end=eof;
+MPRINT(VAR_PROFILE):   where LEVEL = 'INTERVAL' or ROLE='FREQ';
+MPRINT(VAR_PROFILE):   if ROLE='FREQ' then call symput('FREQ', trim(NAME));
+MPRINT(VAR_PROFILE):   else do;
+MPRINT(VAR_PROFILE):   if length(strip(_vars)) + length(strip(NAME)) + 1 <80 then _vars = strip(_vars)!! ' ' !!strip(NAME);
+MPRINT(VAR_PROFILE):   else do;
+MPRINT(VAR_PROFILE):   put _Vars;
+MPRINT(VAR_PROFILE):   _vars = strip(NAME);
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   if eof then do;
+MPRINT(VAR_PROFILE):   put _Vars;
+MPRINT(VAR_PROFILE):   put '%mend _vars;';
+MPRINT(VAR_PROFILE):   end;
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: 파일 _MAC:
+      Catalog Name=WORK.MACROS.VARIABLES.SOURCE,
+      카탈로그 페이지 크기=4096,
+      카탈로그 페이지 번호=5,
+      생성일=2018년 11월 20일 화 오전 10시 10분 05초,
+      마지막 수정일=2018년 11월 20일 화 오전 10시 10분 09초,
+      파일 이름=C:\Users\ADMINI~1\AppData\Local\Temp\SAS Temporary Files\_TD12596_DESKTOP-IOK0OJ9_\Prc2\macros.sas7bcat,
+      생성된 릴리즈=9.0401M4,
+      생성된 호스트=X64_10HOME,
+      소유자 이름=BUILTIN\Administrators,
+      파일 크기=            21KB,
+      파일 크기 (바이트)=21504
+
+NOTE: 3개의 레코드를 파일 _MAC에 기록했습니다.
+      최소 레코드 길이는 12입니다.
+      최대 레코드 길이는 21입니다.
+NOTE: 2개의 관측값을 데이터셋 WORK.SCOREHISTMETA.에서 읽었습니다.
+      WHERE (LEVEL='INTERVAL') or (ROLE='FREQ');
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+NOTE: %INCLUDE(레벨 1) 파일 _MAC은(는) 파일 WORK.MACROS.VARIABLES.SOURCE입니다.
+24997     +%macro _vars;
+24998     +P_RESPOND1 P_RESPOND0
+24999     +%mend _vars;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(VAR_PROFILE):   filename _mac;
+NOTE: Fileref _MAC을(를) 삭제했습니다.
+MPRINT(VAR_PROFILE):   data _binneddata / view=_binneddata;
+MPRINT(VAR_PROFILE):   set EMWS6.Score_SCORE(obs=1000000);
+MPRINT(VAR_PROFILE):   format P_RESPOND0 F1_. P_RESPOND1 F2_. ;
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: DATA STEP 뷰가 파일 WORK._BINNEDDATA에 저장되었습니다.
+NOTE: 저장된 DATA STEP 뷰는 다른 운영 체제에서 실행할 수 없습니다.
+NOTE: View EMWS6.SCORE_SCORE.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.10 초
+      cpu 시간            0.11 초
+      
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.13 초
+      cpu 시간            0.14 초
+      
+
+MPRINT(VAR_PROFILE):   proc dmdb data=_binneddata(obs=1000000) classout=_temptab(rename=(NAME=VARIABLE FREQUENCY=COUNT FREQPERCENT=PERCENT));
+MPRINT(VAR_PROFILE):   class
+MPRINT(_VARS):   P_RESPOND1 P_RESPOND0
+MPRINT(VAR_PROFILE):   ;
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: 변수 _WARN_이(가) 초기화되지 않았습니다.
+NOTE: Records processed = 28735   Memory used = 511K.
+NOTE: 28735개의 관측값을 데이터셋 DM_LIB.BUYROLL.에서 읽었습니다.
+NOTE: 28735개의 관측값을 데이터셋 EMWS6.IDS2_DATA.에서 읽었습니다.
+NOTE: View WORK._BINNEDDATA.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.21 초
+      cpu 시간            0.20 초
+      
+NOTE: 28735개의 관측값을 데이터셋 EMWS6.SCORE_SCORE.에서 읽었습니다.
+NOTE: 28735개의 관측값을 데이터셋 WORK._BINNEDDATA.에서 읽었습니다.
+NOTE: 데이터셋 WORK._TEMPTAB은(는) 2개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: 프로시저 DMDB 실행(총 프로세스 시간):
+      실행 시간           0.24 초
+      cpu 시간            0.23 초
+      
+
+MPRINT(VAR_PROFILE):   data work.Score_VARHIST;
+MPRINT(VAR_PROFILE):   label VALUE = "값";
+MPRINT(VAR_PROFILE):   label VARIABLE = "변수";
+MPRINT(VAR_PROFILE):   label COUNT = "빈도 개수";
+MPRINT(VAR_PROFILE):   label PERCENT = "백분율";
+MPRINT(VAR_PROFILE):   set _temptab;
+MPRINT(VAR_PROFILE):   format VALUE 12.3 count;
+MPRINT(VAR_PROFILE):   value = inputn(level, 'best12.');
+MPRINT(VAR_PROFILE):   keep VARIABLE COUNT PERCENT VALUE;
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK._TEMPTAB.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SCORE_VARHIST은(는) 2개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(VAR_PROFILE):   proc datasets lib=work nolist mt=(DATA VIEW);
+MPRINT(VAR_PROFILE):   delete _TEMPTAB _BINNEDDATA _MINMAXDATA;
+MPRINT(VAR_PROFILE):   run;
+
+NOTE: 파일 WORK._MINMAXDATA(memtype=(DATA VIEW))을(를) 찾을 수 없지만, DELETE 문장에 나타납니다.
+NOTE: WORK._TEMPTAB(memtype=DATA)을(를) 삭제하는 중입니다.
+NOTE: WORK._BINNEDDATA(memtype=VIEW)을(를) 삭제하는 중입니다.
+MPRINT(VAR_PROFILE):   quit;
+
+NOTE: 프로시저 DATASETS 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(EM_DIAGRAM):  ;
+
+25000      data work.Score_VARHIST;
+MPRINT(EM_DIAGRAM):    data work.Score_VARHIST;
+25001      length DATAROLE $8 TYPE $14;
+MPRINT(EM_DIAGRAM):   length DATAROLE $8 TYPE $14;
+25002      retain DATAROLE "SCORE" TYPE "";
+MPRINT(EM_DIAGRAM):   retain DATAROLE "SCORE" TYPE "";
+25003      set work.Score_VARHIST(rename=(VALUE=X));
+MPRINT(EM_DIAGRAM):   set work.Score_VARHIST(rename=(VALUE=X));
+25004      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.SCORE_VARHIST.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SCORE_VARHIST은(는) 2개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+25005      proc append base=work.Score_HIST data=work.Score_VARHIST;
+MPRINT(EM_DIAGRAM):   proc append base=work.Score_HIST data=work.Score_VARHIST;
+25006      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: WORK.SCORE_VARHIST 을(를)WORK.SCORE_HIST(으)로 추가하는 중입니다.
+NOTE: 2개의 관측값을 데이터셋 WORK.SCORE_VARHIST.에서 읽었습니다.
+NOTE: 2개 관측값이 추가되었습니다.
+NOTE: 데이터셋 WORK.SCORE_HIST은(는) 8개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: 프로시저 APPEND 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+25007      proc stdize data=EMWS6.Score_SCORE(obs=1000000) outstat=work.Score_SUMDATA out=_null_ pctlpts=(0 5 25 50 75 95 100);
+MPRINT(EM_DIAGRAM):    proc stdize data=EMWS6.Score_SCORE(obs=1000000) outstat=work.Score_SUMDATA out=_null_ pctlpts=(0 5 25 50 75 95 100);
+25008      var
+25009      P_RESPOND1
+25010      P_RESPOND0
+25011      ;
+MPRINT(EM_DIAGRAM):   var P_RESPOND1 P_RESPOND0 ;
+25012      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 변수 _WARN_이(가) 초기화되지 않았습니다.
+WARNING: The scale estimator for variable P_RESPOND1 is less than or equal to 0. Variable P_RESPOND1 will not be standardized and a missing value is assigned to its scale estimator.
+WARNING: The scale estimator for variable P_RESPOND0 is less than or equal to 0. Variable P_RESPOND0 will not be standardized and a missing value is assigned to its scale estimator.
+NOTE: 28735개의 관측값을 데이터셋 DM_LIB.BUYROLL.에서 읽었습니다.
+NOTE: View EMWS6.SCORE_SCORE.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.57 초
+      cpu 시간            0.28 초
+      
+NOTE: 28735개의 관측값을 데이터셋 EMWS6.IDS2_DATA.에서 읽었습니다.
+NOTE: 28735개의 관측값을 데이터셋 EMWS6.SCORE_SCORE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SCORE_SUMDATA은(는) 15개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: 프로시저 STDIZE 실행(총 프로세스 시간):
+      실행 시간           0.61 초
+      cpu 시간            0.34 초
+      
+
+MPRINT(EM_DIAGRAM):   quit;
+25013      quit;
+
+25014      proc transpose data=work.Score_SUMDATA out=work.Score_SUMDATA( rename=(_NAME_=VARIABLE _LABEL_=LABEL LOCATION=MEAN SCALE=STD P0=MIN P50=MEDIAN P100=MAX));
+MPRINT(EM_DIAGRAM):    proc transpose data=work.Score_SUMDATA out=work.Score_SUMDATA( rename=(_NAME_=VARIABLE _LABEL_=LABEL LOCATION=MEAN SCALE=STD P0=MIN P50=MEDIAN P100=MAX));
+25015      where _TYPE_ in('LOCATION' 'SCALE' 'N' 'P0' 'P25' 'P50' 'P75' 'P100');
+MPRINT(EM_DIAGRAM):   where _TYPE_ in('LOCATION' 'SCALE' 'N' 'P0' 'P25' 'P50' 'P75' 'P100');
+25016      id _type_;
+MPRINT(EM_DIAGRAM):   id _type_;
+25017      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 8개의 관측값을 데이터셋 WORK.SCORE_SUMDATA.에서 읽었습니다.
+      WHERE _TYPE_ in ('LOCATION', 'N', 'P0', 'P100', 'P25', 'P50', 'P75', 'SCALE');
+NOTE: 데이터셋 WORK.SCORE_SUMDATA은(는) 2개의 관측값과 10개의 변수를 가지고 있습니다.
+NOTE: 프로시저 TRANSPOSE 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+25018      data work.Score_SUMDATA;
+MPRINT(EM_DIAGRAM):   data work.Score_SUMDATA;
+25019      length DATAROLE $8 TYPE $14;
+MPRINT(EM_DIAGRAM):   length DATAROLE $8 TYPE $14;
+25020      retain DATAROLE "SCORE" Type "";
+MPRINT(EM_DIAGRAM):   retain DATAROLE "SCORE" Type "";
+25021      set work.Score_SUMDATA;
+MPRINT(EM_DIAGRAM):   set work.Score_SUMDATA;
+25022      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.SCORE_SUMDATA.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SCORE_SUMDATA은(는) 2개의 관측값과 12개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+25023      proc append base=WORK.ScoreSTAT data=work.Score_SUMDATA;
+MPRINT(EM_DIAGRAM):   proc append base=WORK.ScoreSTAT data=work.Score_SUMDATA;
+25024      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: WORK.SCORE_SUMDATA 을(를)WORK.SCORESTAT(으)로 추가하는 중입니다.
+NOTE: 2개의 관측값을 데이터셋 WORK.SCORE_SUMDATA.에서 읽었습니다.
+NOTE: 2개 관측값이 추가되었습니다.
+NOTE: 데이터셋 WORK.SCORESTAT은(는) 8개의 관측값과 12개의 변수를 가지고 있습니다.
+NOTE: 프로시저 APPEND 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+25025      data EMWS6.Score_BAR(DROP=ROLE rename = (_VARIABLE_=VARIABLE _XLABEL_=X));
+MPRINT(EM_DIAGRAM):    data EMWS6.Score_BAR(DROP=ROLE rename = (_VARIABLE_=VARIABLE _XLABEL_=X));
+25026      set EMWS6.Score_BAR;
+MPRINT(EM_DIAGRAM):   set EMWS6.Score_BAR;
+25027      label VARIABLE= "%sysfunc(sasmsg(sashelp.dmine, meta_name_vlabel,  NOQUOTE))" DATAROLE= "%sysfunc(sasmsg(sashelp.dmine, rpt_datarole_vlabel,  NOQUOTE))" TYPE = "%sysfunc(sasmsg(sashelp.dmine, rpt_outputType_vlabel,  NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label VARIABLE= "변수 이름" DATAROLE= "데이터 역할" TYPE = "출력 유형";
+25028      select(_VARIABLE_);
+MPRINT(EM_DIAGRAM):   select(_VARIABLE_);
+25029      when("I_RESPOND") TYPE = 'CLASSIFICATION';
+MPRINT(EM_DIAGRAM):   when("I_RESPOND") TYPE = 'CLASSIFICATION';
+25030      when("_NODE_") TYPE = 'SEGMENT';
+MPRINT(EM_DIAGRAM):   when("_NODE_") TYPE = 'SEGMENT';
+25031      otherwise;
+MPRINT(EM_DIAGRAM):   otherwise;
+25032      end;
+MPRINT(EM_DIAGRAM):   end;
+25033      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 변수 VARIABLE이(가) 초기화되지 않았습니다.
+NOTE: 8개의 관측값을 데이터셋 EMWS6.SCORE_BAR.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.SCORE_BAR은(는) 8개의 관측값과 7개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+25034      proc sort data = EMWS6.Score_BAR NOTHREADS;
+MPRINT(EM_DIAGRAM):   proc sort data = EMWS6.Score_BAR NOTHREADS;
+25035      by DATAROLE TYPE;
+MPRINT(EM_DIAGRAM):   by DATAROLE TYPE;
+25036      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 8개의 관측값을 데이터셋 EMWS6.SCORE_BAR.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.SCORE_BAR은(는) 8개의 관측값과 7개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+25037      %let _cn = %sysfunc(getoption(CENTER));
+25038      %let _nb = %sysfunc(getoption(NUMBER));
+25039      options nonumber nocenter;
+MPRINT(EM_DIAGRAM):   options nonumber nocenter;
+25040      title;
+MPRINT(EM_DIAGRAM):   title;
+25041      proc print data = EMWS6.Score_BAR noobs label;
+MPRINT(EM_DIAGRAM):   proc print data = EMWS6.Score_BAR noobs label;
+25042      by DATAROLE TYPE;
+MPRINT(EM_DIAGRAM):   by DATAROLE TYPE;
+25043      title9 ' ';
+MPRINT(EM_DIAGRAM):   title9 ' ';
+25044      title10 "%sysfunc(sasmsg(sashelp.dmine, rpt_classStats_title, NOQUOTE))";
+MPRINT(EM_DIAGRAM):   title10 "클래스 변수 요약 통계량";
+MPRINT(EM_DIAGRAM):   run;
+25045      run;
+
+NOTE: 8개의 관측값을 데이터셋 EMWS6.SCORE_BAR.에서 읽었습니다.
+NOTE: 출력 결과 (프로시저: PRINT, 페이지: 4)
+NOTE: 프로시저 PRINT 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+25046      title10;
+MPRINT(EM_DIAGRAM):   title10;
+25047      options &_cn &_nb;
+MPRINT(EM_DIAGRAM):   options NOCENTER NONUMBER;
+25048      data EMWS6.Score_HIST;
+MPRINT(EM_DIAGRAM):    data EMWS6.Score_HIST;
+25049      set work.Score_HIST(rename=(Percent=Value));
+MPRINT(EM_DIAGRAM):   set work.Score_HIST(rename=(Percent=Value));
+25050      label VARIABLE= "%sysfunc(sasmsg(sashelp.dmine, meta_name_vlabel,      NOQUOTE))" DATAROLE= "%sysfunc(sasmsg(sashelp.dmine, rpt_datarole_vlabel,   NOQUOTE))" TYPE = "%sysfunc(sasmsg(sashelp.dmine, rpt_outputType_vlabel, NOQUOTE))" X =
+25051         "%sysfunc(sasmsg(sashelp.dmine, rpt_numValue_vlabel,   NOQUOTE))" COUNT = "%sysfunc(sasmsg(sashelp.dmine, rpt_count_vlabel,      NOQUOTE))" Value = "%sysfunc(sasmsg(sashelp.dmine, rpt_percent_vlabel,    NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label VARIABLE= "변수 이름" DATAROLE= "데이터 역할" TYPE = "출력 유형" X = "숫자값" COUNT = "빈도 개수" Value = "백분율";
+25052      select(VARIABLE);
+MPRINT(EM_DIAGRAM):   select(VARIABLE);
+25053      when("P_RESPOND1") TYPE = 'PROBABILITY';
+MPRINT(EM_DIAGRAM):   when("P_RESPOND1") TYPE = 'PROBABILITY';
+25054      when("P_RESPOND0") TYPE = 'PROBABILITY';
+MPRINT(EM_DIAGRAM):   when("P_RESPOND0") TYPE = 'PROBABILITY';
+25055      when("_NODE_") TYPE= 'SEGMENT';
+MPRINT(EM_DIAGRAM):   when("_NODE_") TYPE= 'SEGMENT';
+25056      otherwise;
+MPRINT(EM_DIAGRAM):   otherwise;
+25057      end;
+MPRINT(EM_DIAGRAM):   end;
+25058      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 8개의 관측값을 데이터셋 WORK.SCORE_HIST.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.SCORE_HIST은(는) 8개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.04 초
+      
+
+25059      data WORK.ScoreSTAT;
+MPRINT(EM_DIAGRAM):    data WORK.ScoreSTAT;
+25060      set WORK.ScoreSTAT;
+MPRINT(EM_DIAGRAM):   set WORK.ScoreSTAT;
+25061      label VARIABLE= "%sysfunc(sasmsg(sashelp.dmine, meta_name_vlabel,  NOQUOTE))" LABEL = "%sysfunc(sasmsg(sashelp.dmine, meta_label_vlabel,  NOQUOTE))" MEAN = "%sysfunc(sasmsg(sashelp.dmine, rpt_mean_vlabel,  NOQUOTE))" N =
+25062         "%sysfunc(sasmsg(sashelp.dmine, rpt_nonmiss_vlabel,  NOQUOTE))" STD = "%sysfunc(sasmsg(sashelp.dmine, rpt_std_vlabel,  NOQUOTE))" MIN = "%sysfunc(sasmsg(sashelp.dmine, rpt_minimum_vlabel,  NOQUOTE))" MAX =
+25063         "%sysfunc(sasmsg(sashelp.dmine, rpt_maximum_vlabel,  NOQUOTE))" MEDIAN = "%sysfunc(sasmsg(sashelp.dmine, rpt_median_vlabel,  NOQUOTE))" P25 = "%sysfunc(sasmsg(sashelp.dmine, rpt_p25_vlabel,  NOQUOTE))" P75 =
+25064         "%sysfunc(sasmsg(sashelp.dmine, rpt_p75_vlabel,  NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label VARIABLE= "변수 이름" LABEL = "레이블" MEAN = "평균" N = "비결측" STD = "표준편차" MIN = "최소" MAX = "최대" MEDIAN = "중위수" P25 = "25번째 분위수" P75 = "75번째 분위수";
+25065      select(VARIABLE);
+MPRINT(EM_DIAGRAM):   select(VARIABLE);
+25066      when("P_RESPOND1") TYPE = 'PROBABILITY';
+MPRINT(EM_DIAGRAM):   when("P_RESPOND1") TYPE = 'PROBABILITY';
+25067      when("P_RESPOND0") TYPE = 'PROBABILITY';
+MPRINT(EM_DIAGRAM):   when("P_RESPOND0") TYPE = 'PROBABILITY';
+25068      when("_NODE_") TYPE= 'SEGMENT';
+MPRINT(EM_DIAGRAM):   when("_NODE_") TYPE= 'SEGMENT';
+25069      otherwise;
+MPRINT(EM_DIAGRAM):   otherwise;
+25070      end;
+MPRINT(EM_DIAGRAM):   end;
+25071      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 8개의 관측값을 데이터셋 WORK.SCORESTAT.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SCORESTAT은(는) 8개의 관측값과 12개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.06 초
+      cpu 시간            0.07 초
+      
+
+25072      proc sort data = WORK.ScoreSTAT NOTHREADS;
+MPRINT(EM_DIAGRAM):   proc sort data = WORK.ScoreSTAT NOTHREADS;
+25073      by VARIABLE;
+MPRINT(EM_DIAGRAM):   by VARIABLE;
+25074      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 8개의 관측값을 데이터셋 WORK.SCORESTAT.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SCORESTAT은(는) 8개의 관측값과 12개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+25075      proc transpose data = WORK.ScoreSTAT out=WORK.ScoreSTAT(rename=(_NAME_=STATISTICS _LABEL_=LABEL));
+MPRINT(EM_DIAGRAM):   proc transpose data = WORK.ScoreSTAT out=WORK.ScoreSTAT(rename=(_NAME_=STATISTICS _LABEL_=LABEL));
+25076      by VARIABLE;
+MPRINT(EM_DIAGRAM):   by VARIABLE;
+25077      id DATAROLE;
+MPRINT(EM_DIAGRAM):   id DATAROLE;
+25078      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 8개의 관측값을 데이터셋 WORK.SCORESTAT.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SCORESTAT은(는) 16개의 관측값과 7개의 변수를 가지고 있습니다.
+NOTE: 프로시저 TRANSPOSE 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+25079      proc datasets library=WORK nolist;
+MPRINT(EM_DIAGRAM):   proc datasets library=WORK nolist;
+25080      modify ScoreSTAT;
+MPRINT(EM_DIAGRAM):   modify ScoreSTAT;
+25081      label STATISTICS = "%sysfunc(sasmsg(sashelp.dmine, rpt_statistics_vlabel,  NOQUOTE))" VARIABLE= "%sysfunc(sasmsg(sashelp.dmine, meta_name_vlabel,  NOQUOTE))" LABEL = "%sysfunc(sasmsg(sashelp.dmine, meta_label_vlabel,  NOQUOTE))" TYPE =
+MPRINT(EM_DIAGRAM):   label STATISTICS = "통계량" VARIABLE= "변수 이름" LABEL = "레이블" TYPE = "출력 유형";
+WARNING: 변수 TYPE을(를) 데이터셋 WORK.SCORESTAT에서 찾을 수 없습니다.
+25082         "%sysfunc(sasmsg(sashelp.dmine, rpt_outputType_vlabel,  NOQUOTE))";
+MPRINT(EM_DIAGRAM):   run;
+25083      run;
+
+NOTE: WORK.SCORESTAT.DATA에 대한 MODIFY에 성공했습니다.
+25084      %let _cn = %sysfunc(getoption(CENTER));
+25085      %let _nb = %sysfunc(getoption(NUMBER));
+25086      options nonumber nocenter;
+MPRINT(EM_DIAGRAM):   options nonumber nocenter;
+25087      title;
+MPRINT(EM_DIAGRAM):   title;
+
+NOTE: 프로시저 DATASETS 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.04 초
+      
+
+25088      proc print data = WORK.ScoreSTAT label noobs;
+MPRINT(EM_DIAGRAM):   proc print data = WORK.ScoreSTAT label noobs;
+25089      by VARIABLE;
+MPRINT(EM_DIAGRAM):   by VARIABLE;
+25090      title9 ' ';
+MPRINT(EM_DIAGRAM):   title9 ' ';
+25091      title10 "%sysfunc(sasmsg(sashelp.dmine, rpt_intervalStats_title, NOQUOTE))";
+MPRINT(EM_DIAGRAM):   title10 "구간 변수 요약 통계량";
+MPRINT(EM_DIAGRAM):   run;
+25092      run;
+
+NOTE: 16개의 관측값을 데이터셋 WORK.SCORESTAT.에서 읽었습니다.
+NOTE: 출력 결과 (프로시저: PRINT, 페이지: 5)
+NOTE: 프로시저 PRINT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.03 초
+      
+
+25093      title10;
+MPRINT(EM_DIAGRAM):   title10;
+25094      options &_cn &_nb;
+MPRINT(EM_DIAGRAM):   options NOCENTER NONUMBER;
+MPRINT(EM_DIAGRAM):    proc printto;
+MPRINT(EM_DIAGRAM):   run;

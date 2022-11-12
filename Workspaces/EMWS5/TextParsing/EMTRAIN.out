@@ -1,0 +1,48 @@
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+변수 요약
+
+        측도 레    빈도
+역할      벨       개수
+
+TEXT    NOMINAL      1 
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+
+The HPTMINE Procedure
+
+      Performance Information
+
+Execution Mode       Single-Machine
+Number of Threads    4             
+
+
+                  Data Access Information
+ 
+Data                          Engine    Role      Path
+
+EMWS5.TEXTPARSING_TRAIN       V9        Input     On Client
+EMWS5.TEXTPARSING_TMOUTPOS    V9        Output    On Client
+EMWS5.TEXTPARSING_TMOUT       V9        Output    On Client
+EMWS5.TEXTPARSING_TERMS       V9        Output    On Client
+EMWS5.TEXTPARSING_TMCONFIG    V9        Output    On Client
+
+
+                 Procedure Task Timing
+ 
+Task                                Seconds      Percent
+
+ Parse documents                       7.50      93.17% 
+ Index documents                       0.37       4.62% 
+ Output raw parsing results            0.01       0.15% 
+ Analyze terms                         0.03       0.43% 
+ Obtain term frequency                 0.06       0.76% 
+ Filter terms                          0.03       0.37% 
+ Generate term-document matrix         0.03       0.32% 
+ Output OUTCHILD table                 0.00       0.06% 
+ Output OUTTERMS table                 0.01       0.07% 
+ Output OUTCONFIG table                0.00       0.04% 

@@ -1,0 +1,760 @@
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 20일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "10시00분18초" );
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 리포트 로그";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+*------------------------------------------------------------*
+* 리포트 로그
+날짜:                2018년 11월 20일
+시간:                10시00분18초
+*------------------------------------------------------------*
+MPRINT(EM_DIAGRAM):    filename O17EBB90 "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Part\EMREPORT.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   proc printto print=O17EBB90 new;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    data WORK.M0500DXS;
+MPRINT(EM_DIAGRAM):   set WORK.M0500DXS;
+MPRINT(EM_DIAGRAM):   where(ROLE = "TARGET" or ROLE = "FREQ");
+MPRINT(EM_DIAGRAM):   run;
+28674      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+28675      * Part: Class 타겟 변수에 대한 통계량 계산;
+MPRINT(EM_DIAGRAM):   * Part: Class 타겟 변수에 대한 통계량 계산;
+28676      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+28677      ods listing close;
+MPRINT(EM_DIAGRAM):   ods listing close;
+28678      ods output onewayfreqs=WORK.TEMPFREQ;
+MPRINT(EM_DIAGRAM):   ods output onewayfreqs=WORK.TEMPFREQ;
+28679      proc freq data = EMWS6.Ids_DATA order=formatted addnames;
+MPRINT(EM_DIAGRAM):   proc freq data = EMWS6.Ids_DATA order=formatted addnames;
+28680      table RESPOND / missing;
+MPRINT(EM_DIAGRAM):   table RESPOND / missing;
+28681      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: View EMWS6.IDS_DATA.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.27 초
+      cpu 시간            0.10 초
+      
+NOTE: 10000개의 관측값을 데이터셋 DM_LIB.BUYTEST.에서 읽었습니다.
+NOTE: 데이터셋 WORK.TEMPFREQ은(는) 2개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: 10000개의 관측값을 데이터셋 EMWS6.IDS_DATA.에서 읽었습니다.
+NOTE: 프로시저 FREQ 실행(총 프로세스 시간):
+      실행 시간           0.31 초
+      cpu 시간            0.12 초
+      
+
+MPRINT(EM_DIAGRAM):   quit;
+28682      quit;
+28683      ods listing;
+MPRINT(EM_DIAGRAM):   ods listing;
+28684      data WORK.Part_BAR(keep=_VARIABLE_ TYPE COUNT PERCENT _X_ _XLABEL_);
+MPRINT(EM_DIAGRAM):    data WORK.Part_BAR(keep=_VARIABLE_ TYPE COUNT PERCENT _X_ _XLABEL_);
+28685      label _VARIABLE_ = "%sysfunc(sasmsg(sashelp.dmine, rpt_variable_vlabel, NOQUOTE))" Type = "%sysfunc(sasmsg(sashelp.dmine, rpt_type_vlabel,         NOQUOTE))" _X_ = "%sysfunc(sasmsg(sashelp.dmine, rpt_numValue_vlabel, NOQUOTE))" _XLABEL_ =
+28686         "%sysfunc(sasmsg(sashelp.dmine, rpt_fmtValue_vlabel ,    NOQUOTE))" COUNT = "%sysfunc(sasmsg(sashelp.dmine, rpt_count_vlabel,        NOQUOTE))" PERCENT = "%sysfunc(sasmsg(sashelp.dmine, rpt_percent_vlabel,      NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label _VARIABLE_ = "변수" Type = "유형" _X_ = "숫자값" _XLABEL_ = "출력형식 값" COUNT = "빈도 개수" PERCENT = "백분율";
+28687      dsid = open("WORK.TEMPFREQ");
+MPRINT(EM_DIAGRAM):   dsid = open("WORK.TEMPFREQ");
+28688      varnum = varnum(dsid, 'VARIABLE');
+MPRINT(EM_DIAGRAM):   varnum = varnum(dsid, 'VARIABLE');
+28689      freqnum = varnum(dsid, 'FREQUENCY');
+MPRINT(EM_DIAGRAM):   freqnum = varnum(dsid, 'FREQUENCY');
+28690      pvarnum = varnum(dsid, 'PERCENT');
+MPRINT(EM_DIAGRAM):   pvarnum = varnum(dsid, 'PERCENT');
+28691      typenum = varnum(dsid, '_TYPE_');
+MPRINT(EM_DIAGRAM):   typenum = varnum(dsid, '_TYPE_');
+28692      length _VARIABLE_ $32 TYPE $1 _XLABEL_ $32;
+MPRINT(EM_DIAGRAM):   length _VARIABLE_ $32 TYPE $1 _XLABEL_ $32;
+28693      do while(^fetch(dsid));
+MPRINT(EM_DIAGRAM):   do while(^fetch(dsid));
+28694      _VARIABLE_ = strip(getvarc(dsid, varnum));
+MPRINT(EM_DIAGRAM):   _VARIABLE_ = strip(getvarc(dsid, varnum));
+28695      count = getvarn(dsid, freqnum);
+MPRINT(EM_DIAGRAM):   count = getvarn(dsid, freqnum);
+28696      percent= getvarn(dsid, pvarnum);
+MPRINT(EM_DIAGRAM):   percent= getvarn(dsid, pvarnum);
+28697      vvarnum = varnum(dsid, _VARIABLE_);
+MPRINT(EM_DIAGRAM):   vvarnum = varnum(dsid, _VARIABLE_);
+28698      type = vartype(dsid, vvarnum);
+MPRINT(EM_DIAGRAM):   type = vartype(dsid, vvarnum);
+28699      fvarnum = varnum(dsid, 'F_'!!substr(_VARIABLE_, 1, 30));
+MPRINT(EM_DIAGRAM):   fvarnum = varnum(dsid, 'F_'!!substr(_VARIABLE_, 1, 30));
+28700      _XLABEL_ = left(getvarc(dsid, fvarnum));
+MPRINT(EM_DIAGRAM):   _XLABEL_ = left(getvarc(dsid, fvarnum));
+28701      _X_ = .;
+MPRINT(EM_DIAGRAM):   _X_ = .;
+28702      if TYPE eq 'N' then _X_ = getvarn(dsid, vvarnum);
+MPRINT(EM_DIAGRAM):   if TYPE eq 'N' then _X_ = getvarn(dsid, vvarnum);
+28703      output;
+MPRINT(EM_DIAGRAM):   output;
+28704      end;
+MPRINT(EM_DIAGRAM):   end;
+28705      dsid = close(dsid);
+MPRINT(EM_DIAGRAM):   dsid = close(dsid);
+28706      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 데이터셋 WORK.PART_BAR은(는) 2개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.04 초
+      
+
+28707      proc sort data=WORK.Part_BAR NOTHREADS;
+MPRINT(EM_DIAGRAM):   proc sort data=WORK.Part_BAR NOTHREADS;
+28708      by _VARIABLE_;
+MPRINT(EM_DIAGRAM):   by _VARIABLE_;
+28709      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.PART_BAR.에서 읽었습니다.
+NOTE: 데이터셋 WORK.PART_BAR은(는) 2개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+28710      proc sort data=WORK.M0500DXS;
+MPRINT(EM_DIAGRAM):   proc sort data=WORK.M0500DXS;
+28711      by Name;
+MPRINT(EM_DIAGRAM):   by Name;
+28712      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 1개의 관측값을 데이터셋 WORK.M0500DXS.에서 읽었습니다.
+NOTE: 데이터셋 WORK.M0500DXS은(는) 1개의 관측값과 21개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+28713      data WORK.Part_BAR;
+MPRINT(EM_DIAGRAM):   data WORK.Part_BAR;
+28714      merge WORK.Part_BAR(in=_a) WORK.M0500DXS(keep=Name Label Role rename=(Name=_Variable_ Label=_Label_));
+MPRINT(EM_DIAGRAM):   merge WORK.Part_BAR(in=_a) WORK.M0500DXS(keep=Name Label Role rename=(Name=_Variable_ Label=_Label_));
+28715      by _Variable_;
+MPRINT(EM_DIAGRAM):   by _Variable_;
+28716      label Role = "%sysfunc(sasmsg(sashelp.dmine, meta_role_vlabel ,  NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label Role = "역할";
+28717      label Label = "%sysfunc(sasmsg(sashelp.dmine, meta_label_vlabel , NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label Label = "레이블";
+28718      if _a then output;
+MPRINT(EM_DIAGRAM):   if _a then output;
+28719      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 변수 Label이(가) 초기화되지 않았습니다.
+WARNING: 입력 데이터셋으로 BY 변수 _VARIABLE_에 대해 여러 길이가 지정되었습니다. 예상하지 못한 결과를 발생시킬 수 있습니다.
+NOTE: 2개의 관측값을 데이터셋 WORK.PART_BAR.에서 읽었습니다.
+NOTE: 1개의 관측값을 데이터셋 WORK.M0500DXS.에서 읽었습니다.
+NOTE: 데이터셋 WORK.PART_BAR은(는) 2개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+28720      data EMWS6.Part_CLASS;
+MPRINT(EM_DIAGRAM):    data EMWS6.Part_CLASS;
+28721      length DATA $8;
+MPRINT(EM_DIAGRAM):   length DATA $8;
+28722      set WORK.Part_BAR;
+MPRINT(EM_DIAGRAM):   set WORK.Part_BAR;
+28723      DATA = "DATA";
+MPRINT(EM_DIAGRAM):   DATA = "DATA";
+28724      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.PART_BAR.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.PART_CLASS은(는) 2개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+28725      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+28726      * Part: Interval 타겟 변수에 대한 통계량 계산;
+MPRINT(EM_DIAGRAM):   * Part: Interval 타겟 변수에 대한 통계량 계산;
+28727      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+28728      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+28729      * Part: Class 타겟 변수에 대한 통계량 계산;
+MPRINT(EM_DIAGRAM):   * Part: Class 타겟 변수에 대한 통계량 계산;
+28730      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+28731      ods listing close;
+MPRINT(EM_DIAGRAM):   ods listing close;
+28732      ods output onewayfreqs=WORK.TEMPFREQ;
+MPRINT(EM_DIAGRAM):   ods output onewayfreqs=WORK.TEMPFREQ;
+28733      proc freq data = EMWS6.Part_TRAIN order=formatted addnames;
+MPRINT(EM_DIAGRAM):   proc freq data = EMWS6.Part_TRAIN order=formatted addnames;
+28734      table RESPOND / missing;
+MPRINT(EM_DIAGRAM):   table RESPOND / missing;
+28735      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 데이터셋 WORK.TEMPFREQ은(는) 2개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: 3999개의 관측값을 데이터셋 EMWS6.PART_TRAIN.에서 읽었습니다.
+NOTE: 프로시저 FREQ 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(EM_DIAGRAM):   quit;
+28736      quit;
+28737      ods listing;
+MPRINT(EM_DIAGRAM):   ods listing;
+28738      data WORK.Part_BAR(keep=_VARIABLE_ TYPE COUNT PERCENT _X_ _XLABEL_);
+MPRINT(EM_DIAGRAM):    data WORK.Part_BAR(keep=_VARIABLE_ TYPE COUNT PERCENT _X_ _XLABEL_);
+28739      label _VARIABLE_ = "%sysfunc(sasmsg(sashelp.dmine, rpt_variable_vlabel, NOQUOTE))" Type = "%sysfunc(sasmsg(sashelp.dmine, rpt_type_vlabel,         NOQUOTE))" _X_ = "%sysfunc(sasmsg(sashelp.dmine, rpt_numValue_vlabel, NOQUOTE))" _XLABEL_ =
+28740         "%sysfunc(sasmsg(sashelp.dmine, rpt_fmtValue_vlabel ,    NOQUOTE))" COUNT = "%sysfunc(sasmsg(sashelp.dmine, rpt_count_vlabel,        NOQUOTE))" PERCENT = "%sysfunc(sasmsg(sashelp.dmine, rpt_percent_vlabel,      NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label _VARIABLE_ = "변수" Type = "유형" _X_ = "숫자값" _XLABEL_ = "출력형식 값" COUNT = "빈도 개수" PERCENT = "백분율";
+28741      dsid = open("WORK.TEMPFREQ");
+MPRINT(EM_DIAGRAM):   dsid = open("WORK.TEMPFREQ");
+28742      varnum = varnum(dsid, 'VARIABLE');
+MPRINT(EM_DIAGRAM):   varnum = varnum(dsid, 'VARIABLE');
+28743      freqnum = varnum(dsid, 'FREQUENCY');
+MPRINT(EM_DIAGRAM):   freqnum = varnum(dsid, 'FREQUENCY');
+28744      pvarnum = varnum(dsid, 'PERCENT');
+MPRINT(EM_DIAGRAM):   pvarnum = varnum(dsid, 'PERCENT');
+28745      typenum = varnum(dsid, '_TYPE_');
+MPRINT(EM_DIAGRAM):   typenum = varnum(dsid, '_TYPE_');
+28746      length _VARIABLE_ $32 TYPE $1 _XLABEL_ $32;
+MPRINT(EM_DIAGRAM):   length _VARIABLE_ $32 TYPE $1 _XLABEL_ $32;
+28747      do while(^fetch(dsid));
+MPRINT(EM_DIAGRAM):   do while(^fetch(dsid));
+28748      _VARIABLE_ = strip(getvarc(dsid, varnum));
+MPRINT(EM_DIAGRAM):   _VARIABLE_ = strip(getvarc(dsid, varnum));
+28749      count = getvarn(dsid, freqnum);
+MPRINT(EM_DIAGRAM):   count = getvarn(dsid, freqnum);
+28750      percent= getvarn(dsid, pvarnum);
+MPRINT(EM_DIAGRAM):   percent= getvarn(dsid, pvarnum);
+28751      vvarnum = varnum(dsid, _VARIABLE_);
+MPRINT(EM_DIAGRAM):   vvarnum = varnum(dsid, _VARIABLE_);
+28752      type = vartype(dsid, vvarnum);
+MPRINT(EM_DIAGRAM):   type = vartype(dsid, vvarnum);
+28753      fvarnum = varnum(dsid, 'F_'!!substr(_VARIABLE_, 1, 30));
+MPRINT(EM_DIAGRAM):   fvarnum = varnum(dsid, 'F_'!!substr(_VARIABLE_, 1, 30));
+28754      _XLABEL_ = left(getvarc(dsid, fvarnum));
+MPRINT(EM_DIAGRAM):   _XLABEL_ = left(getvarc(dsid, fvarnum));
+28755      _X_ = .;
+MPRINT(EM_DIAGRAM):   _X_ = .;
+28756      if TYPE eq 'N' then _X_ = getvarn(dsid, vvarnum);
+MPRINT(EM_DIAGRAM):   if TYPE eq 'N' then _X_ = getvarn(dsid, vvarnum);
+28757      output;
+MPRINT(EM_DIAGRAM):   output;
+28758      end;
+MPRINT(EM_DIAGRAM):   end;
+28759      dsid = close(dsid);
+MPRINT(EM_DIAGRAM):   dsid = close(dsid);
+28760      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 데이터셋 WORK.PART_BAR은(는) 2개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.04 초
+      
+
+28761      proc sort data=WORK.Part_BAR NOTHREADS;
+MPRINT(EM_DIAGRAM):   proc sort data=WORK.Part_BAR NOTHREADS;
+28762      by _VARIABLE_;
+MPRINT(EM_DIAGRAM):   by _VARIABLE_;
+28763      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.PART_BAR.에서 읽었습니다.
+NOTE: 데이터셋 WORK.PART_BAR은(는) 2개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+28764      proc sort data=WORK.M0500DXS;
+MPRINT(EM_DIAGRAM):   proc sort data=WORK.M0500DXS;
+28765      by Name;
+MPRINT(EM_DIAGRAM):   by Name;
+28766      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 입력 데이터셋이 이미 정렬되어 있어서, 정렬을 실행하지 않았습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+28767      data WORK.Part_BAR;
+MPRINT(EM_DIAGRAM):   data WORK.Part_BAR;
+28768      merge WORK.Part_BAR(in=_a) WORK.M0500DXS(keep=Name Label Role rename=(Name=_Variable_ Label=_Label_));
+MPRINT(EM_DIAGRAM):   merge WORK.Part_BAR(in=_a) WORK.M0500DXS(keep=Name Label Role rename=(Name=_Variable_ Label=_Label_));
+28769      by _Variable_;
+MPRINT(EM_DIAGRAM):   by _Variable_;
+28770      label Role = "%sysfunc(sasmsg(sashelp.dmine, meta_role_vlabel ,  NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label Role = "역할";
+28771      label Label = "%sysfunc(sasmsg(sashelp.dmine, meta_label_vlabel , NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label Label = "레이블";
+28772      if _a then output;
+MPRINT(EM_DIAGRAM):   if _a then output;
+28773      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 변수 Label이(가) 초기화되지 않았습니다.
+WARNING: 입력 데이터셋으로 BY 변수 _VARIABLE_에 대해 여러 길이가 지정되었습니다. 예상하지 못한 결과를 발생시킬 수 있습니다.
+NOTE: 2개의 관측값을 데이터셋 WORK.PART_BAR.에서 읽었습니다.
+NOTE: 1개의 관측값을 데이터셋 WORK.M0500DXS.에서 읽었습니다.
+NOTE: 데이터셋 WORK.PART_BAR은(는) 2개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+28774      data WORK.Part_BAR;
+MPRINT(EM_DIAGRAM):    data WORK.Part_BAR;
+28775      length DATA $8;
+MPRINT(EM_DIAGRAM):   length DATA $8;
+28776      set WORK.Part_BAR;
+MPRINT(EM_DIAGRAM):   set WORK.Part_BAR;
+28777      DATA = "TRAIN";
+MPRINT(EM_DIAGRAM):   DATA = "TRAIN";
+28778      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.PART_BAR.에서 읽었습니다.
+NOTE: 데이터셋 WORK.PART_BAR은(는) 2개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+28779      data EMWS6.Part_CLASS;
+MPRINT(EM_DIAGRAM):   data EMWS6.Part_CLASS;
+28780      set EMWS6.Part_CLASS WORK.Part_BAR;
+MPRINT(EM_DIAGRAM):   set EMWS6.Part_CLASS WORK.Part_BAR;
+28781      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 EMWS6.PART_CLASS.에서 읽었습니다.
+NOTE: 2개의 관측값을 데이터셋 WORK.PART_BAR.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.PART_CLASS은(는) 4개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+28782      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+28783      * Part: Interval 타겟 변수에 대한 통계량 계산;
+MPRINT(EM_DIAGRAM):   * Part: Interval 타겟 변수에 대한 통계량 계산;
+28784      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+28785      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+28786      * Part: Class 타겟 변수에 대한 통계량 계산;
+MPRINT(EM_DIAGRAM):   * Part: Class 타겟 변수에 대한 통계량 계산;
+28787      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+28788      ods listing close;
+MPRINT(EM_DIAGRAM):   ods listing close;
+28789      ods output onewayfreqs=WORK.TEMPFREQ;
+MPRINT(EM_DIAGRAM):   ods output onewayfreqs=WORK.TEMPFREQ;
+28790      proc freq data = EMWS6.Part_VALIDATE order=formatted addnames;
+MPRINT(EM_DIAGRAM):   proc freq data = EMWS6.Part_VALIDATE order=formatted addnames;
+28791      table RESPOND / missing;
+MPRINT(EM_DIAGRAM):   table RESPOND / missing;
+28792      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 데이터셋 WORK.TEMPFREQ은(는) 2개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: 3000개의 관측값을 데이터셋 EMWS6.PART_VALIDATE.에서 읽었습니다.
+NOTE: 프로시저 FREQ 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(EM_DIAGRAM):   quit;
+28793      quit;
+28794      ods listing;
+MPRINT(EM_DIAGRAM):   ods listing;
+28795      data WORK.Part_BAR(keep=_VARIABLE_ TYPE COUNT PERCENT _X_ _XLABEL_);
+MPRINT(EM_DIAGRAM):    data WORK.Part_BAR(keep=_VARIABLE_ TYPE COUNT PERCENT _X_ _XLABEL_);
+28796      label _VARIABLE_ = "%sysfunc(sasmsg(sashelp.dmine, rpt_variable_vlabel, NOQUOTE))" Type = "%sysfunc(sasmsg(sashelp.dmine, rpt_type_vlabel,         NOQUOTE))" _X_ = "%sysfunc(sasmsg(sashelp.dmine, rpt_numValue_vlabel, NOQUOTE))" _XLABEL_ =
+28797         "%sysfunc(sasmsg(sashelp.dmine, rpt_fmtValue_vlabel ,    NOQUOTE))" COUNT = "%sysfunc(sasmsg(sashelp.dmine, rpt_count_vlabel,        NOQUOTE))" PERCENT = "%sysfunc(sasmsg(sashelp.dmine, rpt_percent_vlabel,      NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label _VARIABLE_ = "변수" Type = "유형" _X_ = "숫자값" _XLABEL_ = "출력형식 값" COUNT = "빈도 개수" PERCENT = "백분율";
+28798      dsid = open("WORK.TEMPFREQ");
+MPRINT(EM_DIAGRAM):   dsid = open("WORK.TEMPFREQ");
+28799      varnum = varnum(dsid, 'VARIABLE');
+MPRINT(EM_DIAGRAM):   varnum = varnum(dsid, 'VARIABLE');
+28800      freqnum = varnum(dsid, 'FREQUENCY');
+MPRINT(EM_DIAGRAM):   freqnum = varnum(dsid, 'FREQUENCY');
+28801      pvarnum = varnum(dsid, 'PERCENT');
+MPRINT(EM_DIAGRAM):   pvarnum = varnum(dsid, 'PERCENT');
+28802      typenum = varnum(dsid, '_TYPE_');
+MPRINT(EM_DIAGRAM):   typenum = varnum(dsid, '_TYPE_');
+28803      length _VARIABLE_ $32 TYPE $1 _XLABEL_ $32;
+MPRINT(EM_DIAGRAM):   length _VARIABLE_ $32 TYPE $1 _XLABEL_ $32;
+28804      do while(^fetch(dsid));
+MPRINT(EM_DIAGRAM):   do while(^fetch(dsid));
+28805      _VARIABLE_ = strip(getvarc(dsid, varnum));
+MPRINT(EM_DIAGRAM):   _VARIABLE_ = strip(getvarc(dsid, varnum));
+28806      count = getvarn(dsid, freqnum);
+MPRINT(EM_DIAGRAM):   count = getvarn(dsid, freqnum);
+28807      percent= getvarn(dsid, pvarnum);
+MPRINT(EM_DIAGRAM):   percent= getvarn(dsid, pvarnum);
+28808      vvarnum = varnum(dsid, _VARIABLE_);
+MPRINT(EM_DIAGRAM):   vvarnum = varnum(dsid, _VARIABLE_);
+28809      type = vartype(dsid, vvarnum);
+MPRINT(EM_DIAGRAM):   type = vartype(dsid, vvarnum);
+28810      fvarnum = varnum(dsid, 'F_'!!substr(_VARIABLE_, 1, 30));
+MPRINT(EM_DIAGRAM):   fvarnum = varnum(dsid, 'F_'!!substr(_VARIABLE_, 1, 30));
+28811      _XLABEL_ = left(getvarc(dsid, fvarnum));
+MPRINT(EM_DIAGRAM):   _XLABEL_ = left(getvarc(dsid, fvarnum));
+28812      _X_ = .;
+MPRINT(EM_DIAGRAM):   _X_ = .;
+28813      if TYPE eq 'N' then _X_ = getvarn(dsid, vvarnum);
+MPRINT(EM_DIAGRAM):   if TYPE eq 'N' then _X_ = getvarn(dsid, vvarnum);
+28814      output;
+MPRINT(EM_DIAGRAM):   output;
+28815      end;
+MPRINT(EM_DIAGRAM):   end;
+28816      dsid = close(dsid);
+MPRINT(EM_DIAGRAM):   dsid = close(dsid);
+28817      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 데이터셋 WORK.PART_BAR은(는) 2개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.04 초
+      
+
+28818      proc sort data=WORK.Part_BAR NOTHREADS;
+MPRINT(EM_DIAGRAM):   proc sort data=WORK.Part_BAR NOTHREADS;
+28819      by _VARIABLE_;
+MPRINT(EM_DIAGRAM):   by _VARIABLE_;
+28820      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.PART_BAR.에서 읽었습니다.
+NOTE: 데이터셋 WORK.PART_BAR은(는) 2개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+28821      proc sort data=WORK.M0500DXS;
+MPRINT(EM_DIAGRAM):   proc sort data=WORK.M0500DXS;
+28822      by Name;
+MPRINT(EM_DIAGRAM):   by Name;
+28823      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 입력 데이터셋이 이미 정렬되어 있어서, 정렬을 실행하지 않았습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+28824      data WORK.Part_BAR;
+MPRINT(EM_DIAGRAM):   data WORK.Part_BAR;
+28825      merge WORK.Part_BAR(in=_a) WORK.M0500DXS(keep=Name Label Role rename=(Name=_Variable_ Label=_Label_));
+MPRINT(EM_DIAGRAM):   merge WORK.Part_BAR(in=_a) WORK.M0500DXS(keep=Name Label Role rename=(Name=_Variable_ Label=_Label_));
+28826      by _Variable_;
+MPRINT(EM_DIAGRAM):   by _Variable_;
+28827      label Role = "%sysfunc(sasmsg(sashelp.dmine, meta_role_vlabel ,  NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label Role = "역할";
+28828      label Label = "%sysfunc(sasmsg(sashelp.dmine, meta_label_vlabel , NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label Label = "레이블";
+28829      if _a then output;
+MPRINT(EM_DIAGRAM):   if _a then output;
+28830      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 변수 Label이(가) 초기화되지 않았습니다.
+WARNING: 입력 데이터셋으로 BY 변수 _VARIABLE_에 대해 여러 길이가 지정되었습니다. 예상하지 못한 결과를 발생시킬 수 있습니다.
+NOTE: 2개의 관측값을 데이터셋 WORK.PART_BAR.에서 읽었습니다.
+NOTE: 1개의 관측값을 데이터셋 WORK.M0500DXS.에서 읽었습니다.
+NOTE: 데이터셋 WORK.PART_BAR은(는) 2개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+28831      data WORK.Part_BAR;
+MPRINT(EM_DIAGRAM):    data WORK.Part_BAR;
+28832      length DATA $8;
+MPRINT(EM_DIAGRAM):   length DATA $8;
+28833      set WORK.Part_BAR;
+MPRINT(EM_DIAGRAM):   set WORK.Part_BAR;
+28834      DATA = "VALIDATE";
+MPRINT(EM_DIAGRAM):   DATA = "VALIDATE";
+28835      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.PART_BAR.에서 읽었습니다.
+NOTE: 데이터셋 WORK.PART_BAR은(는) 2개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.00 초
+      
+
+28836      data EMWS6.Part_CLASS;
+MPRINT(EM_DIAGRAM):   data EMWS6.Part_CLASS;
+28837      set EMWS6.Part_CLASS WORK.Part_BAR;
+MPRINT(EM_DIAGRAM):   set EMWS6.Part_CLASS WORK.Part_BAR;
+28838      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 4개의 관측값을 데이터셋 EMWS6.PART_CLASS.에서 읽었습니다.
+NOTE: 2개의 관측값을 데이터셋 WORK.PART_BAR.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.PART_CLASS은(는) 6개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+28839      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+28840      * Part: Interval 타겟 변수에 대한 통계량 계산;
+MPRINT(EM_DIAGRAM):   * Part: Interval 타겟 변수에 대한 통계량 계산;
+28841      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+28842      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+28843      * Part: Class 타겟 변수에 대한 통계량 계산;
+MPRINT(EM_DIAGRAM):   * Part: Class 타겟 변수에 대한 통계량 계산;
+28844      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+28845      ods listing close;
+MPRINT(EM_DIAGRAM):   ods listing close;
+28846      ods output onewayfreqs=WORK.TEMPFREQ;
+MPRINT(EM_DIAGRAM):   ods output onewayfreqs=WORK.TEMPFREQ;
+28847      proc freq data = EMWS6.Part_TEST order=formatted addnames;
+MPRINT(EM_DIAGRAM):   proc freq data = EMWS6.Part_TEST order=formatted addnames;
+28848      table RESPOND / missing;
+MPRINT(EM_DIAGRAM):   table RESPOND / missing;
+28849      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 데이터셋 WORK.TEMPFREQ은(는) 2개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: 3001개의 관측값을 데이터셋 EMWS6.PART_TEST.에서 읽었습니다.
+NOTE: 프로시저 FREQ 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(EM_DIAGRAM):   quit;
+28850      quit;
+28851      ods listing;
+MPRINT(EM_DIAGRAM):   ods listing;
+28852      data WORK.Part_BAR(keep=_VARIABLE_ TYPE COUNT PERCENT _X_ _XLABEL_);
+MPRINT(EM_DIAGRAM):    data WORK.Part_BAR(keep=_VARIABLE_ TYPE COUNT PERCENT _X_ _XLABEL_);
+28853      label _VARIABLE_ = "%sysfunc(sasmsg(sashelp.dmine, rpt_variable_vlabel, NOQUOTE))" Type = "%sysfunc(sasmsg(sashelp.dmine, rpt_type_vlabel,         NOQUOTE))" _X_ = "%sysfunc(sasmsg(sashelp.dmine, rpt_numValue_vlabel, NOQUOTE))" _XLABEL_ =
+28854         "%sysfunc(sasmsg(sashelp.dmine, rpt_fmtValue_vlabel ,    NOQUOTE))" COUNT = "%sysfunc(sasmsg(sashelp.dmine, rpt_count_vlabel,        NOQUOTE))" PERCENT = "%sysfunc(sasmsg(sashelp.dmine, rpt_percent_vlabel,      NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label _VARIABLE_ = "변수" Type = "유형" _X_ = "숫자값" _XLABEL_ = "출력형식 값" COUNT = "빈도 개수" PERCENT = "백분율";
+28855      dsid = open("WORK.TEMPFREQ");
+MPRINT(EM_DIAGRAM):   dsid = open("WORK.TEMPFREQ");
+28856      varnum = varnum(dsid, 'VARIABLE');
+MPRINT(EM_DIAGRAM):   varnum = varnum(dsid, 'VARIABLE');
+28857      freqnum = varnum(dsid, 'FREQUENCY');
+MPRINT(EM_DIAGRAM):   freqnum = varnum(dsid, 'FREQUENCY');
+28858      pvarnum = varnum(dsid, 'PERCENT');
+MPRINT(EM_DIAGRAM):   pvarnum = varnum(dsid, 'PERCENT');
+28859      typenum = varnum(dsid, '_TYPE_');
+MPRINT(EM_DIAGRAM):   typenum = varnum(dsid, '_TYPE_');
+28860      length _VARIABLE_ $32 TYPE $1 _XLABEL_ $32;
+MPRINT(EM_DIAGRAM):   length _VARIABLE_ $32 TYPE $1 _XLABEL_ $32;
+28861      do while(^fetch(dsid));
+MPRINT(EM_DIAGRAM):   do while(^fetch(dsid));
+28862      _VARIABLE_ = strip(getvarc(dsid, varnum));
+MPRINT(EM_DIAGRAM):   _VARIABLE_ = strip(getvarc(dsid, varnum));
+28863      count = getvarn(dsid, freqnum);
+MPRINT(EM_DIAGRAM):   count = getvarn(dsid, freqnum);
+28864      percent= getvarn(dsid, pvarnum);
+MPRINT(EM_DIAGRAM):   percent= getvarn(dsid, pvarnum);
+28865      vvarnum = varnum(dsid, _VARIABLE_);
+MPRINT(EM_DIAGRAM):   vvarnum = varnum(dsid, _VARIABLE_);
+28866      type = vartype(dsid, vvarnum);
+MPRINT(EM_DIAGRAM):   type = vartype(dsid, vvarnum);
+28867      fvarnum = varnum(dsid, 'F_'!!substr(_VARIABLE_, 1, 30));
+MPRINT(EM_DIAGRAM):   fvarnum = varnum(dsid, 'F_'!!substr(_VARIABLE_, 1, 30));
+28868      _XLABEL_ = left(getvarc(dsid, fvarnum));
+MPRINT(EM_DIAGRAM):   _XLABEL_ = left(getvarc(dsid, fvarnum));
+28869      _X_ = .;
+MPRINT(EM_DIAGRAM):   _X_ = .;
+28870      if TYPE eq 'N' then _X_ = getvarn(dsid, vvarnum);
+MPRINT(EM_DIAGRAM):   if TYPE eq 'N' then _X_ = getvarn(dsid, vvarnum);
+28871      output;
+MPRINT(EM_DIAGRAM):   output;
+28872      end;
+MPRINT(EM_DIAGRAM):   end;
+28873      dsid = close(dsid);
+MPRINT(EM_DIAGRAM):   dsid = close(dsid);
+28874      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 데이터셋 WORK.PART_BAR은(는) 2개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.03 초
+      
+
+28875      proc sort data=WORK.Part_BAR NOTHREADS;
+MPRINT(EM_DIAGRAM):   proc sort data=WORK.Part_BAR NOTHREADS;
+28876      by _VARIABLE_;
+MPRINT(EM_DIAGRAM):   by _VARIABLE_;
+28877      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.PART_BAR.에서 읽었습니다.
+NOTE: 데이터셋 WORK.PART_BAR은(는) 2개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+28878      proc sort data=WORK.M0500DXS;
+MPRINT(EM_DIAGRAM):   proc sort data=WORK.M0500DXS;
+28879      by Name;
+MPRINT(EM_DIAGRAM):   by Name;
+28880      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 입력 데이터셋이 이미 정렬되어 있어서, 정렬을 실행하지 않았습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+28881      data WORK.Part_BAR;
+MPRINT(EM_DIAGRAM):   data WORK.Part_BAR;
+28882      merge WORK.Part_BAR(in=_a) WORK.M0500DXS(keep=Name Label Role rename=(Name=_Variable_ Label=_Label_));
+MPRINT(EM_DIAGRAM):   merge WORK.Part_BAR(in=_a) WORK.M0500DXS(keep=Name Label Role rename=(Name=_Variable_ Label=_Label_));
+28883      by _Variable_;
+MPRINT(EM_DIAGRAM):   by _Variable_;
+28884      label Role = "%sysfunc(sasmsg(sashelp.dmine, meta_role_vlabel ,  NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label Role = "역할";
+28885      label Label = "%sysfunc(sasmsg(sashelp.dmine, meta_label_vlabel , NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label Label = "레이블";
+28886      if _a then output;
+MPRINT(EM_DIAGRAM):   if _a then output;
+28887      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 변수 Label이(가) 초기화되지 않았습니다.
+WARNING: 입력 데이터셋으로 BY 변수 _VARIABLE_에 대해 여러 길이가 지정되었습니다. 예상하지 못한 결과를 발생시킬 수 있습니다.
+NOTE: 2개의 관측값을 데이터셋 WORK.PART_BAR.에서 읽었습니다.
+NOTE: 1개의 관측값을 데이터셋 WORK.M0500DXS.에서 읽었습니다.
+NOTE: 데이터셋 WORK.PART_BAR은(는) 2개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+28888      data WORK.Part_BAR;
+MPRINT(EM_DIAGRAM):    data WORK.Part_BAR;
+28889      length DATA $8;
+MPRINT(EM_DIAGRAM):   length DATA $8;
+28890      set WORK.Part_BAR;
+MPRINT(EM_DIAGRAM):   set WORK.Part_BAR;
+28891      DATA = "TEST";
+MPRINT(EM_DIAGRAM):   DATA = "TEST";
+28892      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.PART_BAR.에서 읽었습니다.
+NOTE: 데이터셋 WORK.PART_BAR은(는) 2개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.00 초
+      
+
+28893      data EMWS6.Part_CLASS;
+MPRINT(EM_DIAGRAM):   data EMWS6.Part_CLASS;
+28894      set EMWS6.Part_CLASS WORK.Part_BAR;
+MPRINT(EM_DIAGRAM):   set EMWS6.Part_CLASS WORK.Part_BAR;
+28895      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 6개의 관측값을 데이터셋 EMWS6.PART_CLASS.에서 읽었습니다.
+NOTE: 2개의 관측값을 데이터셋 WORK.PART_BAR.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.PART_CLASS은(는) 8개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+28896      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+28897      * Part: Interval 타겟 변수에 대한 통계량 계산;
+MPRINT(EM_DIAGRAM):   * Part: Interval 타겟 변수에 대한 통계량 계산;
+28898      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+28899      data EMWS6.Part_CLASS(rename=(_VARIABLE_=VARIABLE _X_=VALUE _XLABEL_=FORMATTEDVALUE));
+MPRINT(EM_DIAGRAM):   data EMWS6.Part_CLASS(rename=(_VARIABLE_=VARIABLE _X_=VALUE _XLABEL_=FORMATTEDVALUE));
+28900      label DATA = "%sysfunc(sasmsg(sashelp.dmine, rpt_data_vlabel ,   NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label DATA = "데이터";
+28901      set EMWS6.Part_CLASS;
+MPRINT(EM_DIAGRAM):   set EMWS6.Part_CLASS;
+28902      drop type role;
+MPRINT(EM_DIAGRAM):   drop type role;
+28903      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 8개의 관측값을 데이터셋 EMWS6.PART_CLASS.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.PART_CLASS은(는) 8개의 관측값과 7개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+28904      proc sort data=EMWS6.Part_CLASS NOTHREADS;
+MPRINT(EM_DIAGRAM):   proc sort data=EMWS6.Part_CLASS NOTHREADS;
+28905      by DATA;
+MPRINT(EM_DIAGRAM):   by DATA;
+28906      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 8개의 관측값을 데이터셋 EMWS6.PART_CLASS.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.PART_CLASS은(는) 8개의 관측값과 7개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+28907      %let _cn = %sysfunc(getoption(CENTER));
+28908      %let _nb = %sysfunc(getoption(NUMBER));
+28909      options nonumber nocenter;
+MPRINT(EM_DIAGRAM):   options nonumber nocenter;
+28910      proc print data=EMWS6.Part_CLASS noobs label;
+MPRINT(EM_DIAGRAM):   proc print data=EMWS6.Part_CLASS noobs label;
+28911      by DATA;
+MPRINT(EM_DIAGRAM):   by DATA;
+28912      title9 ' ';
+MPRINT(EM_DIAGRAM):   title9 ' ';
+28913      title10 "%sysfunc(sasmsg(sashelp.dmine, rpt_classTargetStats_title, NOQUOTE))";
+MPRINT(EM_DIAGRAM):   title10 "클래스 타겟에 대한 요약 통계량";
+MPRINT(EM_DIAGRAM):   run;
+28914      run;
+
+NOTE: 8개의 관측값을 데이터셋 EMWS6.PART_CLASS.에서 읽었습니다.
+NOTE: 출력 결과 (프로시저: PRINT, 페이지: 6)
+NOTE: 프로시저 PRINT 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.03 초
+      
+
+28915      title10;
+MPRINT(EM_DIAGRAM):   title10;
+28916      options &_cn &_nb;
+MPRINT(EM_DIAGRAM):   options NOCENTER NONUMBER;
+MPRINT(EM_DIAGRAM):    proc printto;
+MPRINT(EM_DIAGRAM):   run;

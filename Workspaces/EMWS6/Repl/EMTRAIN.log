@@ -1,0 +1,1454 @@
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 20일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "11시26분45초" );
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 분석 로그";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+*------------------------------------------------------------*
+* 분석 로그
+날짜:                2018년 11월 20일
+시간:                11시26분45초
+*------------------------------------------------------------*
+MPRINT(EM_DIAGRAM):    filename O1LCS7W0 "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMTRAIN.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   proc printto print=O1LCS7W0 new;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _LOG "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMLOG.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 20일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "11시26분45초" );
+MPRINT(EM_DIAGRAM):   file _LOG;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "사용자:                Administrator";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "사이트:                10503192";
+MPRINT(EM_DIAGRAM):   put "플랫폼:            X64_10HOME";
+MPRINT(EM_DIAGRAM):   put "관리 릴리스: 9.04.01M4P110916";
+MPRINT(EM_DIAGRAM):   put "EM 버전:          14.2";
+MPRINT(EM_DIAGRAM):   put "* ";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _LOGIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMTRAIN.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_COPYFILE):   data _null_;
+MPRINT(EM_COPYFILE):   length line $20000;
+MPRINT(EM_COPYFILE):   file _LOG MOD lrecl=20000;
+MPRINT(EM_COPYFILE):   fid=fopen("_LOGIN",'i',20000,'v');
+MPRINT(EM_COPYFILE):   if fid > 0 then do;
+MPRINT(EM_COPYFILE):   do while(^fread(fid));
+MPRINT(EM_COPYFILE):   rlen = frlen(fid);
+MPRINT(EM_COPYFILE):   rc= fget(fid,line,20000);
+MPRINT(EM_COPYFILE):   start = length(line)-length(left(line))+1;
+MPRINT(EM_COPYFILE):   line=strip(line);
+MPRINT(EM_COPYFILE):   put @start line;
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   if fid > 0 then rc=fclose(fid);
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   run;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _LOGIN;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   file _LOG mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   filename _LOGIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMSCORE.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   file _LOG mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _LOGIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMREPORT.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _LOGIN;
+MPRINT(EM_DIAGRAM):    filename _LOG;
+MPRINT(EM_DIAGRAM):    filename _OUT "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMOUTPUT.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 20일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "11시26분45초" );
+MPRINT(EM_DIAGRAM):   file _OUT;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "사용자:                Administrator";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 분석 출력";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _OUTIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMTRAIN.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   ;
+MPRINT(EM_COPYFILE):   data _null_;
+MPRINT(EM_COPYFILE):   length line $20000;
+MPRINT(EM_COPYFILE):   file _OUT MOD lrecl=20000;
+MPRINT(EM_COPYFILE):   fid=fopen("_OUTIN",'i',20000,'v');
+MPRINT(EM_COPYFILE):   if fid > 0 then do;
+MPRINT(EM_COPYFILE):   do while(^fread(fid));
+MPRINT(EM_COPYFILE):   rlen = frlen(fid);
+MPRINT(EM_COPYFILE):   rc= fget(fid,line,20000);
+MPRINT(EM_COPYFILE):   start = length(line)-length(left(line))+1;
+MPRINT(EM_COPYFILE):   line=strip(line);
+MPRINT(EM_COPYFILE):   put @start line;
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   if fid > 0 then rc=fclose(fid);
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   run;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _OUTIN;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   file _OUT mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   put // "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 스코어 출력";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _OUTIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMSCORE.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _OUTIN;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   file _OUT mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   put // "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 리포트 출력";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _OUTIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMREPORT.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _OUTIN;
+MPRINT(EM_DIAGRAM):    filename _OUT;
+MPRINT(EM_DIAGRAM):    filename _emtool_ 'C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMRUNSTATUS.xml' encoding="UTF-8" NOBOM;
+22527      proc freq data=EMWS6.Repl_VariableSet noprint;
+MPRINT(EM_DIAGRAM):    proc freq data=EMWS6.Repl_VariableSet noprint;
+22528      table ROLE*LEVEL/out=WORK.ReplMETA;
+MPRINT(EM_DIAGRAM):   table ROLE*LEVEL/out=WORK.ReplMETA;
+22529      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 13개의 관측값을 데이터셋 EMWS6.REPL_VARIABLESET.에서 읽었습니다.
+NOTE: 데이터셋 WORK.REPLMETA은(는) 4개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: 프로시저 FREQ 실행(총 프로세스 시간):
+      실행 시간           0.06 초
+      cpu 시간            0.06 초
+      
+
+22530      proc print data=WORK.ReplMETA label noobs;
+MPRINT(EM_DIAGRAM):   proc print data=WORK.ReplMETA label noobs;
+22531      var ROLE LEVEL COUNT;
+MPRINT(EM_DIAGRAM):   var ROLE LEVEL COUNT;
+22532      label ROLE = "%sysfunc(sasmsg(sashelp.dmine, meta_role_vlabel, NOQUOTE))" LEVEL = "%sysfunc(sasmsg(sashelp.dmine, meta_level_vlabel, NOQUOTE))" COUNT = "%sysfunc(sasmsg(sashelp.dmine, rpt_count_vlabel, NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label ROLE = "역할" LEVEL = "측도 레벨" COUNT = "빈도 개수";
+22533      title9 ' ';
+MPRINT(EM_DIAGRAM):   title9 ' ';
+22534      title10 "%sysfunc(sasmsg(sashelp.dmine, rpt_varSummary_title  , NOQUOTE))";
+MPRINT(EM_DIAGRAM):   title10 "변수 요약";
+MPRINT(EM_DIAGRAM):   run;
+22535      run;
+
+NOTE: 4개의 관측값을 데이터셋 WORK.REPLMETA.에서 읽었습니다.
+NOTE: 출력 결과 (프로시저: PRINT, 페이지: 1)
+NOTE: 프로시저 PRINT 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.04 초
+      
+
+22536      title10;
+MPRINT(EM_DIAGRAM):   title10;
+22537      %let EMEXCEPTIONSTRING=;
+MPRINT(EM_DIAGRAM):     *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Repl: Generation of macros and macro variables;
+MPRINT(EM_DIAGRAM):   * To see the code generated, set the EM_DEBUG macro variable to SOURCE or _ALL_;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Repl: EM Macro Variables and Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   * System Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   length string $2000;
+MPRINT(EM_DIAGRAM):   string = 'DataMining2018';
+MPRINT(EM_DIAGRAM):   call symput('EM_PROJECTNAME', trim(string));
+MPRINT(EM_DIAGRAM):   string = 'W12_Preprocessing';
+MPRINT(EM_DIAGRAM):   call symput('EM_WSNAME', trim(string));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   * Properties Macro Variables ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Files Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Import Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Export Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Decision Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Statement Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   set EMWS6.Ids5_EMINFO;
+MPRINT(EM_DIAGRAM):   where key in('HPDMSAMPLE', 'IDSTABLE');
+MPRINT(EM_DIAGRAM):   if key = 'HPDMSAMPLE' then call symput('_ForceGrid', '1');
+MPRINT(EM_DIAGRAM):   else call symput('_IDS_TABLE', DATA);
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(HPDM_PERFORMANCE):  ;
+PERFORMANCE  DETAILS
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Variable Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * General Variable Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Target Variable Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Input Variable Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Rejected Variable Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Misc Variable Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * End Create EM Macro Variables and Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+22867      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+22868      * Repl: Generation of macros and macro variables;
+MPRINT(EM_DIAGRAM):   * Repl: Generation of macros and macro variables;
+22869      * To see the code generated, set the EM_DEBUG macro variable to SOURCE or _ALL_;
+MPRINT(EM_DIAGRAM):   * To see the code generated, set the EM_DEBUG macro variable to SOURCE or _ALL_;
+22870      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+
+22871      %let EMEXCEPTIONSTRING=;
+22872      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+22873      * TRAIN: Repl;
+MPRINT(EM_DIAGRAM):   * TRAIN: Repl;
+22874      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+22875      %let EM_ACTION = TRAIN;
+22876      %let syscc = 0;
+22877      filename x CATALOG 'SASHELP.EMUTIL.EM_VARMACRO.SOURCE';
+MPRINT(EM_DIAGRAM):     filename x CATALOG 'SASHELP.EMUTIL.EM_VARMACRO.SOURCE';
+22878      %inc x;
+NOTE: %INCLUDE(레벨 1) 파일 X은(는) 파일 SASHELP.EMUTIL.EM_VARMACRO.SOURCE입니다.
+22880     +%macro em_varMacro(name=emMacro, metadata=, where=, key=NAME, nummacro=, maxvar=-1);
+22882     +   filename macFile catalog 'work.emutil.macro.source';
+22883     +   %let _METAOBS = 0;
+22884     +   %let _maxvar = &maxvar;
+22885     +   %if "&_maxvar" eq "" %then %let maxvar = -1;
+22887     +   %if (%sysfunc(exist(&metadata))<1 and %sysfunc(exist(&metadata, VIEW))<1)
+22888     +                   or (&metadata eq ) %then %do;
+22889     +       %put * No metadata data set defined;
+22890     +       %goto doend;
+22891     +   %end;
+22893     +   data _null_;
+22894     +      length _STRING_ $80;
+22895     +      retain _STRING_ '' maxvar 0;
+22896     +      set &metadata end=eof;
+22897     +      file macFile;
+22898     +      %if %nrbquote(&where) ne %then %do;
+22899     +          %let whereClause = where (%nrbquote(&where));
+22900     +          %unquote(&whereClause);
+22901     +      %end;
+22902     +      if _N_=1 then do;
+22903     +         string = "%"!!"macro &name;";
+22904     +         put string;
+22905     +      end;
+22906     +      maxvar +1;
+22907     +      if (length(_STRING_) + length(trim(&key))+ 4 < 80) then do;
+22908     +         _STRING_ = trim(_STRING_)!!' '!!trim(&key);
+22909     +         if eof
+22910     +            %if  %sysevalf(&_maxvar > 0) %then %do;
+22911     +                or maxvar >= &maxvar
+22912     +            %end;
+22913     +            then do;
+22914     +            put _STRING_;
+22915     +            string = "%"!!"mend &name;";
+22916     +            put string;
+22917     +            string = strip(put(_N_, best.));
+22918     +            call symput('_METAOBS', string);
+22919     +            %if (&nummacro ne ) %then %do;
+22920     +                put "%" "global &nummacro;";
+22921     +                put "%" "let &nummacro = " string ";";
+22922     +            %end;
+22923     +            stop;
+22924     +         end;
+22925     +      end;
+22926     +      else do;
+22927     +         put _STRING_;
+22928     +         _string_ = TRIM(&key);
+22929     +         if eof
+22930     +            %if  %sysevalf(&_maxvar > 0) %then %do;
+22931     +              or maxvar >= &maxvar
+22932     +           %end;
+22933     +            then do;
+22934     +            put _STRING_;
+22935     +            string = "%"!!"mend &name;";
+22936     +            put string;
+22937     +        end;
+22938     +      end;
+22939     +      if eof
+22940     +         %if  %sysevalf(&_maxvar > 0) %then %do;
+22941     +             or maxvar >= &maxvar
+22942     +         %end;
+22943     +         then do;
+22944     +         string = strip(put(_N_, best.));
+22945     +         call symput('_METAOBS', string);
+22946     +         %if (&nummacro ne ) %then %do;
+22947     +             put "%" "global &nummacro;";
+22948     +             put "%" "let &nummacro = " string ";";
+22949     +         %end;
+22950     +         stop;
+22951     +      end;
+22952     +   run;
+22954     +   %doend:
+22955     +   %if ^&_METAOBS %then %do;
+22956     +       data _null_;
+22957     +          file macFile;
+22958     +          put "%" "macro &name;";
+22959     +          put "%" "mend &name;";
+22960     +          %if (&nummacro ne ) %then %do;
+22961     +              put "%" "global &nummacro;";
+22962     +              put "%" "let &nummacro = 0;";
+22963     +          %end;
+22964     +      run;
+22965     +   %end;
+22966     +   %inc macFile;
+22967     +   filename macFile;
+22968     +%mend em_varMacro;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+22969      filename X;
+MPRINT(EM_DIAGRAM):   filename X;
+NOTE: Fileref X을(를) 삭제했습니다.
+22970       %macro main;
+22971      
+22972         filename temp catalog 'sashelp.emmdfy.Replace_macros.source';
+22973         %include temp;
+22974         filename temp;
+22975      
+22976         %if %upcase(&EM_ACTION) = CREATE %then %do;
+22977      
+22978             filename temp catalog 'sashelp.emmdfy.Replace_create.source';
+22979             %include temp;
+22980             filename temp;
+22981             %create;
+22982         %end;
+22983         %else
+22984         %if %upcase(&EM_ACTION) = TRAIN %then %do;
+22985      
+22986             filename temp catalog 'sashelp.emmdfy.Replace_train.source';
+22987             %include temp;
+22988             filename temp;
+22989             %train;
+22990         %end;
+22991         %else
+22992         %if %upcase(&EM_ACTION) = SCORE %then %do;
+22993      
+22994             filename temp catalog 'sashelp.emmdfy.Replace_score.source';
+22995             %include temp;
+22996             filename temp;
+22997             %score;
+22998         %end;
+22999         %if %upcase(&EM_ACTION) = REPORT %then %do;
+23000      
+23001             filename temp catalog 'sashelp.emmdfy.Replace_report.source';
+23002             %include temp;
+23003             filename temp;
+23004             %report;
+23005         %end;
+23006         %if %upcase(&EM_ACTION) = OPENOUTCLASSTABLE %then %do;
+23007             filename temp catalog 'sashelp.emmdfy.replace_makeoutclass.source';
+23008             %include temp;
+23009             filename temp;
+23010             %em_replace_openoutclass;
+23011         %end;
+23012         %if %upcase(&EM_ACTION) = CLOSEOUTCLASSTABLE %then %do;
+23013             filename temp catalog 'sashelp.emmdfy.replace_makeoutclass.source';
+23014             %include temp;
+23015             filename temp;
+23016             %em_replace_closeoutclass;
+23017         %end;
+23018      %mend main;
+23019      
+23020      %main;
+MPRINT(MAIN):   filename temp catalog 'sashelp.emmdfy.Replace_macros.source';
+NOTE: %INCLUDE(레벨 1) 파일 TEMP은(는) 파일 SASHELP.EMMDFY.REPLACE_MACROS.SOURCE입니다.
+23021     +%macro SetProperties;
+23022     +   %em_checkmacro(name=EM_PROPERTY_UNKNOWNLEVEL,    global=Y, value=MODE);
+23023     +   %em_checkmacro(name=EM_PROPERTY_CALCMETHOD,      global=Y, value=NONE);
+23024     +   %em_checkmacro(name=EM_PROPERTY_PERCENTSCUTOFF,  global=Y, value=0.5);
+23025     +   %em_checkmacro(name=EM_PROPERTY_SPACINGSCUTOFF,  global=Y, value=9);
+23026     +   %em_checkMacro(name=EM_PROPERTY_MADSCUTOFF,      global=Y, value=9);
+23027     +   %em_checkMacro(name=EM_PROPERTY_STDDEVCUTOFF,    global=Y, value=3);
+23028     +   %em_checkmacro(name=EM_PROPERTY_REPLACEMETHOD,   global=Y, value=COMPUTED);
+23029     +   %em_checkmacro(name=EM_PROPERTY_HIDEVARIABLE,    global=Y, value=N);
+23030     +   %em_checkmacro(name=EM_PROPERTY_INTERVALMETHOD,  global=Y, value=NONE);
+23031     +   %em_checkmacro(name=EM_PROPERTY_REPORTCOUNT,     global=Y, value=Y);
+23032     +
+23033     +%mend SetProperties;
+23034     +
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(MAIN):   filename temp;
+NOTE: Fileref TEMP을(를) 삭제했습니다.
+MPRINT(MAIN):   filename temp catalog 'sashelp.emmdfy.Replace_train.source';
+NOTE: %INCLUDE(레벨 1) 파일 TEMP은(는) 파일 SASHELP.EMMDFY.REPLACE_TRAIN.SOURCE입니다.
+23035     +%macro getLevels(outData=);
+23036     +   %if (%EM_BINARY_TARGET %EM_ORDINAL_TARGET %EM_NOMINAL_TARGET
+23037     +       %EM_BINARY_INPUT %EM_ORDINAL_INPUT %EM_NOMINAL_INPUT
+23038     +       %EM_BINARY_REJECTED %EM_ORDINAL_REJECTED %EM_NOMINAL_REJECTED) eq %then %do;
+23039     +       data &outData;
+23040     +          length NAME $32 LEVEL $8 FREQUENCY 8 TYPE $1 CRAW $8 NRAW 8 REPLACE_VALUE $200;
+23041     +          label NAME =     "%sysfunc(sasmsg(sashelp.dmine, rpt_variable_vlabel, NOQUOTE))"
+23042     +                LEVEL=     "%sysfunc(sasmsg(sashelp.dmine, rpt_fmtValue_vlabel, NOQUOTE))"
+23043     +                FREQUENCY= "%sysfunc(sasmsg(sashelp.dmine, rpt_count_vlabel, NOQUOTE))"
+23044     +                TYPE=      "%sysfunc(sasmsg(sashelp.dmine, meta_type_vlabel, NOQUOTE))"
+23045     +                CRAW=      "%sysfunc(sasmsg(sashelp.dmine, rpt_craw_vlabel, NOQUOTE))"
+23046     +                NRAW=      "%sysfunc(sasmsg(sashelp.dmine, rpt_nraw_vlabel, NOQUOTE))"
+23047     +                REPLACE_VALUE= "%sysfunc(sasmsg(sashelp.dmine, rpt_replace_vlabel, NOQUOTE))";
+23048     +          stop;
+23049     +       run;
+23050     +   %end;
+23051     +   %else %do;
+23052     +       %em_checkmacro(name=EM_TRAIN_MAXLEVELS, global=Y, value=512);
+23053     +        %if "&EM_TRAIN_MAXLEVELS" = "" or "&EM_TRAIN_MAXLEVELS" = "." %then
+23054     +            %let EM_TRAIN_MAXLEVELS= 512;
+23055     +
+23056     +        proc dmdb data=&EM_IMPORT_DATA dmdbcat=emdmdb maxlevel=&EM_TRAIN_MAXLEVELS nonorm CLASSOUT=&outData(drop=CODE FREQPERCENT NMISSPERCENT);
+23057     +          class
+23058     +            %EM_BINARY_TARGET
+23059     +            %EM_ORDINAL_TARGET
+23060     +            %EM_NOMINAL_TARGET
+23061     +            %EM_BINARY_INPUT
+23062     +            %EM_ORDINAL_INPUT
+23063     +            %EM_NOMINAL_INPUT
+23064     +            %EM_BINARY_REJECTED
+23065     +            %EM_ORDINAL_REJECTED
+23066     +            %EM_NOMINAL_REJECTED;
+23067     +          %if (%EM_FREQ ne ) %then %do;
+23068     +             freq %EM_FREQ;
+23069     +         %end;
+23070     +       run;
+23071     +   %end;
+23072     +%mend getLevels;
+23073     +
+23074     +%macro makeOutCLass;
+23075     +   %em_getname(key=OUTCLASS,  type=DATA);
+23076     +   %em_getname(key=NEWVALUES, type=DATA);
+23077     +
+23078     +   %let data= REPLACE_DATA;
+23079     +   %if %sysfunc(exist(&EM_USER_OUTCLASS)) %then %do;
+23080     +       data &data(rename=(REPLACE_VALUE=NEW_REPLACE_VALUE));
+23081     +          set &EM_USER_OUTCLASS;
+23082     +          keep NAME TYPE LEVEL REPLACE_VALUE;
+23083     +          where REPLACE_VALUE ne '';
+23084     +       run;
+23085     +       proc sort data=&Data;
+23086     +          by NAME TYPE LEVEL;
+23087     +       run;
+23088     +   %end;
+23089     +
+23090     +   %getLevels(outdata=&EM_USER_OUTCLASS);
+23091     +
+23092     +   /* Determine Mode */
+23093     +   proc sort data=&EM_USER_OUTCLASS;
+23094     +      by NAME DESCENDING FREQUENCY;
+23095     +   run;
+23096     +   data _null_;
+23097     +      dsid = open("&EM_USER_OUTCLASS");
+23098     +      levelLen = varlen(dsid, varnum(dsid, "LEVEL"));
+23099     +      dsid = close(dsid);
+23100     +      call symput("levelLen", put(max(levelLen, 9), BEST.));
+23101     +   run;
+23102     +
+23103     +   data &EM_USER_OUTCLASS;
+23104     +      length Name $32 LEVEL $&levelLen;
+23105     +      set &EM_USER_OUTCLASS;
+23106     +      length REPLACE_VALUE $200;
+23107     +      label REPLACE_VALUE="%sysfunc(sasmsg(sashelp.dmine, rpt_replace_vlabel, NOQUOTE))";
+23108     +      by NAME;
+23109     +      output;
+23110     +      if last.name then do;
+23111     +         LEVEL="_UNKNOWN_";
+23112     +         Frequency=.;
+23113     +         CRAW='';
+23114     +         NRAW=.;
+23115     +         REPLACE_VALUE="_DEFAULT_";
+23116     +         output;
+23117     +      end;
+23118     +   run;
+23119     +
+23120     +   /* If the file is a copy of an existing one.  Merge previously specified values */
+23121     +   %if %sysfunc(exist(&EM_USER_NEWVALUES)) and (&EM_USER_NEWVALUES ne ) %then %do;
+23122     +       proc sort data=&EM_USER_NEWVALUES(rename=(REPLACE_VALUE=NEW_REPLACE_VALUE));
+23123     +          by NAME TYPE LEVEL;
+23124     +       run;
+23125     +       proc sort data=&EM_USER_OUTCLASS;
+23126     +          by NAME TYPE LEVEL;
+23127     +       run;
+23128     +       data &EM_USER_OUTCLASS(drop=NEW_REPLACE_VALUE);
+23129     +          merge &EM_USER_OUTCLASS(in=_a) &EM_USER_NEWVALUES(in=_b);
+23130     +          by NAME TYPE LEVEL;
+23131     +          if _a then do;
+23132     +             if _b then REPLACE_VALUE=NEW_REPLACE_VALUE;
+23133     +             output;
+23134     +          end;
+23135     +       run;
+23136     +       %let lib    = %scan(&EM_USER_NEWVALUES, 1, .);
+23137     +       %let member = %scan(&EM_USER_NEWVALUES, 2, .);
+23138     +       proc datasets lib=&lib nolist;
+23139     +          delete &member;
+23140     +       run;
+23141     +
+23142     +   %end;
+23143     +
+23144     +   /*  Update the OUTCLASS data using REPLACEMENT values previously specified */
+23145     +   %if %sysfunc(exist(&Data)) %then %do;
+23146     +       proc sort data=&EM_USER_OUTCLASS;
+23147     +          by NAME TYPE LEVEL;
+23148     +       run;
+23149     +       proc sort data=&data;
+23150     +          by NAME TYPE LEVEL;
+23151     +       run;
+23152     +       data &EM_USER_OUTCLASS(drop=NEW_REPLACE_VALUE);
+23153     +          merge &EM_USER_OUTCLASS(in=_a) &Data(in=_b);
+23154     +          by NAME TYPE LEVEL;
+23155     +          if _a then do;
+23156     +             if _b then REPLACE_VALUE=NEW_REPLACE_VALUE;
+23157     +             output;
+23158     +          end;
+23159     +       run;
+23160     +   %end;
+23161     +   proc sort data=&EM_USER_OUTCLASS;
+23162     +      by NAME DESCENDING FREQUENCY;
+23163     +   run;
+23164     +
+23165     +   %let lib = WORK;
+23166     +   %if %index(&EM_USER_OUTCLASS, .) %then %do;
+23167     +       %let lib    = %scan(&EM_USER_OUTCLASS, 1, .);
+23168     +       %let member = %scan(&EM_USER_OUTCLASS, 2, .);
+23169     +   %end;
+23170     +   %else
+23171     +       %let member = &EM_USER_OUTCLASS;
+23172     +
+23173     +   proc datasets lib=&lib nolist;
+23174     +      modify &member;
+23175     +      label NAME =     "%sysfunc(sasmsg(sashelp.dmine, rpt_variable_vlabel, NOQUOTE))"
+23176     +            LEVEL=     "%sysfunc(sasmsg(sashelp.dmine, rpt_fmtValue_vlabel, NOQUOTE))"
+23177     +            FREQUENCY= "%sysfunc(sasmsg(sashelp.dmine, rpt_count_vlabel, NOQUOTE))"
+23178     +            TYPE=      "%sysfunc(sasmsg(sashelp.dmine, meta_type_vlabel, NOQUOTE))"
+23179     +            CRAW=      "%sysfunc(sasmsg(sashelp.dmine, rpt_craw_vlabel, NOQUOTE))"
+23180     +            NRAW=      "%sysfunc(sasmsg(sashelp.dmine, rpt_nraw_vlabel, NOQUOTE))"
+23181     +            REPLACE_VALUE= "%sysfunc(sasmsg(sashelp.dmine, rpt_replace_vlabel, NOQUOTE))";
+23182     +     %if %sysfunc(exist(&data)) %then %do;
+23183     +          delete &data;
+23184     +     %end;
+23185     +   run;
+23186     +
+23187     +   /* Create property file.  Only the records with non-missing REPLACE_VALUE */
+23188     +   data &EM_USER_NEWVALUES / view=&EM_USER_NEWVALUES;
+23189     +      set &EM_USER_OUTCLASS(in=_a);
+23190     +      where REPLACE_VALUE ne '';
+23191     +      keep NAME TYPE LEVEL REPLACE_VALUE;
+23192     +   run;
+23193     +%mend makeOutClass;
+23194     +
+23195     +%macro makeVarLimits;
+23196     +     %let madsString =;
+23197     +     %stdize(data=&em_import_data, metadata=VARIABLESET, method=MADS,     outStat=work.MADS);
+23198     +     %if %sysfunc(exist(work.MADS)) %then %do;
+23199     +         %makeLimits(StatsDs=work.MADS, cutoff=&EM_PROPERTY_MADSCUTOFF, method=MADS);
+23200     +         %let madsString = MADS;
+23201     +         proc append base=work.LIMITS data=work.MADS force;
+23202     +         run;
+23203     +     %end;
+23204     +
+23205     +     %let spacingString = ;
+23206     +     %stdize(data=&em_import_data, metadata=VARIABLESET, method=SPACINGS, outStat=work.SPACINGS);
+23207     +     %if %sysfunc(exist(work.SPACINGS)) %then %do;
+23208     +         %makeLimits(StatsDs=work.SPACINGS, cutoff=&EM_PROPERTY_SPACINGSCUTOFF, method=SPACINGS);
+23209     +         %let spacingString = SPACING;
+23210     +         proc append base=work.LIMITS data=work.SPACINGS force;
+23211     +         run;
+23212     +     %end;
+23213     +
+23214     +     %let percentString = ;
+23215     +     %stdize(data=&em_import_data, metadata=VARIABLESET, method=PERCENTS, outStat=work.PERCENTS);
+23216     +     %if %sysfunc(exist(work.PERCENTS)) %then %do;
+23217     +         %makePctLimits(StatsDs=work.PERCENTS);
+23218     +         %let percentString = PERCENTS;
+23219     +         proc append base=work.LIMITS data=work.PERCENTS(keep=NAME CALCMETHOD UPPERLIMIT LOWERLIMIT LABEL) force ;
+23220     +         run;
+23221     +     %end;
+23222     +
+23223     +     %makeFixedLimits(StatsDs=work.FIXED);
+23224     +     %if %sysfunc(exist(work.FIXED)) %then %do;
+23225     +         proc append base=work.LIMITS data=work.FIXED(keep=NAME CALCMETHOD UPPERLIMIT LOWERLIMIT LABEL) force ;
+23226     +         run;
+23227     +     %end;
+23228     +
+23229     +     %if %sysfunc(exist(work.LIMITS)) %then %do;
+23230     +         proc sort data=work.LIMITS;
+23231     +            by NAME;
+23232     +         run;
+23233     +         %em_getName(key=LIMITS, type=DATA);
+23234     +         data &EM_USER_LIMITS;
+23235     +              merge work.limits(in=_a) variableSet(keep=NAME ROLE LEVEL LABEL REPLACEMETHOD REPLACEMIN REPLACEMAX LABEL);
+23236     +              by NAME;
+23237     +              if _a then output;
+23238     +         run;
+23239     +     %end;
+23240     +
+23241     +
+23242     +
+23243     +     %if %upcase(&EM_DEBUG)=_ALL_ %then %do;
+23244     +          proc print data=&EM_USER_OUTCLASS;run;
+23245     +          proc print data=MADS;run;
+23246     +          proc print data=spacings;run;
+23247     +          proc print data=percents;run;
+23248     +          proc print data=limits;run;
+23249     +     %end;
+23250     +     proc datasets lib=work nolist;
+23251     +        delete &madsString &spacingString &percentString limits;
+23252     +     run;
+23253     +%mend makeVarLimits;
+23254     +
+23255     +%macro stdize(data=, metadata=, method=, outStat=work.StdizeStat);
+23256     +
+23257     +    %if &method ne PERCENTS %then %do;
+23258     +        %em_varmacro(Name=&method, metadata=&metadata,
+23259     +                  where=%nrbquote(CALCMETHOD="&method"));
+23260     +    %end;
+23261     +    %else %do;
+23262     +        %em_varmacro(Name=&method, metadata=&metadata,
+23263     +        where=%nrbquote(CALCMETHOD in("STDDEV", "PERCENTS")));
+23264     +    %end;
+23265     +    %if %&method eq %then %goto doend;
+23266     +
+23267     +    %let optionString=&method;
+23268     +
+23269     +    %if &method=MADS %then %let optionString = %nrbquote(method=MAD NORM);
+23270     +    %else
+23271     +        %if &method=SPACINGS %then %let optionString = %nrbquote(method=spacing(50) NORM);
+23272     +        %else
+23273     +           %if &method=PERCENTS %then %do;
+23274     +               %let uCutoff = %sysevalf(100-&em_property_percentsCutoff);
+23275     +               %let optionString = pctlpts=&em_property_PercentsCutoff &uCutoff;
+23276     +           %end;
+23277     +
+23278     +    &em_codebar;
+23279     +    * &EM_NODEID: Method &em_property_method;
+23280     +    &EM_codebar;
+23281     +    proc stdize data=&data outstat=&outstat out=_null_
+23282     +       &optionString
+23283     +       ;
+23284     +       var  %&method;
+23285     +       %if %em_freq ne %then %do;
+23286     +           freq %em_freq;
+23287     +       %end;
+23288     +    run;
+23289     +
+23290     +    %if &method=MADS or &method=SPACINGS %then %do;
+23291     +        proc transpose data=&outStat out=&outStat(drop=_LABEL_ rename=(_NAME_=NAME col1=LOCATION col2=SCALE));
+23292     +           where _TYPE_ in('LOCATION', 'SCALE');
+23293     +        run;
+23294     +    %end;
+23295     +    %else
+23296     +        %if &method=PERCENTS %then %do;
+23297     +            proc transpose data=&outStat out=&outStat(drop=_LABEL_ rename=(_NAME_=NAME col1=LOCATION col2=SCALE col3=PMin col4=PMax));
+23298     +               where _TYPE_ ^in ('ADD', 'MULT', 'N', 'SumFreqsRead', 'SumFreqsUsed', 'NObsRead', 'NObsUsed', 'NObsMiss');
+23299     +           run;
+23300     +       %end;
+23301     +   %doend:
+23302     +%mend stdize;
+23303     +
+23304     +%macro makeLimits(StatsDs=, cutoff=, method=);
+23305     +    %if ^%sysfunc(exist(&StatSDs)) %then %goto doendm;
+23306     +    data &StatsDs;
+23307     +       set &StatsDs;
+23308     +       length CALCMETHOD $10;
+23309     +       retain CALCMETHOD "&METHOD";
+23310     +       LowerLimit = location - &cutoff*scale;
+23311     +       UpperLimit = location + &cutoff*scale;
+23312     +       drop location scale;
+23313     +       Label LowerLimit =  "%sysfunc(sasmsg(sashelp.dmine, meta_lowerLimit_vlabel, NOQUOTE))"
+23314     +             UpperLimit =  "%sysfunc(sasmsg(sashelp.dmine, meta_upperLimit_vlabel, NOQUOTE))";
+23315     +    run;
+23316     +
+23317     +    %doendm:
+23318     +%mend makeLimits;
+23319     +
+23320     +%macro makeFixedLimits(statsDs=);
+23321     +    data &statsDs;
+23322     +       set VARIABLESET(where=(CALCMETHOD in('MANUAL', 'METALIMIT')) keep=NAME CALCMETHOD UPPERLIMIT LOWERLIMIT INTERVALMIN INTERVALMAX LABEL);
+23323     +       by NAME;
+23324     +       select(CALCMETHOD);
+23325     +          when('METALIMIT') do;
+23326     +             if UPPERLIMIT eq . and LOWERLIMIT eq . then delete;
+23327     +          end;
+23328     +          when('MANUAL') do;
+23329     +             if INTERVALMIN eq . and INTERVALMAX eq . then delete;
+23330     +             else do;
+23331     +                LOWERLIMIT = INTERVALMIN;
+23332     +                UPPERLIMIT = INTERVALMAX;
+23333     +             end;
+23334     +          end;
+23335     +          otherwise;
+23336     +       end;
+23337     +    run;
+23338     +    %let nobs=0;
+23339     +    %let dsid = %sysfunc(open(&statsDs));
+23340     +    %if &dsid>0 %then %do;
+23341     +        %let nobs = %sysfunc(attrn(&dsid, NOBS));
+23342     +        %let dsid = %sysfunc(close(&dsid));
+23343     +    %end;
+23344     +    %if ^&nobs %then %do;
+23345     +        %let nameDs = %scan(&statsDs, 2, .);
+23346     +        proc datasets lib=WORK nolist;
+23347     +           delete &nameDs;
+23348     +         run;
+23349     +    %end;
+23350     +
+23351     +%mend makeFixedLimits;
+23352     +
+23353     +%macro makePctLimits(StatsDs=);
+23354     +    %if ^%sysfunc(exist(&StatSDs)) %then %goto doendp;
+23355     +    data &statsDs;
+23356     +       merge &statsDs VARIABLESET(where=(CALCMETHOD in('PERCENTS', 'STDDEV')) keep=NAME CALCMETHOD UPPERLIMIT LOWERLIMIT INTERVALMIN INTERVALMAX LABEL);
+23357     +       by NAME;
+23358     +       select(CALCMETHOD);
+23359     +          when('PERCENTS') do;
+23360     +             if PMIN eq . and PMAX eq . then delete;
+23361     +             else do;
+23362     +                LOWERLIMIT = PMIN;
+23363     +                UPPERLIMIT = PMAX;
+23364     +             end;
+23365     +          end;
+23366     +          when('STDDEV') do;
+23367     +              LOWERLIMIT = LOCATION - (&EM_PROPERTY_STDDEVCUTOFF*SCALE);
+23368     +              UPPERLIMIT = LOCATION + (&EM_PROPERTY_STDDEVCUTOFF*SCALE);
+23369     +          end;
+23370     +          otherwise;
+23371     +       end;
+23372     +    run;
+23373     +   %doendp:
+23374     +%mend makePctLimits;
+23375     +
+23376     +%macro train;
+23377     +
+23378     +   %if "&em_import_data" eq "" %then %do;
+23379     +       %let emexceptionString = exception.server.IMPORT.NOTRAIN,1;
+23380     +       %goto doendm;
+23381     +   %end;
+23382     +
+23383     +    /* Process Class variables */
+23384     +    %makeOutClass;
+23385     +
+23386     +    /* Interval Variables */
+23387     +     data VARIABLESET;
+23388     +        set &EM_DATA_VARIABLESET(where=(LEVEL="INTERVAL" and ((ROLE in("REJECTED", "TARGET") and USE="Y")
+23389     +             or (ROLE="INPUT" and USE in("Y", "D")) )));
+23390     +        if CALCMETHOD eq "DEFAULT" then CALCMETHOD="&EM_PROPERTY_CALCMETHOD";
+23391     +        if CALCMETHOD ^in("NONE", "METALIMIT") or (CALCMETHOD eq "METALIMIT" and ^(LOWERLIMIT eq . and UPPERLIMIT eq .)) then output;
+23392     +     run;
+23393     +     proc sort data=VARIABLESET out=VARIABLESET;
+23394     +        by NAME;
+23395     +     run;
+23396     +
+23397     +     %let varnum=0;
+23398     +     %let dsid = %sysfunc(open(VARIABLESET));
+23399     +     %if &dsid>0 %then %do;
+23400     +         %let varnum = %sysfunc(attrn(&dsid, NOBS));
+23401     +         %let dsid = %sysfunc(close(&dsid));
+23402     +     %end;
+23403     +     %if ^&varnum %then %do;
+23404     +          %em_getName(key=LIMITS, type=DATA);
+23405     +          %let limitDs = %scan(&em_user_limits, 2, .);
+23406     +          proc datasets lib=&em_lib nolist;
+23407     +             delete &limitDs;
+23408     +          run;
+23409     +     %end;
+23410     +     %else %do;
+23411     +         %makeVarLimits;
+23412     +     %end;
+23413     +
+23414     +   %doendm:
+23415     +
+23416     +%mend train;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(MAIN):   filename temp;
+NOTE: Fileref TEMP을(를) 삭제했습니다.
+MPRINT(MAKEOUTCLASS):  ;
+MPRINT(MAKEOUTCLASS):  ;
+MPRINT(MAKEOUTCLASS):   data REPLACE_DATA(rename=(REPLACE_VALUE=NEW_REPLACE_VALUE));
+MPRINT(MAKEOUTCLASS):   set EMWS6.Repl_OUTCLASS;
+MPRINT(MAKEOUTCLASS):   keep NAME TYPE LEVEL REPLACE_VALUE;
+MPRINT(MAKEOUTCLASS):   where REPLACE_VALUE ne '';
+MPRINT(MAKEOUTCLASS):   run;
+
+NOTE: 0개의 관측값을 데이터셋 EMWS6.REPL_OUTCLASS.에서 읽었습니다.
+      WHERE REPLACE_VALUE not = ' ';
+NOTE: 데이터셋 WORK.REPLACE_DATA은(는) 0개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKEOUTCLASS):   proc sort data=REPLACE_DATA;
+MPRINT(MAKEOUTCLASS):   by NAME TYPE LEVEL;
+MPRINT(MAKEOUTCLASS):   run;
+
+NOTE: 입력 데이터셋이 비어 있습니다.
+NOTE: 데이터셋 WORK.REPLACE_DATA은(는) 0개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(GETLEVELS):  ;
+MPRINT(GETLEVELS):   proc dmdb data=EMWS6.Part4_TRAIN dmdbcat=emdmdb maxlevel=512 nonorm CLASSOUT=EMWS6.Repl_OUTCLASS(drop=CODE FREQPERCENT NMISSPERCENT);
+MPRINT(GETLEVELS):   class
+MPRINT(EM_BINARY_TARGET):   BAD
+MPRINT(EM_BINARY_INPUT):   REASON
+MPRINT(EM_NOMINAL_INPUT):   JOB
+MPRINT(GETLEVELS):  ;
+MPRINT(GETLEVELS):   run;
+
+NOTE: Records processed = 4170   Memory used = 511K.
+NOTE: 4170개의 관측값을 데이터셋 EMWS6.PART4_TRAIN.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.REPL_OUTCLASS은(는) 12개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: 프로시저 DMDB 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(MAKEOUTCLASS):  ;
+MPRINT(MAKEOUTCLASS):   proc sort data=EMWS6.Repl_OUTCLASS;
+MPRINT(MAKEOUTCLASS):   by NAME DESCENDING FREQUENCY;
+MPRINT(MAKEOUTCLASS):   run;
+
+NOTE: 12개의 관측값을 데이터셋 EMWS6.REPL_OUTCLASS.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.REPL_OUTCLASS은(는) 12개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKEOUTCLASS):   data _null_;
+MPRINT(MAKEOUTCLASS):   dsid = open("EMWS6.Repl_OUTCLASS");
+MPRINT(MAKEOUTCLASS):   levelLen = varlen(dsid, varnum(dsid, "LEVEL"));
+MPRINT(MAKEOUTCLASS):   dsid = close(dsid);
+MPRINT(MAKEOUTCLASS):   call symput("levelLen", put(max(levelLen, 9), BEST.));
+MPRINT(MAKEOUTCLASS):   run;
+
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(MAKEOUTCLASS):   data EMWS6.Repl_OUTCLASS;
+MPRINT(MAKEOUTCLASS):   length Name $32 LEVEL $ 12;
+MPRINT(MAKEOUTCLASS):   set EMWS6.Repl_OUTCLASS;
+MPRINT(MAKEOUTCLASS):   length REPLACE_VALUE $200;
+MPRINT(MAKEOUTCLASS):   label REPLACE_VALUE= "대체값";
+MPRINT(MAKEOUTCLASS):   by NAME;
+MPRINT(MAKEOUTCLASS):   output;
+MPRINT(MAKEOUTCLASS):   if last.name then do;
+MPRINT(MAKEOUTCLASS):   LEVEL="_UNKNOWN_";
+MPRINT(MAKEOUTCLASS):   Frequency=.;
+MPRINT(MAKEOUTCLASS):   CRAW='';
+MPRINT(MAKEOUTCLASS):   NRAW=.;
+MPRINT(MAKEOUTCLASS):   REPLACE_VALUE="_DEFAULT_";
+MPRINT(MAKEOUTCLASS):   output;
+MPRINT(MAKEOUTCLASS):   end;
+MPRINT(MAKEOUTCLASS):   run;
+
+NOTE: 12개의 관측값을 데이터셋 EMWS6.REPL_OUTCLASS.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.REPL_OUTCLASS은(는) 15개의 관측값과 7개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKEOUTCLASS):   proc sort data=EMWS6.Repl_OUTCLASS;
+MPRINT(MAKEOUTCLASS):   by NAME TYPE LEVEL;
+MPRINT(MAKEOUTCLASS):   run;
+
+NOTE: 15개의 관측값을 데이터셋 EMWS6.REPL_OUTCLASS.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.REPL_OUTCLASS은(는) 15개의 관측값과 7개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKEOUTCLASS):   proc sort data=REPLACE_DATA;
+MPRINT(MAKEOUTCLASS):   by NAME TYPE LEVEL;
+MPRINT(MAKEOUTCLASS):   run;
+
+NOTE: 입력 데이터셋이 이미 정렬되어 있어서, 정렬을 실행하지 않았습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(MAKEOUTCLASS):   data EMWS6.Repl_OUTCLASS(drop=NEW_REPLACE_VALUE);
+MPRINT(MAKEOUTCLASS):   merge EMWS6.Repl_OUTCLASS(in=_a) REPLACE_DATA(in=_b);
+MPRINT(MAKEOUTCLASS):   by NAME TYPE LEVEL;
+MPRINT(MAKEOUTCLASS):   if _a then do;
+MPRINT(MAKEOUTCLASS):   if _b then REPLACE_VALUE=NEW_REPLACE_VALUE;
+MPRINT(MAKEOUTCLASS):   output;
+MPRINT(MAKEOUTCLASS):   end;
+MPRINT(MAKEOUTCLASS):   run;
+
+NOTE: 15개의 관측값을 데이터셋 EMWS6.REPL_OUTCLASS.에서 읽었습니다.
+NOTE: 0개의 관측값을 데이터셋 WORK.REPLACE_DATA.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.REPL_OUTCLASS은(는) 15개의 관측값과 7개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKEOUTCLASS):   proc sort data=EMWS6.Repl_OUTCLASS;
+MPRINT(MAKEOUTCLASS):   by NAME DESCENDING FREQUENCY;
+MPRINT(MAKEOUTCLASS):   run;
+
+NOTE: 15개의 관측값을 데이터셋 EMWS6.REPL_OUTCLASS.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.REPL_OUTCLASS은(는) 15개의 관측값과 7개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKEOUTCLASS):   proc datasets lib=EMWS6 nolist;
+MPRINT(MAKEOUTCLASS):   modify Repl_OUTCLASS;
+MPRINT(MAKEOUTCLASS):   label NAME = "변수" LEVEL= "출력형식 값" FREQUENCY= "빈도 개수" TYPE= "유형" CRAW= "출력형식이 적용되지 않은 문자 값" NRAW= "숫자값" REPLACE_VALUE= "대체값";
+NOTE: EMWS6.REPL_OUTCLASS.DATA에 대한 MODIFY에 성공했습니다.
+MPRINT(MAKEOUTCLASS):   delete REPLACE_DATA;
+MPRINT(MAKEOUTCLASS):   run;
+
+NOTE: 파일 EMWS6.REPLACE_DATA(memtype=DATA)을(를) 찾을 수 없지만, DELETE 문장에 나타납니다.
+
+NOTE: 프로시저 DATASETS 실행(총 프로세스 시간):
+      실행 시간           0.15 초
+      cpu 시간            0.17 초
+      
+
+MPRINT(MAKEOUTCLASS):   data EMWS6.Repl_NEWVALUES / view=EMWS6.Repl_NEWVALUES;
+MPRINT(MAKEOUTCLASS):   set EMWS6.Repl_OUTCLASS(in=_a);
+MPRINT(MAKEOUTCLASS):   where REPLACE_VALUE ne '';
+MPRINT(MAKEOUTCLASS):   keep NAME TYPE LEVEL REPLACE_VALUE;
+MPRINT(MAKEOUTCLASS):   run;
+
+NOTE: DATA STEP 뷰가 파일 EMWS6.REPL_NEWVALUES에 저장되었습니다.
+NOTE: 저장된 DATA STEP 뷰는 다른 운영 체제에서 실행할 수 없습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):   data VARIABLESET;
+MPRINT(TRAIN):   set EMWS6.Repl_VariableSet(where=(LEVEL="INTERVAL" and ((ROLE in("REJECTED", "TARGET") and USE="Y") or (ROLE="INPUT" and USE in("Y", "D")) )));
+MPRINT(TRAIN):   if CALCMETHOD eq "DEFAULT" then CALCMETHOD="STDDEV";
+MPRINT(TRAIN):   if CALCMETHOD ^in("NONE", "METALIMIT") or (CALCMETHOD eq "METALIMIT" and ^(LOWERLIMIT eq . and UPPERLIMIT eq .)) then output;
+MPRINT(TRAIN):   run;
+
+NOTE: 10개의 관측값을 데이터셋 EMWS6.REPL_VARIABLESET.에서 읽었습니다.
+      WHERE (LEVEL='INTERVAL') and ((ROLE in ('REJECTED', 'TARGET') and (USE='Y')) or ((ROLE='INPUT') and USE in ('D', 'Y')));
+NOTE: 데이터셋 WORK.VARIABLESET은(는) 10개의 관측값과 27개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):   proc sort data=VARIABLESET out=VARIABLESET;
+MPRINT(TRAIN):   by NAME;
+MPRINT(TRAIN):   run;
+
+NOTE: 10개의 관측값을 데이터셋 WORK.VARIABLESET.에서 읽었습니다.
+NOTE: 데이터셋 WORK.VARIABLESET은(는) 10개의 관측값과 27개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(EM_VARMACRO):   filename macFile catalog 'work.emutil.macro.source';
+MPRINT(EM_VARMACRO):   data _null_;
+MPRINT(EM_VARMACRO):   length _STRING_ $80;
+MPRINT(EM_VARMACRO):   retain _STRING_ '' maxvar 0;
+MPRINT(EM_VARMACRO):   set VARIABLESET end=eof;
+MPRINT(EM_VARMACRO):   file macFile;
+MPRINT(EM_VARMACRO):   where (CALCMETHOD="MADS");
+MPRINT(EM_VARMACRO):   if _N_=1 then do;
+MPRINT(EM_VARMACRO):   string = "%"!!"macro MADS;";
+MPRINT(EM_VARMACRO):   put string;
+MPRINT(EM_VARMACRO):   end;
+MPRINT(EM_VARMACRO):   maxvar +1;
+MPRINT(EM_VARMACRO):   if (length(_STRING_) + length(trim(NAME))+ 4 < 80) then do;
+MPRINT(EM_VARMACRO):   _STRING_ = trim(_STRING_)!!' '!!trim(NAME);
+MPRINT(EM_VARMACRO):   if eof then do;
+MPRINT(EM_VARMACRO):   put _STRING_;
+MPRINT(EM_VARMACRO):   string = "%"!!"mend MADS;";
+MPRINT(EM_VARMACRO):   put string;
+MPRINT(EM_VARMACRO):   string = strip(put(_N_, best.));
+MPRINT(EM_VARMACRO):   call symput('_METAOBS', string);
+MPRINT(EM_VARMACRO):   stop;
+MPRINT(EM_VARMACRO):   end;
+MPRINT(EM_VARMACRO):   end;
+MPRINT(EM_VARMACRO):   else do;
+MPRINT(EM_VARMACRO):   put _STRING_;
+MPRINT(EM_VARMACRO):   _string_ = TRIM(NAME);
+MPRINT(EM_VARMACRO):   if eof then do;
+MPRINT(EM_VARMACRO):   put _STRING_;
+MPRINT(EM_VARMACRO):   string = "%"!!"mend MADS;";
+MPRINT(EM_VARMACRO):   put string;
+MPRINT(EM_VARMACRO):   end;
+MPRINT(EM_VARMACRO):   end;
+MPRINT(EM_VARMACRO):   if eof then do;
+MPRINT(EM_VARMACRO):   string = strip(put(_N_, best.));
+MPRINT(EM_VARMACRO):   call symput('_METAOBS', string);
+MPRINT(EM_VARMACRO):   stop;
+MPRINT(EM_VARMACRO):   end;
+MPRINT(EM_VARMACRO):   run;
+
+NOTE: 파일 MACFILE:
+      Catalog Name=WORK.EMUTIL.MACRO.SOURCE,
+      카탈로그 페이지 크기=4096,
+      카탈로그 페이지 번호=4,
+      생성일=2018년 11월 20일 화 오전 11시 26분 47초,
+      마지막 수정일=2018년 11월 20일 화 오전 11시 26분 47초,
+      파일 이름=C:\Users\ADMINI~1\AppData\Local\Temp\SAS Temporary Files\_TD14412_DESKTOP-IOK0OJ9_\Prc2\emutil.sas7bcat,
+      생성된 릴리즈=9.0401M4,
+      생성된 호스트=X64_10HOME,
+      소유자 이름=BUILTIN\Administrators,
+      파일 크기=             5KB,
+      파일 크기 (바이트)=5120
+
+NOTE: 0개의 레코드를 파일 MACFILE에 기록했습니다.
+NOTE: 0개의 관측값을 데이터셋 WORK.VARIABLESET.에서 읽었습니다.
+      WHERE CALCMETHOD='MADS';
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(EM_VARMACRO):   data _null_;
+MPRINT(EM_VARMACRO):   file macFile;
+MPRINT(EM_VARMACRO):   put "%" "macro MADS;";
+MPRINT(EM_VARMACRO):   put "%" "mend MADS;";
+MPRINT(EM_VARMACRO):   run;
+
+NOTE: 파일 MACFILE:
+      Catalog Name=WORK.EMUTIL.MACRO.SOURCE,
+      카탈로그 페이지 크기=4096,
+      카탈로그 페이지 번호=5,
+      생성일=2018년 11월 20일 화 오전 11시 26분 47초,
+      마지막 수정일=2018년 11월 20일 화 오전 11시 26분 47초,
+      파일 이름=C:\Users\ADMINI~1\AppData\Local\Temp\SAS Temporary Files\_TD14412_DESKTOP-IOK0OJ9_\Prc2\emutil.sas7bcat,
+      생성된 릴리즈=9.0401M4,
+      생성된 호스트=X64_10HOME,
+      소유자 이름=BUILTIN\Administrators,
+      파일 크기=            17KB,
+      파일 크기 (바이트)=17408
+
+NOTE: 2개의 레코드를 파일 MACFILE에 기록했습니다.
+      최소 레코드 길이는 11입니다.
+      최대 레코드 길이는 12입니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.00 초
+      
+
+NOTE: %INCLUDE(레벨 1) 파일 MACFILE은(는) 파일 WORK.EMUTIL.MACRO.SOURCE입니다.
+23417     +%macro MADS;
+23418     +%mend MADS;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(EM_VARMACRO):   filename macFile;
+NOTE: Fileref MACFILE을(를) 삭제했습니다.
+MPRINT(STDIZE):  ;
+MPRINT(MAKEVARLIMITS):  ;
+MPRINT(EM_VARMACRO):   filename macFile catalog 'work.emutil.macro.source';
+MPRINT(EM_VARMACRO):   data _null_;
+MPRINT(EM_VARMACRO):   length _STRING_ $80;
+MPRINT(EM_VARMACRO):   retain _STRING_ '' maxvar 0;
+MPRINT(EM_VARMACRO):   set VARIABLESET end=eof;
+MPRINT(EM_VARMACRO):   file macFile;
+MPRINT(EM_VARMACRO):   where (CALCMETHOD="SPACINGS");
+MPRINT(EM_VARMACRO):   if _N_=1 then do;
+MPRINT(EM_VARMACRO):   string = "%"!!"macro SPACINGS;";
+MPRINT(EM_VARMACRO):   put string;
+MPRINT(EM_VARMACRO):   end;
+MPRINT(EM_VARMACRO):   maxvar +1;
+MPRINT(EM_VARMACRO):   if (length(_STRING_) + length(trim(NAME))+ 4 < 80) then do;
+MPRINT(EM_VARMACRO):   _STRING_ = trim(_STRING_)!!' '!!trim(NAME);
+MPRINT(EM_VARMACRO):   if eof then do;
+MPRINT(EM_VARMACRO):   put _STRING_;
+MPRINT(EM_VARMACRO):   string = "%"!!"mend SPACINGS;";
+MPRINT(EM_VARMACRO):   put string;
+MPRINT(EM_VARMACRO):   string = strip(put(_N_, best.));
+MPRINT(EM_VARMACRO):   call symput('_METAOBS', string);
+MPRINT(EM_VARMACRO):   stop;
+MPRINT(EM_VARMACRO):   end;
+MPRINT(EM_VARMACRO):   end;
+MPRINT(EM_VARMACRO):   else do;
+MPRINT(EM_VARMACRO):   put _STRING_;
+MPRINT(EM_VARMACRO):   _string_ = TRIM(NAME);
+MPRINT(EM_VARMACRO):   if eof then do;
+MPRINT(EM_VARMACRO):   put _STRING_;
+MPRINT(EM_VARMACRO):   string = "%"!!"mend SPACINGS;";
+MPRINT(EM_VARMACRO):   put string;
+MPRINT(EM_VARMACRO):   end;
+MPRINT(EM_VARMACRO):   end;
+MPRINT(EM_VARMACRO):   if eof then do;
+MPRINT(EM_VARMACRO):   string = strip(put(_N_, best.));
+MPRINT(EM_VARMACRO):   call symput('_METAOBS', string);
+MPRINT(EM_VARMACRO):   stop;
+MPRINT(EM_VARMACRO):   end;
+MPRINT(EM_VARMACRO):   run;
+
+NOTE: 파일 MACFILE:
+      Catalog Name=WORK.EMUTIL.MACRO.SOURCE,
+      카탈로그 페이지 크기=4096,
+      카탈로그 페이지 번호=5,
+      생성일=2018년 11월 20일 화 오전 11시 26분 47초,
+      마지막 수정일=2018년 11월 20일 화 오전 11시 26분 47초,
+      파일 이름=C:\Users\ADMINI~1\AppData\Local\Temp\SAS Temporary Files\_TD14412_DESKTOP-IOK0OJ9_\Prc2\emutil.sas7bcat,
+      생성된 릴리즈=9.0401M4,
+      생성된 호스트=X64_10HOME,
+      소유자 이름=BUILTIN\Administrators,
+      파일 크기=            21KB,
+      파일 크기 (바이트)=21504
+
+NOTE: 0개의 레코드를 파일 MACFILE에 기록했습니다.
+NOTE: 0개의 관측값을 데이터셋 WORK.VARIABLESET.에서 읽었습니다.
+      WHERE CALCMETHOD='SPACINGS';
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(EM_VARMACRO):   data _null_;
+MPRINT(EM_VARMACRO):   file macFile;
+MPRINT(EM_VARMACRO):   put "%" "macro SPACINGS;";
+MPRINT(EM_VARMACRO):   put "%" "mend SPACINGS;";
+MPRINT(EM_VARMACRO):   run;
+
+NOTE: 파일 MACFILE:
+      Catalog Name=WORK.EMUTIL.MACRO.SOURCE,
+      카탈로그 페이지 크기=4096,
+      카탈로그 페이지 번호=5,
+      생성일=2018년 11월 20일 화 오전 11시 26분 47초,
+      마지막 수정일=2018년 11월 20일 화 오전 11시 26분 47초,
+      파일 이름=C:\Users\ADMINI~1\AppData\Local\Temp\SAS Temporary Files\_TD14412_DESKTOP-IOK0OJ9_\Prc2\emutil.sas7bcat,
+      생성된 릴리즈=9.0401M4,
+      생성된 호스트=X64_10HOME,
+      소유자 이름=BUILTIN\Administrators,
+      파일 크기=            21KB,
+      파일 크기 (바이트)=21504
+
+NOTE: 2개의 레코드를 파일 MACFILE에 기록했습니다.
+      최소 레코드 길이는 15입니다.
+      최대 레코드 길이는 16입니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+NOTE: %INCLUDE(레벨 1) 파일 MACFILE은(는) 파일 WORK.EMUTIL.MACRO.SOURCE입니다.
+23419     +%macro SPACINGS;
+23420     +%mend SPACINGS;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(EM_VARMACRO):   filename macFile;
+NOTE: Fileref MACFILE을(를) 삭제했습니다.
+MPRINT(STDIZE):  ;
+MPRINT(MAKEVARLIMITS):  ;
+MPRINT(EM_VARMACRO):   filename macFile catalog 'work.emutil.macro.source';
+MPRINT(EM_VARMACRO):   data _null_;
+MPRINT(EM_VARMACRO):   length _STRING_ $80;
+MPRINT(EM_VARMACRO):   retain _STRING_ '' maxvar 0;
+MPRINT(EM_VARMACRO):   set VARIABLESET end=eof;
+MPRINT(EM_VARMACRO):   file macFile;
+MPRINT(EM_VARMACRO):   where (CALCMETHOD in("STDDEV", "PERCENTS"));
+MPRINT(EM_VARMACRO):   if _N_=1 then do;
+MPRINT(EM_VARMACRO):   string = "%"!!"macro PERCENTS;";
+MPRINT(EM_VARMACRO):   put string;
+MPRINT(EM_VARMACRO):   end;
+MPRINT(EM_VARMACRO):   maxvar +1;
+MPRINT(EM_VARMACRO):   if (length(_STRING_) + length(trim(NAME))+ 4 < 80) then do;
+MPRINT(EM_VARMACRO):   _STRING_ = trim(_STRING_)!!' '!!trim(NAME);
+MPRINT(EM_VARMACRO):   if eof then do;
+MPRINT(EM_VARMACRO):   put _STRING_;
+MPRINT(EM_VARMACRO):   string = "%"!!"mend PERCENTS;";
+MPRINT(EM_VARMACRO):   put string;
+MPRINT(EM_VARMACRO):   string = strip(put(_N_, best.));
+MPRINT(EM_VARMACRO):   call symput('_METAOBS', string);
+MPRINT(EM_VARMACRO):   stop;
+MPRINT(EM_VARMACRO):   end;
+MPRINT(EM_VARMACRO):   end;
+MPRINT(EM_VARMACRO):   else do;
+MPRINT(EM_VARMACRO):   put _STRING_;
+MPRINT(EM_VARMACRO):   _string_ = TRIM(NAME);
+MPRINT(EM_VARMACRO):   if eof then do;
+MPRINT(EM_VARMACRO):   put _STRING_;
+MPRINT(EM_VARMACRO):   string = "%"!!"mend PERCENTS;";
+MPRINT(EM_VARMACRO):   put string;
+MPRINT(EM_VARMACRO):   end;
+MPRINT(EM_VARMACRO):   end;
+MPRINT(EM_VARMACRO):   if eof then do;
+MPRINT(EM_VARMACRO):   string = strip(put(_N_, best.));
+MPRINT(EM_VARMACRO):   call symput('_METAOBS', string);
+MPRINT(EM_VARMACRO):   stop;
+MPRINT(EM_VARMACRO):   end;
+MPRINT(EM_VARMACRO):   run;
+
+NOTE: 파일 MACFILE:
+      Catalog Name=WORK.EMUTIL.MACRO.SOURCE,
+      카탈로그 페이지 크기=4096,
+      카탈로그 페이지 번호=5,
+      생성일=2018년 11월 20일 화 오전 11시 26분 47초,
+      마지막 수정일=2018년 11월 20일 화 오전 11시 26분 47초,
+      파일 이름=C:\Users\ADMINI~1\AppData\Local\Temp\SAS Temporary Files\_TD14412_DESKTOP-IOK0OJ9_\Prc2\emutil.sas7bcat,
+      생성된 릴리즈=9.0401M4,
+      생성된 호스트=X64_10HOME,
+      소유자 이름=BUILTIN\Administrators,
+      파일 크기=            21KB,
+      파일 크기 (바이트)=21504
+
+NOTE: 3개의 레코드를 파일 MACFILE에 기록했습니다.
+      최소 레코드 길이는 15입니다.
+      최대 레코드 길이는 53입니다.
+NOTE: 9개의 관측값을 데이터셋 WORK.VARIABLESET.에서 읽었습니다.
+      WHERE CALCMETHOD in ('PERCENTS', 'STDDEV');
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+NOTE: %INCLUDE(레벨 1) 파일 MACFILE은(는) 파일 WORK.EMUTIL.MACRO.SOURCE입니다.
+23421     +%macro PERCENTS;
+23422     +CLNO DEBTINC DELINQ DEROG LOAN MORTDUE NINQ VALUE YOJ
+23423     +%mend PERCENTS;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(EM_VARMACRO):   filename macFile;
+NOTE: Fileref MACFILE을(를) 삭제했습니다.
+MPRINT(STDIZE):  ;
+MPRINT(STDIZE):   *------------------------------------------------------------*;
+MPRINT(STDIZE):   * &EM_NODEID: Method &em_property_method;
+MPRINT(STDIZE):   *------------------------------------------------------------*;
+MPRINT(STDIZE):   proc stdize data=EMWS6.Part4_TRAIN outstat=work.PERCENTS out=_null_ pctlpts=0.5 99.5 ;
+MPRINT(STDIZE):   var
+MPRINT(PERCENTS):   CLNO DEBTINC DELINQ DEROG LOAN MORTDUE NINQ VALUE YOJ
+MPRINT(STDIZE):  ;
+MPRINT(STDIZE):   run;
+
+NOTE: 4170개의 관측값을 데이터셋 EMWS6.PART4_TRAIN.에서 읽었습니다.
+NOTE: 데이터셋 WORK.PERCENTS은(는) 10개의 관측값과 10개의 변수를 가지고 있습니다.
+NOTE: 프로시저 STDIZE 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(STDIZE):   proc transpose data=work.PERCENTS out=work.PERCENTS(drop=_LABEL_ rename=(_NAME_=NAME col1=LOCATION col2=SCALE col3=PMin col4=PMax));
+MPRINT(STDIZE):   where _TYPE_ ^in ('ADD', 'MULT', 'N', 'SumFreqsRead', 'SumFreqsUsed', 'NObsRead', 'NObsUsed', 'NObsMiss');
+MPRINT(STDIZE):   run;
+
+WARNING: DROP, KEEP 또는 RENAME의 변수 _LABEL_은(는) 참조되지 않습니다.
+NOTE: 4개의 관측값을 데이터셋 WORK.PERCENTS.에서 읽었습니다.
+      WHERE _TYPE_ not in ('ADD', 'MULT', 'N', 'NObsMiss', 'NObsRead', 'NObsUsed', 'SumFreqsRead', 'SumFreqsUsed');
+NOTE: 데이터셋 WORK.PERCENTS은(는) 9개의 관측값과 5개의 변수를 가지고 있습니다.
+NOTE: 프로시저 TRANSPOSE 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(MAKEVARLIMITS):  ;
+MPRINT(MAKEPCTLIMITS):   data work.PERCENTS;
+MPRINT(MAKEPCTLIMITS):   merge work.PERCENTS VARIABLESET(where=(CALCMETHOD in('PERCENTS', 'STDDEV')) keep=NAME CALCMETHOD UPPERLIMIT LOWERLIMIT INTERVALMIN INTERVALMAX LABEL);
+MPRINT(MAKEPCTLIMITS):   by NAME;
+MPRINT(MAKEPCTLIMITS):   select(CALCMETHOD);
+MPRINT(MAKEPCTLIMITS):   when('PERCENTS') do;
+MPRINT(MAKEPCTLIMITS):   if PMIN eq . and PMAX eq . then delete;
+MPRINT(MAKEPCTLIMITS):   else do;
+MPRINT(MAKEPCTLIMITS):   LOWERLIMIT = PMIN;
+MPRINT(MAKEPCTLIMITS):   UPPERLIMIT = PMAX;
+MPRINT(MAKEPCTLIMITS):   end;
+MPRINT(MAKEPCTLIMITS):   end;
+MPRINT(MAKEPCTLIMITS):   when('STDDEV') do;
+MPRINT(MAKEPCTLIMITS):   LOWERLIMIT = LOCATION - (3.0*SCALE);
+MPRINT(MAKEPCTLIMITS):   UPPERLIMIT = LOCATION + (3.0*SCALE);
+MPRINT(MAKEPCTLIMITS):   end;
+MPRINT(MAKEPCTLIMITS):   otherwise;
+MPRINT(MAKEPCTLIMITS):   end;
+MPRINT(MAKEPCTLIMITS):   run;
+
+WARNING: 입력 데이터셋으로 BY 변수 NAME에 대해 여러 길이가 지정되었습니다. 예상하지 못한 결과를 발생시킬 수 있습니다.
+NOTE: 9개의 관측값을 데이터셋 WORK.PERCENTS.에서 읽었습니다.
+NOTE: 9개의 관측값을 데이터셋 WORK.VARIABLESET.에서 읽었습니다.
+      WHERE CALCMETHOD in ('PERCENTS', 'STDDEV');
+NOTE: 데이터셋 WORK.PERCENTS은(는) 9개의 관측값과 11개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKEVARLIMITS):  ;
+MPRINT(MAKEVARLIMITS):   proc append base=work.LIMITS data=work.PERCENTS(keep=NAME CALCMETHOD UPPERLIMIT LOWERLIMIT LABEL) force ;
+MPRINT(MAKEVARLIMITS):   run;
+
+NOTE: WORK.PERCENTS 을(를)WORK.LIMITS(으)로 추가하는 중입니다.
+NOTE: BASE 데이터셋이 존재하지 않습니다. DATA 파일이 BASE 파일에 복사됩니다.
+NOTE: 9개의 관측값을 데이터셋 WORK.PERCENTS.에서 읽었습니다.
+NOTE: 데이터셋 WORK.LIMITS은(는) 9개의 관측값과 5개의 변수를 가지고 있습니다.
+NOTE: 프로시저 APPEND 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKEFIXEDLIMITS):   data work.FIXED;
+MPRINT(MAKEFIXEDLIMITS):   set VARIABLESET(where=(CALCMETHOD in('MANUAL', 'METALIMIT')) keep=NAME CALCMETHOD UPPERLIMIT LOWERLIMIT INTERVALMIN INTERVALMAX LABEL);
+MPRINT(MAKEFIXEDLIMITS):   by NAME;
+MPRINT(MAKEFIXEDLIMITS):   select(CALCMETHOD);
+MPRINT(MAKEFIXEDLIMITS):   when('METALIMIT') do;
+MPRINT(MAKEFIXEDLIMITS):   if UPPERLIMIT eq . and LOWERLIMIT eq . then delete;
+MPRINT(MAKEFIXEDLIMITS):   end;
+MPRINT(MAKEFIXEDLIMITS):   when('MANUAL') do;
+MPRINT(MAKEFIXEDLIMITS):   if INTERVALMIN eq . and INTERVALMAX eq . then delete;
+MPRINT(MAKEFIXEDLIMITS):   else do;
+MPRINT(MAKEFIXEDLIMITS):   LOWERLIMIT = INTERVALMIN;
+MPRINT(MAKEFIXEDLIMITS):   UPPERLIMIT = INTERVALMAX;
+MPRINT(MAKEFIXEDLIMITS):   end;
+MPRINT(MAKEFIXEDLIMITS):   end;
+MPRINT(MAKEFIXEDLIMITS):   otherwise;
+MPRINT(MAKEFIXEDLIMITS):   end;
+MPRINT(MAKEFIXEDLIMITS):   run;
+
+NOTE: 1개의 관측값을 데이터셋 WORK.VARIABLESET.에서 읽었습니다.
+      WHERE CALCMETHOD in ('MANUAL', 'METALIMIT');
+NOTE: 데이터셋 WORK.FIXED은(는) 1개의 관측값과 7개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKEVARLIMITS):  ;
+MPRINT(MAKEVARLIMITS):   proc append base=work.LIMITS data=work.FIXED(keep=NAME CALCMETHOD UPPERLIMIT LOWERLIMIT LABEL) force ;
+MPRINT(MAKEVARLIMITS):   run;
+
+NOTE: WORK.FIXED 을(를)WORK.LIMITS(으)로 추가하는 중입니다.
+WARNING: 변수 'NAME'은(는) BASE 파일과 DATA 파일(BASE 8 DATA 64)과는 다른 길이를 가지고 있습니다.
+NOTE: FORCE가 지정되어 버리기/잘림이 발생합니다.
+NOTE: 1개의 관측값을 데이터셋 WORK.FIXED.에서 읽었습니다.
+NOTE: 1개 관측값이 추가되었습니다.
+NOTE: 데이터셋 WORK.LIMITS은(는) 10개의 관측값과 5개의 변수를 가지고 있습니다.
+NOTE: 프로시저 APPEND 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(MAKEVARLIMITS):   proc sort data=work.LIMITS;
+MPRINT(MAKEVARLIMITS):   by NAME;
+MPRINT(MAKEVARLIMITS):   run;
+
+NOTE: 10개의 관측값을 데이터셋 WORK.LIMITS.에서 읽었습니다.
+NOTE: 데이터셋 WORK.LIMITS은(는) 10개의 관측값과 5개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKEVARLIMITS):  ;
+MPRINT(MAKEVARLIMITS):   data EMWS6.Repl_LIMITS;
+MPRINT(MAKEVARLIMITS):   merge work.limits(in=_a) variableSet(keep=NAME ROLE LEVEL LABEL REPLACEMETHOD REPLACEMIN REPLACEMAX LABEL);
+MPRINT(MAKEVARLIMITS):   by NAME;
+MPRINT(MAKEVARLIMITS):   if _a then output;
+MPRINT(MAKEVARLIMITS):   run;
+
+WARNING: 입력 데이터셋으로 BY 변수 NAME에 대해 여러 길이가 지정되었습니다. 예상하지 못한 결과를 발생시킬 수 있습니다.
+NOTE: 10개의 관측값을 데이터셋 WORK.LIMITS.에서 읽었습니다.
+NOTE: 10개의 관측값을 데이터셋 WORK.VARIABLESET.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.REPL_LIMITS은(는) 10개의 관측값과 10개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKEVARLIMITS):   proc datasets lib=work nolist;
+MPRINT(MAKEVARLIMITS):   delete PERCENTS limits;
+MPRINT(MAKEVARLIMITS):   run;
+
+NOTE: WORK.PERCENTS(memtype=DATA)을(를) 삭제하는 중입니다.
+NOTE: WORK.LIMITS(memtype=DATA)을(를) 삭제하는 중입니다.
+MPRINT(TRAIN):  ;
+MPRINT(MAIN):  ;
+MPRINT(EM_DIAGRAM):  ;
+23424      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+23425      * End TRAIN: Repl;
+MPRINT(EM_DIAGRAM):   * End TRAIN: Repl;
+23426      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+23427      
+23428      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+23429      * Close any missing semi colons;
+MPRINT(EM_DIAGRAM):   * Close any missing semi colons;
+23430      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+23431      ;
+MPRINT(EM_DIAGRAM):   ;
+23432      ;
+MPRINT(EM_DIAGRAM):   ;
+23433      ;
+MPRINT(EM_DIAGRAM):   ;
+23434      ;
+MPRINT(EM_DIAGRAM):   ;
+23435      quit;
+MPRINT(EM_DIAGRAM):   quit;
+
+NOTE: 프로시저 DATASETS 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Close any unbalanced quotes;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   ;
+23436      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   run;
+23437      * Close any unbalanced quotes;
+MPRINT(EM_DIAGRAM):   quit;
+23438      *------------------------------------------------------------*;
+23439      /*; *"; *'; */
+23440      ;
+23441      run;
+23442      quit;
+23443      /* Reset EM Options */
+23444      options formchar="|----|+|---+=|-/\<>*";
+MPRINT(EM_DIAGRAM):   options formchar="|----|+|---+=|-/\<>*";
+23445      options nocenter ls=256 ps=10000;
+MPRINT(EM_DIAGRAM):   options nocenter ls=256 ps=10000;
+23446      goptions reset=all device=GIF NODISPLAY;
+MPRINT(EM_DIAGRAM):   goptions reset=all device=GIF NODISPLAY;
+MPRINT(EM_DIAGRAM):    proc printto;
+MPRINT(EM_DIAGRAM):   run;

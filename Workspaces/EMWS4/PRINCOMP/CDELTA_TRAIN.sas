@@ -1,0 +1,16 @@
+if name='FASHION' then do;
+role = 'REJECTED';
+comment = "PRINCOMP: PRINREJECTED";
+end;
+if name='LEISURE' then do;
+role = 'REJECTED';
+comment = "PRINCOMP: PRINREJECTED";
+end;
+if name='ORIGINAL' then do;
+role = 'REJECTED';
+comment = "PRINCOMP: PRINREJECTED";
+end;
+if name='STRETCH' then do;
+role = 'REJECTED';
+comment = "PRINCOMP: PRINREJECTED";
+end;

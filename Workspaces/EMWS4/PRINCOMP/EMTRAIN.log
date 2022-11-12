@@ -1,0 +1,688 @@
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 06일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "10시16분36초" );
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 분석 로그";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+*------------------------------------------------------------*
+* 분석 로그
+날짜:                2018년 11월 06일
+시간:                10시16분36초
+*------------------------------------------------------------*
+MPRINT(EM_DIAGRAM):    filename O3VYVRV6 "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS4\PRINCOMP\EMTRAIN.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   proc printto print=O3VYVRV6 new;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _LOG "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS4\PRINCOMP\EMLOG.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 06일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "10시16분36초" );
+MPRINT(EM_DIAGRAM):   file _LOG;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "사용자:                Administrator";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "사이트:                10503192";
+MPRINT(EM_DIAGRAM):   put "플랫폼:            X64_10HOME";
+MPRINT(EM_DIAGRAM):   put "관리 릴리스: 9.04.01M4P110916";
+MPRINT(EM_DIAGRAM):   put "EM 버전:          14.2";
+MPRINT(EM_DIAGRAM):   put "* ";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _LOGIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS4\PRINCOMP\EMTRAIN.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_COPYFILE):   data _null_;
+MPRINT(EM_COPYFILE):   length line $20000;
+MPRINT(EM_COPYFILE):   file _LOG MOD lrecl=20000;
+MPRINT(EM_COPYFILE):   fid=fopen("_LOGIN",'i',20000,'v');
+MPRINT(EM_COPYFILE):   if fid > 0 then do;
+MPRINT(EM_COPYFILE):   do while(^fread(fid));
+MPRINT(EM_COPYFILE):   rlen = frlen(fid);
+MPRINT(EM_COPYFILE):   rc= fget(fid,line,20000);
+MPRINT(EM_COPYFILE):   start = length(line)-length(left(line))+1;
+MPRINT(EM_COPYFILE):   line=strip(line);
+MPRINT(EM_COPYFILE):   put @start line;
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   if fid > 0 then rc=fclose(fid);
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   run;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _LOGIN;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   file _LOG mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   filename _LOGIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS4\PRINCOMP\EMSCORE.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   file _LOG mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _LOGIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS4\PRINCOMP\EMREPORT.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _LOGIN;
+MPRINT(EM_DIAGRAM):    filename _LOG;
+MPRINT(EM_DIAGRAM):    filename _OUT "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS4\PRINCOMP\EMOUTPUT.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 06일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "10시16분36초" );
+MPRINT(EM_DIAGRAM):   file _OUT;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "사용자:                Administrator";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 분석 출력";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _OUTIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS4\PRINCOMP\EMTRAIN.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   ;
+MPRINT(EM_COPYFILE):   data _null_;
+MPRINT(EM_COPYFILE):   length line $20000;
+MPRINT(EM_COPYFILE):   file _OUT MOD lrecl=20000;
+MPRINT(EM_COPYFILE):   fid=fopen("_OUTIN",'i',20000,'v');
+MPRINT(EM_COPYFILE):   if fid > 0 then do;
+MPRINT(EM_COPYFILE):   do while(^fread(fid));
+MPRINT(EM_COPYFILE):   rlen = frlen(fid);
+MPRINT(EM_COPYFILE):   rc= fget(fid,line,20000);
+MPRINT(EM_COPYFILE):   start = length(line)-length(left(line))+1;
+MPRINT(EM_COPYFILE):   line=strip(line);
+MPRINT(EM_COPYFILE):   put @start line;
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   if fid > 0 then rc=fclose(fid);
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   run;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _OUTIN;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   file _OUT mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   put // "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 스코어 출력";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _OUTIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS4\PRINCOMP\EMSCORE.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _OUTIN;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   file _OUT mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   put // "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 리포트 출력";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _OUTIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS4\PRINCOMP\EMREPORT.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _OUTIN;
+MPRINT(EM_DIAGRAM):    filename _OUT;
+MPRINT(EM_DIAGRAM):    filename _emtool_ 'C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS4\PRINCOMP\EMRUNSTATUS.xml' encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):    filename _emtool_ 'C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS4\PRINCOMP\EMRUNSTATUS.xml' encoding="UTF-8" NOBOM;
+22127      proc freq data=EMWS4.PRINCOMP_VariableSet noprint;
+MPRINT(EM_DIAGRAM):    proc freq data=EMWS4.PRINCOMP_VariableSet noprint;
+22128      table ROLE*LEVEL/out=WORK.PRINCOMPMETA;
+MPRINT(EM_DIAGRAM):   table ROLE*LEVEL/out=WORK.PRINCOMPMETA;
+22129      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_VARIABLESET.에서 읽었습니다.
+NOTE: 데이터셋 WORK.PRINCOMPMETA은(는) 1개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: 프로시저 FREQ 실행(총 프로세스 시간):
+      실행 시간           0.05 초
+      cpu 시간            0.04 초
+      
+
+22130      proc print data=WORK.PRINCOMPMETA label noobs;
+MPRINT(EM_DIAGRAM):   proc print data=WORK.PRINCOMPMETA label noobs;
+22131      var ROLE LEVEL COUNT;
+MPRINT(EM_DIAGRAM):   var ROLE LEVEL COUNT;
+22132      label ROLE = "%sysfunc(sasmsg(sashelp.dmine, meta_role_vlabel, NOQUOTE))" LEVEL = "%sysfunc(sasmsg(sashelp.dmine, meta_level_vlabel, NOQUOTE))" COUNT = "%sysfunc(sasmsg(sashelp.dmine, rpt_count_vlabel, NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label ROLE = "역할" LEVEL = "측도 레벨" COUNT = "빈도 개수";
+22133      title9 ' ';
+MPRINT(EM_DIAGRAM):   title9 ' ';
+22134      title10 "%sysfunc(sasmsg(sashelp.dmine, rpt_varSummary_title  , NOQUOTE))";
+MPRINT(EM_DIAGRAM):   title10 "변수 요약";
+MPRINT(EM_DIAGRAM):   run;
+22135      run;
+
+NOTE: 1개의 관측값을 데이터셋 WORK.PRINCOMPMETA.에서 읽었습니다.
+NOTE: 출력 결과 (프로시저: PRINT, 페이지: 1)
+NOTE: 프로시저 PRINT 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.03 초
+      
+
+22136      title10;
+MPRINT(EM_DIAGRAM):   title10;
+22137      data WORK.M3CI3X92;
+MPRINT(EM_DIAGRAM):    data WORK.M3CI3X92;
+22138      set WORK.M3CI3X92;
+MPRINT(EM_DIAGRAM):   set WORK.M3CI3X92;
+22139      if role = 'INPUT' and use in ('Y','D') then do;
+MPRINT(EM_DIAGRAM):   if role = 'INPUT' and use in ('Y','D') then do;
+22140      role = 'INPUT';
+MPRINT(EM_DIAGRAM):   role = 'INPUT';
+22141      output;
+MPRINT(EM_DIAGRAM):   output;
+22142      end;
+MPRINT(EM_DIAGRAM):   end;
+22143      if role = 'REJECTED' and use = 'Y' then do;
+MPRINT(EM_DIAGRAM):   if role = 'REJECTED' and use = 'Y' then do;
+22144      role = 'INPUT';
+MPRINT(EM_DIAGRAM):   role = 'INPUT';
+22145      output;
+MPRINT(EM_DIAGRAM):   output;
+22146      end;
+MPRINT(EM_DIAGRAM):   end;
+22147      if role = 'FREQ' then do;
+MPRINT(EM_DIAGRAM):   if role = 'FREQ' then do;
+22148      role = 'FREQ';
+MPRINT(EM_DIAGRAM):   role = 'FREQ';
+22149      output;
+MPRINT(EM_DIAGRAM):   output;
+22150      end;
+MPRINT(EM_DIAGRAM):   end;
+22151      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 4개의 관측값을 데이터셋 WORK.M3CI3X92.에서 읽었습니다.
+NOTE: 데이터셋 WORK.M3CI3X92은(는) 4개의 관측값과 21개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+22152      *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------* ;
+22153      * EM: DMDBClass Macro ;
+MPRINT(EM_DIAGRAM):   * EM: DMDBClass Macro ;
+22154      *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+22155      %macro DMDBClass;
+22156      
+22157      %mend DMDBClass;
+22158      *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+22159      * EM: DMDBVar Macro ;
+MPRINT(EM_DIAGRAM):   * EM: DMDBVar Macro ;
+22160      *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+22161      %macro DMDBVar;
+22162          FASHION LEISURE ORIGINAL STRETCH
+22163      %mend DMDBVar;
+22164      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+22165      * EM: Create DMDB;
+MPRINT(EM_DIAGRAM):   * EM: Create DMDB;
+22166      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+22167      proc dmdb batch data=EMWS4.Ids_DATA
+22168      dmdbcat=WORK.EM_DMDB
+22169      maxlevel = 513
+22170      ;
+MPRINT(EM_DIAGRAM):   proc dmdb batch data=EMWS4.Ids_DATA dmdbcat=WORK.EM_DMDB maxlevel = 513 ;
+MPRINT(EM_DIAGRAM):   var
+22171      var %DMDBVar;
+MPRINT(DMDBVAR):   FASHION LEISURE ORIGINAL STRETCH
+MPRINT(EM_DIAGRAM):  ;
+22172      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: Records processed = 689   Memory used = 511K.
+NOTE: View EMWS4.IDS_DATA.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.07 초
+      cpu 시간            0.06 초
+      
+NOTE: 689개의 관측값을 데이터셋 DM_LIB.JEAN.에서 읽었습니다.
+NOTE: 689개의 관측값을 데이터셋 EMWS4.IDS_DATA.에서 읽었습니다.
+NOTE: 프로시저 DMDB 실행(총 프로세스 시간):
+      실행 시간           0.09 초
+      cpu 시간            0.07 초
+      
+
+MPRINT(EM_DIAGRAM):   quit;
+MPRINT(EM_DIAGRAM):   *--- end code ---*;
+22173      quit;
+22174      *--- end code ---*;
+
+22175      *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------* ;
+22176      * PRINCOMP: Input Variables Macro ;
+MPRINT(EM_DIAGRAM):   * PRINCOMP: Input Variables Macro ;
+22177      *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+22178      %macro INPUTS;
+22179          FASHION LEISURE ORIGINAL STRETCH
+22180      %mend INPUTS;
+22181      proc dmneurl data=EMWS4.Ids_DATA dmdbcat=WORK.EM_DMDB
+22182      outstat=EMWS4.PRINCOMP_OUTSTAT outclass=EMWS4.PRINCOMP_OUTCLASS
+22183      CORR
+22184      NOMONITOR
+22185      ;
+MPRINT(EM_DIAGRAM):   proc dmneurl data=EMWS4.Ids_DATA dmdbcat=WORK.EM_DMDB outstat=EMWS4.PRINCOMP_OUTSTAT outclass=EMWS4.PRINCOMP_OUTCLASS CORR NOMONITOR ;
+MPRINT(EM_DIAGRAM):   var
+22186      var %INPUTS;
+MPRINT(INPUTS):   FASHION LEISURE ORIGINAL STRETCH
+MPRINT(EM_DIAGRAM):  ;
+22187      ;
+MPRINT(EM_DIAGRAM):   ;
+22188      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 데이터셋 EMWS4.PRINCOMP_OUTCLASS은(는) 0개의 관측값과 3개의 변수를 가지고 있습니다.
+
+Building X'X  for target:  rows=5 memory=0.00 meg.
+689 records read
+689 records read
+NOTE: 데이터셋 EMWS4.PRINCOMP_OUTSTAT은(는) 10개의 관측값과 6개의 변수를 가지고 있습니다.
+*** Total Number of Runs through Data :        2
+*** Total Number of NL Optimizations  :        0
+NOTE: View EMWS4.IDS_DATA.VIEW 실행(총 프로세스 시간):
+      실행 시간           1.29 초
+      cpu 시간            0.26 초
+      
+NOTE: 689개의 관측값을 데이터셋 DM_LIB.JEAN.에서 읽었습니다.
+NOTE: 출력 결과 (프로시저: DMNEURL, 페이지: 2-3)
+NOTE: 프로시저 DMNEURL 실행(총 프로세스 시간):
+      실행 시간           1.31 초
+      cpu 시간            0.28 초
+      
+
+22189      data EMWS4.PRINCOMP_STDMEAN;
+MPRINT(EM_DIAGRAM):    data EMWS4.PRINCOMP_STDMEAN;
+22190      set EMWS4.PRINCOMP_OUTSTAT;
+MPRINT(EM_DIAGRAM):   set EMWS4.PRINCOMP_OUTSTAT;
+22191      if _TYPE_='_STDEV_' or _TYPE_='_MEAN_' then output;
+MPRINT(EM_DIAGRAM):   if _TYPE_='_STDEV_' or _TYPE_='_MEAN_' then output;
+22192      DROP _EIGVAL_;
+MPRINT(EM_DIAGRAM):   DROP _EIGVAL_;
+22193      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 10개의 관측값을 데이터셋 EMWS4.PRINCOMP_OUTSTAT.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_STDMEAN은(는) 2개의 관측값과 5개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+22194      /*----create a data set of eigenvalue-eigenvector pairs---*/
+22195      data EMWS4.PRINCOMP_EIGENVECTOR;
+MPRINT(EM_DIAGRAM):    data EMWS4.PRINCOMP_EIGENVECTOR;
+22196      set EMWS4.PRINCOMP_OUTSTAT;
+MPRINT(EM_DIAGRAM):   set EMWS4.PRINCOMP_OUTSTAT;
+22197      if upcase(_TYPE_)='_V_MAP_' or upcase(_TYPE_)='_C_MAP_' or upcase(_TYPE_)='_MEAN_' or upcase(_TYPE_)='_STDEV_' or upcase(_TYPE_)='_EIGVAL_' or _EIGVAL_=0 then delete;
+MPRINT(EM_DIAGRAM):   if upcase(_TYPE_)='_V_MAP_' or upcase(_TYPE_)='_C_MAP_' or upcase(_TYPE_)='_MEAN_' or upcase(_TYPE_)='_STDEV_' or upcase(_TYPE_)='_EIGVAL_' or _EIGVAL_=0 then delete;
+22198      drop _TYPE_;
+MPRINT(EM_DIAGRAM):   drop _TYPE_;
+22199      rename _EIGVAL_=Eigenvalue;
+MPRINT(EM_DIAGRAM):   rename _EIGVAL_=Eigenvalue;
+22200      /*--------- eigenvalue data set------------ */
+
+NOTE: 10개의 관측값을 데이터셋 EMWS4.PRINCOMP_OUTSTAT.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_EIGENVECTOR은(는) 4개의 관측값과 5개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+22201      data EMWS4.PRINCOMP_EIGEN;
+MPRINT(EM_DIAGRAM):   data EMWS4.PRINCOMP_EIGEN;
+22202      set EMWS4.PRINCOMP_EIGENVECTOR;
+MPRINT(EM_DIAGRAM):   set EMWS4.PRINCOMP_EIGENVECTOR;
+22203      Keep EigenValue;
+MPRINT(EM_DIAGRAM):   Keep EigenValue;
+
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_EIGENVECTOR.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_EIGEN은(는) 4개의 관측값과 1개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.00 초
+      
+
+22204      proc transpose data=EMWS4.PRINCOMP_EIGEN out=EMWS4.PRINCOMP_EIGEN prefix=PC_;
+MPRINT(EM_DIAGRAM):   proc transpose data=EMWS4.PRINCOMP_EIGEN out=EMWS4.PRINCOMP_EIGEN prefix=PC_;
+
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_EIGEN.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_EIGEN은(는) 1개의 관측값과 5개의 변수를 가지고 있습니다.
+NOTE: 프로시저 TRANSPOSE 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+22205      proc transpose data=EMWS4.PRINCOMP_EIGEN out=EMWS4.PRINCOMP_EIGEN;
+MPRINT(EM_DIAGRAM):   proc transpose data=EMWS4.PRINCOMP_EIGEN out=EMWS4.PRINCOMP_EIGEN;
+22206      /*----------Eigenvector data set ------------*/
+
+NOTE: 1개의 관측값을 데이터셋 EMWS4.PRINCOMP_EIGEN.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_EIGEN은(는) 4개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: 프로시저 TRANSPOSE 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+22207      data EMWS4.PRINCOMP_EIGENVECTOR;
+MPRINT(EM_DIAGRAM):   data EMWS4.PRINCOMP_EIGENVECTOR;
+22208      merge EMWS4.PRINCOMP_EIGEN EMWS4.PRINCOMP_EIGENVECTOR;
+MPRINT(EM_DIAGRAM):   merge EMWS4.PRINCOMP_EIGEN EMWS4.PRINCOMP_EIGENVECTOR;
+22209      DROP EigenValue;
+MPRINT(EM_DIAGRAM):   DROP EigenValue;
+
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_EIGEN.에서 읽었습니다.
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_EIGENVECTOR.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_EIGENVECTOR은(는) 4개의 관측값과 5개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+22210      proc sort data=EMWS4.PRINCOMP_EIGEN;
+MPRINT(EM_DIAGRAM):   proc sort data=EMWS4.PRINCOMP_EIGEN;
+22211      by EigenValue;
+MPRINT(EM_DIAGRAM):   by EigenValue;
+
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_EIGEN.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_EIGEN은(는) 4개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+22212      data EMWS4.PRINCOMP_EIGEN;
+MPRINT(EM_DIAGRAM):   data EMWS4.PRINCOMP_EIGEN;
+22213      set EMWS4.PRINCOMP_EIGEN;
+MPRINT(EM_DIAGRAM):   set EMWS4.PRINCOMP_EIGEN;
+22214      Difference=Eigenvalue-lag(Eigenvalue);
+MPRINT(EM_DIAGRAM):   Difference=Eigenvalue-lag(Eigenvalue);
+22215      ProportionalEigenvalue=EigenValue/4;
+MPRINT(EM_DIAGRAM):   ProportionalEigenvalue=EigenValue/4;
+22216      LagProportionalEigenvalue=lag(ProportionalEigenvalue);
+MPRINT(EM_DIAGRAM):   LagProportionalEigenvalue=lag(ProportionalEigenvalue);
+22217      label EigenValue = "고유값";
+MPRINT(EM_DIAGRAM):   label EigenValue = "고유값";
+22218      label Difference = "차분";
+MPRINT(EM_DIAGRAM):   label Difference = "차분";
+
+NOTE: 결측값을 사용한 연산의 결과로 결측값을 생성했습니다.
+      생성 정보: (발생횟수) || (행):(칼럼). 
+      1 || 22214:22   
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_EIGEN.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_EIGEN은(는) 4개의 관측값과 5개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+22219      proc sort data=EMWS4.PRINCOMP_EIGEN;
+MPRINT(EM_DIAGRAM):   proc sort data=EMWS4.PRINCOMP_EIGEN;
+22220      by DESCENDING EigenValue;
+MPRINT(EM_DIAGRAM):   by DESCENDING EigenValue;
+22221      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_EIGEN.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_EIGEN은(는) 4개의 관측값과 5개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+22222      data EMWS4.PRINCOMP_EIGEN;
+MPRINT(EM_DIAGRAM):    data EMWS4.PRINCOMP_EIGEN;
+22223      set EMWS4.PRINCOMP_EIGEN;
+MPRINT(EM_DIAGRAM):   set EMWS4.PRINCOMP_EIGEN;
+22224      CumProportionalEigenvalue+ProportionalEigenvalue;
+MPRINT(EM_DIAGRAM):   CumProportionalEigenvalue+ProportionalEigenvalue;
+22225      /* to avoid  CumProportionalEigenvalue > 1 because of the precision */
+22226      if CumProportionalEigenvalue > 1.0 then CumProportionalEigenvalue=1.0;
+MPRINT(EM_DIAGRAM):   if CumProportionalEigenvalue > 1.0 then CumProportionalEigenvalue=1.0;
+22227      LogEigenvalue=Log(Eigenvalue);
+MPRINT(EM_DIAGRAM):   LogEigenvalue=Log(Eigenvalue);
+22228      length Exported $8;
+MPRINT(EM_DIAGRAM):   length Exported $8;
+22229      Exported = 'NO';
+MPRINT(EM_DIAGRAM):   Exported = 'NO';
+22230      label LogEigenvalue = "로그 고유값";
+MPRINT(EM_DIAGRAM):   label LogEigenvalue = "로그 고유값";
+22231      label Exported = "내보냄";
+MPRINT(EM_DIAGRAM):   label Exported = "내보냄";
+
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_EIGEN.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_EIGEN은(는) 4개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.03 초
+      
+
+22232      data WORK._DSEIGENCHART;
+MPRINT(EM_DIAGRAM):   data WORK._DSEIGENCHART;
+22233      set EMWS4.PRINCOMP_EIGEN;
+MPRINT(EM_DIAGRAM):   set EMWS4.PRINCOMP_EIGEN;
+22234      PC_=_N_;
+MPRINT(EM_DIAGRAM):   PC_=_N_;
+22235      DROP _NAME_;
+MPRINT(EM_DIAGRAM):   DROP _NAME_;
+22236      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_EIGEN.에서 읽었습니다.
+NOTE: 데이터셋 WORK._DSEIGENCHART은(는) 4개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+22237      data WORK._EMPRINDSSUBEIGEN;
+MPRINT(EM_DIAGRAM):    data WORK._EMPRINDSSUBEIGEN;
+22238      set EMWS4.PRINCOMP_EIGEN;
+MPRINT(EM_DIAGRAM):   set EMWS4.PRINCOMP_EIGEN;
+22239      if ( CumProportionalEigenvalue GE 0.99 ) or (LagProportionalEigenvalue LT 0.001 and CumProportionalEigenvalue GE 0.9 )
+22240      or ( _N_ > 4-1)
+22241      then delete;
+MPRINT(EM_DIAGRAM):   if ( CumProportionalEigenvalue GE 0.99 ) or (LagProportionalEigenvalue LT 0.001 and CumProportionalEigenvalue GE 0.9 ) or ( _N_ > 4-1) then delete;
+22242      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_EIGEN.에서 읽었습니다.
+NOTE: 데이터셋 WORK._EMPRINDSSUBEIGEN은(는) 3개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+22243      data EMWS4.PRINCOMP_EIGEN;
+MPRINT(EM_DIAGRAM):    data EMWS4.PRINCOMP_EIGEN;
+22244      length PC 8.;
+MPRINT(EM_DIAGRAM):   length PC 8.;
+22245      set EMWS4.PRINCOMP_EIGEN;
+MPRINT(EM_DIAGRAM):   set EMWS4.PRINCOMP_EIGEN;
+22246      if _N_ < 4+1 then Exported = 'YES';
+MPRINT(EM_DIAGRAM):   if _N_ < 4+1 then Exported = 'YES';
+22247      Drop LagProportionalEigenvalue;
+MPRINT(EM_DIAGRAM):   Drop LagProportionalEigenvalue;
+22248      PC = _N_;
+MPRINT(EM_DIAGRAM):   PC = _N_;
+22249      format PC 8.;
+MPRINT(EM_DIAGRAM):   format PC 8.;
+22250      rename _NAME_ = Component;
+MPRINT(EM_DIAGRAM):   rename _NAME_ = Component;
+22251      label _NAME_ = "주성분";
+MPRINT(EM_DIAGRAM):   label _NAME_ = "주성분";
+22252      rename ProportionalEigenvalue = Proportion;
+MPRINT(EM_DIAGRAM):   rename ProportionalEigenvalue = Proportion;
+22253      label ProportionalEigenvalue = "고유값 비율";
+MPRINT(EM_DIAGRAM):   label ProportionalEigenvalue = "고유값 비율";
+22254      rename CumProportionalEigenvalue = Cumulative;
+MPRINT(EM_DIAGRAM):   rename CumProportionalEigenvalue = Cumulative;
+22255      label CumProportionalEigenvalue ="누적 고유값 비율";
+MPRINT(EM_DIAGRAM):   label CumProportionalEigenvalue = "누적 고유값 비율";
+22256      label PC = "PC ID";
+MPRINT(EM_DIAGRAM):   label PC = "PC ID";
+22257      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_EIGEN.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_EIGEN은(는) 4개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+22258      data EMWS4.PRINCOMP_SUBEIGENVECTOR;
+MPRINT(EM_DIAGRAM):    data EMWS4.PRINCOMP_SUBEIGENVECTOR;
+22259      set EMWS4.PRINCOMP_EIGENVECTOR;
+MPRINT(EM_DIAGRAM):   set EMWS4.PRINCOMP_EIGENVECTOR;
+22260      if _N_ > 4 then delete;
+MPRINT(EM_DIAGRAM):   if _N_ > 4 then delete;
+
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_EIGENVECTOR.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_SUBEIGENVECTOR은(는) 4개의 관측값과 5개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+22261      data WORK._EMPRINDSSUBEIGEN;
+MPRINT(EM_DIAGRAM):   data WORK._EMPRINDSSUBEIGEN;
+22262      set EMWS4.PRINCOMP_EIGEN;
+MPRINT(EM_DIAGRAM):   set EMWS4.PRINCOMP_EIGEN;
+22263      if _N_ > 4 then delete;
+MPRINT(EM_DIAGRAM):   if _N_ > 4 then delete;
+22264      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_EIGEN.에서 읽었습니다.
+NOTE: 데이터셋 WORK._EMPRINDSSUBEIGEN은(는) 4개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+22265      proc transpose data=EMWS4.PRINCOMP_EIGENVECTOR name=Variable label=Label out=EMWS4.PRINCOMP_EIGENVECTOR;
+MPRINT(EM_DIAGRAM):    proc transpose data=EMWS4.PRINCOMP_EIGENVECTOR name=Variable label=Label out=EMWS4.PRINCOMP_EIGENVECTOR;
+22266      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_EIGENVECTOR.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_EIGENVECTOR은(는) 4개의 관측값과 5개의 변수를 가지고 있습니다.
+NOTE: 프로시저 TRANSPOSE 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+22267      data EMWS4.PRINCOMP_EIGENVECTOR;
+MPRINT(EM_DIAGRAM):   data EMWS4.PRINCOMP_EIGENVECTOR;
+22268      set EMWS4.PRINCOMP_EIGENVECTOR;
+MPRINT(EM_DIAGRAM):   set EMWS4.PRINCOMP_EIGENVECTOR;
+22269      label Label = "레이블";
+MPRINT(EM_DIAGRAM):   label Label = "레이블";
+22270      label Variable = "변수";
+MPRINT(EM_DIAGRAM):   label Variable = "변수";
+22271      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 변수 Label이(가) 초기화되지 않았습니다.
+NOTE: 4개의 관측값을 데이터셋 EMWS4.PRINCOMP_EIGENVECTOR.에서 읽었습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_EIGENVECTOR은(는) 4개의 관측값과 5개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+22272      data _null_;
+MPRINT(EM_DIAGRAM):    data _null_;
+22273      file print;
+MPRINT(EM_DIAGRAM):   file print;
+22274      put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+22275      put "%sysfunc(sasmsg(sashelp.dmine, rpt_princomp_sum_title , NOQUOTE))";
+MPRINT(EM_DIAGRAM):   put "내보낸 주성분 요약";
+22276      put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+22277      put " ";
+MPRINT(EM_DIAGRAM):   put " ";
+22278      put "%sysfunc(sasmsg(sashelp.dmine, rpt_princomp_sum_remark , NOQUOTE))";
+MPRINT(EM_DIAGRAM):   put "주:입력변수 개수가 최대 주성분 개수로 사용됩니다.";
+22279      put ' ';
+MPRINT(EM_DIAGRAM):   put ' ';
+22280      put "%sysfunc(sasmsg(sashelp.dmine, rpt_princomp_sum_ninput , NOQUOTE, 4))";
+MPRINT(EM_DIAGRAM):   put "총 입력변수 개수: 4";
+22281      put "%sysfunc(sasmsg(sashelp.dmine, rpt_princomp_sum_maxpc , NOQUOTE, 4))";
+MPRINT(EM_DIAGRAM):   put "최대 주성분 개수 임계치: 4";
+22282      put "%sysfunc(sasmsg(sashelp.dmine, rpt_princomp_sum_cumcut , NOQUOTE, 0.99))";
+MPRINT(EM_DIAGRAM):   put "누적 고유값 비율 임계치: 0.99";
+22283      put "%sysfunc(sasmsg(sashelp.dmine, rpt_princomp_sum_increcut , NOQUOTE, 0.001))";
+MPRINT(EM_DIAGRAM):   put "고유값 비율 증가 임계치: 0.001";
+22284      put "%sysfunc(sasmsg(sashelp.dmine, rpt_princomp_sum_nselpc , NOQUOTE, 4))";
+MPRINT(EM_DIAGRAM):   put "선택된 주성분 개수: 4";
+22285      put "%sysfunc(sasmsg(sashelp.dmine, rpt_princomp_sum_totvar , NOQUOTE, 1))";
+MPRINT(EM_DIAGRAM):   put "선택된 주성분에 의해 설명된 총 변동: 1";
+22286      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 10 줄을 파일 PRINT에 기록했습니다.
+NOTE: DATA 스텝이 4 페이지를 인쇄했습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.05 초
+      cpu 시간            0.06 초
+      
+
+22287      data EMWS4.PRINCOMP_EMSCOREVAR;
+MPRINT(EM_DIAGRAM):    data EMWS4.PRINCOMP_EMSCOREVAR;
+22288      length Name $32 formula $70 file $200;
+MPRINT(EM_DIAGRAM):   length Name $32 formula $70 file $200;
+22289      keep NAME Formula file;
+MPRINT(EM_DIAGRAM):   keep NAME Formula file;
+22290      name='';
+MPRINT(EM_DIAGRAM):   name='';
+22291      file="OPTCODE\"!!"_ALL_.sas";
+MPRINT(EM_DIAGRAM):   file="OPTCODE\"!!"_ALL_.sas";
+22292      output;
+MPRINT(EM_DIAGRAM):   output;
+22293      name = "PC_1";
+MPRINT(EM_DIAGRAM):   name = "PC_1";
+22294      file="OPTCODE\PC_1.sas";
+MPRINT(EM_DIAGRAM):   file="OPTCODE\PC_1.sas";
+22295      output;
+MPRINT(EM_DIAGRAM):   output;
+22296      name = "PC_2";
+MPRINT(EM_DIAGRAM):   name = "PC_2";
+22297      file="OPTCODE\PC_2.sas";
+MPRINT(EM_DIAGRAM):   file="OPTCODE\PC_2.sas";
+22298      output;
+MPRINT(EM_DIAGRAM):   output;
+22299      name = "PC_3";
+MPRINT(EM_DIAGRAM):   name = "PC_3";
+22300      file="OPTCODE\PC_3.sas";
+MPRINT(EM_DIAGRAM):   file="OPTCODE\PC_3.sas";
+22301      output;
+MPRINT(EM_DIAGRAM):   output;
+22302      name = "PC_4";
+MPRINT(EM_DIAGRAM):   name = "PC_4";
+22303      file="OPTCODE\PC_4.sas";
+MPRINT(EM_DIAGRAM):   file="OPTCODE\PC_4.sas";
+22304      output;
+MPRINT(EM_DIAGRAM):   output;
+22305      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 변수 formula이(가) 초기화되지 않았습니다.
+NOTE: 데이터셋 EMWS4.PRINCOMP_EMSCOREVAR은(는) 5개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(EM_DIAGRAM):    proc printto;
+MPRINT(EM_DIAGRAM):   run;

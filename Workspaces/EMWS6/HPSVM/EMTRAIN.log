@@ -1,0 +1,1655 @@
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 20일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "11시37분15초" );
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 분석 로그";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+*------------------------------------------------------------*
+* 분석 로그
+날짜:                2018년 11월 20일
+시간:                11시37분15초
+*------------------------------------------------------------*
+MPRINT(EM_DIAGRAM):    filename O12WVI6M "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMTRAIN.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   proc printto print=O12WVI6M new;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _LOG "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMLOG.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 20일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "11시37분15초" );
+MPRINT(EM_DIAGRAM):   file _LOG;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "사용자:                Administrator";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "사이트:                10503192";
+MPRINT(EM_DIAGRAM):   put "플랫폼:            X64_10HOME";
+MPRINT(EM_DIAGRAM):   put "관리 릴리스: 9.04.01M4P110916";
+MPRINT(EM_DIAGRAM):   put "EM 버전:          14.2";
+MPRINT(EM_DIAGRAM):   put "* ";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _LOGIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMTRAIN.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_COPYFILE):   data _null_;
+MPRINT(EM_COPYFILE):   length line $20000;
+MPRINT(EM_COPYFILE):   file _LOG MOD lrecl=20000;
+MPRINT(EM_COPYFILE):   fid=fopen("_LOGIN",'i',20000,'v');
+MPRINT(EM_COPYFILE):   if fid > 0 then do;
+MPRINT(EM_COPYFILE):   do while(^fread(fid));
+MPRINT(EM_COPYFILE):   rlen = frlen(fid);
+MPRINT(EM_COPYFILE):   rc= fget(fid,line,20000);
+MPRINT(EM_COPYFILE):   start = length(line)-length(left(line))+1;
+MPRINT(EM_COPYFILE):   line=strip(line);
+MPRINT(EM_COPYFILE):   put @start line;
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   if fid > 0 then rc=fclose(fid);
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   run;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _LOGIN;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   file _LOG mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   filename _LOGIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMSCORE.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   file _LOG mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _LOGIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMREPORT.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _LOGIN;
+MPRINT(EM_DIAGRAM):    filename _LOG;
+MPRINT(EM_DIAGRAM):    filename _OUT "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMOUTPUT.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 20일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "11시37분15초" );
+MPRINT(EM_DIAGRAM):   file _OUT;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "사용자:                Administrator";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 분석 출력";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _OUTIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMTRAIN.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   ;
+MPRINT(EM_COPYFILE):   data _null_;
+MPRINT(EM_COPYFILE):   length line $20000;
+MPRINT(EM_COPYFILE):   file _OUT MOD lrecl=20000;
+MPRINT(EM_COPYFILE):   fid=fopen("_OUTIN",'i',20000,'v');
+MPRINT(EM_COPYFILE):   if fid > 0 then do;
+MPRINT(EM_COPYFILE):   do while(^fread(fid));
+MPRINT(EM_COPYFILE):   rlen = frlen(fid);
+MPRINT(EM_COPYFILE):   rc= fget(fid,line,20000);
+MPRINT(EM_COPYFILE):   start = length(line)-length(left(line))+1;
+MPRINT(EM_COPYFILE):   line=strip(line);
+MPRINT(EM_COPYFILE):   put @start line;
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   if fid > 0 then rc=fclose(fid);
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   run;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _OUTIN;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   file _OUT mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   put // "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 스코어 출력";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _OUTIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMSCORE.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _OUTIN;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   file _OUT mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   put // "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 리포트 출력";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _OUTIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMREPORT.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _OUTIN;
+MPRINT(EM_DIAGRAM):    filename _OUT;
+MPRINT(EM_DIAGRAM):    filename _emtool_ 'C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMRUNSTATUS.xml' encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):    filename _emtool_ 'C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMRUNSTATUS.xml' encoding="UTF-8" NOBOM;
+22907      proc freq data=EMWS6.HPSVM_VariableSet noprint;
+MPRINT(EM_DIAGRAM):    proc freq data=EMWS6.HPSVM_VariableSet noprint;
+22908      table ROLE*LEVEL/out=WORK.HPSVMMETA;
+MPRINT(EM_DIAGRAM):   table ROLE*LEVEL/out=WORK.HPSVMMETA;
+22909      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 24개의 관측값을 데이터셋 EMWS6.HPSVM_VARIABLESET.에서 읽었습니다.
+NOTE: 데이터셋 WORK.HPSVMMETA은(는) 6개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: 프로시저 FREQ 실행(총 프로세스 시간):
+      실행 시간           0.05 초
+      cpu 시간            0.04 초
+      
+
+22910      proc print data=WORK.HPSVMMETA label noobs;
+MPRINT(EM_DIAGRAM):   proc print data=WORK.HPSVMMETA label noobs;
+22911      var ROLE LEVEL COUNT;
+MPRINT(EM_DIAGRAM):   var ROLE LEVEL COUNT;
+22912      label ROLE = "%sysfunc(sasmsg(sashelp.dmine, meta_role_vlabel, NOQUOTE))" LEVEL = "%sysfunc(sasmsg(sashelp.dmine, meta_level_vlabel, NOQUOTE))" COUNT = "%sysfunc(sasmsg(sashelp.dmine, rpt_count_vlabel, NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label ROLE = "역할" LEVEL = "측도 레벨" COUNT = "빈도 개수";
+22913      title9 ' ';
+MPRINT(EM_DIAGRAM):   title9 ' ';
+22914      title10 "%sysfunc(sasmsg(sashelp.dmine, rpt_varSummary_title  , NOQUOTE))";
+MPRINT(EM_DIAGRAM):   title10 "변수 요약";
+MPRINT(EM_DIAGRAM):   run;
+22915      run;
+
+NOTE: 6개의 관측값을 데이터셋 WORK.HPSVMMETA.에서 읽었습니다.
+NOTE: 출력 결과 (프로시저: PRINT, 페이지: 1)
+NOTE: 프로시저 PRINT 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+22916      title10;
+MPRINT(EM_DIAGRAM):   title10;
+22917      %let EMNORLEN = %DMNORLEN;
+MPRINT(EM_DIAGRAM):   
+EMWS6.Impt2_TRAIN EMWS6.Impt2_TRAIN 
+EMWS6.Impt2_TRAIN EMWS6.Impt2_TRAIN EMWS6 Impt2_TRAIN 
+EMWS6.Impt2_TRAIN EMWS6.Impt2_TRAIN 
+EMWS6.Impt2_TRAIN EMWS6.Impt2_TRAIN EMWS6 Impt2_TRAIN 
+MPRINT(EM_DIAGRAM):    proc dmdb data=EMWS6.Impt2_TRAIN classout=WORK._DMDBCLASSTARGET(keep=NAME NRAW CRAW LEVEL FREQUENCY NMISSPERCENT);
+MPRINT(EM_DIAGRAM):   class BAD(DESC) ;
+MPRINT(EM_DIAGRAM):   run;
+Executing  SASHELP.EMCORE.EMINFOITERATOR.SCL _INIT >> 
+Executing  SASHELP.EMCORE.EMINFOITERATOR.SCL setMetaData >> 
+Executing  SASHELP.EMCORE.EMINFOITERATOR.SCL next >> 
+Executing  SASHELP.EMCORE.EMINFOITERATOR.SCL next >> 
+Executing  SASHELP.EMCORE.EMINFOITERATOR.SCL setMetaData >> 
+Executing  SASHELP.EMCORE.EMINFOITERATOR.SCL next >> 
+Executing  SASHELP.EMCORE.EMINFOITERATOR.SCL next >> 
+Executing  SASHELP.EMCORE.EMINFOITERATOR.SCL _term >> 
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   set WORK._DMDBCLASSTARGET;
+MPRINT(EM_DIAGRAM):   where ^(NRAW eq . and CRAW eq '') and NAME="BAD";
+MPRINT(EM_DIAGRAM):   if _N_=1 then call symput('_newevent', strip(LEVEL));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   proc sort data=WORK._DMDBCLASSTARGET out=_TEMPCLASS(keep=LEVEL FREQUENCY NMISSPERCENT rename=(LEVEL=BAD));
+MPRINT(EM_DIAGRAM):   by LEVEL;
+MPRINT(EM_DIAGRAM):   where ^(NRAW eq . and CRAW eq '') and NAME="BAD";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _TEMPCLASS;
+MPRINT(EM_DIAGRAM):   set _TEMPCLASS;
+MPRINT(EM_DIAGRAM):   NMISSPERCENT= NMISSPERCENT/100;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    proc sort data=EMWS6.Ids5_BAD_DD out=_sortedDecdata;
+MPRINT(EM_DIAGRAM):   by BAD;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   merge _TEMPCLASS(in=_a) _sortedDecdata(in=_b);
+MPRINT(EM_DIAGRAM):   by BAD;
+MPRINT(EM_DIAGRAM):   if (_a and ^_b) or (^_a and _b) then call symput('_emresetDec', '1');
+MPRINT(EM_DIAGRAM):   run;
+22946      data WORK.HPSVM_EVENT(KEEP=VARIABLE LABEL LEVEL EVENT NUMLEVELS ORDER);
+MPRINT(EM_DIAGRAM):    data WORK.HPSVM_EVENT(KEEP=VARIABLE LABEL LEVEL EVENT NUMLEVELS ORDER);
+22947      length ORDER $20;
+MPRINT(EM_DIAGRAM):   length ORDER $20;
+22948      label VARIABLE = "%sysfunc(sasmsg(sashelp.dmine, rpt_target_vlabel,  NOQUOTE))" EVENT = "%sysfunc(sasmsg(sashelp.dmine, assmt_event_vlabel, NOQUOTE))" NUMLEVELS = "%sysfunc(sasmsg(sashelp.dmine, rpt_numcat_vlabel, NOQUOTE))" LEVEL =
+22949         "%sysfunc(sasmsg(sashelp.dmine, meta_level_vlabel, NOQUOTE))" ORDER = "%sysfunc(sasmsg(sashelp.dmine, meta_order_vlabel, NOQUOTE))" LABEL = "%sysfunc(sasmsg(sashelp.dmine, meta_label_vlabel, NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label VARIABLE = "타겟" EVENT = "이벤트" NUMLEVELS = "레벨 수" LEVEL = "측도 레벨" ORDER = "순서" LABEL = "레이블";
+22950      set EMWS6.IDS5_BAD_DM( where=(_TYPE_="TARGET"));
+MPRINT(EM_DIAGRAM):   set EMWS6.IDS5_BAD_DM( where=(_TYPE_="TARGET"));
+22951      NumLevels=2;
+MPRINT(EM_DIAGRAM):   NumLevels=2;
+22952      select(upcase(ORDER));
+MPRINT(EM_DIAGRAM):   select(upcase(ORDER));
+22953      when('DESC') ORDER = 'Descending';
+MPRINT(EM_DIAGRAM):   when('DESC') ORDER = 'Descending';
+22954      when('ASC') ORDER = 'Ascending';
+MPRINT(EM_DIAGRAM):   when('ASC') ORDER = 'Ascending';
+22955      when('FMTDESC') ORDER = 'Formatted Descending';
+MPRINT(EM_DIAGRAM):   when('FMTDESC') ORDER = 'Formatted Descending';
+22956      when('FMTASC') ORDER = 'Formatted Ascending';
+MPRINT(EM_DIAGRAM):   when('FMTASC') ORDER = 'Formatted Ascending';
+22957      otherwise ORDER = 'Descending';
+MPRINT(EM_DIAGRAM):   otherwise ORDER = 'Descending';
+22958      end;
+MPRINT(EM_DIAGRAM):   end;
+22959      output;
+MPRINT(EM_DIAGRAM):   output;
+22960      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 1개의 관측값을 데이터셋 EMWS6.IDS5_BAD_DM.에서 읽었습니다.
+      WHERE _TYPE_='TARGET';
+NOTE: 데이터셋 WORK.HPSVM_EVENT은(는) 1개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.05 초
+      cpu 시간            0.06 초
+      
+
+22961      title9 ' ';
+MPRINT(EM_DIAGRAM):   title9 ' ';
+22962      proc print data=WORK.HPSVM_EVENT noobs label;
+MPRINT(EM_DIAGRAM):   proc print data=WORK.HPSVM_EVENT noobs label;
+22963      var VARIABLE EVENT LEVEL NUMLEVELS ORDER LABEL;
+MPRINT(EM_DIAGRAM):   var VARIABLE EVENT LEVEL NUMLEVELS ORDER LABEL;
+22964      title9 ' ';
+MPRINT(EM_DIAGRAM):   title9 ' ';
+22965      title10 "%sysfunc(sasmsg(sashelp.dmine, rpt_modelEvent_title  , NOQUOTE))";
+MPRINT(EM_DIAGRAM):   title10 "모델 이벤트";
+MPRINT(EM_DIAGRAM):   run;
+22966      run;
+
+NOTE: 1개의 관측값을 데이터셋 WORK.HPSVM_EVENT.에서 읽었습니다.
+NOTE: 출력 결과 (프로시저: PRINT, 페이지: 2)
+NOTE: 프로시저 PRINT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+22967      title10;
+MPRINT(EM_DIAGRAM):   title10;
+"타겟 "BAD"에 대해 정의된 의사결정이 없습니다." 
+22968      proc print data = EMWS6.Ids5_BAD_DM noobs label;
+MPRINT(EM_DIAGRAM):    proc print data = EMWS6.Ids5_BAD_DM noobs label;
+22969      var _type_ variable label;
+MPRINT(EM_DIAGRAM):   var _type_ variable label;
+22970      where _type_ ^in('MATRIX', 'DECISION', 'TRAINPRIOR', 'DATAPRIOR', 'DECPRIOR');
+MPRINT(EM_DIAGRAM):   where _type_ ^in('MATRIX', 'DECISION', 'TRAINPRIOR', 'DATAPRIOR', 'DECPRIOR');
+22971      label _TYPE_ = "%sysfunc(sasmsg(sashelp.dmine, rpt_type_vlabel,     NOQUOTE))" VARIABLE = "%sysfunc(sasmsg(sashelp.dmine, rpt_variable_vlabel, NOQUOTE))" LABEL = "%sysfunc(sasmsg(sashelp.dmine, meta_label_vlabel, NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label _TYPE_ = "유형" VARIABLE = "변수" LABEL = "레이블";
+22972      title9 ' ';
+MPRINT(EM_DIAGRAM):   title9 ' ';
+22973      title10 "%sysfunc(sasmsg(sashelp.dmine, rpt_predDecVars_title  , NOQUOTE))";
+MPRINT(EM_DIAGRAM):   title10 "예측 및 의사결정 변수";
+MPRINT(EM_DIAGRAM):   run;
+22974      run;
+
+NOTE: 7개의 관측값을 데이터셋 EMWS6.IDS5_BAD_DM.에서 읽었습니다.
+      WHERE _type_ not in ('DATAPRIOR', 'DECISION', 'DECPRIOR', 'MATRIX', 'TRAINPRIOR');
+NOTE: 출력 결과 (프로시저: PRINT, 페이지: 3)
+NOTE: 프로시저 PRINT 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+22975      title10;
+MPRINT(EM_DIAGRAM):   title10;
+22976      %let EMEXCEPTIONSTRING=;
+MPRINT(EM_DIAGRAM):     proc datasets lib=work nolist;
+MPRINT(EM_DIAGRAM):   modify BAD(type=PROFIT label= BAD);
+MPRINT(EM_DIAGRAM):   label DECISION1= "1";
+MPRINT(EM_DIAGRAM):   label DECISION2= "0";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   quit;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * HPSVM: Generation of macros and macro variables;
+MPRINT(EM_DIAGRAM):   * To see the code generated, set the EM_DEBUG macro variable to SOURCE or _ALL_;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * HPSVM: EM Macro Variables and Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   * System Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   length string $2000;
+MPRINT(EM_DIAGRAM):   string = 'DataMining2018';
+MPRINT(EM_DIAGRAM):   call symput('EM_PROJECTNAME', trim(string));
+MPRINT(EM_DIAGRAM):   string = 'W12_Preprocessing';
+MPRINT(EM_DIAGRAM):   call symput('EM_WSNAME', trim(string));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   * Properties Macro Variables ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Files Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Import Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Export Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Decision Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   filename temp catalog 'sashelp.emutil.em_decdata.source';
+MPRINT(EM_DIAGRAM):   filename temp;
+MPRINT(EM_DECDATA):   proc display cat=sashelp.emutil.makedecdata.scl;
+MPRINT(EM_DECDATA):   run;
+MPRINT(EM_DECDATA):   *------------------------------------------------------------*;
+MPRINT(EM_DECDATA):   * HPSVM: Create decision matrix;
+MPRINT(EM_DECDATA):   *------------------------------------------------------------*;
+MPRINT(EM_DECDATA):   data WORK.BAD;
+MPRINT(EM_DECDATA):   length BAD $ 32 COUNT 8 DATAPRIOR 8 TRAINPRIOR 8 DECPRIOR 8 DECISION1 8 DECISION2 8 ;
+MPRINT(EM_DECDATA):   label COUNT= "Level Counts" DATAPRIOR= "Data Proportions" TRAINPRIOR= "Training Proportions" DECPRIOR= "Decision Priors" DECISION1= "1" DECISION2= "0" ;
+MPRINT(EM_DECDATA):   format COUNT 10. ;
+MPRINT(EM_DECDATA):   BAD="1";
+MPRINT(EM_DECDATA):   COUNT=1189;
+MPRINT(EM_DECDATA):   DATAPRIOR=0.1994966443;
+MPRINT(EM_DECDATA):   TRAINPRIOR=0.1994966443;
+MPRINT(EM_DECDATA):   DECPRIOR=.;
+MPRINT(EM_DECDATA):   DECISION1=1;
+MPRINT(EM_DECDATA):   DECISION2=0;
+MPRINT(EM_DECDATA):   output;
+MPRINT(EM_DECDATA):   BAD="0";
+MPRINT(EM_DECDATA):   COUNT=4771;
+MPRINT(EM_DECDATA):   DATAPRIOR=0.8005033557;
+MPRINT(EM_DECDATA):   TRAINPRIOR=0.8005033557;
+MPRINT(EM_DECDATA):   DECPRIOR=.;
+MPRINT(EM_DECDATA):   DECISION1=0;
+MPRINT(EM_DECDATA):   DECISION2=1;
+MPRINT(EM_DECDATA):   output;
+MPRINT(EM_DECDATA):   ;
+MPRINT(EM_DECDATA):   run;
+MPRINT(EM_DECDATA):   proc datasets lib=work nolist;
+MPRINT(EM_DECDATA):   modify BAD(type=PROFIT label= BAD);
+MPRINT(EM_DECDATA):   label DECISION1= '1';
+MPRINT(EM_DECDATA):   label DECISION2= '0';
+MPRINT(EM_DECDATA):   run;
+MPRINT(EM_DECDATA):   quit;
+MPRINT(EM_DECDATA):   
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   proc datasets lib=work nolist;
+MPRINT(EM_DIAGRAM):   modify BAD(type=PROFIT label= BAD);
+MPRINT(EM_DIAGRAM):   label DECISION1= "1";
+MPRINT(EM_DIAGRAM):   label DECISION2= "0";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   quit;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Statement Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   set EMWS6.Ids5_EMINFO;
+MPRINT(EM_DIAGRAM):   where key in('HPDMSAMPLE', 'IDSTABLE');
+MPRINT(EM_DIAGRAM):   if key = 'HPDMSAMPLE' then call symput('_ForceGrid', '1');
+MPRINT(EM_DIAGRAM):   else call symput('_IDS_TABLE', DATA);
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(HPDM_PERFORMANCE):  ;
+PERFORMANCE  DETAILS
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Variable Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * General Variable Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Target Variable Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Input Variable Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Rejected Variable Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Misc Variable Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * End Create EM Macro Variables and Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   data EM_TARGETDECINFO;
+MPRINT(EM_DIAGRAM):   length TARGET $32 DECDATA DECMETA $43;
+MPRINT(EM_DIAGRAM):   TARGET="BAD";
+MPRINT(EM_DIAGRAM):   DECDATA="EMWS6.Ids5_BAD_DD";
+MPRINT(EM_DIAGRAM):   DECMETA="EMWS6.Ids5_BAD_DM";
+MPRINT(EM_DIAGRAM):   output;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data EM_TARGETDECINFO;
+MPRINT(EM_DIAGRAM):   length TARGET $32 DECDATA DECMETA $43;
+MPRINT(EM_DIAGRAM):   TARGET="BAD";
+MPRINT(EM_DIAGRAM):   DECDATA="EMWS6.Ids5_BAD_DD";
+MPRINT(EM_DIAGRAM):   DECMETA="EMWS6.Ids5_BAD_DM";
+MPRINT(EM_DIAGRAM):   output;
+MPRINT(EM_DIAGRAM):   run;
+23423      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+23424      * HPSVM: Generation of macros and macro variables;
+MPRINT(EM_DIAGRAM):   * HPSVM: Generation of macros and macro variables;
+23425      * To see the code generated, set the EM_DEBUG macro variable to SOURCE or _ALL_;
+MPRINT(EM_DIAGRAM):   * To see the code generated, set the EM_DEBUG macro variable to SOURCE or _ALL_;
+23426      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+
+23427      %let EMEXCEPTIONSTRING=;
+23428      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+23429      * TRAIN: HPSVM;
+MPRINT(EM_DIAGRAM):   * TRAIN: HPSVM;
+23430      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+23431      %let EM_ACTION = TRAIN;
+23432      %let syscc = 0;
+23433      %macro main;
+23434      
+23435         %if %upcase(&EM_ACTION) = CREATE %then %do;
+23436             filename temp catalog 'sashelp.hpdm.hpsvm_create.source';
+23437             %include temp;
+23438             filename temp;
+23439             %hpdm_hpsvm_create;
+23440         %end;
+23441      
+23442         %else
+23443         %if %upcase(&EM_ACTION) = TRAIN %then %do;
+23444             filename temp catalog 'sashelp.hpdm.hpsvm_train.source';
+23445             %include temp;
+23446             filename temp;
+23447             %hpdm_hpsvm_train;
+23448         %end;
+23449      
+23450         %else
+23451         %if %upcase(&EM_ACTION) = REPORT %then %do;
+23452             filename temp catalog 'sashelp.hpdm.hpsvm_report.source';
+23453             %include temp;
+23454             filename temp;
+23455             %hpdm_hpsvm_report;
+23456         %end;
+23457      
+23458      
+23459         %else
+23460         %if %upcase(&EM_ACTION) = SCORE %then %do;
+23461             filename temp catalog 'sashelp.hpdm.hpsvm_score.source';
+23462             %include temp;
+23463             filename temp;
+23464             %hpdm_hpsvm_score;
+23465         %end;
+23466      
+23467      
+23468      %mend main;
+23469      
+23470      %main;
+MPRINT(EM_DIAGRAM):    
+MPRINT(MAIN):   filename temp catalog 'sashelp.hpdm.hpsvm_train.source';
+NOTE: %INCLUDE(레벨 1) 파일 TEMP은(는) 파일 SASHELP.HPDM.HPSVM_TRAIN.SOURCE입니다.
+23472     +%macro hpdm_hpsvm_train;
+23474     +/* retrieve data to model based on presence of grid processing */
+23475     +%em_getname(key=HPDS2SCORE, type=FILE, extension=sas);
+23476     +%hpdm_dataprep(data=, out=, metadata=, code=, ROLE=TRAIN, where=,
+23477     +    outDS2Code=&em_user_HPDS2SCORE, append=N, host=, nodes=, nthreads=, details=);
+23479     +/* check for the existence of EM_HPDM_TRAIN table */
+23480     +%if &EM_HPDM_TRAIN eq  %then %do;
+23481     +    %let EMEXCEPTIONSTRING = exception.server.IMPORT.NOTRAIN,1;
+23482     +    %put &em_codebar;
+23483     +    %let errormsg = %sysfunc(sasmsg(sashelp.dmine, import.notrain_err, NOQUOTE));
+23484     +    %put &errormsg;
+23485     +    %put &em_codebar;
+23486     +    %goto doendem;
+23487     +%end;
+23488     +%else %do;
+23489     +    %let EMEXCEPTIONSTRING =;
+23490     +%end;
+23492     +%if ^%sysfunc(exist(&EM_HPDM_TRAIN)) AND ^%sysfunc(exist(&EM_HPDM_TRAIN, VIEW)) %then %do;
+23493     +        %let EMEXCEPTIONSTRING = exception.server.IMPORT.NOTRAIN,1;
+23494     +        %put &em_codebar;
+23495     +        %let errormsg = %sysfunc(sasmsg(sashelp.dmine, import.notrain_err, NOQUOTE));
+23496     +        %put &errormsg;
+23497     +        %put &em_codebar;
+23498     +        %goto doendem;
+23499     +%end;
+23500     +%else %do;
+23501     +    %let EMEXCEPTIONSTRING =;
+23502     +%end;
+23504     +/* Check for the existence of one target variable*/
+23505     +%if  &EM_NUM_TARGET ne 1 %then %do;
+23506     +    %let EMEXCEPTIONSTRING = exception.server.USE1TARGET;
+23507     +    %put &em_codebar;
+23508     +    %let errormsg = %sysfunc(sasmsg(sashelp.dmine, metadata.use01target_err, NOQUOTE));
+23509     +    %put &errormsg;
+23510     +    %put &em_codebar;
+23511     +    %goto doendem;
+23512     +%end;
+23513     +%else %do;
+23514     +    %let EMEXCEPTIONSTRING =;
+23515     +%end;
+23517     +/* Check to see if a frequency variable is expected as input. */
+23518     +%if (&EM_NUM_FREQ>0) %then %do;
+23519     +    %let EMEXCEPTIONSTRING = exception.server.HPSVM.CANTUSEFREQ;
+23520     +    %put &em_codebar;
+23521     +    %let errormsg = %sysfunc(sasmsg(sashelp.dmine, hpsvm.cantusefreq_err, NOQUOTE));
+23522     +    %put &errormsg;
+23523     +    %put &em_codebar;
+23524     +    %goto doendem;
+23525     +%end;
+23526     +%else %do;
+23527     +    %let EMEXCEPTIONSTRING =;
+23528     +%end;
+23530     +/* Check target measurement level and throw exception if binary target is not used */
+23531     +%if %EM_TARGET_LEVEL ne BINARY %then %do;
+23532     +    %let EMEXCEPTIONSTRING = exception.server.METADATA.USE1BINTARGET;
+23533     +    %put &em_codebar;
+23534     +    %let errormsg = %sysfunc(sasmsg(sashelp.dmine, metadata.use1bintarget_err, NOQUOTE));
+23535     +    %put &errormsg;
+23536     +    %put &em_codebar;
+23537     +    %goto doendem;
+23538     +%end;
+23539     +%else %do;
+23540     +    %let EMEXCEPTIONSTRING =;
+23541     +%end;
+23543     +/* Check for the existence of one used input or rejected variable*/
+23544     +%if  (&EM_NUM_INTERVAL_INPUT < 1) and (&EM_NUM_BINARY_INPUT < 1) and (&EM_NUM_ORDINAL_INPUT < 1)
+23545     +        and (&EM_NUM_NOMINAL_INPUT < 1) and (&EM_NUM_INTERVAL_REJECTED < 1)
+23546     +        and (&EM_NUM_BINARY_REJECTED <1) and (&EM_NUM_ORDINAL_REJECTED < 1)
+23547     +        and (&EM_NUM_NOMINAL_REJECTED < 1) %then %do;
+23548     +    %let EMEXCEPTIONSTRING = exception.server.USEATLEAST1INPUTREJECT;
+23549     +    %put &em_codebar;
+23550     +    %let errormsg = %sysfunc(sasmsg(sashelp.dmine, useatleast1inputreject_err, NOQUOTE));
+23551     +    %put &errormsg;
+23552     +    %put &em_codebar;
+23553     +    %goto doendem;
+23554     +%end;
+23555     +%else %do;
+23556     +    %let EMEXCEPTIONSTRING =;
+23557     +%end;
+23559     +%let out=;
+23560     +%let partition_var=;
+23561     +%let grid=0;
+23562     +%let traindata = &EM_HPDM_TRAIN;
+23564     +/* If the two data sets are not equal, we will need scoring done on the grid */
+23565     +%if "&em_hpdm_train" ne "&em_import_data" %then %do;
+23566     +    %let out = &em_hpdm_train_score;
+23567     +    %let partition_var = &hpdm_partitionvar;
+23568     +    %let grid = 1;
+23569     +    /* The optimization method activeset only works in SMP mode, and not on the grid. */
+23570     +    %if "%upcase(&EM_PROPERTY_method)" eq "ACTIVESET" %then %do;
+23571     +        %let EMEXCEPTIONSTRING = exception.server.HPSVM.ACTIVESETSMPONLY;
+23572     +        %put &em_codebar;
+23573     +        %let errormsg = %sysfunc(sasmsg(sashelp.dmine, hpsvm.activesetsmponly_err, NOQUOTE));
+23574     +        %put &errormsg;
+23575     +        %put &em_codebar;
+23576     +        %goto doendem;
+23577     +    %end;
+23578     +    %else %do;
+23579     +        %let EMEXCEPTIONSTRING =;
+23580     +    %end;
+23581     +%end;
+23582     +%else %do;
+23583     +    /* Check if separate training and validation tables are passed into the node */
+23584     +    %if(%sysfunc(exist(&em_import_data)) or %sysfunc(exist(&em_import_data, VIEW))) and ("&EM_IMPORT_VALIDATE" ne "") and
+23585     +                (%sysfunc(exist(&em_import_validate)) or %sysfunc(exist(&em_import_validate, VIEW))) %then %do;
+23586     +        %let traindata = work.&EM_NODEID._traindata;
+23587     +        data &traindata / view = &traindata;
+23588     +            set &em_import_data(in=_a) &em_import_validate(in=_b);
+23589     +            if _a then _PartInd_ = 1;
+23590     +            else _PartInd_ = 0;
+23591     +        run;
+23592     +        %let partition_var = _PartInd_;
+23593     +    %end;
+23594     +%end;
+23596     +/* End initial error checking */
+23597     +/**********************************************/
+23599     +/* load hpsvm train macros */
+23600     +filename temp catalog 'sashelp.hpdm.hpsvm_macros.source';
+23601     +%include temp;
+23602     +filename temp;
+23604     +/* Retrieve output files for proc hpsvm */
+23605     +%EM_GETNAME(KEY=SETTINGS, TYPE=DATA);
+23606     +%EM_GETNAME(KEY=NOBS, TYPE=DATA);
+23607     +%EM_GETNAME(KEY=SVMFIT, TYPE=DATA);
+23608     +%EM_GETNAME(KEY=PERFORMANCE, TYPE=DATA);
+23609     +%EM_GETNAME(KEY=SVMINFO, TYPE=DATA);
+23610     +/* Retrieve file for creating SVM Fit Statistics */
+23611     +%EM_GETNAME(KEY=FITSTAT, TYPE=DATA);
+23612     +/* Used for scoring activeset with proc svmscore */
+23613     +%EM_GETNAME(KEY=OUTFIT, TYPE=DATA);
+23614     +%EM_GETNAME(KEY=OUTEST, TYPE=DATA);
+23615     +%EM_GETNAME(KEY=OUTCLASS, TYPE=DATA);
+23617     +/**********************************************/
+23618     +/* Get the target event and nonevent from the DECMETA data set.
+23619     + * This is specific to BINARY as proc hpsvm only works with
+23620     + * BINARY targets at this time.
+23621     + */
+23623     +%let targevent=;
+23624     +%let targnoevent=;
+23625     +%let target_order=;
+23626     +data _NULL_;
+23627     +    set &EM_DEC_DECMETA(where = (_TYPE_ eq "DECISION"));
+23628     +    if VARIABLE eq "DECISION1" then do;
+23629     +        call symput('targevent',LABEL);
+23630     +    end;
+23631     +    if VARIABLE eq "DECISION2" then do;
+23632     +        call symput('targnoevent',LABEL);
+23633     +    end;
+23634     +run;
+23636     +data _NULL_;
+23637     +    set &EM_DEC_DECMETA(where = (_TYPE_ eq "TARGET"));
+23638     +    call symput('target_order',ORDER);
+23639     +run;
+23640     +/**********************************************/
+23641     +/* Because there are multiple possible kernels
+23642     + * or other input based off of the method chosen,
+23643     + * it is important to determine which value to pass
+23644     + * to the procedure. */
+23645     +%let kernel=;
+23646     +%let degree=;
+23647     +%let kpar1=;
+23648     +%let kpar2=;
+23649     +%if "%upcase(&EM_PROPERTY_method)" eq "IPOINT" %then %do;
+23650     +    %let EM_SCORECODEFORMAT = DATASTEP;
+23652     +    /* Set the kernel and degree parameteres to property inputs */
+23653     +    %let kernel = &EM_PROPERTY_interiorpointkernel;
+23654     +    %let degree = &EM_PROPERTY_interiorpointdegree;
+23655     +    %if "%upcase(&kernel)" eq "POLYNOM" %then %do;
+23656     +        %em_hpdmsvm_checkSize(indata=&traindata,
+23657     +                            degree=&degree,
+23658     +                            numInt=&EM_NUM_INTERVAL_INPUT
+23659     +                            );
+23660     +        %if &sysrc =42 %then %do;
+23661     +            %let EMEXCEPTIONSTRING = exception.server.HPSVM.TOOMANYCOLUMNSW;
+23662     +            %put &em_codebar;
+23663     +            %let errormsg = %sysfunc(sasmsg(sashelp.dmine, hpsvm.tooManyColumnsW_err, NOQUOTE));
+23664     +            %put &em_codebar;
+23665     +            %goto doendem;
+23666     +        %end;
+23667     +        %if &syserr >4 %then %do;
+23668     +            %goto doendem;
+23669     +        %end;
+23670     +        %if &sysrc >4 %then %do;
+23671     +            %goto doendem;
+23672     +        %end;
+23673     +    %end;
+23674     +%end;
+23675     +%if "%upcase(&EM_PROPERTY_method)" eq "ACTIVESET" %then %do;
+23676     +    /* Scoring for Active Set uses proc svmscore */
+23677     +    %let EM_SCORECODEFORMAT = PROC;
+23678     +    /* Set the kernel, degree, and kpar parameters to property inputs */
+23679     +    %let kernel = &EM_PROPERTY_activesetkernel;
+23680     +    %let degree = &EM_PROPERTY_activesetdegree;
+23681     +    %if "%upcase(&EM_PROPERTY_activesetkernel)" eq "RBF" %then %do;
+23682     +        %let kpar1 = &EM_PROPERTY_rbfparameter;
+23683     +    %end;
+23684     +    %if "%upcase(&EM_PROPERTY_activesetkernel)" eq "SIGMOID" %then %do;
+23685     +        %let kpar1 = &EM_PROPERTY_sigmoidparameter1;
+23686     +        %let kpar2 = &EM_PROPERTY_sigmoidparameter2;
+23687     +    %end;
+23688     +%end;
+23689     +/**********************************************/
+23690     +/* run HPSVM model */
+23692     +%em_hpdmsvm_runhpsvm(indata=&traindata,
+23693     +        targin=%EM_TARGET,
+23694     +        targorder=&target_order,
+23695     +        method=&EM_PROPERTY_method,
+23696     +        maxiter=&EM_PROPERTY_maxiter,
+23697     +        tolerance=&EM_PROPERTY_tolerance,
+23698     +        kernel=&kernel,
+23699     +        degree=&degree,
+23700     +        penalty=&EM_PROPERTY_penalty,
+23701     +        missaslvl=&EM_PROPERTY_missaslvl,
+23702     +        kpar1=&kpar1,
+23703     +        kpar2=&kpar2,
+23704     +        out=&out,
+23705     +        trainingResults=&EM_USER_SVMINFO,
+23706     +        modelInfo=&EM_USER_SETTINGS,
+23707     +        fitStat=&EM_USER_FITSTAT,
+23708     +        nObs=&EM_USER_NOBS,
+23709     +        performanceInfo=&EM_USER_PERFORMANCE,
+23710     +        outfit=&EM_USER_OUTFIT,
+23711     +        outclass=&EM_USER_OUTCLASS,
+23712     +        outest=&EM_USER_OUTEST,
+23713     +        flowscore=&EM_FILE_EMFLOWSCORECODE,
+23714     +        pubscore=&EM_FILE_EMPUBLISHSCORECODE,
+23715     +        partition=&partition_var
+23716     +        );
+23718     +%if &syserr eq 99 %then %do;
+23719     +    %let EMEXCEPTIONSTRING = exception.server.HPSVM.CONSTANTVARIABLE;
+23720     +    %put &em_codebar;
+23721     +    %let errormsg = %sysfunc(sasmsg(sashelp.dmine, hpsvm.constantVariable_err, NOQUOTE));
+23722     +    %put &errormsg;
+23723     +    %put &em_codebar;
+23724     +%end;
+23725     +%if &syserr >4 %then %do;
+23726     +    %goto doendem;
+23727     +%end;
+23728     +%if &sysrc >4 %then %do;
+23729     +    %goto doendem;
+23730     +%end;
+23733     +/**********************************************/
+23734     +/* Create the svm fit statistics table */
+23736     +%let num_class_input = %eval(&EM_NUM_BINARY_INPUT + &EM_NUM_ORDINAL_INPUT + &EM_NUM_NOMINAL_INPUT);
+23738     +%em_hpdmsvm_makeFitstat(svmInfo=&EM_USER_SVMINFO,
+23739     +                    fitStat=&EM_USER_FITSTAT,
+23740     +                    nObs=&EM_USER_NOBS,
+23741     +                    performanceInfo=&EM_USER_PERFORMANCE,
+23742     +                    modelInfo=&EM_USER_SETTINGS,
+23743     +                    svmFit=&EM_USER_SVMFIT,
+23744     +                    numclass=&num_class_input,
+23745     +                    numint=&EM_NUM_INTERVAL_INPUT,
+23746     +                    partition=&partition_var,
+23747     +                    kernel=&kernel,
+23748     +                    method=&EM_PROPERTY_method
+23749     +                    );
+23751     +%if &syserr >4 %then %do;
+23752     +    %goto doendem;
+23753     +%end;
+23754     +%if &sysrc >4 %then %do;
+23755     +    %goto doendem;
+23756     +%end;
+23758     +/**********************************************/
+23760     +    /*********************************************/
+23761     +    /* Score the dataset if on the grid. Interior
+23762     +     * point method will be scored using sas code.
+23763     +     * Currently only interior point is supported on
+23764     +     * the grid.
+23765     +     */
+23767     +%if "&grid" eq "1" %then %do;
+23769     +    %let workPath=;
+23770     +    %let SVMScoreFile =;
+23771     +    %let ds2ScoreFile=;
+23772     +    data _null_;
+23773     +       length path ds2ScoreFile SVMScoreFile $2000;
+23774     +       path = pathname('WORK');
+23775     +       ds2ScoreFile = trim(path)!!"&em_dsep"!!'ds2Score.sas';
+23776     +       SVMScoreFile = trim(path)!!"&em_dsep"!!'SVMScore.sas';
+23777     +       call symput('workpath', trim(path)!!"&em_dsep");
+23778     +       call symput('SVMScoreFile', trim(SVMScoreFile));
+23779     +       call symput('ds2ScoreFile', trim(ds2ScoreFile));
+23780     +    run;
+23782     +    filename _outds2 "SVMScore.sas" encoding="&sysencoding";
+23783     +    proc dstrans ds_to_ds2 in="&EM_FILE_EMFLOWSCORECODE" out=_outds2 outdir="&workpath" EP nocomp;
+23784     +    run;
+23785     +    filename _outds2;
+23787     +    %let targetPred=;
+23788     +    %if "&em_dec_decmeta" ne "" and %sysfunc(exist(&em_dec_decmeta)) %then %do;
+23789     +         %if "&em_dec_level" eq "INTERVAL" %then %do;
+23790     +             data _null_;
+23791     +                set &em_dec_decmeta;
+23792     +                where _type_ = 'PREDICTED';
+23793     +                call symput('targetPred', trim(variable));
+23794     +             run;
+23795     +         %end;
+23796     +         %else %do;
+23797     +             data _null_;
+23798     +                set &em_dec_decmeta;
+23799     +                where _type_ ='TARGET';
+23800     +                if _type_ ='TARGET' then call symput('targetEvent', trim(event));
+23801     +             run;
+23802     +             data _null_;
+23803     +                set &em_dec_decmeta;
+23804     +                where _type_ = 'PREDICTED';
+23805     +                if level = symget('targetEvent') then call symput('targetPred', trim(variable));
+23806     +             run;
+23807     +         %end;
+23808     +    %end;
+23810     +    %macro _keephpdmvars;
+23811     +       (keep=(&em_dec_target &HPDM_PARTITIONVAR %em_freq &targetPred))
+23812     +    %mend _keepHpdmVars;
+23814     +    %hpdm_substitute(in=&SVMScoreFile, out=&ds2ScoreFile);
+23816     +    %let SASEP_IN= DS2GTF.in;
+23817     +    %let SASEP_OUT= DS2GTF.out;
+23818     +    proc hpds2 in=&traindata out=&out;
+23819     +        &hpdm_performance;
+23820     +        %include "&ds2ScoreFile";
+23821     +    run;
+23823     +%end;
+23825     +/* add decision and residual score code; create classification tables and fit statistics on the model */
+23826     +%em_model(DATA=, TARGET=&EM_DEC_TARGET, DECSCORECODE=Y, CLASSIFICATION=Y, FITSTATISTICS=Y, RESIDUALS=Y);
+23828     +/* hp macro to do the fit statistics on the grid */
+23829     +%if &grid %then %do;
+23830     +    %hpdm_node_assess(data=&out, DECMETA=&EM_DEC_DECMETA);
+23831     +    proc delete data=&out;
+23832     +    run;
+23833     +%end;
+23835     +%doendem:
+23836     +%mend hpdm_hpsvm_train;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(MAIN):   filename temp;
+NOTE: Fileref TEMP을(를) 삭제했습니다.
+MPRINT(HPDM_HPSVM_TRAIN):  ;
+MPRINT(HPDM_DATAPREP):   options validvarname=ANY;
+MPRINT(HPDM_DATAPREP):   filename _hpflow catalog 'sashelp.emutil.em_pathscorecode.source';
+NOTE: %INCLUDE(레벨 1) 파일 _HPFLOW은(는) 파일 SASHELP.EMUTIL.EM_PATHSCORECODE.SOURCE입니다.
+23837     +%macro EM_PATHSCORECODE(NODEID=, STARTNODEID=, FLOW=, PUBLISH=, HPDM=, OUTPATH=);
+23838     +   proc display c=sashelp.emcore.pathscorecode.scl;
+23839     +   run;
+23840     +%mend EM_PATHSCORECODE;
+23841     +
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(HPDM_DATAPREP):   filename _hpflow;
+NOTE: Fileref _HPFLOW을(를) 삭제했습니다.
+MPRINT(EM_PATHSCORECODE):   proc display c=sashelp.emcore.pathscorecode.scl;
+MPRINT(EM_PATHSCORECODE):   run;
+
+23842      data WORK._SCORECODE;
+MPRINT(EM_PATHSCORECODE):   data WORK._SCORECODE;
+23843      length Parent $32 nodelabel $32 description $200 tooltype $32 component $32 FlowScoreCodeFormat PublishScoreCode $16 PublishScoreCodeFormat $8 accumulatedScoreCode $1;
+MPRINT(EM_PATHSCORECODE):   length Parent $32 nodelabel $32 description $200 tooltype $32 component $32 FlowScoreCodeFormat PublishScoreCode $16 PublishScoreCodeFormat $8 accumulatedScoreCode $1;
+23844      nodelabel="Ids5";
+MPRINT(EM_PATHSCORECODE):   nodelabel="Ids5";
+23845      parent=" ";
+MPRINT(EM_PATHSCORECODE):   parent=" ";
+23846      description="Input Data Source";
+MPRINT(EM_PATHSCORECODE):   description="Input Data Source";
+23847      component="DataSource";
+MPRINT(EM_PATHSCORECODE):   component="DataSource";
+23848      tooltype="SAMPLE";
+MPRINT(EM_PATHSCORECODE):   tooltype="SAMPLE";
+23849      FlowScoreCodeFormat="DATASTEP";
+MPRINT(EM_PATHSCORECODE):   FlowScoreCodeFormat="DATASTEP";
+23850      PublishScoreCode="EMPUBLISHSCORECODE";
+MPRINT(EM_PATHSCORECODE):   PublishScoreCode="EMPUBLISHSCORECODE";
+23851      PublishScoreCodeFormat="DATASTEP";
+MPRINT(EM_PATHSCORECODE):   PublishScoreCodeFormat="DATASTEP";
+23852      accumulatedScoreCode= "N";
+MPRINT(EM_PATHSCORECODE):   accumulatedScoreCode= "N";
+23853      output;
+MPRINT(EM_PATHSCORECODE):   output;
+23854      nodelabel="Part4";
+MPRINT(EM_PATHSCORECODE):   nodelabel="Part4";
+23855      parent="Ids5";
+MPRINT(EM_PATHSCORECODE):   parent="Ids5";
+23856      description="Partition Class";
+MPRINT(EM_PATHSCORECODE):   description="Partition Class";
+23857      component="Partition";
+MPRINT(EM_PATHSCORECODE):   component="Partition";
+23858      tooltype="SAMPLE";
+MPRINT(EM_PATHSCORECODE):   tooltype="SAMPLE";
+23859      FlowScoreCodeFormat="DATASTEP";
+MPRINT(EM_PATHSCORECODE):   FlowScoreCodeFormat="DATASTEP";
+23860      PublishScoreCode="EMFLOWSCORECODE";
+MPRINT(EM_PATHSCORECODE):   PublishScoreCode="EMFLOWSCORECODE";
+23861      PublishScoreCodeFormat="DATASTEP";
+MPRINT(EM_PATHSCORECODE):   PublishScoreCodeFormat="DATASTEP";
+23862      accumulatedScoreCode= "N";
+MPRINT(EM_PATHSCORECODE):   accumulatedScoreCode= "N";
+23863      output;
+MPRINT(EM_PATHSCORECODE):   output;
+23864      nodelabel="Repl";
+MPRINT(EM_PATHSCORECODE):   nodelabel="Repl";
+23865      parent="Part4";
+MPRINT(EM_PATHSCORECODE):   parent="Part4";
+23866      description="Extension Class";
+MPRINT(EM_PATHSCORECODE):   description="Extension Class";
+23867      component="Replace";
+MPRINT(EM_PATHSCORECODE):   component="Replace";
+23868      tooltype="MODIFY";
+MPRINT(EM_PATHSCORECODE):   tooltype="MODIFY";
+23869      FlowScoreCodeFormat="DATASTEP";
+MPRINT(EM_PATHSCORECODE):   FlowScoreCodeFormat="DATASTEP";
+23870      PublishScoreCode="EMPUBLISHSCORECODE";
+MPRINT(EM_PATHSCORECODE):   PublishScoreCode="EMPUBLISHSCORECODE";
+23871      PublishScoreCodeFormat="DATASTEP";
+MPRINT(EM_PATHSCORECODE):   PublishScoreCodeFormat="DATASTEP";
+23872      accumulatedScoreCode= "N";
+MPRINT(EM_PATHSCORECODE):   accumulatedScoreCode= "N";
+23873      output;
+MPRINT(EM_PATHSCORECODE):   output;
+23874      nodelabel="Impt2";
+MPRINT(EM_PATHSCORECODE):   nodelabel="Impt2";
+23875      parent="Repl";
+MPRINT(EM_PATHSCORECODE):   parent="Repl";
+23876      description="Imputation";
+MPRINT(EM_PATHSCORECODE):   description="Imputation";
+23877      component="Impute";
+MPRINT(EM_PATHSCORECODE):   component="Impute";
+23878      tooltype="MODIFY";
+MPRINT(EM_PATHSCORECODE):   tooltype="MODIFY";
+23879      FlowScoreCodeFormat="DATASTEP";
+MPRINT(EM_PATHSCORECODE):   FlowScoreCodeFormat="DATASTEP";
+23880      PublishScoreCode="EMPUBLISHSCORECODE";
+MPRINT(EM_PATHSCORECODE):   PublishScoreCode="EMPUBLISHSCORECODE";
+23881      PublishScoreCodeFormat="DATASTEP";
+MPRINT(EM_PATHSCORECODE):   PublishScoreCodeFormat="DATASTEP";
+23882      accumulatedScoreCode= "N";
+MPRINT(EM_PATHSCORECODE):   accumulatedScoreCode= "N";
+23883      output;
+MPRINT(EM_PATHSCORECODE):   output;
+23884      run;
+MPRINT(EM_PATHSCORECODE):   run;
+
+NOTE: 데이터셋 WORK._SCORECODE은(는) 4개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+NOTE: 프로시저 DISPLAY 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(EM_PATHSCORECODE):   
+MPRINT(HPDM_DATAPREP):  ;
+MPRINT(HPDM_DATAPREP):   data _null_;
+MPRINT(HPDM_DATAPREP):   set WORK._SCORECODE end=eof;
+MPRINT(HPDM_DATAPREP):   where upcase(component) in('DATASOURCE', 'HPTMINE', 'HPDMPARTITION');
+MPRINT(HPDM_DATAPREP):   if upcase(component) = 'DATASOURCE' then call symput('idsNodeid', trim(upcase(nodelabel)));
+MPRINT(HPDM_DATAPREP):   if eof then do;
+MPRINT(HPDM_DATAPREP):   call symput('hp_lastNodeid', trim(nodelabel));
+MPRINT(HPDM_DATAPREP):   call symput('hp_lastComponent', trim(upcase(Component)));
+MPRINT(HPDM_DATAPREP):   end;
+MPRINT(HPDM_DATAPREP):   run;
+
+NOTE: 1개의 관측값을 데이터셋 WORK._SCORECODE.에서 읽었습니다.
+      WHERE UPCASE(component) in ('DATASOURCE', 'HPDMPARTITION', 'HPTMINE');
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(HPDM_DATAPREP):   data _null_;
+MPRINT(HPDM_DATAPREP):   set EMWS6.Ids5_EMINFO;
+MPRINT(HPDM_DATAPREP):   where KEY in("IDSTABLE", "HPDMSAMPLE", "HPPART_DATA", "HPPART");
+MPRINT(HPDM_DATAPREP):   select(upcase(KEY));
+MPRINT(HPDM_DATAPREP):   when("HPPART_DATA") do;
+MPRINT(HPDM_DATAPREP):   call symput('hpdm_partdata', trim(DATA));
+MPRINT(HPDM_DATAPREP):   call symput('hpdm_partitionvar', '_PartInd_');
+MPRINT(HPDM_DATAPREP):   end;
+MPRINT(HPDM_DATAPREP):   when("IDSTABLE") call symput('inData', trim(DATA));
+MPRINT(HPDM_DATAPREP):   when("HPDMSAMPLE") call symput('hpdmSample', trim(DATA));
+MPRINT(HPDM_DATAPREP):   when("HPPART") call symput('hpdm_partid', trim(DATA));
+MPRINT(HPDM_DATAPREP):   otherwise;
+MPRINT(HPDM_DATAPREP):   end;
+MPRINT(HPDM_DATAPREP):   run;
+
+NOTE: 1개의 관측값을 데이터셋 EMWS6.IDS5_EMINFO.에서 읽었습니다.
+      WHERE KEY in ('HPDMSAMPLE', 'HPPART', 'HPPART_DATA', 'IDSTABLE');
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(HPDM_DATAPREP):   data _null_;
+MPRINT(HPDM_DATAPREP):   set EMWS6.Ids5_EMINFO end=eof;
+MPRINT(HPDM_DATAPREP):   where TARGET eq "HPDM" or KEY="HPPART_DATA";
+MPRINT(HPDM_DATAPREP):   call symput('HPDM_DATA'!!strip(put(_N_, best.)), trim(DATA));
+MPRINT(HPDM_DATAPREP):   if eof then do;
+MPRINT(HPDM_DATAPREP):   call symput('HPDM_GRIDNUM', strip(put(_N_, best.)));
+MPRINT(HPDM_DATAPREP):   end;
+MPRINT(HPDM_DATAPREP):   run;
+
+NOTE: 0개의 관측값을 데이터셋 EMWS6.IDS5_EMINFO.에서 읽었습니다.
+      WHERE (TARGET='HPDM') or (KEY='HPPART_DATA');
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(HPDM_DATAPREP):  ;
+MPRINT(HPDM_DATAPREP):   options validvarname=V7;
+MPRINT(HPDM_HPSVM_TRAIN):  ;
+MPRINT(HPDM_HPSVM_TRAIN):   data work.HPSVM_traindata / view = work.HPSVM_traindata;
+MPRINT(HPDM_HPSVM_TRAIN):   set EMWS6.Impt2_TRAIN(in=_a) EMWS6.Impt2_VALIDATE(in=_b);
+MPRINT(HPDM_HPSVM_TRAIN):   if _a then _PartInd_ = 1;
+MPRINT(HPDM_HPSVM_TRAIN):   else _PartInd_ = 0;
+MPRINT(HPDM_HPSVM_TRAIN):   run;
+
+NOTE: DATA STEP 뷰가 파일 WORK.HPSVM_TRAINDATA에 저장되었습니다.
+NOTE: 저장된 DATA STEP 뷰는 다른 운영 체제에서 실행할 수 없습니다.
+NOTE: View EMWS6.IMPT2_VALIDATE.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.11 초
+      cpu 시간            0.10 초
+      
+NOTE: View EMWS6.IMPT2_TRAIN.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.22 초
+      cpu 시간            0.21 초
+      
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.27 초
+      cpu 시간            0.28 초
+      
+
+MPRINT(HPDM_HPSVM_TRAIN):   filename temp catalog 'sashelp.hpdm.hpsvm_macros.source';
+NOTE: %INCLUDE(레벨 1) 파일 TEMP은(는) 파일 SASHELP.HPDM.HPSVM_MACROS.SOURCE입니다.
+23885     +/***********************************************************
+23886     + *
+23887     + * em_hpdmsvm_runhpsvm is the macro that calls the hpsvm procedure
+23888     + *
+23889     + ***********************************************************/
+23891     +%macro em_hpdmsvm_runhpsvm(indata=,
+23892     +        targin=,
+23893     +        targorder=,
+23894     +        method=,
+23895     +        maxiter=,
+23896     +        tolerance=,
+23897     +        kernel=,
+23898     +        degree=,
+23899     +        penalty=,
+23900     +        missaslvl=,
+23901     +        kpar1=,
+23902     +        kpar2=,
+23903     +        out=,
+23904     +        trainingResults=,
+23905     +        modelInfo=,
+23906     +        fitStat=,
+23907     +        nObs=,
+23908     +        performanceInfo=,
+23909     +        outfit=,
+23910     +        outclass=,
+23911     +        outest=,
+23912     +        flowscore=,
+23913     +        pubscore=,
+23914     +        partition=
+23915     +        );
+23917     +    filename flowtemp "&flowscore";
+23919     +    data _null_;
+23920     +        length svmstate svmhpstore $2000;
+23921     +        svmstate   = "&EM_NODEDIR"!!"&em_dsep"!!"score.sasast";
+23922     +        svmhpstore = "&EM_NODEDIR"!!"&em_dsep"!!"score.sas";
+23923     +        call symput('SVM_STATE', trim(svmstate));
+23924     +        call symput('SVM_SCORE', trim(svmhpstore));
+23925     +    run;
+23927     +    %if "%upcase(&method)" eq "IPOINT" %then %do;
+23928     +        ods exclude Variables;
+23929     +    %end;
+23931     +    proc hpsvm data=&indata maxiter=&maxiter method = &method tolerance=&tolerance
+23932     +            %if &missaslvl eq Y %then %do;
+23933     +                nomiss
+23934     +            %end;
+23935     +                c = &penalty;
+23937     +        %if "%upcase(&method)" eq "IPOINT" %then %do;
+23938     +            code file=flowtemp;
+23939     +        %end;
+23941     +            %if (%eval(&EM_NUM_INTERVAL_INPUT + &EM_NUM_INTERVAL_REJECTED) > 0) %then %do;
+23942     +        input %EM_INTERVAL_INPUT %EM_INTERVAL_REJECTED / level = interval;
+23943     +            %end;
+23945     +            %if (%eval(&EM_NUM_NOMINAL_INPUT + &EM_NUM_NOMINAL_REJECTED + &EM_NUM_BINARY_INPUT + &EM_NUM_BINARY_REJECTED) > 0) %then %do;
+23946     +        input %EM_BINARY_INPUT %EM_BINARY_REJECTED %EM_NOMINAL_INPUT %EM_NOMINAL_REJECTED / level = nominal;
+23947     +            %end;
+23949     +            %if (%eval(&EM_NUM_ORDINAL_INPUT + &EM_NUM_ORDINAL_REJECTED) >0) %then %do;
+23950     +        input %EM_ORDINAL_INPUT %EM_ORDINAL_REJECTED / level = ordinal;
+23951     +            %end;
+23953     +        target &targin / level = binary
+23954     +            %if ("&targorder") ne "" %then %do;
+23955     +                %if ("&targorder") eq "FMTASC" %then %do;
+23956     +                    %let targorder = ascformatted;
+23957     +                %end;
+23958     +                %if ("&targorder") eq "FMTDESC" %then %do;
+23959     +                    %let targorder = desformatted;
+23960     +                %end;
+23961     +                order = &targorder
+23962     +            %end;
+23963     +        ;
+23965     +        kernel
+23966     +        %if "%upcase(&kernel)" eq "LINEAR" %then %do;
+23967     +            linear;
+23968     +        %end;
+23970     +        %if "%upcase(&kernel)" eq "POLYNOM" %then %do;
+23971     +            polynom / deg = &degree;
+23972     +        %end;
+23974     +        %if "%upcase(&kernel)" eq "RBF" %then %do;
+23975     +            RBF / k_par=&kpar1;
+23976     +        %end;
+23978     +        %if "%upcase(&kernel)" eq "SIGMOID" %then %do;
+23979     +            SIGMOID / k_par = &kpar1 k_par2=&kpar2;
+23980     +        %end;
+23982     +        %if ("&partition" ne "") %then %do;
+23983     +            partition rolevar=&partition(TRAIN="1" VALIDATE="0");
+23984     +        %end;
+23986     +        &hpdm_performance;
+23988     +        %if "%upcase(&method)" eq "ACTIVESET" %then %do;
+23989     +            output OUTEST=&outest OUTCLASS=&outclass OUTFIT=&outfit;
+23990     +        %end;
+23992     +        savestate file = "&SVM_STATE";
+23994     +        ods output TRAININGRESULT=&trainingResults FITSTATISTICS=&fitStat MODELINFORMATION=&modelInfo NOBS=&nObs PERFORMANCEINFO=&performanceInfo;
+23995     +    run;
+23997     +    /* generate publish code from flow score code */
+23998     +    filename pubtemp "&pubscore";
+23999     +    %em_copyfile(infref=flowtemp, outfref=pubtemp, append=N);
+24001     +    proc astore;
+24002     +        describe epcode="&SVM_SCORE" store="&SVM_STATE";
+24003     +    run;
+24005     +    /* deallocate filerefs */
+24006     +    filename flowtemp;
+24007     +    filename pubtemp;
+24009     +%mend em_hpdmsvm_runhpsvm;
+24011     +/***********************************************************
+24012     + *
+24013     + * em_hpdmsvm_makeFitstat is the macro that creates the SVM Fit Statistics table
+24014     + *
+24015     + ***********************************************************/
+24017     +%macro em_hpdmsvm_makeFitstat(svmInfo=,
+24018     +                    fitStat=,
+24019     +                    nObs=,
+24020     +                    performanceInfo=,
+24021     +                    modelInfo=,
+24022     +                    svmFit=,
+24023     +                    numclass=,
+24024     +                    numint=,
+24025     +                    partition=,
+24026     +                    kernel=,
+24027     +                    method=
+24028     +                    );
+24030     +data &svmInfo work.temp;
+24031     +    set &svmInfo;
+24032     +    if _N_ < 9 then do;
+24033     +        output &svmInfo;
+24034     +    end;
+24035     +    else do;
+24036     +        output work.temp;
+24037     +    end;
+24038     +run;
+24040     +data work.temp2 _NULL_;
+24041     +    set &nObs;
+24042     +    if _N_ < 2 then do;
+24043     +        output work.temp2;
+24044     +    end;
+24045     +    if _N_ eq 2 then do;
+24046     +        call symput('LabelUsed',DESCR);
+24047     +        %if "&partition" eq "" %then %do;
+24048     +            call symput('TrainUsed',N);
+24049     +        %end;
+24050     +    end;
+24051     +    if _N_ eq 3 then do;
+24052     +        call symput('TrainUsed',N);
+24053     +    end;
+24054     +    if _N_ eq 4 then do;
+24055     +        call symput('ValidUsed',N);
+24056     +    end;
+24057     +run;
+24059     +%if "&partition" ne "" %then %do;
+24060     +    data work.temp3 _NULL_;
+24061     +        format DESCR $char50. TRAINING BEST8. VALIDATION BEST8.;
+24062     +        DESCR=symget('LabelUsed');
+24063     +        TRAINING=symget('TrainUsed');
+24064     +        VALIDATION=symget('ValidUsed');
+24065     +    run;
+24066     +%end;
+24067     +%else %do;
+24068     +    data work.temp3 _NULL_;
+24069     +        format DESCR $char50. TRAINING BEST8.;
+24070     +        DESCR=symget('LabelUsed');
+24071     +        TRAINING=symget('TrainUsed');
+24072     +    run;
+24073     +%end;
+24075     +/* Modify the Dimensions ods table to have desired output */
+24076     +data _NULL_ work.temp4;
+24077     +    format DESCR $char50. STATISTIC BEST8.;
+24078     +    retain temp temp2 temp3 0;
+24079     +    set work.temp(rename= (descr = o_descr value = o_value));
+24080     +    if _N_ eq 1 then do;
+24081     +        temp = o_value;
+24082     +        temp2 = &numclass;
+24083     +    end;
+24084     +    if _N_ eq 2 then do;
+24085     +        temp3 = o_value + temp2 - temp;
+24087     +        DESCR="%sysfunc(sasmsg(sashelp.dmine, rpt_hpsvm_label_niv,  NOQUOTE))";
+24088     +        STATISTIC=&numint;
+24089     +        output work.temp4;
+24090     +        keep DESCR STATISTIC;
+24092     +        DESCR="%sysfunc(sasmsg(sashelp.dmine, rpt_hpsvm_label_ncv,  NOQUOTE))";
+24093     +        STATISTIC=put(temp2,BEST8.);
+24094     +        output work.temp4;
+24095     +        keep DESCR STATISTIC;
+24097     +        DESCR="%sysfunc(sasmsg(sashelp.dmine, rpt_hpsvm_label_ncvlvl,  NOQUOTE))";
+24098     +        STATISTIC=put(temp3,BEST8.);
+24099     +        output work.temp4;
+24100     +        keep DESCR STATISTIC;
+24101     +    end;
+24102     +run;
+24104     +/* Combine the ods tables into one large table to present in the node results. */
+24105     +data &svmFit;
+24106     +    format DESCR $char50. STATISTIC BEST8.;
+24107     +    set work.temp2(rename=(N=value)) work.temp3 work.temp4 work.temp &svmInfo &fitStat(rename=(STATISTIC=DESCR));
+24108     +    if value ne . then do;
+24109     +        STATISTIC=value;
+24110     +    end;
+24111     +    if STATISTIC ne . then do;
+24112     +        TRAINING = STATISTIC;
+24113     +    end;
+24115     +    Label DESCR = "%sysfunc(sasmsg(sashelp.dmine, rpt_hpsvm_vlabel_desc,  NOQUOTE))"
+24116     +            /*STATISTIC = "%sysfunc(sasmsg(sashelp.dmine, rpt_value_vlabel,  NOQUOTE))"*/
+24117     +            TRAINING = "%sysfunc(sasmsg(sashelp.dmine, rpt_train_vlabel,  NOQUOTE))"
+24118     +            VALIDATION = "%sysfunc(sasmsg(sashelp.dmine, rpt_validate_vlabel,  NOQUOTE))";
+24119     +    drop STATISTIC value;
+24120     +run;
+24122     +/* Localize portions of this ODS table */
+24123     +data &modelInfo;
+24124     +    format DESCR $char36. VALUE $char36.;
+24125     +    set &modelInfo &performanceInfo(drop = nValue);
+24126     +    if _N_ eq 2 then do;
+24127     +        %if "%upcase(&method)" eq "ACTIVESET" %then %do;
+24128     +            VALUE = "%sysfunc(sasmsg(sashelp.dmine, rpt_hpsvm_label_activeset,  NOQUOTE))";
+24129     +        %end;
+24130     +        %else %do;
+24131     +            VALUE = "%sysfunc(sasmsg(sashelp.dmine, rpt_hpsvm_label_ipoint,  NOQUOTE))";
+24132     +        %end;
+24133     +    end;
+24134     +    if _N_ eq 4 then do;
+24135     +        %if "%upcase(&kernel)" eq "LINEAR" %then %do;
+24136     +            VALUE = "%sysfunc(sasmsg(sashelp.dmine, rpt_hpsvm_label_linear,  NOQUOTE))";
+24137     +        %end;
+24139     +        %if "%upcase(&kernel)" eq "POLYNOM" %then %do;
+24140     +            VALUE = "%sysfunc(sasmsg(sashelp.dmine, rpt_hpsvm_label_polynom,  NOQUOTE))";
+24141     +        %end;
+24143     +        %if "%upcase(&kernel)" eq "RBF" %then %do;
+24144     +            VALUE = "%sysfunc(sasmsg(sashelp.dmine, rpt_hpsvm_label_rbf,  NOQUOTE))";
+24145     +        %end;
+24147     +        %if "%upcase(&kernel)" eq "SIGMOID" %then %do;
+24148     +            VALUE = "%sysfunc(sasmsg(sashelp.dmine, rpt_hpsvm_label_sigmoid,  NOQUOTE))";
+24149     +        %end;
+24150     +    end;
+24151     +    if _N_ eq 8 then do;
+24152     +        DESCR = "%sysfunc(sasmsg(sashelp.dmine, rpt_hpsvm_label_tolerance,  NOQUOTE))";
+24153     +    end;
+24155     +    Label DESCR="%sysfunc(sasmsg(sashelp.dmine, rpt_hpsvm_vlabel_desc,  NOQUOTE))"
+24156     +        VALUE = "%sysfunc(sasmsg(sashelp.dmine, rpt_value_vlabel,  NOQUOTE))";
+24157     +run;
+24159     +/* Delete the temporary tables that were created. */
+24160     +proc datasets lib=work nolist;
+24161     +    delete temp temp2 temp3 temp4;
+24162     +run;
+24164     +%mend em_hpdmsvm_makeFitstat;
+24166     +/***********************************************************
+24167     + *
+24168     + * em_hpdmsvm_checkSize is the macro that checks the number of columns of the kernel matrix
+24169     + *
+24170     + ***********************************************************/
+24172     +%macro em_hpdmsvm_checkSize(indata=,
+24173     +                            degree=,
+24174     +                            numInt=
+24175     +                            );
+24177     +%if (%eval(&EM_NUM_NOMINAL_INPUT + &EM_NUM_NOMINAL_REJECTED + &EM_NUM_BINARY_INPUT + &EM_NUM_BINARY_REJECTED + &EM_NUM_ORDINAL_INPUT + &EM_NUM_ORDINAL_REJECTED) > 0) %then %do;
+24178     +    proc hpdmdb data = &indata classout=_temp;
+24179     +        class %EM_BINARY_INPUT %EM_BINARY_REJECTED %EM_NOMINAL_INPUT %EM_NOMINAL_REJECTED %EM_ORDINAL_INPUT %EM_ORDINAL_REJECTED;
+24180     +    run;
+24181     +    %let dsid=%sysfunc(open(_temp));
+24182     +    %let numClass=%sysfunc(attrn(&dsid,nlobs));
+24183     +    %let rc=%sysfunc(close(&dsid));
+24184     +%end;
+24185     +%else %do;
+24186     +    %let numClass = 0;
+24187     +%end;
+24189     +/* As a note, numClass is the number of class levels assuming that missing is considered a level.
+24190     + * This is important because if the user specificies this property we want to take that into account.
+24191     + * As we're calculating an upper limit, it shouldn't matter if numColumns is in reality slightly less
+24192     + * than what we claim numColumns is here. The ODS tables will properly display the number of columns
+24193     + * in the Kernel matrix.
+24194     + */
+24196     +%let numColumnsD = %eval( &numClass + &numInt + 1 );
+24197     +%if &degree = 2 %then %do;
+24198     +    %let numColumnsW = %eval( (&numColumnsD + 1)*&numColumnsD/2 );
+24199     +%end;
+24200     +%if &degree = 3 %then %do;
+24201     +    %let numColumnsW = %eval( &numColumnsD*(&numColumnsD+1)*(2*&numColumnsD+4)/12 );
+24202     +%end;
+24204     +%if &numColumnsW > 50000 %then %do;
+24205     +    %let sysrc = 42;
+24206     +%end;
+24208     +proc datasets lib=work nolist;
+24209     +    delete _temp;
+24210     +run;
+24212     +%mend em_hpdmsvm_checkSize;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(HPDM_HPSVM_TRAIN):   filename temp;
+NOTE: Fileref TEMP을(를) 삭제했습니다.
+MPRINT(HPDM_HPSVM_TRAIN):  ;
+MPRINT(HPDM_HPSVM_TRAIN):  ;
+MPRINT(HPDM_HPSVM_TRAIN):  ;
+MPRINT(HPDM_HPSVM_TRAIN):  ;
+MPRINT(HPDM_HPSVM_TRAIN):  ;
+MPRINT(HPDM_HPSVM_TRAIN):  ;
+MPRINT(HPDM_HPSVM_TRAIN):  ;
+MPRINT(HPDM_HPSVM_TRAIN):  ;
+MPRINT(HPDM_HPSVM_TRAIN):  ;
+MPRINT(HPDM_HPSVM_TRAIN):   data _NULL_;
+MPRINT(HPDM_HPSVM_TRAIN):   set EMWS6.Ids5_BAD_DM(where = (_TYPE_ eq "DECISION"));
+MPRINT(HPDM_HPSVM_TRAIN):   if VARIABLE eq "DECISION1" then do;
+MPRINT(HPDM_HPSVM_TRAIN):   call symput('targevent',LABEL);
+MPRINT(HPDM_HPSVM_TRAIN):   end;
+MPRINT(HPDM_HPSVM_TRAIN):   if VARIABLE eq "DECISION2" then do;
+MPRINT(HPDM_HPSVM_TRAIN):   call symput('targnoevent',LABEL);
+MPRINT(HPDM_HPSVM_TRAIN):   end;
+MPRINT(HPDM_HPSVM_TRAIN):   run;
+
+NOTE: 2개의 관측값을 데이터셋 EMWS6.IDS5_BAD_DM.에서 읽었습니다.
+      WHERE _TYPE_='DECISION';
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(HPDM_HPSVM_TRAIN):   data _NULL_;
+MPRINT(HPDM_HPSVM_TRAIN):   set EMWS6.Ids5_BAD_DM(where = (_TYPE_ eq "TARGET"));
+MPRINT(HPDM_HPSVM_TRAIN):   call symput('target_order',ORDER);
+MPRINT(HPDM_HPSVM_TRAIN):   run;
+
+NOTE: 1개의 관측값을 데이터셋 EMWS6.IDS5_BAD_DM.에서 읽었습니다.
+      WHERE _TYPE_='TARGET';
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(EM_HPDMSVM_RUNHPSVM):   filename flowtemp "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMFLOWSCORE.sas";
+MPRINT(EM_HPDMSVM_RUNHPSVM):   data _null_;
+MPRINT(EM_HPDMSVM_RUNHPSVM):   length svmstate svmhpstore $2000;
+MPRINT(EM_HPDMSVM_RUNHPSVM):   svmstate = "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM"!!"\"!!"score.sasast";
+MPRINT(EM_HPDMSVM_RUNHPSVM):   svmhpstore = "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM"!!"\"!!"score.sas";
+MPRINT(EM_HPDMSVM_RUNHPSVM):   call symput('SVM_STATE', trim(svmstate));
+MPRINT(EM_HPDMSVM_RUNHPSVM):   call symput('SVM_SCORE', trim(svmhpstore));
+MPRINT(EM_HPDMSVM_RUNHPSVM):   run;
+
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(EM_HPDMSVM_RUNHPSVM):   ods exclude Variables;
+MPRINT(EM_HPDMSVM_RUNHPSVM):   proc hpsvm data=work.HPSVM_traindata maxiter=25 method = IPOINT tolerance=0.000001 c = 1;
+MPRINT(EM_HPDMSVM_RUNHPSVM):   code file=flowtemp;
+MPRINT(EM_HPDMSVM_RUNHPSVM):   input
+MPRINT(EM_INTERVAL_INPUT):   IMP_REP_CLAGE IMP_REP_CLNO IMP_REP_DEBTINC IMP_REP_DELINQ IMP_REP_DEROG IMP_REP_MORTDUE IMP_REP_NINQ IMP_REP_VALUE IMP_REP_YOJ REP_LOAN
+MPRINT(EM_HPDMSVM_RUNHPSVM):   / level = interval;
+MPRINT(EM_HPDMSVM_RUNHPSVM):   input
+MPRINT(EM_BINARY_INPUT):   IMP_REASON
+MPRINT(EM_NOMINAL_INPUT):   IMP_JOB
+MPRINT(EM_HPDMSVM_RUNHPSVM):   / level = nominal;
+MPRINT(EM_HPDMSVM_RUNHPSVM):   target BAD / level = binary order = DESC ;
+MPRINT(EM_HPDMSVM_RUNHPSVM):   kernel linear;
+MPRINT(EM_HPDMSVM_RUNHPSVM):   partition rolevar=_PartInd_(TRAIN="1" VALIDATE="0");
+MPRINT(EM_HPDMSVM_RUNHPSVM):   PERFORMANCE DETAILS;
+MPRINT(EM_HPDMSVM_RUNHPSVM):   savestate file = "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\score.sasast";
+MPRINT(EM_HPDMSVM_RUNHPSVM):   ods output TRAININGRESULT=EMWS6.HPSVM_SVMINFO FITSTATISTICS=EMWS6.HPSVM_FITSTAT MODELINFORMATION=EMWS6.HPSVM_SETTINGS NOBS=EMWS6.HPSVM_NOBS PERFORMANCEINFO=EMWS6.HPSVM_PERFORMANCE;
+MPRINT(EM_HPDMSVM_RUNHPSVM):   run;
+
+NOTE: The HPSVM procedure is executing in single-machine mode.
+NOTE: The HPSVM training process stopped because the maximum iteration 25 was reached.
+NOTE: Savestate successful. File "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\score.sasast" has been written.
+NOTE: Fileref FLOWTEMP opened.
+NOTE: 1790개의 관측값을 데이터셋 EMWS6.PART4_VALIDATE.에서 읽었습니다.
+NOTE: 1790개의 관측값을 데이터셋 EMWS6.REPL_VALIDATE.에서 읽었습니다.
+NOTE: 4170개의 관측값을 데이터셋 EMWS6.PART4_TRAIN.에서 읽었습니다.
+NOTE: 4170개의 관측값을 데이터셋 EMWS6.REPL_TRAIN.에서 읽었습니다.
+NOTE: View WORK.HPSVM_TRAINDATA.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.91 초
+      cpu 시간            0.62 초
+      
+NOTE: 4170개의 관측값을 데이터셋 EMWS6.IMPT2_TRAIN.에서 읽었습니다.
+NOTE: 1790개의 관측값을 데이터셋 EMWS6.IMPT2_VALIDATE.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.HPSVM_PERFORMANCE은(는) 2개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: 데이터셋 EMWS6.HPSVM_NOBS은(는) 4개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: 데이터셋 EMWS6.HPSVM_SETTINGS은(는) 8개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: 데이터셋 EMWS6.HPSVM_FITSTAT은(는) 4개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: 데이터셋 EMWS6.HPSVM_SVMINFO은(는) 10개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: 5960개의 관측값을 데이터셋 WORK.HPSVM_TRAINDATA.에서 읽었습니다.
+NOTE: 출력 결과 (프로시저: HPSVM, 페이지: 4)
+NOTE: 프로시저 HPSVM 실행(총 프로세스 시간):
+      실행 시간           1.00 초
+      cpu 시간            0.71 초
+      
+
+MPRINT(EM_HPDMSVM_RUNHPSVM):   filename pubtemp "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMPUBLISHSCORE.sas";
+MPRINT(EM_COPYFILE):   data _null_;
+MPRINT(EM_COPYFILE):   length line $20000;
+MPRINT(EM_COPYFILE):   file pubtemp lrecl=20000;
+MPRINT(EM_COPYFILE):   fid=fopen("flowtemp",'i',20000,'v');
+MPRINT(EM_COPYFILE):   if fid > 0 then do;
+MPRINT(EM_COPYFILE):   do while(^fread(fid));
+MPRINT(EM_COPYFILE):   rlen = frlen(fid);
+MPRINT(EM_COPYFILE):   rc= fget(fid,line,20000);
+MPRINT(EM_COPYFILE):   start = length(line)-length(left(line))+1;
+MPRINT(EM_COPYFILE):   line=strip(line);
+MPRINT(EM_COPYFILE):   put @start line;
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   if fid > 0 then rc=fclose(fid);
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   run;
+
+NOTE: 파일 PUBTEMP:
+      파일 이름=C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\EMPUBLISHSCORE.sas,
+      RECFM=V,LRECL=20000,파일 크기 (바이트)=0,
+      마지막 수정일=2018년 11월 20일 11시37분19초,
+      생성 시간=2018년 11월 20일 11시35분26초
+
+NOTE: 182개의 레코드를 파일 PUBTEMP에 기록했습니다.
+      최소 레코드 길이는 1입니다.
+      최대 레코드 길이는 70입니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(EM_HPDMSVM_RUNHPSVM):  ;
+MPRINT(EM_HPDMSVM_RUNHPSVM):   proc astore;
+MPRINT(EM_HPDMSVM_RUNHPSVM):   describe epcode="C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\score.sas" store="C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\HPSVM\score.sasast";
+MPRINT(EM_HPDMSVM_RUNHPSVM):   run;
+
+NOTE: 출력 결과 (프로시저: ASTORE, 페이지: 5-8)
+NOTE: 프로시저 ASTORE 실행(총 프로세스 시간):
+      실행 시간           0.14 초
+      cpu 시간            0.06 초
+      
+
+MPRINT(EM_HPDMSVM_RUNHPSVM):   filename flowtemp;
+NOTE: Fileref FLOWTEMP을(를) 삭제했습니다.
+MPRINT(EM_HPDMSVM_RUNHPSVM):   filename pubtemp;
+NOTE: Fileref PUBTEMP을(를) 삭제했습니다.
+MPRINT(HPDM_HPSVM_TRAIN):  ;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   data EMWS6.HPSVM_SVMINFO work.temp;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   set EMWS6.HPSVM_SVMINFO;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   if _N_ < 9 then do;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   output EMWS6.HPSVM_SVMINFO;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   end;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   else do;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   output work.temp;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   end;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   run;
+
+NOTE: 10개의 관측값을 데이터셋 EMWS6.HPSVM_SVMINFO.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.HPSVM_SVMINFO은(는) 8개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: 데이터셋 WORK.TEMP은(는) 2개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   data work.temp2 _NULL_;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   set EMWS6.HPSVM_NOBS;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   if _N_ < 2 then do;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   output work.temp2;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   end;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   if _N_ eq 2 then do;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   call symput('LabelUsed',DESCR);
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   end;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   if _N_ eq 3 then do;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   call symput('TrainUsed',N);
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   end;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   if _N_ eq 4 then do;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   call symput('ValidUsed',N);
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   end;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   run;
+
+NOTE: 다음의 위치에서 숫자형 값이 문자형 값으로 변환되었습니다. (행):(칼럼)
+      82:139   94:139   
+NOTE: 4개의 관측값을 데이터셋 EMWS6.HPSVM_NOBS.에서 읽었습니다.
+NOTE: 데이터셋 WORK.TEMP2은(는) 1개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   data work.temp3 _NULL_;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   format DESCR $char50. TRAINING BEST8. VALIDATION BEST8.;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   DESCR=symget('LabelUsed');
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   TRAINING=symget('TrainUsed');
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   VALIDATION=symget('ValidUsed');
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   run;
+
+NOTE: 다음의 위치에서 문자형 값이 숫자형 값으로 변환되었습니다. (행):(칼럼)
+      118:114   122:113   
+NOTE: 데이터셋 WORK.TEMP3은(는) 1개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   data _NULL_ work.temp4;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   format DESCR $char50. STATISTIC BEST8.;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   retain temp temp2 temp3 0;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   set work.temp(rename= (descr = o_descr value = o_value));
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   if _N_ eq 1 then do;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   temp = o_value;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   temp2 = 2;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   end;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   if _N_ eq 2 then do;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   temp3 = o_value + temp2 - temp;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   DESCR="입력 Interval 변수 개수";
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   STATISTIC=10;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   output work.temp4;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   keep DESCR STATISTIC;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   DESCR="입력 Class 변수 개수";
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   STATISTIC=put(temp2,BEST8.);
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   output work.temp4;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   keep DESCR STATISTIC;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   DESCR="입력 Class 변수 레벨 개수";
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   STATISTIC=put(temp3,BEST8.);
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   output work.temp4;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   keep DESCR STATISTIC;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   end;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   run;
+
+NOTE: 다음의 위치에서 문자형 값이 숫자형 값으로 변환되었습니다. (행):(칼럼)
+      204:70   224:67   
+NOTE: 2개의 관측값을 데이터셋 WORK.TEMP.에서 읽었습니다.
+NOTE: 데이터셋 WORK.TEMP4은(는) 3개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   data EMWS6.HPSVM_SVMFIT;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   format DESCR $char50. STATISTIC BEST8.;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   set work.temp2(rename=(N=value)) work.temp3 work.temp4 work.temp EMWS6.HPSVM_SVMINFO EMWS6.HPSVM_FITSTAT(rename=(STATISTIC=DESCR));
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   if value ne . then do;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   STATISTIC=value;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   end;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   if STATISTIC ne . then do;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   TRAINING = STATISTIC;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   end;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   Label DESCR = "설명" TRAINING = "분석" VALIDATION = "평가";
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   drop STATISTIC value;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   run;
+
+NOTE: 1개의 관측값을 데이터셋 WORK.TEMP2.에서 읽었습니다.
+NOTE: 1개의 관측값을 데이터셋 WORK.TEMP3.에서 읽었습니다.
+NOTE: 3개의 관측값을 데이터셋 WORK.TEMP4.에서 읽었습니다.
+NOTE: 2개의 관측값을 데이터셋 WORK.TEMP.에서 읽었습니다.
+NOTE: 8개의 관측값을 데이터셋 EMWS6.HPSVM_SVMINFO.에서 읽었습니다.
+NOTE: 4개의 관측값을 데이터셋 EMWS6.HPSVM_FITSTAT.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.HPSVM_SVMFIT은(는) 19개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.04 초
+      
+
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   data EMWS6.HPSVM_SETTINGS;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   format DESCR $char36. VALUE $char36.;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   set EMWS6.HPSVM_SETTINGS EMWS6.HPSVM_PERFORMANCE(drop = nValue);
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   if _N_ eq 2 then do;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   VALUE = "내부 포인트";
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   end;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   if _N_ eq 4 then do;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   VALUE = "선형";
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   end;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   if _N_ eq 8 then do;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   DESCR = "공차";
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   end;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   Label DESCR= "설명" VALUE = "값";
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   run;
+
+NOTE: 8개의 관측값을 데이터셋 EMWS6.HPSVM_SETTINGS.에서 읽었습니다.
+NOTE: 2개의 관측값을 데이터셋 EMWS6.HPSVM_PERFORMANCE.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.HPSVM_SETTINGS은(는) 10개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.05 초
+      cpu 시간            0.04 초
+      
+
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   proc datasets lib=work nolist;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   delete temp temp2 temp3 temp4;
+MPRINT(EM_HPDMSVM_MAKEFITSTAT):   run;
+
+NOTE: WORK.TEMP(memtype=DATA)을(를) 삭제하는 중입니다.
+NOTE: WORK.TEMP2(memtype=DATA)을(를) 삭제하는 중입니다.
+NOTE: WORK.TEMP3(memtype=DATA)을(를) 삭제하는 중입니다.
+NOTE: WORK.TEMP4(memtype=DATA)을(를) 삭제하는 중입니다.
+MPRINT(HPDM_HPSVM_TRAIN):  ;
+
+NOTE: 프로시저 DATASETS 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(EM_MODEL):   data WORK.EM_USER_MODEL;
+MPRINT(EM_MODEL):   length DATA $65 TARGET $32 PREDICTED ASSESS DECSCORECODE FITSTATISTICS CLASSIFICATION RESIDUALS $1;
+MPRINT(EM_MODEL):   data = "";
+MPRINT(EM_MODEL):   target = "BAD";
+MPRINT(EM_MODEL):   predicted = "Y";
+MPRINT(EM_MODEL):   assess = "Y";
+MPRINT(EM_MODEL):   decscorecode = "Y";
+MPRINT(EM_MODEL):   fitstatistics = "Y";
+MPRINT(EM_MODEL):   classification = "Y";
+MPRINT(EM_MODEL):   residuals = "Y";
+MPRINT(EM_MODEL):   run;
+
+NOTE: 데이터셋 WORK.EM_USER_MODEL은(는) 1개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(HPDM_HPSVM_TRAIN):  ;
+MPRINT(MAIN):  ;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * End TRAIN: HPSVM;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+24213      
+24214      
+24215      *------------------------------------------------------------*;
+24216      * End TRAIN: HPSVM;
+24217      *------------------------------------------------------------*;
+
+24218      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+24219      * Close any missing semi colons;
+MPRINT(EM_DIAGRAM):   * Close any missing semi colons;
+24220      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+24221      ;
+MPRINT(EM_DIAGRAM):   ;
+24222      ;
+MPRINT(EM_DIAGRAM):   ;
+24223      ;
+MPRINT(EM_DIAGRAM):   ;
+24224      ;
+MPRINT(EM_DIAGRAM):   ;
+24225      quit;
+MPRINT(EM_DIAGRAM):   quit;
+24226      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+24227      * Close any unbalanced quotes;
+MPRINT(EM_DIAGRAM):   * Close any unbalanced quotes;
+24228      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+24229      /*; *"; *'; */
+24230      ;
+MPRINT(EM_DIAGRAM):   ;
+24231      run;
+MPRINT(EM_DIAGRAM):   run;
+24232      quit;
+MPRINT(EM_DIAGRAM):   quit;
+24233      /* Reset EM Options */
+24234      options formchar="|----|+|---+=|-/\<>*";
+MPRINT(EM_DIAGRAM):   options formchar="|----|+|---+=|-/\<>*";
+24235      options nocenter ls=256 ps=10000;
+MPRINT(EM_DIAGRAM):   options nocenter ls=256 ps=10000;
+24236      goptions reset=all device=GIF NODISPLAY;
+MPRINT(EM_DIAGRAM):   goptions reset=all device=GIF NODISPLAY;
+MPRINT(EM_DIAGRAM):    proc printto;
+MPRINT(EM_DIAGRAM):   run;

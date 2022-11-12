@@ -1,0 +1,440 @@
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 20일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "10시17분29초" );
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 분석 로그";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+*------------------------------------------------------------*
+* 분석 로그
+날짜:                2018년 11월 20일
+시간:                10시17분29초
+*------------------------------------------------------------*
+MPRINT(EM_DIAGRAM):    filename O38LGMA6 "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Part2\EMTRAIN.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   proc printto print=O38LGMA6 new;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _LOG "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Part2\EMLOG.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 20일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "10시17분29초" );
+MPRINT(EM_DIAGRAM):   file _LOG;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "사용자:                Administrator";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "사이트:                10503192";
+MPRINT(EM_DIAGRAM):   put "플랫폼:            X64_10HOME";
+MPRINT(EM_DIAGRAM):   put "관리 릴리스: 9.04.01M4P110916";
+MPRINT(EM_DIAGRAM):   put "EM 버전:          14.2";
+MPRINT(EM_DIAGRAM):   put "* ";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _LOGIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Part2\EMTRAIN.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_COPYFILE):   data _null_;
+MPRINT(EM_COPYFILE):   length line $20000;
+MPRINT(EM_COPYFILE):   file _LOG MOD lrecl=20000;
+MPRINT(EM_COPYFILE):   fid=fopen("_LOGIN",'i',20000,'v');
+MPRINT(EM_COPYFILE):   if fid > 0 then do;
+MPRINT(EM_COPYFILE):   do while(^fread(fid));
+MPRINT(EM_COPYFILE):   rlen = frlen(fid);
+MPRINT(EM_COPYFILE):   rc= fget(fid,line,20000);
+MPRINT(EM_COPYFILE):   start = length(line)-length(left(line))+1;
+MPRINT(EM_COPYFILE):   line=strip(line);
+MPRINT(EM_COPYFILE):   put @start line;
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   if fid > 0 then rc=fclose(fid);
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   run;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _LOGIN;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   file _LOG mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   filename _LOGIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Part2\EMSCORE.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   file _LOG mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _LOGIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Part2\EMREPORT.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _LOGIN;
+MPRINT(EM_DIAGRAM):    filename _LOG;
+MPRINT(EM_DIAGRAM):    filename _OUT "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Part2\EMOUTPUT.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 20일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "10시17분29초" );
+MPRINT(EM_DIAGRAM):   file _OUT;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "사용자:                Administrator";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 분석 출력";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _OUTIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Part2\EMTRAIN.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   ;
+MPRINT(EM_COPYFILE):   data _null_;
+MPRINT(EM_COPYFILE):   length line $20000;
+MPRINT(EM_COPYFILE):   file _OUT MOD lrecl=20000;
+MPRINT(EM_COPYFILE):   fid=fopen("_OUTIN",'i',20000,'v');
+MPRINT(EM_COPYFILE):   if fid > 0 then do;
+MPRINT(EM_COPYFILE):   do while(^fread(fid));
+MPRINT(EM_COPYFILE):   rlen = frlen(fid);
+MPRINT(EM_COPYFILE):   rc= fget(fid,line,20000);
+MPRINT(EM_COPYFILE):   start = length(line)-length(left(line))+1;
+MPRINT(EM_COPYFILE):   line=strip(line);
+MPRINT(EM_COPYFILE):   put @start line;
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   if fid > 0 then rc=fclose(fid);
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   run;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _OUTIN;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   file _OUT mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   put // "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 스코어 출력";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _OUTIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Part2\EMSCORE.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _OUTIN;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   file _OUT mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   put // "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 리포트 출력";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _OUTIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Part2\EMREPORT.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _OUTIN;
+MPRINT(EM_DIAGRAM):    filename _OUT;
+MPRINT(EM_DIAGRAM):    filename _emtool_ 'C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Part2\EMRUNSTATUS.xml' encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):    filename _emtool_ 'C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Part2\EMRUNSTATUS.xml' encoding="UTF-8" NOBOM;
+28083      proc freq data=EMWS6.Part2_VariableSet noprint;
+MPRINT(EM_DIAGRAM):    proc freq data=EMWS6.Part2_VariableSet noprint;
+28084      table ROLE*LEVEL/out=WORK.Part2META;
+MPRINT(EM_DIAGRAM):   table ROLE*LEVEL/out=WORK.Part2META;
+28085      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 26개의 관측값을 데이터셋 EMWS6.PART2_VARIABLESET.에서 읽었습니다.
+NOTE: 데이터셋 WORK.PART2META은(는) 6개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: 프로시저 FREQ 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.04 초
+      
+
+28086      proc print data=WORK.Part2META label noobs;
+MPRINT(EM_DIAGRAM):   proc print data=WORK.Part2META label noobs;
+28087      var ROLE LEVEL COUNT;
+MPRINT(EM_DIAGRAM):   var ROLE LEVEL COUNT;
+28088      label ROLE = "%sysfunc(sasmsg(sashelp.dmine, meta_role_vlabel, NOQUOTE))" LEVEL = "%sysfunc(sasmsg(sashelp.dmine, meta_level_vlabel, NOQUOTE))" COUNT = "%sysfunc(sasmsg(sashelp.dmine, rpt_count_vlabel, NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label ROLE = "역할" LEVEL = "측도 레벨" COUNT = "빈도 개수";
+28089      title9 ' ';
+MPRINT(EM_DIAGRAM):   title9 ' ';
+28090      title10 "%sysfunc(sasmsg(sashelp.dmine, rpt_varSummary_title  , NOQUOTE))";
+MPRINT(EM_DIAGRAM):   title10 "변수 요약";
+MPRINT(EM_DIAGRAM):   run;
+28091      run;
+
+NOTE: 6개의 관측값을 데이터셋 WORK.PART2META.에서 읽었습니다.
+NOTE: 출력 결과 (프로시저: PRINT, 페이지: 4)
+NOTE: 프로시저 PRINT 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+28092      title10;
+MPRINT(EM_DIAGRAM):   title10;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Part2: 분석용 메타데이터 준비;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   data WORK.M31W2IUW;
+MPRINT(EM_DIAGRAM):   set WORK.M31W2IUW;
+MPRINT(EM_DIAGRAM):   where(PARTITIONROLE ne '' or ROLE='TARGET');
+MPRINT(EM_DIAGRAM):   run;
+trainPct=40 validatePct=30 testPct=30 
+NOTE: View EMWS6.IDS3_DATA.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.03 초
+      
+28100      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+28101      * Part2: Retrieving stratification variable(s) levels;
+MPRINT(EM_DIAGRAM):   * Part2: Retrieving stratification variable(s) levels;
+28102      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+28103      proc freq data=EMWS6.Ids3_DATA noprint;
+MPRINT(EM_DIAGRAM):   proc freq data=EMWS6.Ids3_DATA noprint;
+28104      format
+28105      RESPOND BEST12.0
+28106      ;
+MPRINT(EM_DIAGRAM):   format RESPOND BEST12.0 ;
+28107      table
+28108      RESPOND
+28109      /out=WORK.Part2_FREQ(drop=percent);
+MPRINT(EM_DIAGRAM):   table RESPOND /out=WORK.Part2_FREQ(drop=percent);
+28110      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: View EMWS6.IDS3_DATA.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.06 초
+      cpu 시간            0.06 초
+      
+NOTE: 10000개의 관측값을 데이터셋 DM_LIB.BUYTEST.에서 읽었습니다.
+NOTE: 10000개의 관측값을 데이터셋 EMWS6.IDS3_DATA.에서 읽었습니다.
+NOTE: 데이터셋 WORK.PART2_FREQ은(는) 2개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: 프로시저 FREQ 실행(총 프로세스 시간):
+      실행 시간           0.09 초
+      cpu 시간            0.09 초
+      
+
+28111      proc sort data=WORK.Part2_FREQ;
+MPRINT(EM_DIAGRAM):    proc sort data=WORK.Part2_FREQ;
+28112      by descending count;
+MPRINT(EM_DIAGRAM):   by descending count;
+28113      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.PART2_FREQ.에서 읽었습니다.
+NOTE: 데이터셋 WORK.PART2_FREQ은(는) 2개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(EM_DIAGRAM):   * Part2: Retrieving levels that meet minimum requirement;
+28114      * Part2: Retrieving levels that meet minimum requirement;
+28115      data WORK.Part2_FREQ2(keep = count);
+MPRINT(EM_DIAGRAM):   data WORK.Part2_FREQ2(keep = count);
+28116      set WORK.Part2_FREQ;
+MPRINT(EM_DIAGRAM):   set WORK.Part2_FREQ;
+28117      where (.01 * 40 * count) >= 3;
+MPRINT(EM_DIAGRAM):   where (.01 * 40 * count) >= 3;
+28118      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.PART2_FREQ.에서 읽었습니다.
+      WHERE (0.4*count)>=3;
+NOTE: 데이터셋 WORK.PART2_FREQ2은(는) 2개의 관측값과 1개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+28119      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+28120      * Part2: Create stratified partitioning;
+MPRINT(EM_DIAGRAM):   * Part2: Create stratified partitioning;
+28121      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+28122      data
+28123      EMWS6.Part2_TRAIN(label="")
+28124      EMWS6.Part2_VALIDATE(label="")
+28125      EMWS6.Part2_TEST(label="")
+28126      ;
+MPRINT(EM_DIAGRAM):   data EMWS6.Part2_TRAIN(label="") EMWS6.PART2_VALIDATE(label="") EMWS6.PART2_TEST(label="") ;
+28127      retain _seed_ 12345;
+MPRINT(EM_DIAGRAM):   retain _seed_ 12345;
+28128      drop _seed_ _genvalue_;
+MPRINT(EM_DIAGRAM):   drop _seed_ _genvalue_;
+28129      call ranuni(_seed_, _genvalue_);
+MPRINT(EM_DIAGRAM):   call ranuni(_seed_, _genvalue_);
+28130      label _dataobs_ = "%sysfunc(sasmsg(sashelp.dmine, sample_dataobs_vlabel, NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label _dataobs_ = "관측치 수";
+28131      _dataobs_ = _N_;
+MPRINT(EM_DIAGRAM):   _dataobs_ = _N_;
+28132      drop _c00:;
+MPRINT(EM_DIAGRAM):   drop _c00:;
+28133      set EMWS6.Ids3_DATA;
+MPRINT(EM_DIAGRAM):   set EMWS6.Ids3_DATA;
+28134      length _Pformat1 $58;
+MPRINT(EM_DIAGRAM):   length _Pformat1 $58;
+28135      drop _Pformat1;
+MPRINT(EM_DIAGRAM):   drop _Pformat1;
+28136      _Pformat1 = strip(put(RESPOND, BEST12.0));
+MPRINT(EM_DIAGRAM):   _Pformat1 = strip(put(RESPOND, BEST12.0));
+28137      if
+28138      _Pformat1 = '0'
+28139      then do;
+MPRINT(EM_DIAGRAM):   if _Pformat1 = '0' then do;
+28140      if (9233+1-_C000004)*_genvalue_ <= (3693 - _C000001) then do;
+MPRINT(EM_DIAGRAM):   if (9233+1-_C000004)*_genvalue_ <= (3693 - _C000001) then do;
+28141      _C000001 + 1;
+MPRINT(EM_DIAGRAM):   _C000001 + 1;
+28142      output EMWS6.Part2_TRAIN;
+MPRINT(EM_DIAGRAM):   output EMWS6.Part2_TRAIN;
+28143      end;
+MPRINT(EM_DIAGRAM):   end;
+28144      else do;
+MPRINT(EM_DIAGRAM):   else do;
+28145      if (9233+1-_C000004)*_genvalue_ <= (3693 - _C000001 + 2770 - _C000002) then do;
+MPRINT(EM_DIAGRAM):   if (9233+1-_C000004)*_genvalue_ <= (3693 - _C000001 + 2770 - _C000002) then do;
+28146      _C000002 + 1;
+MPRINT(EM_DIAGRAM):   _C000002 + 1;
+28147      output EMWS6.Part2_VALIDATE;
+MPRINT(EM_DIAGRAM):   output EMWS6.Part2_VALIDATE;
+28148      end;
+MPRINT(EM_DIAGRAM):   end;
+28149      else do;
+MPRINT(EM_DIAGRAM):   else do;
+28150      _C000003 + 1;
+MPRINT(EM_DIAGRAM):   _C000003 + 1;
+28151      output EMWS6.Part2_TEST;
+MPRINT(EM_DIAGRAM):   output EMWS6.Part2_TEST;
+28152      end;
+MPRINT(EM_DIAGRAM):   end;
+28153      end;
+MPRINT(EM_DIAGRAM):   end;
+28154      _C000004+1;
+MPRINT(EM_DIAGRAM):   _C000004+1;
+28155      end;
+MPRINT(EM_DIAGRAM):   end;
+28156      else if
+28157      _Pformat1 = '1'
+28158      then do;
+MPRINT(EM_DIAGRAM):   else if _Pformat1 = '1' then do;
+28159      if (767+1-_C000008)*_genvalue_ <= (307 - _C000005) then do;
+MPRINT(EM_DIAGRAM):   if (767+1-_C000008)*_genvalue_ <= (307 - _C000005) then do;
+28160      _C000005 + 1;
+MPRINT(EM_DIAGRAM):   _C000005 + 1;
+28161      output EMWS6.Part2_TRAIN;
+MPRINT(EM_DIAGRAM):   output EMWS6.Part2_TRAIN;
+28162      end;
+MPRINT(EM_DIAGRAM):   end;
+28163      else do;
+MPRINT(EM_DIAGRAM):   else do;
+28164      if (767+1-_C000008)*_genvalue_ <= (307 - _C000005 + 230 - _C000006) then do;
+MPRINT(EM_DIAGRAM):   if (767+1-_C000008)*_genvalue_ <= (307 - _C000005 + 230 - _C000006) then do;
+28165      _C000006 + 1;
+MPRINT(EM_DIAGRAM):   _C000006 + 1;
+28166      output EMWS6.Part2_VALIDATE;
+MPRINT(EM_DIAGRAM):   output EMWS6.Part2_VALIDATE;
+28167      end;
+MPRINT(EM_DIAGRAM):   end;
+28168      else do;
+MPRINT(EM_DIAGRAM):   else do;
+28169      _C000007 + 1;
+MPRINT(EM_DIAGRAM):   _C000007 + 1;
+28170      output EMWS6.Part2_TEST;
+MPRINT(EM_DIAGRAM):   output EMWS6.Part2_TEST;
+28171      end;
+MPRINT(EM_DIAGRAM):   end;
+28172      end;
+MPRINT(EM_DIAGRAM):   end;
+28173      _C000008+1;
+MPRINT(EM_DIAGRAM):   _C000008+1;
+28174      end;
+MPRINT(EM_DIAGRAM):   end;
+28175      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: View EMWS6.IDS3_DATA.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.08 초
+      cpu 시간            0.09 초
+      
+NOTE: 10000개의 관측값을 데이터셋 DM_LIB.BUYTEST.에서 읽었습니다.
+NOTE: 10000개의 관측값을 데이터셋 EMWS6.IDS3_DATA.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.PART2_TRAIN은(는) 3999개의 관측값과 27개의 변수를 가지고 있습니다.
+NOTE: 데이터셋 EMWS6.PART2_VALIDATE은(는) 3000개의 관측값과 27개의 변수를 가지고 있습니다.
+NOTE: 데이터셋 EMWS6.PART2_TEST은(는) 3001개의 관측값과 27개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.12 초
+      cpu 시간            0.12 초
+      
+
+28176      data _tempNobs;
+MPRINT(EM_DIAGRAM):    data _tempNobs;
+28177      length Type $8 Table $32 Nobs 8;
+MPRINT(EM_DIAGRAM):   length Type $8 Table $32 Nobs 8;
+28178      label type= "%sysfunc(sasmsg(sashelp.dmine, meta_type_vlabel,    NOQUOTE))" table = "%sysfunc(sasmsg(sashelp.dmine, meta_dataset_vlabel, NOQUOTE))" nobs = "%sysfunc(sasmsg(sashelp.dmine,  rpt_numObs_vlabel,   NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label type= "유형" table = "데이터셋" nobs = "관측치 수";
+28179      type='DATA';
+MPRINT(EM_DIAGRAM):   type='DATA';
+28180      table="EMWS6.Ids3_DATA";
+MPRINT(EM_DIAGRAM):   table="EMWS6.Ids3_DATA";
+28181      Nobs=10000;
+MPRINT(EM_DIAGRAM):   Nobs=10000;
+28182      output;
+MPRINT(EM_DIAGRAM):   output;
+28183      type='TRAIN';
+MPRINT(EM_DIAGRAM):   type='TRAIN';
+28184      table="EMWS6.Part2_TRAIN";
+MPRINT(EM_DIAGRAM):   table="EMWS6.Part2_TRAIN";
+28185      Nobs=3999;
+MPRINT(EM_DIAGRAM):   Nobs=3999;
+28186      output;
+MPRINT(EM_DIAGRAM):   output;
+28187      type='VALIDATE';
+MPRINT(EM_DIAGRAM):   type='VALIDATE';
+28188      table="EMWS6.Part2_VALIDATE";
+MPRINT(EM_DIAGRAM):   table="EMWS6.Part2_VALIDATE";
+28189      Nobs=3000;
+MPRINT(EM_DIAGRAM):   Nobs=3000;
+28190      output;
+MPRINT(EM_DIAGRAM):   output;
+28191      type='TEST';
+MPRINT(EM_DIAGRAM):   type='TEST';
+28192      table="EMWS6.Part2_TEST";
+MPRINT(EM_DIAGRAM):   table="EMWS6.Part2_TEST";
+28193      Nobs=3001;
+MPRINT(EM_DIAGRAM):   Nobs=3001;
+28194      output;
+MPRINT(EM_DIAGRAM):   output;
+28195      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 데이터셋 WORK._TEMPNOBS은(는) 4개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+28196      %let _cn = %sysfunc(getoption(CENTER));
+28197      %let _nb = %sysfunc(getoption(NUMBER));
+28198      options nonumber nocenter;
+MPRINT(EM_DIAGRAM):   options nonumber nocenter;
+28199      proc print data=_tempNobs noobs label;
+MPRINT(EM_DIAGRAM):   proc print data=_tempNobs noobs label;
+28200      title9 ' ';
+MPRINT(EM_DIAGRAM):   title9 ' ';
+28201      title10 "%sysfunc(sasmsg(sashelp.dmine, rpt_partitionSummary_title, NOQUOTE))";
+MPRINT(EM_DIAGRAM):   title10 "분할 요약";
+MPRINT(EM_DIAGRAM):   run;
+28202      run;
+
+NOTE: 4개의 관측값을 데이터셋 WORK._TEMPNOBS.에서 읽었습니다.
+NOTE: 출력 결과 (프로시저: PRINT, 페이지: 5)
+NOTE: 프로시저 PRINT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.00 초
+      
+
+28203      title10;
+MPRINT(EM_DIAGRAM):   title10;
+28204      options &_cn &_nb;
+MPRINT(EM_DIAGRAM):   options NOCENTER NONUMBER;
+MPRINT(EM_DIAGRAM):   run;
+28205      run;
+
+MPRINT(EM_DIAGRAM):    proc printto;
+MPRINT(EM_DIAGRAM):   run;

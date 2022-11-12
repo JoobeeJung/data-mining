@@ -1,0 +1,39 @@
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+변수 요약
+
+          측도 레     빈도
+역할         벨       개수
+
+ID        INTERVAL      1 
+INPUT     BINARY        1 
+INPUT     INTERVAL     10 
+INPUT     NOMINAL       1 
+TARGET    BINARY        1 
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+모델 이벤트
+
+                   측도     레벨
+타겟    이벤트     레벨      수        순서       레이블
+
+BAD       1       BINARY      2     Descending          
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+예측 및 의사결정 변수
+
+유형         변수      레이블
+
+TARGET       BAD                       
+PREDICTED    P_BAD1    Predicted: BAD=1
+RESIDUAL     R_BAD1    Residual: BAD=1 
+PREDICTED    P_BAD0    Predicted: BAD=0
+RESIDUAL     R_BAD0    Residual: BAD=0 
+FROM         F_BAD     From: BAD       
+INTO         I_BAD     Into: BAD       

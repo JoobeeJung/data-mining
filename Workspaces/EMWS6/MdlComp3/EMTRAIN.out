@@ -1,0 +1,122 @@
+ 
+                                                                                               
+ 
+ 
+변수 요약
+
+           측도     빈도
+ 역할      레벨     개수
+
+TARGET    BINARY      1 
+ 
+                                                                                               
+ 
+ 
+
+
+
+
+
+
+
+적합통계량
+Valid: Misclassification Rate (_VMISC_)에 근거한 모델 선택
+
+ 
+                                                            Valid:
+선택된    모델                                        Misclassification
+ 모델     노드                모델 설명                      Rate
+
+  Y       Tree4    의사결정트리(Decision Tree) (4)         0.11173     
+
+ Train:                           Valid:
+ Average          Train:          Average
+ Squared    Misclassification     Squared
+  Error            Rate            Error
+
+0.085030         0.10767         0.089548
+ 
+                                                                                               
+ 
+ 
+
+
+
+
+
+
+
+적합통계량 테이블
+타겟: BAD
+
+데이터 역할=Train
+
+통계량                                                      Tree4
+
+분석: Bin-Based Two-Way Kolmogorov-Smirnov 확률 임계값       0.22
+분석: Kolmogorov-Smirnov 통계량                              0.68
+Train: Average Squared Error                                 0.09
+분석: Roc 인덱스                                             0.88
+분석: 누적 반응검출률                                       41.68
+분석: 반응검출률                                            20.12
+선택 기준: Valid: Misclassification Rate                     0.11
+Train: Total Degrees of Freedom                           4170.00
+Train: Divisor for ASE                                    8340.00
+분석: 이득                                                 316.81
+분석: Gini 계수                                              0.76
+분석: Bin-Based Two-Way Kolmogorov-Smirnov 통계량            0.67
+분석: Kolmogorov-Smirnov 확률 임계값                         0.16
+분석: 누적 향상도                                            4.17
+분석: 향상도                                                 4.03
+Train: Maximum Absolute Error                                0.96
+Train: Misclassification Rate                                0.11
+Train: Sum of Frequencies                                 4170.00
+Train: Root Average Squared Error                            0.29
+분석: 누적반응률                                            83.06
+분석: 반응률                                                80.37
+Train: Sum of Squared Errors                               709.15
+
+
+데이터 역할=Valid
+
+통계량                                                      Tree4
+
+평가: Kolmogorov-Smirnov 통계량                              0.66
+Valid: Average Squared Error                                 0.09
+평가: Roc 인덱스                                             0.87
+평가: Bin-Based Two-Way Kolmogorov-Smirnov 확률 임계값       0.22
+평가: 누적 반응검출률                                       40.20
+평가: 반응검출률                                            20.05
+Valid: Divisor for VASE                                   3580.00
+평가: 이득                                                 301.98
+평가: Gini 계수                                              0.74
+평가: Bin-Based Two-Way Kolmogorov-Smirnov 통계량            0.66
+평가: Kolmogorov-Smirnov 확률 임계값                         0.16
+평가: 누적 향상도                                            4.02
+평가: 향상도                                                 4.03
+Valid: Maximum Absolute Error                                0.96
+Valid: Misclassification Rate                                0.11
+Valid: Sum of Frequencies                                 1790.00
+Valid: Root Average Squared Error                            0.30
+평가: 누적반응률                                            80.40
+평가: 반응률                                                80.67
+Valid: Sum of Squared Errors                               320.58
+ 
+                                                                                               
+ 
+ 
+
+
+
+
+
+
+
+이벤트 분류 테이블
+Valid: Misclassification Rate (_VMISC_)에 근거한 모델 선택
+
+모델                                  데이터         타겟    False    True     False    True
+노드             모델 설명            역할     타겟 레이블 Negative Negative Positive Positive
+
+Tree4 의사결정트리(Decision Tree) (4) TRAIN    BAD            249     3139      200      582  
+Tree4 의사결정트리(Decision Tree) (4) VALIDATE BAD            111     1343       89      247  

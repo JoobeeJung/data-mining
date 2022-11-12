@@ -1,0 +1,5 @@
+length IMP_OWNHOME 8;
+format IMP_OWNHOME BEST12.0;
+label IMP_OWNHOME = 'Imputed OWNHOME';
+IMP_OWNHOME = OWNHOME;
+if missing(OWNHOME) then IMP_OWNHOME = 0;

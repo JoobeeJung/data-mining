@@ -1,0 +1,74 @@
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+변수 요약
+
+          측도 레     빈도
+역할         벨       개수
+
+ID        INTERVAL      1 
+TARGET    NOMINAL       1 
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+연결 리포트
+
+              Expected
+             Confidence    Confidence    Support              Transaction                                                  규칙 오                                            Rule       규칙
+Relations       (%)           (%)          (%)        Lift       Count       Rule                         규칙 왼쪽          른쪽      Rule Item 1        Rule Item 2        Item 3     인덱스
+
+      2          0.23        100.00        0.23     439.00        1.00       preference ==> 10.30pm       preference       10.30pm     preference       ===============>    10.30pm      1943 
+      2          0.23        100.00        0.23     439.00        1.00       in particular ==> 10.30pm    in particular    10.30pm     in particular    ===============>    10.30pm      2885 
+      2          0.23        100.00        0.23     439.00        1.00       impossible ==> 10.30pm       impossible       10.30pm     impossible       ===============>    10.30pm      2911 
+      2          0.23        100.00        0.23     439.00        1.00       filter ==> 10.30pm           filter           10.30pm     filter           ===============>    10.30pm      3171 
+      2          0.23        100.00        0.23     439.00        1.00       12.30am ==> 10.30pm          12.30am          10.30pm     12.30am          ===============>    10.30pm      3643 
+      2          0.23        100.00        0.23     439.00        1.00       weeks ==> 11howard           weeks            11howard    weeks            ===============>    11howard      167 
+      2          0.23        100.00        0.23     439.00        1.00       techniques ==> 11howard      techniques       11howard    techniques       ===============>    11howard      817 
+      2          0.23        100.00        0.23     439.00        1.00       situations ==> 11howard      situations       11howard    situations       ===============>    11howard     1299 
+      2          0.23        100.00        0.23     439.00        1.00       rudely ==> 11howard          rudely           11howard    rudely           ===============>    11howard     1631 
+      2          0.23        100.00        0.23     439.00        1.00       nasty ==> 11howard           nasty            11howard    nasty            ===============>    11howard     2291 
+      2          0.23        100.00        0.23     439.00        1.00       japanese ==> 11howard        japanese         11howard    japanese         ===============>    11howard     2729 
+      2          0.23        100.00        0.23     439.00        1.00       incident ==> 11howard        incident         11howard    incident         ===============>    11howard     2837 
+      2          0.23        100.00        0.23     439.00        1.00       dog ==> 11howard             dog              11howard    dog              ===============>    11howard     3347 
+      2          0.23        100.00        0.23     439.00        1.00       clients ==> 11howard         clients          11howard    clients          ===============>    11howard     3491 
+      2          0.23        100.00        0.23     439.00        1.00       calling ==> 11howard         calling          11howard    calling          ===============>    11howard     3533 
+      2          0.23        100.00        0.23     439.00        1.00       basis ==> 11howard           basis            11howard    basis            ===============>    11howard     3605 
+      2          0.23        100.00        0.23     439.00        1.00       availability ==> 11howard    availability     11howard    availability     ===============>    11howard     3621 
+      2          0.23        100.00        0.23     439.00        1.00       anymore ==> 11howard         anymore          11howard    anymore          ===============>    11howard     3629 
+      2          0.23        100.00        0.23     439.00        1.00       preference ==> 12.30am       preference       12.30am     preference       ===============>    12.30am      1941 
+      2          0.23        100.00        0.23     439.00        1.00       in particular ==> 12.30am    in particular    12.30am     in particular    ===============>    12.30am      2883 
+      2          0.23        100.00        0.23     439.00        1.00       impossible ==> 12.30am       impossible       12.30am     impossible       ===============>    12.30am      2909 
+      2          0.23        100.00        0.23     439.00        1.00       filter ==> 12.30am           filter           12.30am     filter           ===============>    12.30am      3169 
+      2          0.23        100.00        0.23     439.00        1.00       10.30pm ==> 12.30am          10.30pm          12.30am     10.30pm          ===============>    12.30am      3644 
+      2          0.23        100.00        0.23     439.00        1.00       supply ==> 5-star            supply           5-star      supply           ===============>    5-star        895 
+      2          0.23        100.00        0.23     439.00        1.00       recovery ==> 5-star          recovery         5-star      recovery         ===============>    5-star       1785 
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+규칙 통계량
+
+MEANS 프로시저
+
+변수        레이블                          최솟값          최댓값            평균
+----------------------------------------------------------------------------------
+EXP_CONF    Expected Confidence(%)       0.2277904       0.9111617       0.3568337
+CONF        Confidence(%)               25.0000000     100.0000000      79.8450000
+SUPPORT     Support(%)                   0.2277904       0.9111617       0.2295672
+LIFT        Lift                       109.7500000     439.0000000     266.6632333
+----------------------------------------------------------------------------------
+ 
+                                                                                                                                                                                                                                                                
+ 
+순차분석 리포트
+
+FREQ 프로시저
+
+                      Relations
+ 
+                                     누적       누적
+SET_SIZE      빈도      백분율       빈도      백분율
+-----------------------------------------------------
+       2       10000    100.00        10000    100.00

@@ -1,0 +1,41 @@
+ 
+                                                                                               
+ 
+ 
+변수 요약
+
+            측도 레     빈도
+역할           벨       개수
+
+ID          INTERVAL      1 
+ID          NOMINAL       1 
+INPUT       BINARY        6 
+INPUT       INTERVAL      7 
+INPUT       NOMINAL       3 
+REJECTED    INTERVAL      8 
+TARGET      BINARY        1 
+ 
+                                                                                               
+ 
+ 
+모델 이벤트
+
+                      측도     레벨
+ 타겟      이벤트     레벨      수        순서       레이블
+
+RESPOND      1       BINARY      2     Descending          
+ 
+                                                                                               
+ 
+ 
+예측 및 의사결정 변수
+
+유형            변수       레이블
+
+TARGET       RESPOND                           
+PREDICTED    P_RESPOND1    Predicted: RESPOND=1
+RESIDUAL     R_RESPOND1    Residual: RESPOND=1 
+PREDICTED    P_RESPOND0    Predicted: RESPOND=0
+RESIDUAL     R_RESPOND0    Residual: RESPOND=0 
+FROM         F_RESPOND     From: RESPOND       
+INTO         I_RESPOND     Into: RESPOND       

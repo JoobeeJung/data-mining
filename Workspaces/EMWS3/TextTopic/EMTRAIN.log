@@ -1,0 +1,3210 @@
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 10월 15일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "20시53분19초" );
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 분석 로그";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+*------------------------------------------------------------*
+* 분석 로그
+날짜:                2018년 10월 15일
+시간:                20시53분19초
+*------------------------------------------------------------*
+MPRINT(EM_DIAGRAM):    filename O07OGBEV "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS3\TextTopic\EMTRAIN.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   proc printto print=O07OGBEV new;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _LOG "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS3\TextTopic\EMLOG.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 10월 15일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "20시53분19초" );
+MPRINT(EM_DIAGRAM):   file _LOG;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "사용자:                Administrator";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "사이트:                10503192";
+MPRINT(EM_DIAGRAM):   put "플랫폼:            X64_10HOME";
+MPRINT(EM_DIAGRAM):   put "관리 릴리스: 9.04.01M4P110916";
+MPRINT(EM_DIAGRAM):   put "EM 버전:          14.2";
+MPRINT(EM_DIAGRAM):   put "* ";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _LOGIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS3\TextTopic\EMTRAIN.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_COPYFILE):   data _null_;
+MPRINT(EM_COPYFILE):   length line $20000;
+MPRINT(EM_COPYFILE):   file _LOG MOD lrecl=20000;
+MPRINT(EM_COPYFILE):   fid=fopen("_LOGIN",'i',20000,'v');
+MPRINT(EM_COPYFILE):   if fid > 0 then do;
+MPRINT(EM_COPYFILE):   do while(^fread(fid));
+MPRINT(EM_COPYFILE):   rlen = frlen(fid);
+MPRINT(EM_COPYFILE):   rc= fget(fid,line,20000);
+MPRINT(EM_COPYFILE):   start = length(line)-length(left(line))+1;
+MPRINT(EM_COPYFILE):   line=strip(line);
+MPRINT(EM_COPYFILE):   put @start line;
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   if fid > 0 then rc=fclose(fid);
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   run;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _LOGIN;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   file _LOG mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   filename _LOGIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS3\TextTopic\EMSCORE.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   file _LOG mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _LOGIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS3\TextTopic\EMREPORT.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _LOGIN;
+MPRINT(EM_DIAGRAM):    filename _LOG;
+MPRINT(EM_DIAGRAM):    filename _OUT "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS3\TextTopic\EMOUTPUT.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 10월 15일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "20시53분19초" );
+MPRINT(EM_DIAGRAM):   file _OUT;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "사용자:                Administrator";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 분석 출력";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _OUTIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS3\TextTopic\EMTRAIN.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   ;
+MPRINT(EM_COPYFILE):   data _null_;
+MPRINT(EM_COPYFILE):   length line $20000;
+MPRINT(EM_COPYFILE):   file _OUT MOD lrecl=20000;
+MPRINT(EM_COPYFILE):   fid=fopen("_OUTIN",'i',20000,'v');
+MPRINT(EM_COPYFILE):   if fid > 0 then do;
+MPRINT(EM_COPYFILE):   do while(^fread(fid));
+MPRINT(EM_COPYFILE):   rlen = frlen(fid);
+MPRINT(EM_COPYFILE):   rc= fget(fid,line,20000);
+MPRINT(EM_COPYFILE):   start = length(line)-length(left(line))+1;
+MPRINT(EM_COPYFILE):   line=strip(line);
+MPRINT(EM_COPYFILE):   put @start line;
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   if fid > 0 then rc=fclose(fid);
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   run;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _OUTIN;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   file _OUT mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   put // "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 스코어 출력";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _OUTIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS3\TextTopic\EMSCORE.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _OUTIN;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   file _OUT mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   put // "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 리포트 출력";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _OUTIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS3\TextTopic\EMREPORT.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _OUTIN;
+MPRINT(EM_DIAGRAM):    filename _OUT;
+MPRINT(EM_DIAGRAM):    filename _emtool_ 'C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS3\TextTopic\EMRUNSTATUS.xml' encoding="UTF-8" NOBOM;
+32356      proc freq data=EMWS3.TextTopic_VariableSet noprint;
+MPRINT(EM_DIAGRAM):    proc freq data=EMWS3.TextTopic_VariableSet noprint;
+32357      table ROLE*LEVEL/out=WORK.TextTopicMETA;
+MPRINT(EM_DIAGRAM):   table ROLE*LEVEL/out=WORK.TextTopicMETA;
+32358      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 1개의 관측값을 데이터셋 EMWS3.TEXTTOPIC_VARIABLESET.에서 읽었습니다.
+NOTE: 데이터셋 WORK.TEXTTOPICMETA은(는) 1개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: 프로시저 FREQ 실행(총 프로세스 시간):
+      실행 시간           0.11 초
+      cpu 시간            0.10 초
+      
+
+32359      proc print data=WORK.TextTopicMETA label noobs;
+MPRINT(EM_DIAGRAM):   proc print data=WORK.TextTopicMETA label noobs;
+32360      var ROLE LEVEL COUNT;
+MPRINT(EM_DIAGRAM):   var ROLE LEVEL COUNT;
+32361      label ROLE = "%sysfunc(sasmsg(sashelp.dmine, meta_role_vlabel, NOQUOTE))" LEVEL = "%sysfunc(sasmsg(sashelp.dmine, meta_level_vlabel, NOQUOTE))" COUNT = "%sysfunc(sasmsg(sashelp.dmine, rpt_count_vlabel, NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label ROLE = "역할" LEVEL = "측도 레벨" COUNT = "빈도 개수";
+32362      title9 ' ';
+MPRINT(EM_DIAGRAM):   title9 ' ';
+32363      title10 "%sysfunc(sasmsg(sashelp.dmine, rpt_varSummary_title  , NOQUOTE))";
+MPRINT(EM_DIAGRAM):   title10 "변수 요약";
+MPRINT(EM_DIAGRAM):   run;
+32364      run;
+
+NOTE: 1개의 관측값을 데이터셋 WORK.TEXTTOPICMETA.에서 읽었습니다.
+NOTE: 출력 결과 (프로시저: PRINT, 페이지: 2)
+NOTE: 프로시저 PRINT 실행(총 프로세스 시간):
+      실행 시간           0.08 초
+      cpu 시간            0.07 초
+      
+
+32365      title10;
+MPRINT(EM_DIAGRAM):   title10;
+32366      %let EMEXCEPTIONSTRING=;
+MPRINT(EM_DIAGRAM):     *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * TextTopic: Generation of macros and macro variables;
+MPRINT(EM_DIAGRAM):   * To see the code generated, set the EM_DEBUG macro variable to SOURCE or _ALL_;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * TextTopic: EM Macro Variables and Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   * System Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   length string $2000;
+MPRINT(EM_DIAGRAM):   string = 'DataMining2018';
+MPRINT(EM_DIAGRAM):   call symput('EM_PROJECTNAME', trim(string));
+MPRINT(EM_DIAGRAM):   string = 'W03_TextMining';
+MPRINT(EM_DIAGRAM):   call symput('EM_WSNAME', trim(string));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   * Properties Macro Variables ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Files Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Import Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Export Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Decision Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Statement Macro Variables;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   set EMWS3.TextFilter_EMINFO;
+MPRINT(EM_DIAGRAM):   where key in('HPDMSAMPLE', 'IDSTABLE');
+MPRINT(EM_DIAGRAM):   if key = 'HPDMSAMPLE' then call symput('_ForceGrid', '1');
+MPRINT(EM_DIAGRAM):   else call symput('_IDS_TABLE', DATA);
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(HPDM_PERFORMANCE):  ;
+PERFORMANCE  DETAILS
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Variable Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * General Variable Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Target Variable Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Input Variable Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Rejected Variable Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Misc Variable Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * End Create EM Macro Variables and Macros;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+32704      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+32705      * TextTopic: Generation of macros and macro variables;
+MPRINT(EM_DIAGRAM):   * TextTopic: Generation of macros and macro variables;
+32706      * To see the code generated, set the EM_DEBUG macro variable to SOURCE or _ALL_;
+MPRINT(EM_DIAGRAM):   * To see the code generated, set the EM_DEBUG macro variable to SOURCE or _ALL_;
+32707      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+
+32708      %let EMEXCEPTIONSTRING=;
+32709      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+32710      * TRAIN: TextTopic;
+MPRINT(EM_DIAGRAM):   * TRAIN: TextTopic;
+32711      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+32712      %let EM_ACTION = TRAIN;
+32713      %let syscc = 0;
+32714      %macro main;
+32715          %if %upcase(&EM_ACTION) = CREATE %then %do;
+32716              filename temp catalog 'sashelp.emtxtext.topic_create.source';
+32717              %include temp;
+32718              %create;
+32719          %end;
+32720          %if %upcase(&EM_ACTION) = TRAIN %then %do;
+32721              filename temp catalog 'sashelp.emtxtext.topic_train.source';
+32722              %include temp;
+32723              %train;
+32724          %end;
+32725         %if %upcase(&EM_ACTION) = SCORE %then %do;
+32726              filename temp catalog 'sashelp.emtxtext.topic_score.source';
+32727              %include temp;
+32728              %score;
+32729          %end;
+32730          %if %upcase(&EM_ACTION) = REPORT %then %do;
+32731              filename temp catalog 'sashelp.emtxtext.topic_report.source';
+32732              %include temp;
+32733              %report;
+32734          %end;
+32735      %mend main;
+32736      
+32737      %main;
+MPRINT(EM_DIAGRAM):    
+MPRINT(MAIN):   filename temp catalog 'sashelp.emtxtext.topic_train.source';
+NOTE: %INCLUDE(레벨 1) 파일 TEMP은(는) 파일 SASHELP.EMTXTEXT.TOPIC_TRAIN.SOURCE입니다.
+32738     +/* ****************************************************************
+32739     + * Copyright (C) 2009 by SAS Institute Inc., Cary, NC 27513
+32740     + *
+32741     + * Name:             topic_train.sas
+32742     + * Support:          cox  James A. Cox
+32743     + * Product:          SAS Text Miner
+32744     + * Language:         Sas
+32745     + * Script:
+32746     + *
+32747     + * Usage:
+32748     + *
+32749     + * Purpose: Implements the Train action in the Text Topic Node.
+32750     + *
+32751     + * History:
+32752     + * 26May09 Added header [cox]
+32753     + *
+32754     + * Notes:.
+32755     + *
+32756     + * Last Modified By:
+32757     + * Last Modified On: Tue Oct 25 16:29:22 2016
+32758     + *
+32759     + * End
+32760     + * ************************************************************** */
+32761     +%macro train;
+32762     +
+32763     +   %if ^%symexist(tm_debug) %then %let tm_debug=0;
+32764     +    %global last_parse_node last_filter_node last_prescore_node server_err
+32765     +      parsevar EM_SASMSG /* EMEXCEPTIONSTRING */ systmutil;
+32766     +   %let EM_SASMSG=TMINE;
+32767     +   %let syscc=0;
+32768     +   %let systmutil = ;
+32769     +
+32770     +    filename temp catalog 'sashelp.emtxtext.tm_get_last_filter.source';
+32771     +    %include temp;
+32772     +    %tm_get_last_filter(eminfo=&EM_IMPORT_DATA_EMINFO,em_lib=&em_lib,
+32773     +                        em_variableset=&em_data_variableset);
+32774     +    %if &EMEXCEPTIONSTRING ne %then %goto end_topic_train;
+32775     +    %let lastparsenode=&last_parse_node;
+32776     +    %let lastfilternode=&last_filter_node;
+32777     +    %let lastprescore=&last_prescore_node;
+32778     +
+32779     +
+32780     +    /*populate last tm node dataset so tm_get_last_filter is not called in score*/
+32781     +    %em_getname(key=last_tm_nodes, type=data);
+32782     +    data &em_user_last_tm_nodes;
+32783     +        set &EM_IMPORT_DATA_EMINFO;
+32784     +    run;
+32785     +
+32786     +    * include helper macros ;
+32787     +    filename temp catalog 'sashelp.emtxtext.row_pivot_normalize.source';
+32788     +    %include temp;
+32789     +
+32790     +    filename temp catalog 'sashelp.emtxtext.tmt_topify.sas';
+32791     +    %include temp;
+32792     +
+32793     +    filename temp catalog 'sashelp.emtxtext.tmt_doc_score.source';
+32794     +    %include temp;
+32795     +
+32796     +    filename temp catalog 'sashelp.emtxtext.tmt_remove_dups.source';
+32797     +    %include temp;
+32798     +
+32799     +   /* Tell system that this is not data step score code */
+32800     +
+32801     +%let EM_PUBLISHCODE = PUBLISH;
+32802     +%let EM_SCORECODEFORMAT = DATASTEP;
+32803     +
+32804     +    * get input data sets ;
+32805     +
+32806     +    %em_getname(key=terms,         type=data);
+32807     +    %em_getname(key=tmout,         type=data);
+32808     +    %em_getname(key=weightedterms, type=data);
+32809     +    %em_getname(key=weightedtmout, type=data);
+32810     +
+32811     +    %em_getname(key=parseVarData, type=data);
+32812     +
+32813     +    /* Make sure that at least 15 documents are provided */
+32814     +   /* Check to make sure that minimum number of documents occur to calculate
+32815     +      topics */
+32816     +/* This check is done in tmt_multi_terms and is not relevant for times when they are running with user topics */
+32817     +/*
+32818     +   proc sql noprint; select count(distinct _document_) into :nobs
+32819     +      from &em_lib..&lastfilternode._tmout;
+32820     +      quit;
+32821     +   %if &nobs < 15 %then %do;
+32822     +      %let EMEXCEPTIONSTRING = EMTOOL.TOPIC_DATA_SMALL,&nobs;
+32823     +      %goto end_topic_train;
+32824     +      %end;
+32825     +*/
+32826     +
+32827     +      %global ntopics;
+32828     +
+32829     +    %em_getname(key=initTopics, type=data);
+32830     +
+32831     +   /* Note: for the following macro variables, anything that begins with tmt_
+32832     +   refers to properties on the TM node, anything that begins with em_ are
+32833     +   tables that need to be em_registered, and anything that beings tmm_ are
+32834     +   macro variables that the user may or may not set.  If they are not set, then
+32835     +   they should default to the value given */
+32836     +
+32837     +   %em_checkmacro(name=tmm_doccutoff,       global=Y, value=.001);
+32838     +      %if &tmm_doccutoff<0 or &tmm_doccutoff>1 %then %let tmm_doccutoff=0.001;
+32839     +   %em_checkmacro(name=tmm_termcutoff,       global=Y, value=.001);
+32840     +      %if &tmm_termcutoff<0 or &tmm_termcutoff>1
+32841     +          %then %let tmm_termcutoff=0.001;
+32842     +   %em_checkmacro(name=tmm_norm_pivot,      global=Y, value=.7);
+32843     +      %if &tmm_norm_pivot<0 or &tmm_norm_pivot>1 %then %let tmm_norm_pivot=0.7;
+32844     +   %em_checkmacro(name=tmm_term_cutoff,      global=Y, value=);
+32845     +
+32846     +   /* The default value of 35 degrees means that a topic is excluded if at least 2/3 of its variance
+32847     +      (i.e. r-squared) is accounted for by the other topic (i.e. sqrt(2/3) ~ arccos(35) )
+32848     +    */
+32849     +   %em_checkmacro(name=tmm_max_topic_angle, global=Y, value=35);
+32850     +   %em_checkmacro(name=tmm_min_docs,      global=Y, value=10);
+32851     +  /* Any terms less than this pct. of maximum are excluded */
+32852     +   %em_checkmacro(name=tmm_term_cutoff_pct, global=Y, value=.1);
+32853     +
+32854     +
+32855     +
+32856     +   %em_getname(key=topics,           type=data);
+32857     +   %em_getname(key=termtopics,       type=data);
+32858     +   %em_getname(key=docDs,            type=data);
+32859     +   %em_getname(key=tmout_normalized, type=data);
+32860     +   %em_getname(key=term_sums,        type=data);
+32861     +   %em_getname(key=tmout_parent,     type=data);
+32862     +
+32863     +   %let tmt_num_single=&em_property_topTermCnt;
+32864     +   %let tmt_num_multi=&em_property_autoTopicCnt;
+32865     +
+32866     +   %let em_topics     = &em_user_topics;
+32867     +   %let em_termtopics = &em_user_termtopics;
+32868     +   %let em_doc_ds     = &em_user_docDs;
+32869     +   %let em_norm_out   = &em_user_tmout_normalized;
+32870     +   %let em_term_sums  = &em_user_term_sums;
+32871     +   %let em_term_ds=&em_user_weightedterms;
+32872     +
+32873     +   /* Check if initTopics data set exists */
+32874     +   %em_getname(key=initTopics, type=data);
+32875     +   %em_getname(key=topic_Cutoffs, type=data);
+32876     +   %let tmt_init_topics=&em_user_initTopics;
+32877     +
+32878     +
+32879     +   %if ^%sysfunc(exist(&em_user_initTopics)) %then %do;
+32880     +   proc sql noprint;
+32881     +   create table &em_user_topic_Cutoffs
+32882     +      (_name char(100)
+32883     +          label="%sysfunc(sasmsg(sashelp.tmine,  rpt_text_topic_vlabel, NOQUOTE))",
+32884     +       _termcutoff decimal
+32885     +          label="%sysfunc(sasmsg(sashelp.tmine,  rpt_text_termCutoff_vlabel, NOQUOTE))",
+32886     +       _doccutoff decimal
+32887     +          label="%sysfunc(sasmsg(sashelp.tmine, rpt_text_docCutoff_vlabel, NOQUOTE))"
+32888     +       );
+32889     +   create table &em_user_initTopics
+32890     +      (_topic_ char(100)
+32891     +          label="%sysfunc(sasmsg(sashelp.tmine,  rpt_text_intopic_vlabel, NOQUOTE))",
+32892     +       _term_ char(80)
+32893     +          label="%sysfunc(sasmsg(sashelp.tmine,  rpt_text_intopic_term, NOQUOTE))",
+32894     +       _role_ char(32)
+32895     +          label="%sysfunc(sasmsg(sashelp.tmine,  rpt_text_intopic_role, NOQUOTE))",
+32896     +       _weight_ decimal
+32897     +          label="%sysfunc(sasmsg(sashelp.tmine,  rpt_text_intopic_weight, NOQUOTE))"
+32898     +       );
+32899     +   quit;
+32900     +   %end;
+32901     +
+32902     +   %else %if ^%sysfunc(exist(&em_user_topic_Cutoffs)) %then %do;
+32903     +   proc sql noprint;
+32904     +   create table &em_user_topic_Cutoffs
+32905     +      (_name char(100)
+32906     +          label="%sysfunc(sasmsg(sashelp.tmine,  rpt_text_topic_vlabel, NOQUOTE))",
+32907     +       _termcutoff decimal
+32908     +          label="%sysfunc(sasmsg(sashelp.tmine,  rpt_text_termCutoff_vlabel, NOQUOTE))",
+32909     +       _doccutoff decimal
+32910     +          label="%sysfunc(sasmsg(sashelp.tmine, rpt_text_docCutoff_vlabel, NOQUOTE))"
+32911     +       );
+32912     +   quit;
+32913     +   %end;
+32914     +
+32915     +   /*--------------- Following is training code -------------------- */
+32916     +   /* First thing to do is create a weighted out data set if one has not already
+32917     +     been created in Text Filter node.  Then make sure you have the out data set
+32918     +     as the version that has children rolled up to parents and dropped terms
+32919     +     removed.
+32920     +     Also, make sure you use a term ds that does not include children, the where clause below accomplishes that.
+32921     +   */
+32922     +   %let syscc=0;
+32923     +
+32924     +    %let isweight = 0;
+32925     +    %let dsid=%sysfunc(open(%str(&em_lib..&lastfilternode._terms)));
+32926     +    %if &dsid gt 0 %then %do;
+32927     +        %let isweight =%sysfunc(varnum(&dsid, weight));
+32928     +        %let rc=%sysfunc(close(&dsid));
+32929     +    %end;
+32930     +
+32931     +      /* get target variable info */
+32932     +      %let targetvar = ;
+32933     +      data _null_;
+32934     +      set &em_data_variableset(where=(ROLE='TARGET' and USE in('Y' 'D')
+32935     +                                      and LEVEL ne 'INTERVAL'));
+32936     +      if _N_=1 then call symput('targetvar', strip(NAME));
+32937     +      run;
+32938     +      data _null_;
+32939     +         cellwgt="LOG";
+32940     +         set &em_lib..&lastfilternode._tmconfig;
+32941     +         call symput('cellwgt',cellwgt);
+32942     +         run;
+32943     +
+32944     +    /* Output weighted, parent-only term and out data set. */
+32945     +    proc tmutil data=&em_lib..&lastfilternode._tmout key=&em_lib..&lastfilternode._terms
+32946     +        %if &targetvar ne %then doc=&EM_IMPORT_DATA target=&targetvar ;;
+32947     +        control init memloc='tmutil_memloc';
+32948     +    proc tmutil;
+32949     +        control release memloc='tmutil_memloc';
+32950     +
+32951     +
+32952     +    %if "&isweight" eq "0" %then %do;
+32953     +       weight termwgt=%if &targetvar= %then entropy; %else MI; cellwgt=&cellwgt;
+32954     +       %if &lastfilternode = &lastparsenode %then select reducef=4;;
+32955     +       output keeponly keyformat=tmscore out=&EM_USER_weightedtmout key=&em_user_terms;
+32956     +       run;
+32957     +       %if "%ktrim(&systmutil)" ne "" %then %goto pre_end_topic_train;
+32958     +       proc sql noprint;
+32959     +           %if ^%sysfunc(exist(&em_user_weightedTerms,'view')) %then drop view &em_user_weightedterms;;
+32960     +           create table &em_user_weightedterms as
+32961     +              select a.weight, b.*
+32962     +              from &em_user_terms as a, &em_lib..&lastfilternode._terms as b
+32963     +              where a.key=b.key and a.parent = . and b._ispar ne '.'
+32964     +              order by key;
+32965     +           quit;
+32966     +       %end;
+32967     +    %else %do;
+32968     +       /* Apply weights on current term table */
+32969     +       /******* look up weight from tmconfig table! */
+32970     +       weight cellwgt=&cellwgt
+32971     +          in_weight=&em_lib..&lastfilternode._terms_data(keep=key weight);
+32972     +        output keeponly keyformat=tmscore out=&EM_USER_weightedtmout;
+32973     +       run;
+32974     +       %if "%ktrim(&systmutil)" ne "" %then %goto pre_end_topic_train;
+32975     +       proc sql noprint;
+32976     +       %if ^%sysfunc(exist(&em_user_weightedTerms,'view')) %then drop view &em_user_weightedterms;;
+32977     +       create table &em_user_weightedterms as
+32978     +          select * from &em_lib..&lastfilternode._terms where _ispar ne '.'
+32979     +          order by key;
+32980     +       quit;
+32981     +       %end;
+32982     +
+32983     +    %if %eval(&syscc)>4 %then %do;
+32984     +        %let  EMEXCEPTIONSTRING = exception.server.EMTOOL.GENERICRUNTIMEEXCEPTION;
+32985     +       %goto end_topic_train;
+32986     +    %end;
+32987     +
+32988     +   /* Normalize the weighted out data set (containing only kept non-child terms)
+32989     +      so that documents have a length of approximately 1 */
+32990     +       %if &tmm_norm_pivot ne 0 %then %do;
+32991     +           %row_pivot_normalize(transds=&em_user_weightedtmout,
+32992     +                     outtransds=&em_norm_out,
+32993     +                     col_sumds=&em_term_sums,
+32994     +                     row=_document_,col=_termnum_,entry=_count_,
+32995     +                     pivot=&tmm_norm_pivot,
+32996     +                     tmt_config=&em_lib..&lastfilternode._tmconfig,
+32997     +                     tmt_train=1, prefix=&EM_NODEID.);
+32998     +          %end;
+32999     +       %else %do;
+33000     +          data &em_norm_out; set &em_user_weightedtmout; run;
+33001     +          %end;
+33002     +
+33003     +
+33004     +    %if %eval(&syscc)>4 %then %do;
+33005     +        %let  EMEXCEPTIONSTRING = exception.server.EMTOOL.GENERICRUNTIMEEXCEPTION;
+33006     +       %goto end_topic_train;
+33007     +    %end;
+33008     +
+33009     +   %let tmprefix=&EM_NODEID._;
+33010     +   %let syscc=0;
+33011     +   %let curdocDs=;
+33012     +
+33013     +   /* If there is an em_init_topics table, call %tmt_topify and _tmt_doc_score,
+33014     +                     if not create a completely blank em_term_ds and em_topics
+33015     +    */
+33016     +
+33017     +   %tmt_topify(initds=&tmt_init_topics,termds=&em_term_ds,topicds=&em_topics,
+33018     +               termtopicds=&em_termtopics,topic_cutoff_ds=&em_user_topic_Cutoffs,
+33019     +               doccutoff=&tmm_doccutoff, termcutoff=&tmm_termcutoff);
+33020     +%if &tm_debug =0 %then %do;
+33021     +proc sql;
+33022     +   drop table _tmptop;
+33023     +quit;
+33024     +%end;
+33025     +   %if %eval(&syscc)>4 %then %do;
+33026     +       %let  EMEXCEPTIONSTRING = exception.server.EMTOOL.GENERICRUNTIMEEXCEPTION;
+33027     +      %goto end_topic_train;
+33028     +   %end;
+33029     +
+33030     +   proc sql noprint; select count(*) into :ntopics from &em_topics; quit;
+33031     +
+33032     +   *check for eliminated init topics;
+33033     +   proc sql noprint; select count(distinct _topic_) into :user_ntopics from &tmt_init_topics; quit;
+33034     +   %if(%eval(&user_ntopics-&ntopics)>0) %then %do;
+33035     +        %put &em_codebar;
+33036     +         %let errormsg = %sysfunc(sasmsg(sashelp.tmine,EMTOOL.USERTOPIC_NOTE, NOQUOTE,%eval(&user_ntopics-&ntopics), %eval(&user_ntopics-0)));
+33037     +        %put &errormsg;
+33038     +         %put &em_codebar;
+33039     +      %let user_ntopics=&ntopics;
+33040     +   %end;
+33041     +
+33042     +   %tmt_doc_score(termtopds=&em_termtopics,outds=&em_norm_out,
+33043     +                  topicds=&em_topics,docds=&em_import_data,newdocds=_userdocs,
+33044     +                  termsumds=&em_term_sums, prefix=&tmprefix, pivot=&tmm_norm_pivot);
+33045     +    %if %eval(&syscc)>4 %then %do;
+33046     +        %let  EMEXCEPTIONSTRING = exception.server.EMTOOL.GENERICRUNTIMEEXCEPTION;
+33047     +       %goto end_topic_train;
+33048     +    %end;
+33049     +
+33050     +   %let curdocDs=_userdocs;
+33051     +
+33052     +   /* be sure docscore dataset is populated if only init docs */
+33053     +   data &em_doc_ds; set &curdocDs; run;
+33054     +
+33055     +   /* If they indicate to create any single term topics, run next three macros,
+33056     +      to create single word topics, then score the documents on just those topics,
+33057     +      then remove duplicates (based on document scores).  Finally, append new topics and
+33058     +      topicterms to respective data sets.  */
+33059     +
+33060     +    %if "&em_property_topTermCnt" ne "0" %then %do;
+33061     +       filename temp catalog 'sashelp.emtxtext.tmt_single_terms.source';
+33062     +       %include temp;
+33063     +
+33064     +       %let syscc=0;
+33065     +
+33066     +       %tmt_single_terms(termds=&em_term_ds,num_topics=%eval(&tmt_num_single+&user_ntopics),
+33067     +                        termtopicds=singtermtop, topicds=singtopics,
+33068     +                        startnum=%eval(&ntopics+1),
+33069     +                        doccutoff=.001);
+33070     +
+33071     +        /*get actual number of topics produced*/
+33072     +        proc sql noprint; select count(*) into :tmt_act_single from singtopics; quit;
+33073     +        %let tmt_act_single=%ktrim(&tmt_act_single);
+33074     +
+33075     +       %tmt_doc_score(termtopds=singtermtop, docds=&curdocDs,
+33076     +                      outds=&em_norm_out, topicds=singtopics, newdocds=_singuserdocs,
+33077     +                      termsumds=&em_term_sums, prefix=&tmprefix,
+33078     +                      pivot=&tmm_norm_pivot);
+33079     +
+33080     +       %let _ndel=%eval(&tmt_act_single-&tmt_num_single);
+33081     +       %if &_ndel>0 %then %do;
+33082     +
+33083     +          %tmt_remove_dups(in=_singuserdocs,n=%eval(&user_ntopics+&tmt_act_single),
+33084     +                           m=&ntopics,m1=%eval(&ntopics+1),out=&em_doc_ds,
+33085     +                           topicds=singtopics, termtopicds=singtermtop,
+33086     +                           prefix=&tmprefix.raw,ndel=&_ndel);
+33087     +          %let ntopics=%eval(&ntopics+&tmt_act_single-&_ndel);
+33088     +          %end;
+33089     +           %else %do;
+33090     +              %let ntopics=%eval(&ntopics+&tmt_act_single);
+33091     +              data &em_doc_ds; set _singuserdocs;
+33092     +              %end;
+33093     +
+33094     +       data &em_topics; set &em_topics singtopics; run;
+33095     +       data &em_termtopics; set &em_termtopics singtermtop; run;
+33096     +%if &tm_debug =0 %then %do;
+33097     +proc sql;
+33098     +   drop table singtopics;
+33099     +   drop table singtermtop;
+33100     +   drop view _tm_termtmpview;
+33101     +   drop table _singuserdocs;
+33102     +   drop table _tmpdocs;
+33103     +   drop table _termview;
+33104     +   drop table _termtopics;
+33105     +   drop table top_tmp_out;
+33106     +   drop table _weighted_tmout;
+33107     +   drop table _termsumds;
+33108     +quit;
+33109     +%end;
+33110     +       %if %eval(&syscc)>4 %then %do;
+33111     +          %let  EMEXCEPTIONSTRING = exception.server.EMTOOL.GENERICRUNTIMEEXCEPTION;
+33112     +          %goto end_topic_train;
+33113     +          %end;
+33114     +   %end; /*  %if "&em_property_topTermCnt" ne "0" */
+33115     +
+33116     +
+33117     +
+33118     +   /* If they indicate to create any multi-term topics, run next three macros */
+33119     +   /* The value for rotation= depends on the autoTopic property.  If Yes, then
+33120     +      rotation=promax should be used, otherwise rotation=varimax should be used. */
+33121     +
+33122     +   %if "&em_property_autoTopicCnt" ne "0" %then %do;
+33123     +      filename temp catalog 'sashelp.emtxtext.tmt_multi_terms.source';
+33124     +      %include temp;
+33125     +      proc sql noprint;
+33126     +         select count(*) into: _numrepterms
+33127     +         from &em_term_ds;
+33128     +      quit;
+33129     +
+33130     +      %if &_numrepterms < 15 %then %do;
+33131     +         %let EMEXCEPTIONSTRING = EMTOOL.TOPICTOOFEWTERMS,&_numrepterms;
+33132     +         %goto end_topic_train;
+33133     +      %end;
+33134     +
+33135     +        %let syscc=0;
+33136     +
+33137     +%let startnum=%eval(&ntopics+1);
+33138     +      %em_getname(key=out_u, type=data);
+33139     +       %tmt_multi_terms(outds=&em_norm_out,termds=&em_term_ds,
+33140     +                        num_topics=%eval(&tmt_num_multi+&user_ntopics),termtopicds=mult_termtop,
+33141     +                        rotation=
+33142     +                            %if &em_property_autoTopic=Y %then promax;
+33143     +                        %else varimax;
+33144     +                        ,
+33145     +                        startnum=&startnum, topicds=mult_topics,
+33146     +                        termcutoff=&tmm_term_cutoff,
+33147     +                        doccutoff=&tmm_doccutoff*2,
+33148     +                        tmptable=&em_user_out_u);
+33149     +       %if &EMEXCEPTIONSTRING ne  %then %goto end_topic_train;
+33150     +   /* %end; */
+33151     +
+33152     +        /*get actual number of topics produced*/
+33153     +        proc sql noprint; select count(*) into :tmt_act_multi from mult_topics; quit;
+33154     +        %let tmt_act_multi=%ktrim(&tmt_act_multi);
+33155     +
+33156     +
+33157     +       %tmt_doc_score(termtopds=mult_termtop, docds=&curdocDs,
+33158     +                      outds=&em_norm_out, topicds=mult_topics, newdocds=multdocs,
+33159     +                      termsumds=&em_term_sums, prefix=&tmprefix,
+33160     +                      pivot=&tmm_norm_pivot,norm=);
+33161     +
+33162     +       /*    proc corr data=multdocs; run; */
+33163     +
+33164     +
+33165     +%let endnum=%eval(&startnum + &tmt_act_multi -1);
+33166     +%let cnt=%eval(&endnum-&startnum+1);
+33167     +
+33168     +           /* Set document cutoffs based on average + standard deviation */
+33169     +           data _doc_tmp_sums (keep=_doccutoff _mean_ _std_ _ssi_ _ndoc_ _topicid);
+33170     +           array vals{&cnt} &tmprefix.raw&startnum -&tmprefix.raw&endnum;
+33171     +           array sums{&cnt} _temporary_ (&cnt*0);
+33172     +           array ss{&cnt} _temporary_ (&cnt*0);
+33173     +           _ndoc_=0;
+33174     +           do until(eof);
+33175     +              set multdocs end=eof;
+33176     +              _ndoc_=_ndoc_+1;
+33177     +              do i=1 to &cnt;
+33178     +                 sums{i}=sums{i}+abs(vals{i});
+33179     +                 ss{i}=ss{i}+abs(vals{i})**2;
+33180     +                 end;
+33181     +              end;
+33182     +           do i=1 to &cnt;
+33183     +              _mean_=sums{i}/_ndoc_;
+33184     +              _std_=sqrt((ss{i} - _ndoc_*_mean_*_mean_)/(_ndoc_-1));
+33185     +              _doccutoff=round(_mean_+_std_,.001);
+33186     +              _topicid=i+&startnum-1;
+33187     +              _ssi_=ss{i};
+33188     +              output;
+33189     +              end;
+33190     +
+33191     +           proc sql noprint;
+33192     +               create table mult_topics as
+33193     +                  select a._topicid, _name, _cat, /*, _apply */ _numterms, _numdocs,
+33194     +                    _termCutoff, b._doccutoff
+33195     +                  from mult_topics as a, _doc_tmp_sums as b
+33196     +                  where a._topicid=b._topicid;
+33197     +           /* proc print data=mult_topics; run; */
+33198     +
+33199     +       /* Now rescore based on new cutoffs */
+33200     +       %tmt_doc_score(termtopds=mult_termtop, docds=&curdocDs,
+33201     +                      outds=&em_norm_out, topicds=mult_topics, newdocds=multdocs,
+33202     +                      termsumds=&em_term_sums, prefix=&tmprefix,
+33203     +                      pivot=&tmm_norm_pivot);
+33204     +       %let _ndel=%eval(&tmt_act_multi-&tmt_num_multi);
+33205     +
+33206     +       %if &_ndel > 0 %then %do;
+33207     +          %tmt_remove_dups(in=multdocs,n=%eval(&ntopics+&tmt_act_multi),
+33208     +                           m=&user_ntopics, m1=%eval(&ntopics+1),
+33209     +                           prefix=&tmprefix.raw,out=&em_doc_ds,
+33210     +                           ndel=&_ndel,
+33211     +                           topicds=mult_topics, termtopicds=mult_termtop);
+33212     +          %let ntopics=%eval(&ntopics+&tmt_act_multi-&_ndel);
+33213     +          %end;
+33214     +           %else %let ntopics=%eval(&ntopics+&tmt_act_multi);;
+33215     +
+33216     +      %let curdocDs=&em_doc_ds; /* pass output of remove_dup_tops */
+33217     +      data &em_topics; set &em_topics mult_topics; run;
+33218     +      data &em_termtopics; set &em_termtopics mult_termtop; run;
+33219     +%if &tm_debug =0 %then %do;
+33220     +proc sql;
+33221     +   drop table out_u;
+33222     +   drop table _factors;
+33223     +   drop table _factrot;
+33224     +   drop table _termmrg;
+33225     +   drop table mult_termtop;
+33226     +   drop view _tmp_top_weights;
+33227     +   drop table _termtmpsums;
+33228     +   drop table mult_topics;
+33229     +   drop table mult_termtop;
+33230     +   drop table multdocs;
+33231     +   drop table _doc_tmp_sums;
+33232     +   drop view _doc_tmp_sums;
+33233     +quit;
+33234     +%end;
+33235     +      %if %eval(&syscc)>4 %then %do;
+33236     +         %let  EMEXCEPTIONSTRING = exception.server.EMTOOL.GENERICRUNTIMEEXCEPTION;
+33237     +         %goto end_topic_train;
+33238     +         %end;
+33239     +   %end;
+33240     +proc sort data=&em_topics; by _topicid; run;
+33241     +data &em_topics;
+33242     +   length _displayCat $16;
+33243     +   set &em_topics;
+33244     +   label _topicid    = "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_topicid_vlabel, NOQUOTE))";
+33245     +   label _name        = "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_topic_vlabel, NOQUOTE))";
+33246     +/*   label _cat         = "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_category_vlabel, NOQUOTE))";*/
+33247     +   * label _apply       = "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_apply_vlabel, NOQUOTE))";
+33248     +   label _doccutoff   = "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_docCutoff_vlabel, NOQUOTE))";
+33249     +   label _termcutoff  = "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_termCutoff_vlabel, NOQUOTE))";
+33250     +   label _numterms    = "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_numterms_vlabel, NOQUOTE))";
+33251     +   label _numdocs     = "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_numdocs_vlabel, NOQUOTE))";
+33252     +   label _displayCat  = "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_category_vlabel, NOQUOTE))";
+33253     +
+33254     +   select(ksubstr(_cat,1,1));
+33255     +      when('S') _displayCat = "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_topicsingle_value, NOQUOTE))";
+33256     +      when('M') _displayCat = "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_topicmulti_value, NOQUOTE))";
+33257     +      when('U') _displayCat = "%sysfunc(sasmsg(sashelp.tmine,  rpt_text_topicuser_value, NOQUOTE))";
+33258     +      otherwise;
+33259     +      end;
+33260     + run;
+33261     +   quit;
+33262     +
+33263     +   * Set some of the data specific issues for TM_CLIENT_SETTINGS;
+33264     +   %let docs_interactive = &curDocDs;
+33265     +   %let terms_interactive = &em_term_ds;
+33266     +
+33267     +   %let docs_view_variables = ;
+33268     +   * save out the metadata on the docs table ;
+33269     +   proc contents data=&docs_interactive out=work._docs_contents noprint;
+33270     +   run;
+33271     +
+33272     +
+33273     +   * get a list of the variables ;
+33274     +   %let docs_nobs = ;
+33275     +   proc sql noprint;
+33276     +      select name into :docs_view_variables separated by ' '
+33277     +      from work._docs_contents
+33278     +      where name not like 'TextTopic%' and klowcase(name) ne "_document_" and
+33279     +         kupcase(name) ne "%kupcase(%trim(%left(&parseVar)))";
+33280     +
+33281     +      * get a count of the variables ;
+33282     +      select count(*) into :docs_nobs
+33283     +      from &docs_interactive;
+33284     +
+33285     +      * delete our temp table ;
+33286     +      drop table work._docs_contents;
+33287     +
+33288     +      * get a count of the variables ;
+33289     +      select count(*) into :terms_nobs
+33290     +      from &em_term_ds;
+33291     +   quit;
+33292     +
+33293     +   * add the parseVar back in as the first field ;
+33294     +   %let docs_view_variables = topic_weight %trim(%left(&parseVar)) &docs_view_variables;
+33295     +
+33296     +   %em_getname(key=tm_client_settings);
+33297     +   proc sort data=&em_user_tm_client_settings;
+33298     +      by VIEWER KEY;
+33299     +   run;
+33300     +
+33301     +  %let len = %length(&docs_view_variables);
+33302     +   /* %put !!!!!!!!!!!! &len  &docs_view_variables; */
+33303     +
+33304     +   data work.tm_client_settings;
+33305     +       length viewer $80 key $80 value $32000;
+33306     +       * document table ;
+33307     +       viewer = "DOCUMENTS"; key = "nobs";          value = "&docs_nobs";           output;
+33308     +       viewer = "DOCUMENTS"; key = "viewvariables"; value = "&docs_view_variables"; output;
+33309     +         viewer = "DOCUMENTS"; key = "parseVariable"; value="&parsevar"; output;
+33310     +       * terms table ;
+33311     +       viewer = "TERMS";     key = "nobs";          value = "&terms_nobs";          output;
+33312     +
+33313     +       * augTopics table ;
+33314     +       viewer = "TOPICS";    key = "nobs";          value = "&ntopics";         output;
+33315     +     run;
+33316     +    proc sort data=work.tm_client_settings;
+33317     +       by VIEWER KEY;
+33318     +    run;
+33319     +    data &em_user_tm_client_settings;
+33320     +       merge &em_user_tm_client_settings work.tm_client_settings;
+33321     +       by VIEWER KEY;
+33322     +    run;
+33323     +    proc datasets nolist nodetails lib=work;
+33324     +       delete tm_client_settings;
+33325     +    run;
+33326     +    quit;
+33327     +   * add the info to EMINFO to forward on to other nodes ;
+33328     +   data &EM_DATA_EMINFO;
+33329     +      length TARGET KEY $32 DATA $43;
+33330     +         target = " ";
+33331     +      key="LastTMNode";       data="&EM_NODEID";                    output;
+33332     +      key="LastTMNodeType";       data="TextTopic";                    output;
+33333     +      key="LastTopic";    data="&EM_NODEID";                    output;
+33334     +      key="tm_topic_dataset"; data="&EM_PROPERTY_tm_topic_dataset"; output;
+33335     +         key="PRESCORECODE"; data="&EM_NODEID"; output;
+33336     +    run;
+33337     +
+33338     +
+33339     +   /* At this point, training is complete.  The three tables have been created
+33340     +      that are used in the Topic view property: &em_topics for the topic table,
+33341     +      a join of &em_term_ds and &em_termtopics for the terms table, and &em_doc_ds
+33342     +      for the documents table.  However, the training, etc. table to be exported
+33343     +      from the node will be obtained from the scoring code, as documented below.
+33344     +   */
+33345     +
+33346     +
+33347     +  %pre_end_topic_train:
+33348     +  %if "%ktrim(&systmutil)" ne "" %then %do;
+33349     +        %let EMEXCEPTIONSTRING = EMTOOL.TMUTIL, &systmutil;
+33350     +        %put emexceptionstring= "&EMEXCEPTIONSTRING";
+33351     +        %let syscc=0;
+33352     +         %end;
+33353     +
+33354     +  %end_topic_train:
+33355     +  filename temp;
+33356     +%if &tm_debug =0 %then %do;
+33357     +proc sql;
+33358     +   drop table _userdocs;
+33359     +quit;
+33360     +%end;
+33361     +
+33362     +
+33363     +%mend train;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(TRAIN):   filename temp catalog 'sashelp.emtxtext.tm_get_last_filter.source';
+NOTE: %INCLUDE(레벨 1) 파일 TEMP은(는) 파일 SASHELP.EMTXTEXT.TM_GET_LAST_FILTER.SOURCE입니다.
+33364     +/* ****************************************************************
+33365     + * Copyright (C) 2009 by SAS Institute Inc., Cary, NC 27513
+33366     + *
+33367     + * Name:             tm_get_last_filter.sas
+33368     + * Product:          SAS Text Miner
+33369     + * Language:         Sas
+33370     + * Script:
+33371     + *
+33372     + * Usage:
+33373     + *
+33374     + * Purpose:  macro to get the last filter node and the last parse node in the
+33375     + *   diagram that corresponds to the current parse variable.  If there is no filter
+33376     + *   node, the filter node is set to the last parse node.
+33377     + *
+33378     + *
+33379     + *
+33380     + * History:
+33381     + * 14Aug09 Initial Coding
+33382     + *
+33383     + * Notes:
+33384     + *    Returns an error in the following cases:
+33385     + *      1. There is no preceding parse node.
+33386     + *      2. There is no parse node with the current parse variable.
+33387     + *
+33388     + * Last Modified By:
+33389     + * Last Modified On: Wed Sep 23 15:35:04 2009
+33390     + *
+33391     + * End
+33392     + * ************************************************************** */
+33393     +%macro tm_get_last_filter(eminfo=,em_lib=, em_variableset=);
+33394     +   %let last_parse_node=;
+33395     +   %let last_filter_node=;
+33396     +   %let last_prescore_node=;
+33397     +   %let server_err=;
+33398     +   %let EMEXCEPTIONSTRING=;
+33399     +   %let syscc=0;
+33400     +
+33401     +    /* verify that setinit for SAS Text Miner is currently active */
+33402     +    %if %sysfunc(sysprod(PRODNUM107)) ne 1 %then %do;
+33403     +       %let EMEXCEPTIONSTRING = EMTOOL.NOTMLICENSE;
+33404     +        %goto end_macro;
+33405     +        %end;
+33406     +
+33407     +
+33408     +    * find last filter or text parse node if no filter node. ;
+33409     +   %if %sysfunc(exist(&eminfo)) %then %do;
+33410     +      proc sql noprint;
+33411     +      select data into :last_parse_node from &eminfo where key="LastTextParsing";
+33412     +         select data into :last_filter_node from &eminfo where key="LastTextFilter";
+33413     +         select data into :last_prescore_node from &eminfo where kupcase(key)="PRESCORECODE";
+33414     +      quit;
+33415     +
+33416     +   %end;
+33417     +
+33418     +   %if &last_parse_node= %then %do;
+33419     +      %let EMEXCEPTIONSTRING = EMTOOL.NOPARSINGNODE;
+33420     +      %goto end_macro;
+33421     +      %end;
+33422     +
+33423     +   %else %if &last_filter_node= %then %let last_filter_node = %ktrim(&last_parse_node);
+33424     +   %else %let last_filter_node = %ktrim(&last_filter_node);
+33425     +   %let last_parse_node = %ktrim(&last_parse_node);
+33426     +
+33427     +   * Check to make sure parse variable is present and still exists;
+33428     +   %let parsevar = ;
+33429     +   proc sql noprint;
+33430     +    select parsevar into :parsevar
+33431     +    from &em_lib..&last_filter_node._tmconfig;
+33432     +    quit;
+33433     +
+33434     +    *check for dropped parsevar on input dataset;
+33435     +       %let parsevarOK= ;
+33436     +       %let parsevarN=%kupcase(%ktrim(&parsevar));
+33437     +       data _null_;
+33438     +         set &em_variableset(where=(kupcase(NAME)="&parsevarN" and USE in('Y' 'D')));
+33439     +         if (ROLE='TEXT' or ROLE='TEXTLOC') then call symput('parsevarOK', strip(ROLE));
+33440     +         run;
+33441     +       %if(&parsevarOK eq ) %then %do;
+33442     +          %let EMEXCEPTIONSTRING = EMTOOL.NOPARSINGVAR;
+33443     +          %goto end_macro;
+33444     +          %end;
+33445     +%end_macro:
+33446     +
+33447     +%mend tm_get_last_filter;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(TM_GET_LAST_FILTER):   * find last filter or text parse node if no filter node. ;
+MPRINT(TM_GET_LAST_FILTER):   proc sql noprint;
+MPRINT(TM_GET_LAST_FILTER):   select data into :last_parse_node from EMWS3.TextFilter_EMINFO where key="LastTextParsing";
+MPRINT(TM_GET_LAST_FILTER):   select data into :last_filter_node from EMWS3.TextFilter_EMINFO where key="LastTextFilter";
+MPRINT(TM_GET_LAST_FILTER):   select data into :last_prescore_node from EMWS3.TextFilter_EMINFO where kupcase(key)="PRESCORECODE";
+MPRINT(TM_GET_LAST_FILTER):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TM_GET_LAST_FILTER):   * Check to make sure parse variable is present and still exists;
+MPRINT(TM_GET_LAST_FILTER):   proc sql noprint;
+MPRINT(TM_GET_LAST_FILTER):   select parsevar into :parsevar from EMWS3.TextFilter_tmconfig;
+MPRINT(TM_GET_LAST_FILTER):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TM_GET_LAST_FILTER):   *check for dropped parsevar on input dataset;
+MPRINT(TM_GET_LAST_FILTER):   data _null_;
+MPRINT(TM_GET_LAST_FILTER):   set EMWS3.TextTopic_VariableSet(where=(kupcase(NAME)="CONTENTS" and USE in('Y' 'D')));
+MPRINT(TM_GET_LAST_FILTER):   if (ROLE='TEXT' or ROLE='TEXTLOC') then call symput('parsevarOK', strip(ROLE));
+MPRINT(TM_GET_LAST_FILTER):   run;
+
+NOTE: 1개의 관측값을 데이터셋 EMWS3.TEXTTOPIC_VARIABLESET.에서 읽었습니다.
+      WHERE (KUPCASE(NAME)='CONTENTS') and USE in ('D', 'Y');
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):   data EMWS3.TextTopic_last_tm_nodes;
+MPRINT(TRAIN):   set EMWS3.TextFilter_EMINFO;
+MPRINT(TRAIN):   run;
+
+NOTE: 6개의 관측값을 데이터셋 EMWS3.TEXTFILTER_EMINFO.에서 읽었습니다.
+NOTE: 데이터셋 EMWS3.TEXTTOPIC_LAST_TM_NODES은(는) 6개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):   * include helper macros ;
+MPRINT(TRAIN):   filename temp catalog 'sashelp.emtxtext.row_pivot_normalize.source';
+NOTE: %INCLUDE(레벨 1) 파일 TEMP은(는) 파일 SASHELP.EMTXTEXT.ROW_PIVOT_NORMALIZE.SOURCE입니다.
+33448     +/* ****************************************************************
+33449     + * Copyright (C) 1996 by SAS Institute Inc., Cary, NC 27513
+33450     + *
+33451     + * Name:             row_pivot_normalize_docs.sas
+33452     + * Product:          SAS/GRAPH
+33453     + * Language:         Sas
+33454     + * Script:
+33455     + *
+33456     + * Usage:
+33457     + *
+33458     + * Purpose:          To output a new out table that is normalized so that each
+33459     + *  row is normalized so "on average" the sums of squares of the _count_ is 1.
+33460     + *
+33461     + * History:
+33462     + * 05May09 Initial Coding
+33463     + *
+33464     + * Notes:
+33465     + *
+33466     + * Last Modified By:
+33467     + * Last Modified On: Thu Jan 06 17:08:35 2011
+33468     + *
+33469     + * End
+33470     + * ************************************************************** */
+33471     +%macro row_pivot_normalize(transds=,outtransds=,row=,col=,entry=,
+33472     +                           col_sumds=, pivot=.5, tmt_config= , tmt_train=1, prefix=);
+33474     +   /* Calculate sum of the squared entries for each row */
+33475     +proc summary nway data=&transds;
+33476     +   class &row;
+33477     +   var &entry;
+33478     +   output out=_sqrowvals uss=;
+33479     +   run;
+33481     +   /* Put into &meandiv what the average euclidean length is across rows */
+33484     +%if &tmt_train = 1  %then %do;
+33485     +   proc sql noprint;
+33486     +      select mean(sqrt(&entry)) into :meaneuclen
+33487     +      from _sqrowvals;
+33488     +   quit;
+33489     +   %if &tmt_config ne %then %do;
+33490     +      *populate the config file with the mean value;
+33491     +      data &tmt_config;
+33492     +         set &tmt_config;
+33493     +         &prefix._meaneuclen= symget('meaneuclen');
+33494     +      run;
+33495     +   %end;
+33496     +    data _sqrowvals;
+33497     +      set _sqrowvals;
+33498     +      meaneuclen=symget('meaneuclen');
+33499     +      divisor = meaneuclen + (sqrt(&entry) - meaneuclen)*&pivot;
+33500     +      drop meaneuclen;
+33501     +   run;
+33504     +%end;
+33505     +%else %do;
+33506     +      * grab the mean value from the config file  and put into meaneuclien;
+33507     +   data _null_;
+33508     +      set &tmt_config;
+33509     +      call symput('meaneuclen',&prefix._meaneuclen);
+33510     +   run;
+33511     +    data _sqrowvals;
+33512     +      set _sqrowvals;
+33513     +      meaneuclen=symget('meaneuclen');
+33514     +      divisor = meaneuclen + (sqrt(&entry) - meaneuclen)*&pivot;
+33515     +   run;
+33517     +%end;
+33522     +proc sql noprint;
+33523     +   create table &outtransds as
+33524     +      select a.&row,a.&col,a.&entry / divisor as &entry
+33525     +      from &transds as a,_sqrowvals as b
+33526     +      where a.&row=b.&row;
+33527     +   drop table _sqrowvals;
+33528     +         quit;
+33529     +%if &col_sumds ne %then %do;
+33530     +   proc summary nway data=&outtransds;
+33531     +   class &col;
+33532     +   var &entry;
+33533     +   output out=&col_sumds mean=;
+33534     +   run;
+33535     +%end;
+33536     +%mend row_pivot_normalize;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(TRAIN):   filename temp catalog 'sashelp.emtxtext.tmt_topify.sas';
+NOTE: %INCLUDE(레벨 1) 파일 TEMP은(는) 파일 SASHELP.EMTXTEXT.TMT_TOPIFY.SOURCE입니다.
+33537     +/* ****************************************************************
+33538     + * Copyright (C) 2009 by SAS Institute Inc., Cary, NC 27513
+33539     + *
+33540     + * Name:             tmt_topify.sas
+33541     + * Product:          SAS Text Miner
+33542     + * Language:         Sas
+33543     + * Script:
+33544     + *
+33545     + * Usage: %tmt_topify(initds=,termds=,topicds=,termtopicds=,<doccutoff=>);
+33546     + *
+33547     + * Purpose:  To convert a user-created table containing one row for
+33548     + *      each term that contains a weight for each topic into a
+33549     + *      normalized form with two tables :
+33550     + *      a topic table with one row per topic, and a termtopics table
+33551     + *      that has one row per term per topic.
+33552     + *
+33553     + * Parameters:
+33554     + *   initds= The name of a table that contains one line per term per
+33555     + * topic.  It must include the variables _topic_ (unique name of
+33556     + * topic), _term_ (term text string), _role_ (part of speech or entity
+33557     + * type).
+33558     + *
+33559     + *   termds= The name of a table that contains the terms matched up
+33560     + * with their term ids, or key.  This table must include the variables
+33561     + * key (the unique term id), term (term text string), role (part of
+33562     + * speech or entity type), and parent (term id of parent if term
+33563     + * represents a synonym of another term).
+33564     + *
+33565     + *   topicds= a table name that on output will contain one row per
+33566     + * topic.  It contains the variables _topicid(unique identifier of
+33567     + * topic, numbered sequentially beginning with 1), _name (unique name of
+33568     + * topic), _cat (always set to "User" to indicate user topic), _apply
+33569     + * (always set to Y so that topic will create a new variable on scored
+33570     + * data representing topic), _doccutoff (set to input _docCutoff
+33571     + * parameter), _termcutoff (set to zero), _numterms (set to missing to
+33572     + * be calculated later), and _numdocs (set to missing to be calculated
+33573     + * later)
+33574     + *
+33575     + *   topictermds= a table name that on output will contain one row for
+33576     + * each term with a weight on each topic.  The variables on this table
+33577     + * will be _topicid (unique id for each _topic as identified on
+33578     + * topicds table), _termid (term ids as identified from the terms
+33579     + * table for the term string and role string), and _weight (the weight
+33580     + * to be applied to that term from the initds).
+33581     + *
+33582     + * History:
+33583     + * 06May09 Initial Coding
+33584     + *
+33585     + * Notes:
+33586     + *   The way that the term and role text strings are mapped into term
+33587     + * ids via the terms data set obeys the following rules:
+33588     + *
+33589     + * 0. A normalized text string is created that is a downcased version
+33590     + * of the term on the init_ds (since all terms are downcased on the
+33591     + * terms table).  A normalized role is created in which roles
+33592     + * representing parf of speech are set to have first letter
+33593     + * uppercased, and the rest lowercased, again to match the term ds casing.
+33594     +
+33595     + * 1. If a given row on the initds contains both a non-blank term
+33596     + * and role then a row is generated on termtopicds for each
+33597     + * term on the term ds with that normalized text string and either
+33598     + * that normalized role, or a blank role.
+33599     + *
+33600     + * 2. Any row on initds that has a blank role and a blank term is
+33601     + * ignored.
+33602     + *
+33603     + * 3. Otherwise, any row that has a blank role matches terms in termds
+33604     + * with any role.
+33605     + *
+33606     + * 4. Otherwise, any row with a blank term matches any terms in termds
+33607     + * with the given role.
+33608     + *
+33609     + * Last Modified By:
+33610     + * Last Modified On: Tue May 29 14:19:57 2012
+33611     + *
+33612     + * End
+33613     + * ************************************************************** */
+33614     +%macro tmt_topify(initds=,termds=,topicds=,termtopicds=,topic_cutoff_ds=,
+33615     +                  doccutoff=.001,termcutoff=.001);
+33616     +   data _tmptop (keep=_topic_ _term_ _role_ _weight_);
+33617     +   set &initds;
+33618     +   /* Normalize data (terms all downcased), roles set as appropriate
+33619     +    before output */
+33620     +   _term_=klowcase(_term_);
+33621     +   if propcase(_role_) in
+33622     +      ("Adj","Adv","Aux","Conj","Det","Noun","Num","Part",
+33623     +       "Prep", "Pron","Prop", "Verb")
+33624     +      then _role_=propcase(_role_);
+33625     +   if (_term_ ne ' ' or _role_ ne ' ') and _weight_ ne 0 and _weight_ ne . then output _tmpTop;
+33626     +   run;
+33627     +
+33628     +    /* Now summarize all duplicates as mean of all the rows that are duplicated,
+33629     +       for topic_cutoffs.
+33630     +     */
+33631     +   proc summary nway data=&topic_cutoff_ds;
+33632     +   class _name;
+33633     +   var _docCutoff _termCutoff;
+33634     +   output out=&topic_cutoff_ds mean=;
+33635     +
+33636     +
+33637     +   /* Make sure to eliminate duplicates, and to roll children into parents.  Also join
+33638     +       with the topic_cutoff_ds to get term and document cutoffs */
+33639     +   proc sql noprint;
+33640     +      create table _tmptop as
+33641     +         select a.*, b._doccutoff, b._termcutoff
+33642     +         from _tmptop as a left join &topic_cutoff_ds as b
+33643     +         on upcase(a._topic_)=upcase(b._name);
+33644     +            quit;
+33645     +
+33646     +   proc sql noprint;
+33647     +      create table _termtop1  as
+33648     +         select a._topic_,
+33649     +            case
+33650     +              when b.parent=. then b.key else b.parent end
+33651     +              as _termid, a._weight_ as _weight, a._doccutoff, a._termcutoff
+33652     +         from &termds as b,_tmpTop as a
+33653     +         where (b.key ne b.parent) and (a._term_= ' ' and a._role_=b.role);
+33654     +            quit;
+33655     +   proc sql noprint;
+33656     +      create table _termtop2  as
+33657     +         select a._topic_,
+33658     +            case
+33659     +              when b.parent=. then b.key else b.parent end
+33660     +              as _termid, a._weight_ as _weight, a._doccutoff, a._termcutoff
+33661     +         from &termds as b,_tmpTop as a
+33662     +         where (b.key ne b.parent) and
+33663     +         (a._term_ ne ' ' and a._role_ = ' ' and a._term_=b.term);
+33664     +            quit;
+33665     +   proc sql noprint;
+33666     +      create table _termtop3  as
+33667     +         select a._topic_,
+33668     +            case
+33669     +              when b.parent=. then b.key else b.parent end
+33670     +              as _termid, a._weight_ as _weight, a._doccutoff, a._termcutoff
+33671     +         from &termds as b,_tmpTop as a
+33672     +         where (b.key ne b.parent) and
+33673     +               (a._term_ ne ' ' and a._role_ ne ' ' and a._term_=b.term
+33674     +                 and (a._role_=b.role or b.role=' '));
+33675     +            quit;
+33676     +
+33677     +
+33678     +   data &termtopicds;
+33679     +            set _termtop1 _termtop2 _termtop3; run;
+33680     +
+33681     +   proc sort data=&termtopicds; by _topic_;
+33682     +
+33683     +   /* Now create the topic data set, which has one row per topic, and
+33684     +    the convert the termtopic data set to have one row per actual term
+33685     +    per topic */
+33686     +   data &topicds (keep=_topicid _name _displayCat _cat _docCutoff _termCutoff
+33687     +                  _numterms _numdocs)
+33688     +      &termtopicds (keep=_topicid _termid _weight);
+33689     +   retain _topicid;
+33690     +   format _docCutoff _termCutoff _weight 5.3;
+33691     +   set &termtopicds; by _topic_;
+33692     +   if _n_=1 then _topicid=1;
+33693     +
+33694     +   output &termtopicds;
+33695     +   if last._topic_ then do;
+33696     +      _name=_topic_;
+33697     +      _cat="User";
+33698     +      _displayCat="%sysfunc(sasmsg(sashelp.tmine,  rpt_text_topicuser_value, NOQUOTE))";
+33699     +      if _doccutoff=. then _docCutoff=&doccutoff;
+33700     +      if _termcutoff=. then  _termcutoff=&termcutoff;
+33701     +      _numterms=.;
+33702     +      _numdocs=.;
+33703     +      output &topicds;
+33704     +      _topicid=_topicid+1;
+33705     +      end;
+33706     +   run;
+33707     +
+33708     +   /* Replace duplicates with their mean weight */
+33709     +   proc summary nway data=&termtopicds;
+33710     +   class _topicid _termid;
+33711     +   var _weight;
+33712     +   output out=&termtopicds mean=;
+33713     +   run;
+33714     +   data &termtopicds; set &termtopicds(drop=_type_ _freq_); run;
+33715     +
+33716     +%if &tm_debug =0 %then %do;
+33717     +proc sql;
+33718     +   drop table _termtop1;
+33719     +   drop table _termtop2;
+33720     +   drop table _termtop3;
+33721     +   quit;
+33722     +%end;
+33723     +%mend;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(TRAIN):   filename temp catalog 'sashelp.emtxtext.tmt_doc_score.source';
+NOTE: %INCLUDE(레벨 1) 파일 TEMP은(는) 파일 SASHELP.EMTXTEXT.TMT_DOC_SCORE.SOURCE입니다.
+33724     +/* ****************************************************************
+33725     + * Copyright (C) 2010 by SAS Institute Inc., Cary, NC 27513
+33726     + *
+33727     + * Name:             tmt_doc_score.sas
+33728     + * Support:          cox  James A. Cox
+33729     + * Product:          SAS Text Miner
+33730     + * Language:         Sas
+33731     + * Script:
+33732     + *
+33733     + * Usage:
+33734     + *
+33735     + * Purpose:  To score documents based on contents of a topic table (&topicds), a term-topic table
+33736     + *      (&termtopds), and a weighted "out" table (&outds).  A topic weight is a weighted sum of the
+33737     + *      term weights from the term-topic table  (_weight_) where such weight is above a minimum
+33738     + *      _termcutoff,  multiplied by the weighted _count_ (_count_) from the weighted "out" table,
+33739     + *      where such counts are the tfidf weighted counts.
+33740     + *
+33741     + *
+33742     + * History:
+33743     + * 01May09 Initial Coding [cox]
+33744     + * 08Nov10 Changed to use hash tables [cox]
+33745     + *
+33746     + * Notes:
+33747     + *   scoring=yes is passed in in topic_score.source for both flow and saved score code.
+33748     + *       Otherwise, a blank value is passed in.
+33749     + *   docds is blank only when called from the Topic Viewer, since the new document table does
+33750     + *       not need to be recalculated until scoring time ( a view is actually displayed that joins
+33751     + *        them in the Document table part).  So when scoring is nonblank, docds is
+33752     + *       never non-blank.
+33753     + *
+33754     + *   This routine will score topics inclusive from the minimum topic number (computed internally as
+33755     + *        &_mintopic) to the maximum topic number (computed as &_maxtopic) from the input topic data
+33756     + *        set.
+33757     + *
+33758     + *
+33759     + *   If &scoring is blank, then topic variables are created for each such topic as <nodename>_#.
+33760     + *    For example, if the smallest topic number in topic table is 4 and the largest is 10, and the
+33761     + *    nodename is "texttopic", then Texttopic_4-TextTopic10 will be created on the output &newdocds.
+33762     + *    In this case, the topic table is updated for the variables _numterms and _numdocs to have the
+33763     + *    number of terms and documents that exceed their "minimum" value as indicated on the topic ds.
+33764     + *   If &scoring is nonblank, the same variables will contain either 1 (if the weighted sum >=
+33765     + *    _docCutoff) or 0 (if it is not).  In this case, variables including a raw suffix will indicate
+33766     + *   the raw values as calculated above (e.g. texttopic_raw4-texttopic_raw10).  Also, the topic ds
+33767     + *    is NOT updated when scoring.
+33768     + *
+33769     + *   If docds is passed in, then all variables are added to existing variables on the docds.  In this
+33770     + *     case, any documents that have no terms for any of the topics will have 0 for all topic variables.
+33771     + *     If docds is not passed in, of course, no concatenation is done, and topics that have no terms
+33772     + *     for any of the topics will not appear.
+33773     + *
+33774     + * Unit Tests:  These unit tests were performed satisfactorily from 11/05-11/23 on this code:
+33775     + *   Used existing topic node results to work from... this involves using an existing Text Topic Node and
+33776     + *   then rescoring the topics.  Unfortunately, it is not quite this easy since the current tmt_doc_score
+33777     + *   also normalizes the topic weights each time it is called for all current topics.  This is incorrect, which
+33778     + *   was part of the motivation for this rewrite.  I was able to verify same results using some transformations,
+33779     + *   however.
+33780     + *
+33781     + *   1. Verify that when docds= valid value, that the newdocds contains the new variables, and set to the new
+33782     + *       values when they differ from the old ones.  Also that it only has the
+33783     + *      new variables when docds is not passed in.
+33784     + *   2. Verify that when scoring=yes, the _numdocs and _numterms is not updated, but that the _# variables and
+33785     + *      the raw_# variables ARE created, and that the number of 1s in each _# variable is correct based on the
+33786     + *      document cutoffs specified.
+33787     + *   3. Verify that when scoring=, _numdocs and _numterms IS updated, but that _numterms is the same as was
+33788     + *      generated by tmt_doc_score before, and _numdocs is equal to the count of the # of 1s in each topic
+33789     + *      variable as generated in the result from 2. above.
+33790     + *   4. Verify that the results obtained using tmt_doc_score can be made equivalent to this by performing the
+33791     + *      normalization before this code is called.  This was tried for scoring=,docds=, and for scoring=y,
+33792     + *      docds=train ds, and scoring=,docds
+33793     + *   5. Verify that subsetting topics from 4-10 generate same results for those topics as for topics 1-10.  This
+33794     + *      was verified for both scoring=yes and scoring=no.
+33795     + *   6. Show that documents that contain no terms for all topics appear and generate 0s for all topic scores when
+33796     + *      docds is passed in, but don't appear when docds is not passed in.
+33797     + *
+33798     + *
+33799     + * Last Modified By:
+33800     + * Last Modified On: Tue Oct 22 15:19:28 2013
+33801     + *
+33802     + * End
+33803     + * ************************************************************** */
+33804     +%macro tmt_doc_score(termtopds=tmp_term_topics,outds=,docds=,newdocds=work.topdocs,
+33805     +                     topicds=tmp_topics, termsumds=,scoring=,prefix=_topic,
+33806     +                     pivot=.5,norm=,outpos=,topicpos=);
+33807     +%let _mintopic=1;
+33808     +
+33809     +/* Remove any duplicate topic ids before scoring */
+33810     +proc sort data=&topicds nodupkey; by _topicid;
+33811     +proc sort data=&termtopds nodupkey; by _termid _topicid; run;
+33812     +proc sql noprint;
+33813     +    select max(_topicid), min(_topicid) into :_maxtopic, :_mintopic from &topicds;
+33814     +       quit;
+33815     +%if &_mintopic eq . %then %let _mintopic=1;
+33816     +/*
+33817     +%if &scoring ne %then %do;
+33818     +    %let _mintopic=1;
+33819     +%end;
+33820     +*/
+33821     +
+33822     +%let _mintopic=%left(&_mintopic);
+33823     +%let _maxtopic=%left(&_maxtopic);
+33824     +
+33825     +/* Do the following if there are any topics to be scored */
+33826     +%if &_maxtopic >0 %then %do;
+33827     +
+33828     +%let _minlab=%ktrim(_tmlab)&_mintopic;
+33829     +%let _maxlab=%ktrim(_tmlab)&_maxtopic;
+33830     +proc sql noprint;
+33831     +    select _name into :&_minlab - :&_maxlab from &topicds;
+33832     +       quit;
+33833     +
+33834     +data &newdocds (drop=_topicid _doccutoff _termCutoff _name _cat _displaycat  _numterms _numdocs
+33835     +                _weight _termid rc _termnum_ i _count_)
+33836     +   %if &scoring= %then %do;
+33837     +      &topicds (keep=_topicid _name _cat _displaycat _numterms _numdocs _docCutoff _termCutoff)
+33838     +         %end;
+33839     +   %if &outpos ne and &topicpos ne %then %do;
+33840     +      &topicpos (keep=_topicid _document_ _offset_ _length_ _termnum_)
+33841     +         %end;
+33842     +   ;
+33843     +   if 0 then set &topicds &termtopds;
+33844     +
+33845     +   /* Create topic hash table */
+33846     +   dcl hash _topic_hash(dataset: "&topicds", ordered: "a");
+33847     +   _topic_hash.defineKey("_topicid");
+33848     +   _topic_hash.defineData("_topicid","_docCutoff","_termCutoff","_name","_cat","_numterms",
+33849     +                     "_numdocs");
+33850     +   _topic_hash.defineDone();
+33851     +
+33852     +   dcl hiter _it_topic("_topic_hash");
+33853     +
+33854     +   /* Unless we are scoring, zero out _numterms and _numdocs since we will recalculate based on
+33855     +    currently specified cutoffs
+33856     +    */
+33857     +   %if &scoring= %then %do;
+33858     +      rc=_it_topic.first();
+33859     +      do while(rc=0);
+33860     +         _numterms=0; _numdocs=0;
+33861     +         _topic_hash.replace();
+33862     +         rc=_it_topic.next();
+33863     +         end;
+33864     +      %end;
+33865     +
+33866     +   /* Create term-topic hash table */
+33867     +   dcl hash _termtopics(multidata: "Y");
+33868     +   _termtopics.defineKey("_termid");
+33869     +   _termtopics.defineData("_termid","_topicid", "_weight");
+33870     +   _termtopics.defineDone();
+33871     +
+33872     +   /* Now read in observations, and, for every one whose abs(weight) >= _termCutoff, add
+33873     +    it to _termtopics hash table and increment the _numdocs count in the topics hash table
+33874     +    */
+33875     +   do until(eof);
+33876     +      set &termtopds end=eof;
+33877     +      if _topic_hash.find() ne 0 then do;
+33878     +         put "topic " _topicid " not found in topic data set";
+33879     +         end;
+33880     +      else if abs(_weight)>= _termCutoff then do;
+33881     +
+33882     +         /* If we are not scoring, adjust the term counts */
+33883     +         %if &scoring= %then %do;
+33884     +            _numterms+1;
+33885     +            _topic_hash.replace();
+33886     +            %end;
+33887     +
+33888     +         /* Add to _termtopics */
+33889     +         _termtopics.add();
+33890     +         end;
+33891     +      end;
+33892     +
+33893     +   /* Now create document hash table. This will have one row for each document, and contain the
+33894     +      weighted topic values for each of the topics on that one row.
+33895     +    */
+33896     +   array _topic{&_mintopic:&_maxtopic} &prefix.raw&_mintopic-&prefix.raw&_maxtopic;
+33897     +   format &prefix.raw&_mintopic-&prefix.raw&_maxtopic 5.3;
+33898     +      %if &scoring ne %then %do;
+33899     +         array trunc{&_mintopic:&_maxtopic} &prefix.&_mintopic-&prefix.&_maxtopic;
+33900     +         array notrunc{&_mintopic:&_maxtopic} &prefix.raw&_mintopic-&prefix.raw&_maxtopic;
+33901     +         /* %put "using superq"; */
+33902     +         %do i=&_mintopic %to &_maxtopic;
+33903     +            /* %put &_tm_tmp; */
+33904     +            %let _tm_tmp=_1_0_%bquote(&&_tmlab&i);
+33905     +            label &prefix.&i="&_tm_tmp";
+33906     +            %let _tm_tmp=%bquote(&&_tmlab&i);
+33907     +            label &prefix.raw&i="&_tm_tmp";
+33908     +            %end;
+33909     +
+33910     +         %end;
+33911     +
+33912     +   dcl hash _doc_hash(hashexp:16,ordered: 'a');
+33913     +   _doc_hash.defineKey("_document_");
+33914     +   _doc_hash.defineData("_document_"
+33915     +                    %do i=&_mintopic %to &_maxtopic; ,"&prefix.raw&i" %end;
+33916     +                    );
+33917     +   _doc_hash.defineDone();
+33918     +
+33919     +   /* Now read in out data set */
+33920     +   eof=0;
+33921     +   do until(eof);
+33922     +      set &outds end=eof;
+33923     +
+33924     +      /* If we haven't seen this document yet, set all topic weights to zero */
+33925     +      if _doc_hash.find() ne 0 then do;
+33926     +         do i=&_mintopic to &_maxtopic;
+33927     +            _topic{i}=0;
+33928     +            end;
+33929     +         _doc_hash.add();
+33930     +         end;
+33931     +
+33932     +      /* Check to see if this term has significant weights on any topics */
+33933     +      _termid=_termnum_;
+33934     +      rc=_termtopics.find();
+33935     +      if rc = 0 then do;
+33936     +         do while(rc=0);
+33937     +            _topic{_topicid}= _topic{_topicid}+_weight*_count_;
+33938     +            rc=_termtopics.find_next();
+33939     +            end;
+33940     +         _doc_hash.replace();
+33941     +         end;
+33942     +      end;
+33943     +   _doc_hash.output(dataset: "docds");
+33944     +
+33945     +   /****************************************************************************
+33946     +    * Following is new code for tmt_doc_score_new.  Should be moved into %tmt_doc_score
+33947     +    * for 9.4
+33948     +    ****************************************************************************/
+33949     +
+33950     +   %if &outpos ne and &topicpos ne %then %do;
+33951     +   /* Now read in outpos data set */
+33952     +   eof=0;
+33953     +   do until(eof);
+33954     +      set &outpos end=eof;
+33955     +      if _doc_hash.find() = 0 then do;
+33956     +         /* Check to see if this term and document are both in the topic.  If so, output */
+33957     +         _termid=_termnum_;
+33958     +         rc=_termtopics.find();
+33959     +         do while(rc=0);
+33960     +            if _topic_hash.find()=0 then
+33961     +               if round( _topic{_topicid},.001) >= _doccutoff then output &topicpos;
+33962     +            rc=_termtopics.find_next();
+33963     +            end;
+33964     +         end;
+33965     +               else put 'document ' _document_ ' not found.';
+33966     +      end;
+33967     +
+33968     +
+33969     +    %end;
+33970     +
+33971     +   /****************************************************************************
+33972     +    * end of new code
+33973     +    ****************************************************************************/
+33974     +
+33975     +   /* Now we have info in the docds hash table for cumulative weights.  Prepare for output and
+33976     +      create numdocs for the topics hash table */
+33977     +
+33978     +   /* Note: If a docds was passed in, we load it here... this accounts for documents that have no
+33979     +      positive topic weights.  Otherwise, we process docds hash table iteratively
+33980     +    */
+33981     +   %if &docds= %then %do;
+33982     +      dcl hiter _doc_it("_doc_hash");
+33983     +      rc=_doc_itfirst();
+33984     +      do while(rc=0);
+33985     +         %end;
+33986     +      %else %do;
+33987     +         eof=0;
+33988     +         do until(eof);
+33989     +            set &docds end=eof;
+33990     +            rc=_doc_hash.find();
+33991     +            %end;
+33992     +         if rc ne 0 then
+33993     +            do i=&_mintopic to &_maxtopic;
+33994     +               _topic{i}=0; %if &scoring ne %then trunc{i} = 0;;
+33995     +               end;
+33996     +         else do _topicid=&_mintopic to &_maxtopic;
+33997     +            /* Round value to nearest thousandth */
+33998     +            _topic{_topicid}=round( _topic{_topicid},.001);
+33999     +            _topic_hash.find();
+34000     +            if _topic{_topicid} >= _doccutoff then do;
+34001     +               %if &scoring= %then %do;
+34002     +                  _numdocs=_numdocs+1;
+34003     +                  _topic_hash.replace();
+34004     +                  end;
+34005     +                  %end;
+34006     +               %else %do;
+34007     +                  trunc{_topicid} = 1;
+34008     +                  end;
+34009     +            else trunc{_topicid} = 0;
+34010     +            %end;
+34011     +         end;
+34012     +         output &newdocds;
+34013     +       %if &docds= %then rc=_doc_itnext();;
+34014     +       end;
+34015     +
+34016     +   %if &scoring= %then %do;
+34017     +      eof=0;
+34018     +      do until(eof);
+34019     +         set &topicds end=eof;
+34020     +         rc=_topic_hash.find();
+34021     +         output &topicds;
+34022     +         end;
+34023     +      %end;
+34024     +   * _termtopics.output(dataset: "&termtopds");
+34025     +   run;
+34026     +
+34027     +/* proc sort data=&termtopds; by _topicid _termid; run; */
+34028     +%end;
+34029     +%else %if &docds ne %then %do;
+34030     +    /* If there were no documents,set the new document table to contain the old documents */
+34031     +    data &newdocds;
+34032     +        set &docds;
+34033     +    run;
+34034     +
+34035     +%end;
+34036     +
+34037     +%mend;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(TRAIN):   filename temp catalog 'sashelp.emtxtext.tmt_remove_dups.source';
+NOTE: %INCLUDE(레벨 1) 파일 TEMP은(는) 파일 SASHELP.EMTXTEXT.TMT_REMOVE_DUPS.SOURCE입니다.
+34038     +/* ****************************************************************
+34039     + * Copyright (C) 2010 by SAS Institute Inc., Cary, NC 27513
+34040     + *
+34041     + * Name:             tmt_remove_dups.sas
+34042     + * Product:          SAS Text Miner
+34043     + * Language:         Sas
+34044     + * Script:
+34045     + *
+34046     + * Usage:
+34047     + * %tmt_remove_dups(in=tmp , N= , M= , maxc= , t= , prefix=, out=, outN=, outI=);
+34048     + *  (see additional parameters in Notes below).
+34049     + *
+34050     + * Purpose: To remove N-M-maxc topics out of the inputs provided.  The topics that are removed
+34051     + *          are the last N-M topics that have the highest correlations with the first M topics .
+34052     + *          The first M factors indicate topics that will always persist to output.
+34053     +
+34054     +*inputs
+34055     +    in: input data set with only required variables being &prefix1-&prefixN with rows being
+34056     +    the document weight associated with each factor (topic)
+34057     +
+34058     +    N: total number of factors
+34059     +
+34060     +    M: number of user factors that will definitely persist to output.  factor1-factorM are
+34061     +    taken as user factors unless M=0 (in which case there are no user factors...)
+34062     +
+34063     +    ndel: number of topics to delete
+34064     +
+34065     +    prefix: topic variable name prefix, these add a suffix that are 1..N.
+34066     +    kpTmp: variable that will cause temporary (work) datasets used internally to be retained
+34067     +
+34068     + * outputs
+34069     +    out: output dataset--will contain factorI variables representing distinct topic;
+34070     +    any user topics will persist in factor1-factorM; also, any non-prefix variables will
+34071     +    be copied directly to out
+34072     +
+34073     +    topicds/termtopicds: data sets which will have the _topicid variable updated according to the
+34074     +       new index
+34075     + *
+34076     + * Purpose:
+34077     + *
+34078     + * History:
+34079     + * 18Oct10 Initial Coding
+34080     + *
+34081     + * Notes:
+34082     + *
+34083     + * Last Modified By:
+34084     + * Last Modified On: Tue Aug 23 15:37:30 2011
+34085     + *
+34086     + * End
+34087     + * ************************************************************** */
+34088     +%macro tmt_remove_dups(in=, N=, M=, m1=, ndel=1, prefix=factor,
+34089     +                       out=outTops, outN=outN, topicds=,
+34090     +                       termtopicds=, kpTmp=);
+34091     +  /* %let M1=%eval(&M+1); */
+34092     +
+34093     +  proc corr noprint outp=tm_tmpcorr data=&in;
+34094     +   var &prefix.1-&prefix.&M;
+34095     +   with &prefix.&M1-&prefix.&N;
+34096     +   run;
+34097     +
+34098     +  /* proc print data=tm_tmpcorr (where=(_type_="CORR")); run; */
+34099     +
+34100     +  data _null_;
+34101     +   length oldvar_str newvar_str $1000;
+34102     +   array corrs{*} &prefix.1-&prefix.&M;
+34103     +   dcl hash topcorrs(ordered: "d");
+34104     +   topcorrs.defineKey("maxcorr","topicnum");
+34105     +   topcorrs.defineData("maxcorr","topicnum");
+34106     +   topcorrs.defineDone();
+34107     +   topicnum=&M1;
+34108     +   do until(eof);
+34109     +      set tm_tmpcorr(where=(_type_="CORR")) end=eof;
+34110     +      maxcorr=-1;
+34111     +      do i=1 to &M;
+34112     +         if corrs{i}>maxcorr then maxcorr=corrs{i};
+34113     +         end;
+34114     +      topcorrs.add();
+34115     +      topicnum+1;
+34116     +      end;
+34117     +   topcorrs.output(dataset: 'corrs');
+34118     +   dcl hash remove_vars(ordered: "d");
+34119     +   remove_vars.defineKey("topicnum");
+34120     +   remove_vars.defineData("maxcorr","topicnum");
+34121     +   remove_vars.defineDone();
+34122     +
+34123     +   dcl hiter corr_it('topcorrs');
+34124     +   rc=corr_it.first();
+34125     +   do i=1 to &ndel;
+34126     +      remove_vars.add();
+34127     +      rc=corr_it.next();
+34128     +      end;
+34129     +   remove_vars.output(dataset: 'rem_corrs');
+34130     +
+34131     +   oldvar_str="";
+34132     +   newvar_str="";
+34133     +   dcl hiter var_it('remove_vars');
+34134     +   i=&N;
+34135     +   rc=var_it.first();
+34136     +   do while(rc=0);
+34137     +      do while( remove_vars.check(key: i) = 0); i=i-1; /* put i= topicnum=;*/ end;
+34138     +      if topicnum<&N-&ndel+1 then do;
+34139     +         oldvar_str=ktrim(kleft(put(topicnum,5.))) || " " || oldvar_str;
+34140     +         newvar_str=ktrim(kleft(put(i,5.))) || " " || newvar_str;
+34141     +         i=i-1;
+34142     +         end;
+34143     +      else do;
+34144     +         oldvar_str=ktrim(kleft(put(topicnum,5.))) || " " || oldvar_str;
+34145     +         newvar_str=ktrim(kleft(put(topicnum,5.))) || " " || newvar_str;
+34146     +         end;
+34147     +
+34148     +      rc=var_it.next();
+34149     +      end;
+34150     +
+34151     +   /* oldvar_str contains the topics to be replaced by the topics in the newvar_str */
+34152     +   /* put oldvar_str= newvar_str=; */
+34153     +
+34154     +   call symput('tmt_oldvar_str', oldvar_str);
+34155     +   call symput('tmt_newvar_str', newvar_str);
+34156     +
+34157     +   run;
+34158     +
+34159     +/* proc print data=corrs; run;  */
+34160     +
+34161     +
+34162     +data &out (drop=&prefix.%eval(&N-&ndel+1)-&prefix.&N);
+34163     +   set &in;
+34164     +
+34165     +   %let index=1;
+34166     +   %let source=%scan(&tmt_oldvar_str,&index);
+34167     +   %do %while(&source ne);
+34168     +      %let dest=%scan(&tmt_newvar_str,&index);
+34169     +      &prefix.&source=&prefix.&dest;
+34170     +      %let index=%eval(&index+1);
+34171     +      %let source=%scan(&tmt_oldvar_str,&index);
+34172     +      %end;
+34173     +
+34174     +data &topicds;
+34175     +   set &topicds;
+34176     +   %let index=1;
+34177     +   %let source=%scan(&tmt_oldvar_str,&index);
+34178     +   %if &source ne %then %do;
+34179     +      if
+34180     +         %do %while(&source ne);
+34181     +            %let dest=%scan(&tmt_newvar_str,&index);
+34182     +            _topicid=&source then delete;
+34183     +            else if _topicid=&dest then _topicid=&source;
+34184     +            %let index=%eval(&index+1);
+34185     +            %let source=%scan(&tmt_oldvar_str,&index);
+34186     +            %if &source ne %then else if;
+34187     +               %else %do;
+34188     +                  else if _topicid > %eval(&N-&ndel) then delete;
+34189     +                  %end;
+34190     +            %end;
+34191     +      %end;
+34192     +   run;
+34193     +
+34194     +data &termtopicds;
+34195     +   set &termtopicds;
+34196     +   %let index=1;
+34197     +   %let source=%scan(&tmt_oldvar_str,&index);
+34198     +   %if &source ne %then %do;
+34199     +      if
+34200     +         %do %while(&source ne);
+34201     +            %let dest=%scan(&tmt_newvar_str,&index);
+34202     +            _topicid=&source then delete;
+34203     +            else if _topicid=&dest then _topicid=&source;
+34204     +            %let index=%eval(&index+1);
+34205     +            %let source=%scan(&tmt_oldvar_str,&index);
+34206     +            %if &source ne %then else if;
+34207     +               %else %do;
+34208     +                  else if _topicid > %eval(&N-&ndel) then delete;
+34209     +                  %end;
+34210     +            %end;
+34211     +      %end;
+34212     +   run;
+34213     +
+34214     +%mend;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(TRAIN):   * get input data sets ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):   data _null_;
+MPRINT(TRAIN):   set EMWS3.TextTopic_VariableSet(where=(ROLE='TARGET' and USE in('Y' 'D') and LEVEL ne 'INTERVAL'));
+MPRINT(TRAIN):   if _N_=1 then call symput('targetvar', strip(NAME));
+MPRINT(TRAIN):   run;
+
+NOTE: 0개의 관측값을 데이터셋 EMWS3.TEXTTOPIC_VARIABLESET.에서 읽었습니다.
+      WHERE (ROLE='TARGET') and USE in ('D', 'Y') and (LEVEL not = 'INTERVAL');
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):   data _null_;
+MPRINT(TRAIN):   cellwgt="LOG";
+MPRINT(TRAIN):   set EMWS3.TextFilter_tmconfig;
+MPRINT(TRAIN):   call symput('cellwgt',cellwgt);
+MPRINT(TRAIN):   run;
+
+NOTE: 1개의 관측값을 데이터셋 EMWS3.TEXTFILTER_TMCONFIG.에서 읽었습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(TRAIN):   proc tmutil data=EMWS3.TextFilter_tmout key=EMWS3.TextFilter_terms;
+MPRINT(TRAIN):   control init memloc='tmutil_memloc';
+
+NOTE: 87313개의 관측값을 데이터셋 EMWS3.TEXTFILTER_TMOUT.에서 읽었습니다.
+NOTE: 6697개의 관측값을 데이터셋 EMWS3.TEXTFILTER_TERMS_DATA.에서 읽었습니다.
+      WHERE KEEP='Y';
+NOTE: 89209개의 관측값을 데이터셋 EMWS3.TEXTFILTER_TERM_STRINGS.에서 읽었습니다.
+NOTE: 프로시저 TMUTIL 실행(총 프로세스 시간):
+      실행 시간           0.31 초
+      cpu 시간            0.28 초
+      
+
+MPRINT(TRAIN):   proc tmutil;
+MPRINT(TRAIN):   control release memloc='tmutil_memloc';
+MPRINT(TRAIN):   weight cellwgt=LOG in_weight=EMWS3.TextFilter_terms_data(keep=key weight);
+MPRINT(TRAIN):   output keeponly keyformat=tmscore out=EMWS3.TextTopic_weightedtmout;
+MPRINT(TRAIN):   run;
+
+NOTE: 125304개의 관측값을 데이터셋 EMWS3.TEXTFILTER_TERMS_DATA.에서 읽었습니다.
+NOTE: 데이터셋 EMWS3.TEXTTOPIC_WEIGHTEDTMOUT은(는) 87091개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: 프로시저 TMUTIL 실행(총 프로세스 시간):
+      실행 시간           0.07 초
+      cpu 시간            0.07 초
+      
+
+MPRINT(TRAIN):   proc sql noprint;
+MPRINT(TRAIN):   drop view EMWS3.TextTopic_weightedterms;
+WARNING: 파일 'EMWS3.TEXTTOPIC_WEIGHTEDTERMS.VIEW'이(가) 존재하지 않습니다.
+WARNING: View EMWS3.TEXTTOPIC_WEIGHTEDTERMS 을(를) 삭제했습니다.
+MPRINT(TRAIN):   create table EMWS3.TextTopic_weightedterms as select * from EMWS3.TextFilter_terms where _ispar ne '.' order by key;
+NOTE: Table EMWS3.TEXTTOPIC_WEIGHTEDTERMS created, with 5034 rows and 13 columns.
+
+MPRINT(TRAIN):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.13 초
+      cpu 시간            0.14 초
+      
+
+MPRINT(ROW_PIVOT_NORMALIZE):   proc summary nway data=EMWS3.TextTopic_weightedtmout;
+MPRINT(ROW_PIVOT_NORMALIZE):   class _document_;
+MPRINT(ROW_PIVOT_NORMALIZE):   var _count_;
+MPRINT(ROW_PIVOT_NORMALIZE):   output out=_sqrowvals uss=;
+MPRINT(ROW_PIVOT_NORMALIZE):   run;
+
+NOTE: 87091개의 관측값을 데이터셋 EMWS3.TEXTTOPIC_WEIGHTEDTMOUT.에서 읽었습니다.
+NOTE: 데이터셋 WORK._SQROWVALS은(는) 800개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SUMMARY 실행(총 프로세스 시간):
+      실행 시간           0.17 초
+      cpu 시간            0.23 초
+      
+
+MPRINT(ROW_PIVOT_NORMALIZE):   proc sql noprint;
+MPRINT(ROW_PIVOT_NORMALIZE):   select mean(sqrt(_count_)) into :meaneuclen from _sqrowvals;
+MPRINT(ROW_PIVOT_NORMALIZE):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(ROW_PIVOT_NORMALIZE):   *populate the config file with the mean value;
+MPRINT(ROW_PIVOT_NORMALIZE):   data EMWS3.TextFilter_tmconfig;
+MPRINT(ROW_PIVOT_NORMALIZE):   set EMWS3.TextFilter_tmconfig;
+MPRINT(ROW_PIVOT_NORMALIZE):   TextTopic_meaneuclen= symget('meaneuclen');
+MPRINT(ROW_PIVOT_NORMALIZE):   run;
+
+NOTE: 1개의 관측값을 데이터셋 EMWS3.TEXTFILTER_TMCONFIG.에서 읽었습니다.
+NOTE: 데이터셋 EMWS3.TEXTFILTER_TMCONFIG은(는) 1개의 관측값과 30개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(ROW_PIVOT_NORMALIZE):   data _sqrowvals;
+MPRINT(ROW_PIVOT_NORMALIZE):   set _sqrowvals;
+MPRINT(ROW_PIVOT_NORMALIZE):   meaneuclen=symget('meaneuclen');
+MPRINT(ROW_PIVOT_NORMALIZE):   divisor = meaneuclen + (sqrt(_count_) - meaneuclen)*0.7;
+MPRINT(ROW_PIVOT_NORMALIZE):   drop meaneuclen;
+MPRINT(ROW_PIVOT_NORMALIZE):   run;
+
+NOTE: 다음의 위치에서 문자형 값이 숫자형 값으로 변환되었습니다. (행):(칼럼)
+      53:109   53:138   
+NOTE: 800개의 관측값을 데이터셋 WORK._SQROWVALS.에서 읽었습니다.
+NOTE: 데이터셋 WORK._SQROWVALS은(는) 800개의 관측값과 5개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(ROW_PIVOT_NORMALIZE):   proc sql noprint;
+MPRINT(ROW_PIVOT_NORMALIZE):   create table EMWS3.TextTopic_tmout_normalized as select a._document_,a._termnum_,a._count_ / divisor as _count_ from EMWS3.TextTopic_weightedtmout as a,_sqrowvals as b where a._document_=b._document_;
+NOTE: Table EMWS3.TEXTTOPIC_TMOUT_NORMALIZED created, with 87091 rows and 3 columns.
+
+MPRINT(ROW_PIVOT_NORMALIZE):   drop table _sqrowvals;
+NOTE: 테이블 WORK._SQROWVALS 을(를) 삭제했습니다.
+MPRINT(ROW_PIVOT_NORMALIZE):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.10 초
+      cpu 시간            0.10 초
+      
+
+MPRINT(ROW_PIVOT_NORMALIZE):   proc summary nway data=EMWS3.TextTopic_tmout_normalized;
+MPRINT(ROW_PIVOT_NORMALIZE):   class _termnum_;
+MPRINT(ROW_PIVOT_NORMALIZE):   var _count_;
+MPRINT(ROW_PIVOT_NORMALIZE):   output out=EMWS3.TextTopic_term_sums mean=;
+MPRINT(ROW_PIVOT_NORMALIZE):   run;
+
+NOTE: 87091개의 관측값을 데이터셋 EMWS3.TEXTTOPIC_TMOUT_NORMALIZED.에서 읽었습니다.
+NOTE: 데이터셋 EMWS3.TEXTTOPIC_TERM_SUMS은(는) 5034개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SUMMARY 실행(총 프로세스 시간):
+      실행 시간           0.15 초
+      cpu 시간            0.18 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(TMT_TOPIFY):   data _tmptop (keep=_topic_ _term_ _role_ _weight_);
+MPRINT(TMT_TOPIFY):   set EMWS3.TextTopic_initTopics;
+MPRINT(TMT_TOPIFY):   _term_=klowcase(_term_);
+MPRINT(TMT_TOPIFY):   if propcase(_role_) in ("Adj","Adv","Aux","Conj","Det","Noun","Num","Part", "Prep", "Pron","Prop", "Verb") then _role_=propcase(_role_);
+MPRINT(TMT_TOPIFY):   if (_term_ ne ' ' or _role_ ne ' ') and _weight_ ne 0 and _weight_ ne . then output _tmpTop;
+MPRINT(TMT_TOPIFY):   run;
+
+NOTE: 0개의 관측값을 데이터셋 EMWS3.TEXTTOPIC_INITTOPICS.에서 읽었습니다.
+NOTE: 데이터셋 WORK._TMPTOP은(는) 0개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(TMT_TOPIFY):   proc summary nway data=EMWS3.TextTopic_topic_Cutoffs;
+MPRINT(TMT_TOPIFY):   class _name;
+MPRINT(TMT_TOPIFY):   var _docCutoff _termCutoff;
+MPRINT(TMT_TOPIFY):   output out=EMWS3.TextTopic_topic_Cutoffs mean=;
+
+NOTE: 데이터셋 'EMWS3.TEXTTOPIC_TOPIC_CUTOFFS'에 관측값이 없습니다.
+NOTE: 데이터셋 EMWS3.TEXTTOPIC_TOPIC_CUTOFFS은(는) 0개의 관측값과 5개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SUMMARY 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TMT_TOPIFY):   proc sql noprint;
+MPRINT(TMT_TOPIFY):   create table _tmptop as select a.*, b._doccutoff, b._termcutoff from _tmptop as a left join EMWS3.TextTopic_topic_Cutoffs as b on upcase(a._topic_)=upcase(b._name);
+WARNING: This CREATE TABLE statement recursively references the target table. A consequence of this is a possible data integrity problem.
+NOTE: Table WORK._TMPTOP created, with 0 rows and 6 columns.
+
+MPRINT(TMT_TOPIFY):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.04 초
+      
+
+MPRINT(TMT_TOPIFY):   proc sql noprint;
+MPRINT(TMT_TOPIFY):   create table _termtop1 as select a._topic_, case when b.parent=. then b.key else b.parent end as _termid, a._weight_ as _weight, a._doccutoff, a._termcutoff from EMWS3.TextTopic_weightedterms as b,_tmpTop as a where (b.key ne 
+b.parent) and (a._term_= ' ' and a._role_=b.role);
+NOTE: Table WORK._TERMTOP1 created, with 0 rows and 5 columns.
+
+MPRINT(TMT_TOPIFY):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TMT_TOPIFY):   proc sql noprint;
+MPRINT(TMT_TOPIFY):   create table _termtop2 as select a._topic_, case when b.parent=. then b.key else b.parent end as _termid, a._weight_ as _weight, a._doccutoff, a._termcutoff from EMWS3.TextTopic_weightedterms as b,_tmpTop as a where (b.key ne 
+b.parent) and (a._term_ ne ' ' and a._role_ = ' ' and a._term_=b.term);
+NOTE: Table WORK._TERMTOP2 created, with 0 rows and 5 columns.
+
+MPRINT(TMT_TOPIFY):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TMT_TOPIFY):   proc sql noprint;
+MPRINT(TMT_TOPIFY):   create table _termtop3 as select a._topic_, case when b.parent=. then b.key else b.parent end as _termid, a._weight_ as _weight, a._doccutoff, a._termcutoff from EMWS3.TextTopic_weightedterms as b,_tmpTop as a where (b.key ne 
+b.parent) and (a._term_ ne ' ' and a._role_ ne ' ' and a._term_=b.term and (a._role_=b.role or b.role=' '));
+NOTE: Table WORK._TERMTOP3 created, with 0 rows and 5 columns.
+
+MPRINT(TMT_TOPIFY):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TMT_TOPIFY):   data EMWS3.TextTopic_termtopics;
+MPRINT(TMT_TOPIFY):   set _termtop1 _termtop2 _termtop3;
+MPRINT(TMT_TOPIFY):   run;
+
+NOTE: 0개의 관측값을 데이터셋 WORK._TERMTOP1.에서 읽었습니다.
+NOTE: 0개의 관측값을 데이터셋 WORK._TERMTOP2.에서 읽었습니다.
+NOTE: 0개의 관측값을 데이터셋 WORK._TERMTOP3.에서 읽었습니다.
+NOTE: 데이터셋 EMWS3.TEXTTOPIC_TERMTOPICS은(는) 0개의 관측값과 5개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TMT_TOPIFY):   proc sort data=EMWS3.TextTopic_termtopics;
+MPRINT(TMT_TOPIFY):   by _topic_;
+
+NOTE: 입력 데이터셋이 비어 있습니다.
+NOTE: 데이터셋 EMWS3.TEXTTOPIC_TERMTOPICS은(는) 0개의 관측값과 5개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TMT_TOPIFY):   data EMWS3.TextTopic_topics (keep=_topicid _name _displayCat _cat _docCutoff _termCutoff _numterms _numdocs) EMWS3.TextTopic_termtopics (keep=_topicid _termid _weight);
+MPRINT(TMT_TOPIFY):   retain _topicid;
+MPRINT(TMT_TOPIFY):   format _docCutoff _termCutoff _weight 5.3;
+MPRINT(TMT_TOPIFY):   set EMWS3.TextTopic_termtopics;
+MPRINT(TMT_TOPIFY):   by _topic_;
+MPRINT(TMT_TOPIFY):   if _n_=1 then _topicid=1;
+MPRINT(TMT_TOPIFY):   output EMWS3.TextTopic_termtopics;
+MPRINT(TMT_TOPIFY):   if last._topic_ then do;
+MPRINT(TMT_TOPIFY):   _name=_topic_;
+MPRINT(TMT_TOPIFY):   _cat="User";
+MPRINT(TMT_TOPIFY):   _displayCat="사용자";
+MPRINT(TMT_TOPIFY):   if _doccutoff=. then _docCutoff=0.001;
+MPRINT(TMT_TOPIFY):   if _termcutoff=. then _termcutoff=0.001;
+MPRINT(TMT_TOPIFY):   _numterms=.;
+MPRINT(TMT_TOPIFY):   _numdocs=.;
+MPRINT(TMT_TOPIFY):   output EMWS3.TextTopic_topics;
+MPRINT(TMT_TOPIFY):   _topicid=_topicid+1;
+MPRINT(TMT_TOPIFY):   end;
+MPRINT(TMT_TOPIFY):   run;
+
+NOTE: 0개의 관측값을 데이터셋 EMWS3.TEXTTOPIC_TERMTOPICS.에서 읽었습니다.
+NOTE: 데이터셋 EMWS3.TEXTTOPIC_TOPICS은(는) 0개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: 데이터셋 EMWS3.TEXTTOPIC_TERMTOPICS은(는) 0개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TMT_TOPIFY):   proc summary nway data=EMWS3.TextTopic_termtopics;
+MPRINT(TMT_TOPIFY):   class _topicid _termid;
+MPRINT(TMT_TOPIFY):   var _weight;
+MPRINT(TMT_TOPIFY):   output out=EMWS3.TextTopic_termtopics mean=;
+MPRINT(TMT_TOPIFY):   run;
+
+NOTE: 데이터셋 'EMWS3.TEXTTOPIC_TERMTOPICS'에 관측값이 없습니다.
+NOTE: 데이터셋 EMWS3.TEXTTOPIC_TERMTOPICS은(는) 0개의 관측값과 5개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SUMMARY 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TMT_TOPIFY):   data EMWS3.TextTopic_termtopics;
+MPRINT(TMT_TOPIFY):   set EMWS3.TextTopic_termtopics(drop=_type_ _freq_);
+MPRINT(TMT_TOPIFY):   run;
+
+NOTE: 0개의 관측값을 데이터셋 EMWS3.TEXTTOPIC_TERMTOPICS.에서 읽었습니다.
+NOTE: 데이터셋 EMWS3.TEXTTOPIC_TERMTOPICS은(는) 0개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):   proc sql noprint;
+MPRINT(TRAIN):   select count(*) into :ntopics from EMWS3.TextTopic_topics;
+MPRINT(TRAIN):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(TRAIN):   *check for eliminated init topics;
+MPRINT(TRAIN):   proc sql noprint;
+MPRINT(TRAIN):   select count(distinct _topic_) into :user_ntopics from EMWS3.TextTopic_initTopics;
+MPRINT(TRAIN):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(TMT_DOC_SCORE):   proc sort data=EMWS3.TextTopic_topics nodupkey;
+MPRINT(TMT_DOC_SCORE):   by _topicid;
+
+NOTE: 입력 데이터셋이 비어 있습니다.
+NOTE: 중복 키값을 가지고 있는 0개의 관측값이 삭제되었습니다.
+NOTE: 데이터셋 EMWS3.TEXTTOPIC_TOPICS은(는) 0개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TMT_DOC_SCORE):   proc sort data=EMWS3.TextTopic_termtopics nodupkey;
+MPRINT(TMT_DOC_SCORE):   by _termid _topicid;
+MPRINT(TMT_DOC_SCORE):   run;
+
+NOTE: 입력 데이터셋이 비어 있습니다.
+NOTE: 중복 키값을 가지고 있는 0개의 관측값이 삭제되었습니다.
+NOTE: 데이터셋 EMWS3.TEXTTOPIC_TERMTOPICS은(는) 0개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TMT_DOC_SCORE):   proc sql noprint;
+MPRINT(TMT_DOC_SCORE):   select max(_topicid), min(_topicid) into :_maxtopic, :_mintopic from EMWS3.TextTopic_topics;
+MPRINT(TMT_DOC_SCORE):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(TMT_DOC_SCORE):   data _userdocs;
+MPRINT(TMT_DOC_SCORE):   set EMWS3.TextFilter_TRAIN;
+MPRINT(TMT_DOC_SCORE):   run;
+
+NOTE: 800개의 관측값을 데이터셋 EMWS3.TEXTPARSING_TRAIN.에서 읽었습니다.
+NOTE: 800개의 관측값을 데이터셋 EMWS3.TEXTFILTER_DOC_IDS.에서 읽었습니다.
+NOTE: 800개의 관측값을 데이터셋 EMWS3.TEXTFILTER_TRAIN.에서 읽었습니다.
+NOTE: 데이터셋 WORK._USERDOCS은(는) 800개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.14 초
+      cpu 시간            0.15 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):   data EMWS3.TextTopic_docDs;
+MPRINT(TRAIN):   set _userdocs;
+MPRINT(TRAIN):   run;
+
+NOTE: 800개의 관측값을 데이터셋 WORK._USERDOCS.에서 읽었습니다.
+NOTE: 데이터셋 EMWS3.TEXTTOPIC_DOCDS은(는) 800개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TRAIN):   filename temp catalog 'sashelp.emtxtext.tmt_multi_terms.source';
+NOTE: %INCLUDE(레벨 1) 파일 TEMP은(는) 파일 SASHELP.EMTXTEXT.TMT_MULTI_TERMS.SOURCE입니다.
+34215     +/* ****************************************************************
+34216     + * Copyright (C) 2009 by SAS Institute Inc., Cary, NC 27513
+34217     + *
+34218     + * Name:             tmt_multi_terms.sas
+34219     + * Support:          cox  James A. Cox
+34220     + * Product:          SAS Text Miner
+34221     + * Language:         Sas
+34222     + * Script:
+34223     + *
+34224     + * Usage:
+34225     + *
+34226     + * Purpose:          Computes an svd of a term by document matrix and
+34227     + *                   then rotates the U matrix corresponding to term wgts.
+34228     +
+34229     + *
+34230     + * History:
+34231     + * 30Apr09 Initial Coding [cox]
+34232     + *
+34233     + * Notes:
+34234     + *
+34235     + * Last Modified By:
+34236     + * Last Modified On: Thu Jun 05 16:00:11 2014
+34237     + *
+34238     + * End
+34239     + * ************************************************************** */
+34240     +
+34241     +%macro tmt_multi_terms(outds=, termds=, num_terms=, num_topics=20,
+34242     +                       rotation=varimax,scaleword=,normword=,termtopicds=,
+34243     +                       startnum=1,termcutoff=,topicds=multtopics,
+34244     +                       prefix=_topic, tmptable=out_u, doccutoff=.1,
+34245     +                       termcutoff_multiple=1,rotate_matrix=_termmrg,
+34246     +                       svdu=,svd_index=index);
+34247     +%if &svdu eq %then %do;
+34248     +/*make sure requested topics do not exceed matrix dimensions or spsvd will return an error*/
+34249     +%let k_margin=15;
+34250     +%let minpertopic=5;
+34251     +
+34252     +proc sql noprint;
+34253     +select count(distinct _termnum_), count(distinct _document_)
+34254     +        into :n_termnum_, :n_document_ from &outds;
+34255     +quit;
+34256     +%if &n_document_ <= &n_termnum_ %then %let k_cutoff=%ktrim(&n_document_);
+34257     +%else %let k_cutoff=%ktrim(&n_termnum_);
+34258     +
+34259     +/* Check for too few documents and two few terms for topic discovery */
+34260     +
+34261     +%if %eval(&n_termnum_) < &k_margin %then %do;
+34262     +   %let EMEXCEPTIONSTRING = EMTOOL.TOPIC_TERMS_SMALL,&n_termnum_;
+34263     +   %goto end_multi_terms;
+34264     +%end;
+34265     +
+34266     +%if %eval(&n_document_) < &k_margin %then %do;
+34267     +   %let EMEXCEPTIONSTRING = EMTOOL.TOPIC_DATA_SMALL,&n_document_;
+34268     +   %goto end_multi_terms;
+34269     +%end;
+34270     +
+34271     +/* Now check to see if data requires fewer topics to be specified than requested.
+34272     +     Must be 5 documents and terms per topic */
+34273     +%let max_topics= %eval(&k_cutoff/&minpertopic);
+34274     +
+34275     +
+34276     +%if &num_topics>&max_topics %then %do;
+34277     +   %put %sysfunc(SASMSG(sashelp.tmine,EMTOOL.TOPIC_DATA_SMALL_WARN,NOQUOTE,&n_document_,&n_termnum_,&max_topics));
+34278     +   %let num_topics=&max_topics;
+34279     +   %end;
+34280     +
+34281     +
+34282     +proc sort data=&outds; by _termnum_ _document_;
+34283     +proc spsvd data=&outds k=&num_topics;
+34284     +   row _termnum_;
+34285     +   col _document_;
+34286     +   entry _count_;
+34287     +   output u=&tmptable
+34288     +   %if &scaleword ne %then scaleword;
+34289     +   %if &normword ne %then normword;
+34290     +      ;
+34291     +   run;
+34292     +
+34293     +/*try sampling if out of memory occurred*/
+34294     +%if(&syscc eq 1111) %then %do;
+34295     +    %let syscc=0; /*reset syscc*/
+34296     +    proc spsvd data=&outds k=&num_topics;
+34297     +        row _termnum_;
+34298     +        col _document_;
+34299     +        entry _count_;
+34300     +        output v = _sampV u=&tmptable;
+34301     +        sample allow;
+34302     +    run;
+34303     +%end;
+34304     +
+34305     +%if &syscc > 4 %then %do;
+34306     +%let EMEXCEPTIONSTRING = EMTOOL.SPSVDERROR;
+34307     +%goto end_multi_terms;
+34308     +%end;
+34309     +
+34310     +%end;
+34311     + %else %do;
+34312     +   %let tmptable=&svdu;
+34313     +    %put tmptable= &tmptable;
+34314     +    %end;
+34315     +
+34316     +proc transpose data=&tmptable (drop=&svd_index) out=_factors(drop=_NAME_);
+34317     +   run;
+34318     +
+34319     +/*get actual number of topics produced*/
+34320     +proc sql noprint; select count(*) into :num_topics from _factors; quit;
+34321     +%let num_topics=%ktrim(&num_topics);
+34322     +
+34323     +data _factors(type=factor);
+34324     +   set _factors;
+34325     +   _TYPE_='PATTERN';
+34326     +   _NAME_='factor'|| kleft(put(_N_,4.));
+34327     +   run;
+34328     +
+34329     +proc factor noprint data=_factors method=pattern n=&num_topics
+34330     +      rotate=&rotation
+34331     +      nocorr outstat=_factrot;
+34332     +   run;
+34333     +
+34334     +/*
+34335     +data _factrot (drop=num);
+34336     +   length _name_ $15;
+34337     +   set _factrot;
+34338     +   if _type_='PATTERN' then do;
+34339     +      _name_=ktrim(_name_)|| "    ";
+34340     +      num=input(substr(_name_,7),4.);
+34341     +      _name_="&prefix"|| ktrim(kleft(put(num+&startnum-1,4.)));
+34342     +      output;
+34343     +      end;
+34344     +   run;
+34345     + */
+34346     +proc transpose data=_factrot(where=(_type_='PATTERN')) out=&rotate_matrix; run;
+34347     +      /* proc corr data=&rotate_matrix; run; */
+34348     +/*
+34349     +proc summary data=&rotate_matrix;
+34350     +    var factor1-factor&num_topics;
+34351     +   output out=_tmpsums mean=;
+34352     +proc print data=_tmpsums; run;
+34353     +*/
+34354     +proc sort data=&termds(where=(_ispar ne '.')) out=_sortterm; by key;
+34355     +data &rotate_matrix;
+34356     +   merge _sortterm &rotate_matrix;
+34357     +   run;
+34358     +/* proc print data=&rotate_matrix(obs=50); id key; var factor1-factor10; run; */
+34359     +
+34360     +data &termtopicds (keep=_topicid _termid _weight term);
+34361     +   array topics{*} factor1-factor&num_topics;
+34362     +   set &rotate_matrix;
+34363     +   _termid=key;
+34364     +   if _ispar='+' then term='+'||term;
+34365     +   do i=1 to &num_topics;
+34366     +      _topicid=i+&startnum-1;
+34367     +      /* Round off weight to be exact in third decimal place */
+34368     +      _weight=round(topics{i},0.001);
+34369     +      output;
+34370     +      end;
+34371     +   run;
+34372     +
+34373     +/* Create temporary view that includes abs_weight */
+34374     +proc sql noprint;
+34375     +   create view _tmp_top_weights as select *, abs(_weight) as abs_weight
+34376     +      from &termtopicds;
+34377     +      quit;
+34378     +
+34379     +proc summary nway data=_tmp_top_weights;
+34380     +   class _topicid;
+34381     +   var _weight abs_weight;
+34382     +   output out=_termtmpsums
+34383     +      mean(abs_weight)=abs_weight_mean
+34384     +      std(abs_weight)=abs_weight_std
+34385     +      idgroup( max(_weight) out[5] (term)=)
+34386     +      /autolabel autoname;
+34387     +   run;
+34388     +data &topicds(keep=_topicid _name _cat _displayCat /* _apply */ _numterms _numdocs
+34389     +               _docCutoff _termCutoff);
+34390     +   set _termtmpsums;
+34391     +   length _name $100;
+34392     +   _name=ktrim(term_1)||','||ktrim(term_2)||','||ktrim(term_3)||','||
+34393     +      ktrim(term_4)||','||ktrim(term_5);
+34394     +   _cat="Mult";
+34395     +   _displayCat="%sysfunc(sasmsg(sashelp.tmine,  rpt_text_topicmult_value, NOQUOTE))";
+34396     +    /*  _apply="Y"; */
+34397     +   /* Change to use mean plus one standard deviation */
+34398     +   /* _termCutoff=max(0.001, min(_weight_p99,max(_weight_Max*&termcutoff,_weight_P95))); */
+34399     +   _termcutoff= %if &termCutoff ne %then &termcutoff;
+34400     +             %else round(abs_weight_mean+abs_weight_std*&termcutoff_multiple,0.001);
+34401     +   ;
+34402     +   _docCutoff=.;
+34403     +   _numterms=.;
+34404     +   _numdocs=.;
+34405     +
+34406     +   run;
+34407     +data &termtopicds;
+34408     +   set &termtopicds(drop=term);
+34409     +   run;
+34410     +
+34411     +/*post processing: eliminate topics with no terms above the cutoff*/
+34412     +proc sql;
+34413     +create table kpTops as
+34414     +    select distinct a._topicid as _topicid0 from &topicds a, &termtopicds b
+34415     +    where a._topicid=b._topicid and abs(b._weight) >= a._termcutoff and b._termid ne .;
+34416     +
+34417     +alter table kpTops add _topicid num;
+34418     +update kpTops set _topicid=monotonic()+&startnum-1;
+34419     +
+34420     +create table &topicds(drop=_topicid0) as
+34421     +    select b._topicid, a.* from &topicds(rename=(_topicid=_topicid0)) a, kpTops b where a._topicid0=b._topicid0;
+34422     +
+34423     +create table &termtopicds(drop=_topicid0) as
+34424     +    select a._termid, b._topicid, a._weight from &termtopicds(rename=(_topicid=_topicid0)) a, kpTops b where a._topicid0=b._topicid0;
+34425     +
+34426     +drop table kpTops;
+34427     +quit;
+34428     +
+34429     +
+34430     + /*    filename temp catalog 'sashelp.emtxtext.svd_rotate.source';
+34431     +    %include temp;
+34432     +
+34433     +    %svd_rotate(termds=&termds,
+34434     +                outds=&outds, weight=,
+34435     +                out_u=work.out_u, out_term=work.rotsvdmrg,
+34436     +                nfactors=&num_terms, rotation=&topic_method,
+34437     +                scaleword=,normword=);
+34438     +
+34439     +*/
+34440     +
+34441     +%end_multi_terms:
+34442     +
+34443     +%mend;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(TRAIN):   proc sql noprint;
+MPRINT(TRAIN):   select count(*) into: _numrepterms from EMWS3.TextTopic_weightedterms;
+MPRINT(TRAIN):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(TMT_MULTI_TERMS):   proc sql noprint;
+MPRINT(TMT_MULTI_TERMS):   select count(distinct _termnum_), count(distinct _document_) into :n_termnum_, :n_document_ from EMWS3.TextTopic_tmout_normalized;
+MPRINT(TMT_MULTI_TERMS):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.09 초
+      cpu 시간            0.07 초
+      
+
+MPRINT(TMT_MULTI_TERMS):   proc sort data=EMWS3.TextTopic_tmout_normalized;
+MPRINT(TMT_MULTI_TERMS):   by _termnum_ _document_;
+
+NOTE: 87091개의 관측값을 데이터셋 EMWS3.TEXTTOPIC_TMOUT_NORMALIZED.에서 읽었습니다.
+NOTE: 데이터셋 EMWS3.TEXTTOPIC_TMOUT_NORMALIZED은(는) 87091개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.07 초
+      cpu 시간            0.07 초
+      
+
+MPRINT(TMT_MULTI_TERMS):   proc spsvd data=EMWS3.TextTopic_tmout_normalized k=25;
+MPRINT(TMT_MULTI_TERMS):   row _termnum_;
+MPRINT(TMT_MULTI_TERMS):   col _document_;
+MPRINT(TMT_MULTI_TERMS):   entry _count_;
+MPRINT(TMT_MULTI_TERMS):   output u=EMWS3.TextTopic_out_u ;
+MPRINT(TMT_MULTI_TERMS):   run;
+
+NOTE: P has been set to 50.
+NOTE: Restart 1, Converged 17
+NOTE: Singular values have converged.  Creating data sets.
+NOTE: Restarted 1 times.
+NOTE: 87091개의 관측값을 데이터셋 EMWS3.TEXTTOPIC_TMOUT_NORMALIZED.에서 읽었습니다.
+NOTE: 데이터셋 EMWS3.TEXTTOPIC_OUT_U은(는) 5034개의 관측값과 26개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SPSVD 실행(총 프로세스 시간):
+      실행 시간           0.22 초
+      cpu 시간            0.17 초
+      
+
+MPRINT(TMT_MULTI_TERMS):   proc transpose data=EMWS3.TextTopic_out_u (drop=index) out=_factors(drop=_NAME_);
+MPRINT(TMT_MULTI_TERMS):   run;
+
+NOTE: 5034개의 관측값을 데이터셋 EMWS3.TEXTTOPIC_OUT_U.에서 읽었습니다.
+NOTE: 데이터셋 WORK._FACTORS은(는) 25개의 관측값과 5034개의 변수를 가지고 있습니다.
+NOTE: 프로시저 TRANSPOSE 실행(총 프로세스 시간):
+      실행 시간           0.05 초
+      cpu 시간            0.04 초
+      
+
+MPRINT(TMT_MULTI_TERMS):   proc sql noprint;
+MPRINT(TMT_MULTI_TERMS):   select count(*) into :num_topics from _factors;
+MPRINT(TMT_MULTI_TERMS):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TMT_MULTI_TERMS):   data _factors(type=factor);
+MPRINT(TMT_MULTI_TERMS):   set _factors;
+MPRINT(TMT_MULTI_TERMS):   _TYPE_='PATTERN';
+MPRINT(TMT_MULTI_TERMS):   _NAME_='factor'|| kleft(put(_N_,4.));
+MPRINT(TMT_MULTI_TERMS):   run;
+
+NOTE: 25개의 관측값을 데이터셋 WORK._FACTORS.에서 읽었습니다.
+NOTE: 데이터셋 WORK._FACTORS은(는) 25개의 관측값과 5036개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.05 초
+      cpu 시간            0.04 초
+      
+
+MPRINT(TMT_MULTI_TERMS):   proc factor noprint data=_factors method=pattern n=25 rotate=varimax nocorr outstat=_factrot;
+MPRINT(TMT_MULTI_TERMS):   run;
+
+WARNING: The data set WORK._FACTORS does not indicate how many observations were used to compute the  matrix. The number of observations has been set to 10000. Statistics that depend on the number of observations (such as p-values) are not interpretable.
+NOTE: 데이터셋 WORK._FACTROT은(는) 54개의 관측값과 5036개의 변수를 가지고 있습니다.
+NOTE: 프로시저 FACTOR 실행(총 프로세스 시간):
+      실행 시간           2.15 초
+      cpu 시간            2.12 초
+      
+
+MPRINT(TMT_MULTI_TERMS):   proc transpose data=_factrot(where=(_type_='PATTERN')) out=_termmrg;
+MPRINT(TMT_MULTI_TERMS):   run;
+
+NOTE: 25개의 관측값을 데이터셋 WORK._FACTROT.에서 읽었습니다.
+      WHERE _type_='PATTERN';
+NOTE: 데이터셋 WORK._TERMMRG은(는) 5034개의 관측값과 26개의 변수를 가지고 있습니다.
+NOTE: 프로시저 TRANSPOSE 실행(총 프로세스 시간):
+      실행 시간           0.09 초
+      cpu 시간            0.06 초
+      
+
+MPRINT(TMT_MULTI_TERMS):   proc sort data=EMWS3.TextTopic_weightedterms(where=(_ispar ne '.')) out=_sortterm;
+MPRINT(TMT_MULTI_TERMS):   by key;
+NOTE: 입력 데이터셋이 이미 정렬되어 있습니다; 출력 데이터셋에 복사되었습니다.
+NOTE: 5034개의 관측값을 데이터셋 EMWS3.TEXTTOPIC_WEIGHTEDTERMS.에서 읽었습니다.
+      WHERE _ispar not = '.';
+NOTE: 데이터셋 WORK._SORTTERM은(는) 5034개의 관측값과 13개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TMT_MULTI_TERMS):   data _termmrg;
+MPRINT(TMT_MULTI_TERMS):   merge _sortterm _termmrg;
+MPRINT(TMT_MULTI_TERMS):   run;
+
+NOTE: 5034개의 관측값을 데이터셋 WORK._SORTTERM.에서 읽었습니다.
+NOTE: 5034개의 관측값을 데이터셋 WORK._TERMMRG.에서 읽었습니다.
+NOTE: 데이터셋 WORK._TERMMRG은(는) 5034개의 관측값과 39개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TMT_MULTI_TERMS):   data mult_termtop (keep=_topicid _termid _weight term);
+MPRINT(TMT_MULTI_TERMS):   array topics{*} factor1-factor25;
+MPRINT(TMT_MULTI_TERMS):   set _termmrg;
+MPRINT(TMT_MULTI_TERMS):   _termid=key;
+MPRINT(TMT_MULTI_TERMS):   if _ispar='+' then term='+'||term;
+MPRINT(TMT_MULTI_TERMS):   do i=1 to 25;
+MPRINT(TMT_MULTI_TERMS):   _topicid=i+1-1;
+MPRINT(TMT_MULTI_TERMS):   _weight=round(topics{i},0.001);
+MPRINT(TMT_MULTI_TERMS):   output;
+MPRINT(TMT_MULTI_TERMS):   end;
+MPRINT(TMT_MULTI_TERMS):   run;
+
+NOTE: 5034개의 관측값을 데이터셋 WORK._TERMMRG.에서 읽었습니다.
+NOTE: 데이터셋 WORK.MULT_TERMTOP은(는) 125850개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.07 초
+      cpu 시간            0.07 초
+      
+
+MPRINT(TMT_MULTI_TERMS):   proc sql noprint;
+MPRINT(TMT_MULTI_TERMS):   create view _tmp_top_weights as select *, abs(_weight) as abs_weight from mult_termtop;
+NOTE: SQL view WORK._TMP_TOP_WEIGHTS has been defined.
+MPRINT(TMT_MULTI_TERMS):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(TMT_MULTI_TERMS):   proc summary nway data=_tmp_top_weights;
+MPRINT(TMT_MULTI_TERMS):   class _topicid;
+MPRINT(TMT_MULTI_TERMS):   var _weight abs_weight;
+MPRINT(TMT_MULTI_TERMS):   output out=_termtmpsums mean(abs_weight)=abs_weight_mean std(abs_weight)=abs_weight_std idgroup( max(_weight) out[5] (term)=) /autolabel autoname;
+MPRINT(TMT_MULTI_TERMS):   run;
+
+NOTE: 125850개의 관측값을 데이터셋 WORK.MULT_TERMTOP.에서 읽었습니다.
+NOTE: 125850개의 관측값을 데이터셋 WORK._TMP_TOP_WEIGHTS.에서 읽었습니다.
+NOTE: 데이터셋 WORK._TERMTMPSUMS은(는) 25개의 관측값과 10개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SUMMARY 실행(총 프로세스 시간):
+      실행 시간           0.13 초
+      cpu 시간            0.20 초
+      
+
+MPRINT(TMT_MULTI_TERMS):   data mult_topics(keep=_topicid _name _cat _displayCat _numterms _numdocs _docCutoff _termCutoff);
+MPRINT(TMT_MULTI_TERMS):   set _termtmpsums;
+MPRINT(TMT_MULTI_TERMS):   length _name $100;
+MPRINT(TMT_MULTI_TERMS):   _name=ktrim(term_1)||','||ktrim(term_2)||','||ktrim(term_3)||','|| ktrim(term_4)||','||ktrim(term_5);
+MPRINT(TMT_MULTI_TERMS):   _cat="Mult";
+MPRINT(TMT_MULTI_TERMS):   _displayCat="rpt_text_topicmult_value";
+MPRINT(TMT_MULTI_TERMS):   _termcutoff= round(abs_weight_mean+abs_weight_std*1,0.001) ;
+MPRINT(TMT_MULTI_TERMS):   _docCutoff=.;
+MPRINT(TMT_MULTI_TERMS):   _numterms=.;
+MPRINT(TMT_MULTI_TERMS):   _numdocs=.;
+MPRINT(TMT_MULTI_TERMS):   run;
+
+NOTE: 25개의 관측값을 데이터셋 WORK._TERMTMPSUMS.에서 읽었습니다.
+NOTE: 데이터셋 WORK.MULT_TOPICS은(는) 25개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TMT_MULTI_TERMS):   data mult_termtop;
+MPRINT(TMT_MULTI_TERMS):   set mult_termtop(drop=term);
+MPRINT(TMT_MULTI_TERMS):   run;
+
+NOTE: 125850개의 관측값을 데이터셋 WORK.MULT_TERMTOP.에서 읽었습니다.
+NOTE: 데이터셋 WORK.MULT_TERMTOP은(는) 125850개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.05 초
+      cpu 시간            0.04 초
+      
+
+MPRINT(TMT_MULTI_TERMS):   proc sql;
+MPRINT(TMT_MULTI_TERMS):   create table kpTops as select distinct a._topicid as _topicid0 from mult_topics a, mult_termtop b where a._topicid=b._topicid and abs(b._weight) >= a._termcutoff and b._termid ne .;
+NOTE: Table WORK.KPTOPS created, with 25 rows and 1 columns.
+
+MPRINT(TMT_MULTI_TERMS):   alter table kpTops add _topicid num;
+NOTE: Table WORK.KPTOPS has been modified, with 2 columns.
+MPRINT(TMT_MULTI_TERMS):   update kpTops set _topicid=monotonic()+1-1;
+NOTE: 25 rows were updated in WORK.KPTOPS.
+
+MPRINT(TMT_MULTI_TERMS):   create table mult_topics(drop=_topicid0) as select b._topicid, a.* from mult_topics(rename=(_topicid=_topicid0)) a, kpTops b where a._topicid0=b._topicid0;
+WARNING: This CREATE TABLE statement recursively references the target table. A consequence of this is a possible data integrity problem.
+NOTE: Table WORK.MULT_TOPICS created, with 25 rows and 8 columns.
+
+MPRINT(TMT_MULTI_TERMS):   create table mult_termtop(drop=_topicid0) as select a._termid, b._topicid, a._weight from mult_termtop(rename=(_topicid=_topicid0)) a, kpTops b where a._topicid0=b._topicid0;
+WARNING: This CREATE TABLE statement recursively references the target table. A consequence of this is a possible data integrity problem.
+WARNING: DROP, KEEP 또는 RENAME의 변수 _topicid0은(는) 참조되지 않습니다.
+NOTE: Table WORK.MULT_TERMTOP created, with 125850 rows and 3 columns.
+
+MPRINT(TMT_MULTI_TERMS):   drop table kpTops;
+NOTE: 테이블 WORK.KPTOPS 을(를) 삭제했습니다.
+MPRINT(TMT_MULTI_TERMS):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.28 초
+      cpu 시간            0.28 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):   proc sql noprint;
+MPRINT(TRAIN):   select count(*) into :tmt_act_multi from mult_topics;
+MPRINT(TRAIN):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TMT_DOC_SCORE):   proc sort data=mult_topics nodupkey;
+MPRINT(TMT_DOC_SCORE):   by _topicid;
+NOTE: 25개의 관측값을 데이터셋 WORK.MULT_TOPICS.에서 읽었습니다.
+NOTE: 중복 키값을 가지고 있는 0개의 관측값이 삭제되었습니다.
+NOTE: 데이터셋 WORK.MULT_TOPICS은(는) 25개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TMT_DOC_SCORE):   proc sort data=mult_termtop nodupkey;
+MPRINT(TMT_DOC_SCORE):   by _termid _topicid;
+MPRINT(TMT_DOC_SCORE):   run;
+
+NOTE: 125850개의 관측값을 데이터셋 WORK.MULT_TERMTOP.에서 읽었습니다.
+NOTE: 중복 키값을 가지고 있는 0개의 관측값이 삭제되었습니다.
+NOTE: 데이터셋 WORK.MULT_TERMTOP은(는) 125850개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.09 초
+      cpu 시간            0.09 초
+      
+
+MPRINT(TMT_DOC_SCORE):   proc sql noprint;
+MPRINT(TMT_DOC_SCORE):   select max(_topicid), min(_topicid) into :_maxtopic, :_mintopic from mult_topics;
+MPRINT(TMT_DOC_SCORE):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TMT_DOC_SCORE):   proc sql noprint;
+MPRINT(TMT_DOC_SCORE):   select _name into :_tmlab1 - :_tmlab25 from mult_topics;
+MPRINT(TMT_DOC_SCORE):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TMT_DOC_SCORE):   data multdocs (drop=_topicid _doccutoff _termCutoff _name _cat _displaycat _numterms _numdocs _weight _termid rc _termnum_ i _count_) mult_topics (keep=_topicid _name _cat _displaycat _numterms _numdocs _docCutoff _termCutoff) ;
+MPRINT(TMT_DOC_SCORE):   if 0 then set mult_topics mult_termtop;
+MPRINT(TMT_DOC_SCORE):   dcl hash _topic_hash(dataset: "mult_topics", ordered: "a");
+MPRINT(TMT_DOC_SCORE):   _topic_hash.defineKey("_topicid");
+MPRINT(TMT_DOC_SCORE):   _topic_hash.defineData("_topicid","_docCutoff","_termCutoff","_name","_cat","_numterms", "_numdocs");
+MPRINT(TMT_DOC_SCORE):   _topic_hash.defineDone();
+MPRINT(TMT_DOC_SCORE):   dcl hiter _it_topic("_topic_hash");
+MPRINT(TMT_DOC_SCORE):   rc=_it_topic.first();
+MPRINT(TMT_DOC_SCORE):   do while(rc=0);
+MPRINT(TMT_DOC_SCORE):   _numterms=0;
+MPRINT(TMT_DOC_SCORE):   _numdocs=0;
+MPRINT(TMT_DOC_SCORE):   _topic_hash.replace();
+MPRINT(TMT_DOC_SCORE):   rc=_it_topic.next();
+MPRINT(TMT_DOC_SCORE):   end;
+MPRINT(TMT_DOC_SCORE):   dcl hash _termtopics(multidata: "Y");
+MPRINT(TMT_DOC_SCORE):   _termtopics.defineKey("_termid");
+MPRINT(TMT_DOC_SCORE):   _termtopics.defineData("_termid","_topicid", "_weight");
+MPRINT(TMT_DOC_SCORE):   _termtopics.defineDone();
+MPRINT(TMT_DOC_SCORE):   do until(eof);
+MPRINT(TMT_DOC_SCORE):   set mult_termtop end=eof;
+MPRINT(TMT_DOC_SCORE):   if _topic_hash.find() ne 0 then do;
+MPRINT(TMT_DOC_SCORE):   put "topic " _topicid " not found in topic data set";
+MPRINT(TMT_DOC_SCORE):   end;
+MPRINT(TMT_DOC_SCORE):   else if abs(_weight)>= _termCutoff then do;
+MPRINT(TMT_DOC_SCORE):   _numterms+1;
+MPRINT(TMT_DOC_SCORE):   _topic_hash.replace();
+MPRINT(TMT_DOC_SCORE):   _termtopics.add();
+MPRINT(TMT_DOC_SCORE):   end;
+MPRINT(TMT_DOC_SCORE):   end;
+MPRINT(TMT_DOC_SCORE):   array _topic{1:25} TextTopic_raw1-TextTopic_raw25;
+MPRINT(TMT_DOC_SCORE):   format TextTopic_raw1-TextTopic_raw25 5.3;
+MPRINT(TMT_DOC_SCORE):   dcl hash _doc_hash(hashexp:16,ordered: 'a');
+MPRINT(TMT_DOC_SCORE):   _doc_hash.defineKey("_document_");
+MPRINT(TMT_DOC_SCORE):   _doc_hash.defineData("_document_" ,"TextTopic_raw1" ,"TextTopic_raw2" ,"TextTopic_raw3" ,"TextTopic_raw4" ,"TextTopic_raw5" ,"TextTopic_raw6" ,"TextTopic_raw7" ,"TextTopic_raw8" ,"TextTopic_raw9" ,"TextTopic_raw10" 
+,"TextTopic_raw11" ,"TextTopic_raw12" ,"TextTopic_raw13" ,"TextTopic_raw14" ,"TextTopic_raw15" ,"TextTopic_raw16" ,"TextTopic_raw17" ,"TextTopic_raw18" ,"TextTopic_raw19" ,"TextTopic_raw20" ,"TextTopic_raw21" ,"TextTopic_raw22" ,"TextTopic_raw23" 
+,"TextTopic_raw24" ,"TextTopic_raw25" );
+MPRINT(TMT_DOC_SCORE):   _doc_hash.defineDone();
+MPRINT(TMT_DOC_SCORE):   eof=0;
+MPRINT(TMT_DOC_SCORE):   do until(eof);
+MPRINT(TMT_DOC_SCORE):   set EMWS3.TextTopic_tmout_normalized end=eof;
+MPRINT(TMT_DOC_SCORE):   if _doc_hash.find() ne 0 then do;
+MPRINT(TMT_DOC_SCORE):   do i=1 to 25;
+MPRINT(TMT_DOC_SCORE):   _topic{i}=0;
+MPRINT(TMT_DOC_SCORE):   end;
+MPRINT(TMT_DOC_SCORE):   _doc_hash.add();
+MPRINT(TMT_DOC_SCORE):   end;
+MPRINT(TMT_DOC_SCORE):   _termid=_termnum_;
+MPRINT(TMT_DOC_SCORE):   rc=_termtopics.find();
+MPRINT(TMT_DOC_SCORE):   if rc = 0 then do;
+MPRINT(TMT_DOC_SCORE):   do while(rc=0);
+MPRINT(TMT_DOC_SCORE):   _topic{_topicid}= _topic{_topicid}+_weight*_count_;
+MPRINT(TMT_DOC_SCORE):   rc=_termtopics.find_next();
+MPRINT(TMT_DOC_SCORE):   end;
+MPRINT(TMT_DOC_SCORE):   _doc_hash.replace();
+MPRINT(TMT_DOC_SCORE):   end;
+MPRINT(TMT_DOC_SCORE):   end;
+MPRINT(TMT_DOC_SCORE):   _doc_hash.output(dataset: "docds");
+MPRINT(TMT_DOC_SCORE):   eof=0;
+MPRINT(TMT_DOC_SCORE):   do until(eof);
+MPRINT(TMT_DOC_SCORE):   set _userdocs end=eof;
+MPRINT(TMT_DOC_SCORE):   rc=_doc_hash.find();
+MPRINT(TMT_DOC_SCORE):   if rc ne 0 then do i=1 to 25;
+MPRINT(TMT_DOC_SCORE):   _topic{i}=0;
+MPRINT(TMT_DOC_SCORE):  ;
+MPRINT(TMT_DOC_SCORE):   end;
+MPRINT(TMT_DOC_SCORE):   else do _topicid=1 to 25;
+MPRINT(TMT_DOC_SCORE):   _topic{_topicid}=round( _topic{_topicid},.001);
+MPRINT(TMT_DOC_SCORE):   _topic_hash.find();
+MPRINT(TMT_DOC_SCORE):   if _topic{_topicid} >= _doccutoff then do;
+MPRINT(TMT_DOC_SCORE):   _numdocs=_numdocs+1;
+MPRINT(TMT_DOC_SCORE):   _topic_hash.replace();
+MPRINT(TMT_DOC_SCORE):   end;
+MPRINT(TMT_DOC_SCORE):   end;
+MPRINT(TMT_DOC_SCORE):   output multdocs;
+MPRINT(TMT_DOC_SCORE):  ;
+MPRINT(TMT_DOC_SCORE):   end;
+MPRINT(TMT_DOC_SCORE):   eof=0;
+MPRINT(TMT_DOC_SCORE):   do until(eof);
+MPRINT(TMT_DOC_SCORE):   set mult_topics end=eof;
+MPRINT(TMT_DOC_SCORE):   rc=_topic_hash.find();
+MPRINT(TMT_DOC_SCORE):   output mult_topics;
+MPRINT(TMT_DOC_SCORE):   end;
+MPRINT(TMT_DOC_SCORE):   * _termtopics.output(dataset: "&termtopds");
+MPRINT(TMT_DOC_SCORE):   run;
+
+NOTE: 25개의 관측값을 데이터셋 WORK.MULT_TOPICS.에서 읽었습니다.
+NOTE: 데이터셋 WORK.DOCDS은(는) 800개의 관측값과 26개의 변수를 가지고 있습니다.
+NOTE: 25개의 관측값을 데이터셋 WORK.MULT_TOPICS.에서 읽었습니다.
+NOTE: 125850개의 관측값을 데이터셋 WORK.MULT_TERMTOP.에서 읽었습니다.
+NOTE: 87091개의 관측값을 데이터셋 EMWS3.TEXTTOPIC_TMOUT_NORMALIZED.에서 읽었습니다.
+NOTE: 800개의 관측값을 데이터셋 WORK._USERDOCS.에서 읽었습니다.
+NOTE: 25개의 관측값을 데이터셋 WORK.MULT_TOPICS.에서 읽었습니다.
+NOTE: 데이터셋 WORK.MULTDOCS은(는) 800개의 관측값과 29개의 변수를 가지고 있습니다.
+NOTE: 데이터셋 WORK.MULT_TOPICS은(는) 25개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.30 초
+      cpu 시간            0.28 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):   data _doc_tmp_sums (keep=_doccutoff _mean_ _std_ _ssi_ _ndoc_ _topicid);
+MPRINT(TRAIN):   array vals{25} TextTopic_raw1 -TextTopic_raw25;
+MPRINT(TRAIN):   array sums{25} _temporary_ (25*0);
+MPRINT(TRAIN):   array ss{25} _temporary_ (25*0);
+MPRINT(TRAIN):   _ndoc_=0;
+MPRINT(TRAIN):   do until(eof);
+MPRINT(TRAIN):   set multdocs end=eof;
+MPRINT(TRAIN):   _ndoc_=_ndoc_+1;
+MPRINT(TRAIN):   do i=1 to 25;
+MPRINT(TRAIN):   sums{i}=sums{i}+abs(vals{i});
+MPRINT(TRAIN):   ss{i}=ss{i}+abs(vals{i})**2;
+MPRINT(TRAIN):   end;
+MPRINT(TRAIN):   end;
+MPRINT(TRAIN):   do i=1 to 25;
+MPRINT(TRAIN):   _mean_=sums{i}/_ndoc_;
+MPRINT(TRAIN):   _std_=sqrt((ss{i} - _ndoc_*_mean_*_mean_)/(_ndoc_-1));
+MPRINT(TRAIN):   _doccutoff=round(_mean_+_std_,.001);
+MPRINT(TRAIN):   _topicid=i+1-1;
+MPRINT(TRAIN):   _ssi_=ss{i};
+MPRINT(TRAIN):   output;
+MPRINT(TRAIN):   end;
+
+NOTE: 800개의 관측값을 데이터셋 WORK.MULTDOCS.에서 읽었습니다.
+NOTE: 데이터셋 WORK._DOC_TMP_SUMS은(는) 25개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TRAIN):   proc sql noprint;
+MPRINT(TRAIN):   create table mult_topics as select a._topicid, _name, _cat, _numterms, _numdocs, _termCutoff, b._doccutoff from mult_topics as a, _doc_tmp_sums as b where a._topicid=b._topicid;
+WARNING: This CREATE TABLE statement recursively references the target table. A consequence of this is a possible data integrity problem.
+NOTE: Table WORK.MULT_TOPICS created, with 25 rows and 7 columns.
+
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TMT_DOC_SCORE):   proc sort data=mult_topics nodupkey;
+MPRINT(TMT_DOC_SCORE):   by _topicid;
+
+NOTE: 25개의 관측값을 데이터셋 WORK.MULT_TOPICS.에서 읽었습니다.
+NOTE: 중복 키값을 가지고 있는 0개의 관측값이 삭제되었습니다.
+NOTE: 데이터셋 WORK.MULT_TOPICS은(는) 25개의 관측값과 7개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TMT_DOC_SCORE):   proc sort data=mult_termtop nodupkey;
+MPRINT(TMT_DOC_SCORE):   by _termid _topicid;
+MPRINT(TMT_DOC_SCORE):   run;
+
+NOTE: 입력 데이터셋이 이미 정렬되어 있어서, 정렬을 실행하지 않았습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(TMT_DOC_SCORE):   proc sql noprint;
+MPRINT(TMT_DOC_SCORE):   select max(_topicid), min(_topicid) into :_maxtopic, :_mintopic from mult_topics;
+MPRINT(TMT_DOC_SCORE):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(TMT_DOC_SCORE):   proc sql noprint;
+MPRINT(TMT_DOC_SCORE):   select _name into :_tmlab1 - :_tmlab25 from mult_topics;
+MPRINT(TMT_DOC_SCORE):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TMT_DOC_SCORE):   data multdocs (drop=_topicid _doccutoff _termCutoff _name _cat _displaycat _numterms _numdocs _weight _termid rc _termnum_ i _count_) mult_topics (keep=_topicid _name _cat _displaycat _numterms _numdocs _docCutoff _termCutoff) ;
+MPRINT(TMT_DOC_SCORE):   if 0 then set mult_topics mult_termtop;
+MPRINT(TMT_DOC_SCORE):   dcl hash _topic_hash(dataset: "mult_topics", ordered: "a");
+MPRINT(TMT_DOC_SCORE):   _topic_hash.defineKey("_topicid");
+MPRINT(TMT_DOC_SCORE):   _topic_hash.defineData("_topicid","_docCutoff","_termCutoff","_name","_cat","_numterms", "_numdocs");
+MPRINT(TMT_DOC_SCORE):   _topic_hash.defineDone();
+MPRINT(TMT_DOC_SCORE):   dcl hiter _it_topic("_topic_hash");
+MPRINT(TMT_DOC_SCORE):   rc=_it_topic.first();
+MPRINT(TMT_DOC_SCORE):   do while(rc=0);
+MPRINT(TMT_DOC_SCORE):   _numterms=0;
+MPRINT(TMT_DOC_SCORE):   _numdocs=0;
+MPRINT(TMT_DOC_SCORE):   _topic_hash.replace();
+MPRINT(TMT_DOC_SCORE):   rc=_it_topic.next();
+MPRINT(TMT_DOC_SCORE):   end;
+MPRINT(TMT_DOC_SCORE):   dcl hash _termtopics(multidata: "Y");
+MPRINT(TMT_DOC_SCORE):   _termtopics.defineKey("_termid");
+MPRINT(TMT_DOC_SCORE):   _termtopics.defineData("_termid","_topicid", "_weight");
+MPRINT(TMT_DOC_SCORE):   _termtopics.defineDone();
+MPRINT(TMT_DOC_SCORE):   do until(eof);
+MPRINT(TMT_DOC_SCORE):   set mult_termtop end=eof;
+MPRINT(TMT_DOC_SCORE):   if _topic_hash.find() ne 0 then do;
+MPRINT(TMT_DOC_SCORE):   put "topic " _topicid " not found in topic data set";
+MPRINT(TMT_DOC_SCORE):   end;
+MPRINT(TMT_DOC_SCORE):   else if abs(_weight)>= _termCutoff then do;
+MPRINT(TMT_DOC_SCORE):   _numterms+1;
+MPRINT(TMT_DOC_SCORE):   _topic_hash.replace();
+MPRINT(TMT_DOC_SCORE):   _termtopics.add();
+MPRINT(TMT_DOC_SCORE):   end;
+MPRINT(TMT_DOC_SCORE):   end;
+MPRINT(TMT_DOC_SCORE):   array _topic{1:25} TextTopic_raw1-TextTopic_raw25;
+MPRINT(TMT_DOC_SCORE):   format TextTopic_raw1-TextTopic_raw25 5.3;
+MPRINT(TMT_DOC_SCORE):   dcl hash _doc_hash(hashexp:16,ordered: 'a');
+MPRINT(TMT_DOC_SCORE):   _doc_hash.defineKey("_document_");
+MPRINT(TMT_DOC_SCORE):   _doc_hash.defineData("_document_" ,"TextTopic_raw1" ,"TextTopic_raw2" ,"TextTopic_raw3" ,"TextTopic_raw4" ,"TextTopic_raw5" ,"TextTopic_raw6" ,"TextTopic_raw7" ,"TextTopic_raw8" ,"TextTopic_raw9" ,"TextTopic_raw10" 
+,"TextTopic_raw11" ,"TextTopic_raw12" ,"TextTopic_raw13" ,"TextTopic_raw14" ,"TextTopic_raw15" ,"TextTopic_raw16" ,"TextTopic_raw17" ,"TextTopic_raw18" ,"TextTopic_raw19" ,"TextTopic_raw20" ,"TextTopic_raw21" ,"TextTopic_raw22" ,"TextTopic_raw23" 
+,"TextTopic_raw24" ,"TextTopic_raw25" );
+MPRINT(TMT_DOC_SCORE):   _doc_hash.defineDone();
+MPRINT(TMT_DOC_SCORE):   eof=0;
+MPRINT(TMT_DOC_SCORE):   do until(eof);
+MPRINT(TMT_DOC_SCORE):   set EMWS3.TextTopic_tmout_normalized end=eof;
+MPRINT(TMT_DOC_SCORE):   if _doc_hash.find() ne 0 then do;
+MPRINT(TMT_DOC_SCORE):   do i=1 to 25;
+MPRINT(TMT_DOC_SCORE):   _topic{i}=0;
+MPRINT(TMT_DOC_SCORE):   end;
+MPRINT(TMT_DOC_SCORE):   _doc_hash.add();
+MPRINT(TMT_DOC_SCORE):   end;
+MPRINT(TMT_DOC_SCORE):   _termid=_termnum_;
+MPRINT(TMT_DOC_SCORE):   rc=_termtopics.find();
+MPRINT(TMT_DOC_SCORE):   if rc = 0 then do;
+MPRINT(TMT_DOC_SCORE):   do while(rc=0);
+MPRINT(TMT_DOC_SCORE):   _topic{_topicid}= _topic{_topicid}+_weight*_count_;
+MPRINT(TMT_DOC_SCORE):   rc=_termtopics.find_next();
+MPRINT(TMT_DOC_SCORE):   end;
+MPRINT(TMT_DOC_SCORE):   _doc_hash.replace();
+MPRINT(TMT_DOC_SCORE):   end;
+MPRINT(TMT_DOC_SCORE):   end;
+MPRINT(TMT_DOC_SCORE):   _doc_hash.output(dataset: "docds");
+MPRINT(TMT_DOC_SCORE):   eof=0;
+MPRINT(TMT_DOC_SCORE):   do until(eof);
+MPRINT(TMT_DOC_SCORE):   set _userdocs end=eof;
+MPRINT(TMT_DOC_SCORE):   rc=_doc_hash.find();
+MPRINT(TMT_DOC_SCORE):   if rc ne 0 then do i=1 to 25;
+MPRINT(TMT_DOC_SCORE):   _topic{i}=0;
+MPRINT(TMT_DOC_SCORE):  ;
+MPRINT(TMT_DOC_SCORE):   end;
+MPRINT(TMT_DOC_SCORE):   else do _topicid=1 to 25;
+MPRINT(TMT_DOC_SCORE):   _topic{_topicid}=round( _topic{_topicid},.001);
+MPRINT(TMT_DOC_SCORE):   _topic_hash.find();
+MPRINT(TMT_DOC_SCORE):   if _topic{_topicid} >= _doccutoff then do;
+MPRINT(TMT_DOC_SCORE):   _numdocs=_numdocs+1;
+MPRINT(TMT_DOC_SCORE):   _topic_hash.replace();
+MPRINT(TMT_DOC_SCORE):   end;
+MPRINT(TMT_DOC_SCORE):   end;
+MPRINT(TMT_DOC_SCORE):   output multdocs;
+MPRINT(TMT_DOC_SCORE):  ;
+MPRINT(TMT_DOC_SCORE):   end;
+MPRINT(TMT_DOC_SCORE):   eof=0;
+MPRINT(TMT_DOC_SCORE):   do until(eof);
+MPRINT(TMT_DOC_SCORE):   set mult_topics end=eof;
+MPRINT(TMT_DOC_SCORE):   rc=_topic_hash.find();
+MPRINT(TMT_DOC_SCORE):   output mult_topics;
+MPRINT(TMT_DOC_SCORE):   end;
+MPRINT(TMT_DOC_SCORE):   * _termtopics.output(dataset: "&termtopds");
+MPRINT(TMT_DOC_SCORE):   run;
+
+WARNING: DROP, KEEP 또는 RENAME의 변수 _displaycat은(는) 참조되지 않습니다.
+WARNING: DROP, KEEP 또는 RENAME의 변수 _displaycat은(는) 참조되지 않습니다.
+NOTE: 25개의 관측값을 데이터셋 WORK.MULT_TOPICS.에서 읽었습니다.
+NOTE: 데이터셋 WORK.DOCDS은(는) 800개의 관측값과 26개의 변수를 가지고 있습니다.
+NOTE: 25개의 관측값을 데이터셋 WORK.MULT_TOPICS.에서 읽었습니다.
+NOTE: 125850개의 관측값을 데이터셋 WORK.MULT_TERMTOP.에서 읽었습니다.
+NOTE: 87091개의 관측값을 데이터셋 EMWS3.TEXTTOPIC_TMOUT_NORMALIZED.에서 읽었습니다.
+NOTE: 800개의 관측값을 데이터셋 WORK._USERDOCS.에서 읽었습니다.
+NOTE: 25개의 관측값을 데이터셋 WORK.MULT_TOPICS.에서 읽었습니다.
+NOTE: 데이터셋 WORK.MULTDOCS은(는) 800개의 관측값과 29개의 변수를 가지고 있습니다.
+NOTE: 데이터셋 WORK.MULT_TOPICS은(는) 25개의 관측값과 7개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.47 초
+      cpu 시간            0.35 초
+      
+
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):   data EMWS3.TextTopic_topics;
+MPRINT(TRAIN):   set EMWS3.TextTopic_topics mult_topics;
+MPRINT(TRAIN):   run;
+
+NOTE: 0개의 관측값을 데이터셋 EMWS3.TEXTTOPIC_TOPICS.에서 읽었습니다.
+NOTE: 25개의 관측값을 데이터셋 WORK.MULT_TOPICS.에서 읽었습니다.
+NOTE: 데이터셋 EMWS3.TEXTTOPIC_TOPICS은(는) 25개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):   data EMWS3.TextTopic_termtopics;
+MPRINT(TRAIN):   set EMWS3.TextTopic_termtopics mult_termtop;
+MPRINT(TRAIN):   run;
+
+NOTE: 0개의 관측값을 데이터셋 EMWS3.TEXTTOPIC_TERMTOPICS.에서 읽었습니다.
+NOTE: 125850개의 관측값을 데이터셋 WORK.MULT_TERMTOP.에서 읽었습니다.
+NOTE: 데이터셋 EMWS3.TEXTTOPIC_TERMTOPICS은(는) 125850개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.17 초
+      cpu 시간            0.12 초
+      
+
+MPRINT(TRAIN):   proc sort data=EMWS3.TextTopic_topics;
+MPRINT(TRAIN):   by _topicid;
+MPRINT(TRAIN):   run;
+
+NOTE: 25개의 관측값을 데이터셋 EMWS3.TEXTTOPIC_TOPICS.에서 읽었습니다.
+NOTE: 데이터셋 EMWS3.TEXTTOPIC_TOPICS은(는) 25개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.05 초
+      cpu 시간            0.04 초
+      
+
+MPRINT(TRAIN):   data EMWS3.TextTopic_topics;
+MPRINT(TRAIN):   length _displayCat $16;
+MPRINT(TRAIN):   set EMWS3.TextTopic_topics;
+MPRINT(TRAIN):   label _topicid = "토픽 ID";
+MPRINT(TRAIN):   label _name = "토픽";
+MPRINT(TRAIN):   * label _apply = "%sysfunc(sasmsg(sashelp.tmine, rpt_text_apply_vlabel, NOQUOTE))";
+MPRINT(TRAIN):   label _doccutoff = "문서 임계치";
+MPRINT(TRAIN):   label _termcutoff = "용어 임계치";
+MPRINT(TRAIN):   label _numterms = "용어 수";
+MPRINT(TRAIN):   label _numdocs = "문서 수";
+MPRINT(TRAIN):   label _displayCat = "범주";
+MPRINT(TRAIN):   select(ksubstr(_cat,1,1));
+MPRINT(TRAIN):   when('S') _displayCat = "단일";
+MPRINT(TRAIN):   when('M') _displayCat = "다중";
+MPRINT(TRAIN):   when('U') _displayCat = "사용자";
+MPRINT(TRAIN):   otherwise;
+MPRINT(TRAIN):   end;
+MPRINT(TRAIN):   run;
+
+NOTE: 25개의 관측값을 데이터셋 EMWS3.TEXTTOPIC_TOPICS.에서 읽었습니다.
+NOTE: 데이터셋 EMWS3.TEXTTOPIC_TOPICS은(는) 25개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.31 초
+      cpu 시간            0.31 초
+      
+
+MPRINT(TRAIN):   quit;
+MPRINT(TRAIN):   * Set some of the data specific issues for TM_CLIENT_SETTINGS;
+MPRINT(TRAIN):   * save out the metadata on the docs table ;
+MPRINT(TRAIN):   proc contents data=EMWS3.TextTopic_docDs out=work._docs_contents noprint;
+MPRINT(TRAIN):   run;
+
+NOTE: 데이터셋 WORK._DOCS_CONTENTS은(는) 4개의 관측값과 41개의 변수를 가지고 있습니다.
+NOTE: 프로시저 CONTENTS 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TRAIN):   * get a list of the variables ;
+MPRINT(TRAIN):   proc sql noprint;
+MPRINT(TRAIN):   select name into :docs_view_variables separated by ' ' from work._docs_contents where name not like 'TextTopic%' and klowcase(name) ne "_document_" and kupcase(name) ne
+MPRINT(TRAIN):   "CONTENTS";
+MPRINT(TRAIN):   * get a count of the variables ;
+MPRINT(TRAIN):   select count(*) into :docs_nobs from EMWS3.TextTopic_docDs;
+MPRINT(TRAIN):   * delete our temp table ;
+MPRINT(TRAIN):   drop table work._docs_contents;
+NOTE: 테이블 WORK._DOCS_CONTENTS 을(를) 삭제했습니다.
+MPRINT(TRAIN):   * get a count of the variables ;
+MPRINT(TRAIN):   select count(*) into :terms_nobs from EMWS3.TextTopic_weightedterms;
+MPRINT(TRAIN):   quit;
+NOTE: 프로시저 SQL 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.04 초
+      
+
+MPRINT(TRAIN):   * add the parseVar back in as the first field ;
+MPRINT(TRAIN):  ;
+MPRINT(TRAIN):   proc sort data=EMWS3.TextTopic_tm_client_settings;
+MPRINT(TRAIN):   by VIEWER KEY;
+MPRINT(TRAIN):   run;
+
+NOTE: 9개의 관측값을 데이터셋 EMWS3.TEXTTOPIC_TM_CLIENT_SETTINGS.에서 읽었습니다.
+NOTE: 데이터셋 EMWS3.TEXTTOPIC_TM_CLIENT_SETTINGS은(는) 9개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TRAIN):   data work.tm_client_settings;
+MPRINT(TRAIN):   length viewer $80 key $80 value $32000;
+MPRINT(TRAIN):   * document table ;
+MPRINT(TRAIN):   viewer = "DOCUMENTS";
+MPRINT(TRAIN):   key = "nobs";
+MPRINT(TRAIN):   value = "     800";
+MPRINT(TRAIN):   output;
+MPRINT(TRAIN):   viewer = "DOCUMENTS";
+MPRINT(TRAIN):   key = "viewvariables";
+MPRINT(TRAIN):   value = "topic_weight contents Article_ID Category";
+MPRINT(TRAIN):   output;
+MPRINT(TRAIN):   viewer = "DOCUMENTS";
+MPRINT(TRAIN):   key = "parseVariable";
+MPRINT(TRAIN):   value="contents                        ";
+MPRINT(TRAIN):   output;
+MPRINT(TRAIN):   * terms table ;
+MPRINT(TRAIN):   viewer = "TERMS";
+MPRINT(TRAIN):   key = "nobs";
+MPRINT(TRAIN):   value = "    5034";
+MPRINT(TRAIN):   output;
+MPRINT(TRAIN):   * augTopics table ;
+MPRINT(TRAIN):   viewer = "TOPICS";
+MPRINT(TRAIN):   key = "nobs";
+MPRINT(TRAIN):   value = "25";
+MPRINT(TRAIN):   output;
+MPRINT(TRAIN):   run;
+
+NOTE: 데이터셋 WORK.TM_CLIENT_SETTINGS은(는) 5개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(TRAIN):   proc sort data=work.tm_client_settings;
+MPRINT(TRAIN):   by VIEWER KEY;
+MPRINT(TRAIN):   run;
+
+NOTE: 5개의 관측값을 데이터셋 WORK.TM_CLIENT_SETTINGS.에서 읽었습니다.
+NOTE: 데이터셋 WORK.TM_CLIENT_SETTINGS은(는) 5개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TRAIN):   data EMWS3.TextTopic_tm_client_settings;
+MPRINT(TRAIN):   merge EMWS3.TextTopic_tm_client_settings work.tm_client_settings;
+MPRINT(TRAIN):   by VIEWER KEY;
+MPRINT(TRAIN):   run;
+
+NOTE: 9개의 관측값을 데이터셋 EMWS3.TEXTTOPIC_TM_CLIENT_SETTINGS.에서 읽었습니다.
+NOTE: 5개의 관측값을 데이터셋 WORK.TM_CLIENT_SETTINGS.에서 읽었습니다.
+NOTE: 데이터셋 EMWS3.TEXTTOPIC_TM_CLIENT_SETTINGS은(는) 13개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.06 초
+      cpu 시간            0.04 초
+      
+
+MPRINT(TRAIN):   proc datasets nolist nodetails lib=work;
+MPRINT(TRAIN):   delete tm_client_settings;
+MPRINT(TRAIN):   run;
+
+NOTE: WORK.TM_CLIENT_SETTINGS(memtype=DATA)을(를) 삭제하는 중입니다.
+MPRINT(TRAIN):   quit;
+
+NOTE: 프로시저 DATASETS 실행(총 프로세스 시간):
+      실행 시간           0.08 초
+      cpu 시간            0.06 초
+      
+
+MPRINT(TRAIN):   * add the info to EMINFO to forward on to other nodes ;
+MPRINT(TRAIN):   data EMWS3.TextTopic_EMINFO;
+MPRINT(TRAIN):   length TARGET KEY $32 DATA $43;
+MPRINT(TRAIN):   target = " ";
+MPRINT(TRAIN):   key="LastTMNode";
+MPRINT(TRAIN):   data="TextTopic";
+MPRINT(TRAIN):   output;
+MPRINT(TRAIN):   key="LastTMNodeType";
+MPRINT(TRAIN):   data="TextTopic";
+MPRINT(TRAIN):   output;
+MPRINT(TRAIN):   key="LastTopic";
+MPRINT(TRAIN):   data="TextTopic";
+MPRINT(TRAIN):   output;
+MPRINT(TRAIN):   key="tm_topic_dataset";
+MPRINT(TRAIN):   data="";
+MPRINT(TRAIN):   output;
+MPRINT(TRAIN):   key="PRESCORECODE";
+MPRINT(TRAIN):   data="TextTopic";
+MPRINT(TRAIN):   output;
+MPRINT(TRAIN):   run;
+
+NOTE: 데이터셋 EMWS3.TEXTTOPIC_EMINFO은(는) 5개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(TRAIN):   filename temp;
+NOTE: Fileref TEMP을(를) 삭제했습니다.
+MPRINT(MAIN):  ;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * End TRAIN: TextTopic;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+34444      *------------------------------------------------------------*;
+34445      * End TRAIN: TextTopic;
+34446      *------------------------------------------------------------*;
+34447      
+
+34448      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+34449      * Close any missing semi colons;
+MPRINT(EM_DIAGRAM):   * Close any missing semi colons;
+34450      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+34451      ;
+MPRINT(EM_DIAGRAM):   ;
+34452      ;
+MPRINT(EM_DIAGRAM):   ;
+34453      ;
+MPRINT(EM_DIAGRAM):   ;
+34454      ;
+MPRINT(EM_DIAGRAM):   ;
+34455      quit;
+MPRINT(EM_DIAGRAM):   quit;
+34456      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+34457      * Close any unbalanced quotes;
+MPRINT(EM_DIAGRAM):   * Close any unbalanced quotes;
+34458      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+34459      /*; *"; *'; */
+34460      ;
+MPRINT(EM_DIAGRAM):   ;
+34461      run;
+MPRINT(EM_DIAGRAM):   run;
+34462      quit;
+MPRINT(EM_DIAGRAM):   quit;
+34463      /* Reset EM Options */
+34464      options formchar="|----|+|---+=|-/\<>*";
+MPRINT(EM_DIAGRAM):   options formchar="|----|+|---+=|-/\<>*";
+34465      options nocenter ls=256 ps=10000;
+MPRINT(EM_DIAGRAM):   options nocenter ls=256 ps=10000;
+34466      goptions reset=all device=GIF NODISPLAY;
+MPRINT(EM_DIAGRAM):   goptions reset=all device=GIF NODISPLAY;
+MPRINT(EM_DIAGRAM):    proc printto;
+MPRINT(EM_DIAGRAM):   run;

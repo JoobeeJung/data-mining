@@ -1,0 +1,182 @@
+*------------------------------------------------------------*
+ Node = 2
+*------------------------------------------------------------*
+if FASHION < 22
+then 
+ Tree Node Identifier   = 2
+ Number of Observations = 10
+ Predicted: _SEGMENT_=1  = 0.00
+ Predicted: _SEGMENT_=3  = 0.00
+ Predicted: _SEGMENT_=2  = 0.00
+ Predicted: _SEGMENT_=4  = 0.00
+ Predicted: _SEGMENT_=5  = 1.00
+ 
+*------------------------------------------------------------*
+ Node = 9
+*------------------------------------------------------------*
+if STRETCH >= 574.5
+AND LEISURE >= 2024
+AND FASHION >= 22 or MISSING
+then 
+ Tree Node Identifier   = 9
+ Number of Observations = 20
+ Predicted: _SEGMENT_=1  = 0.10
+ Predicted: _SEGMENT_=3  = 0.00
+ Predicted: _SEGMENT_=2  = 0.00
+ Predicted: _SEGMENT_=4  = 0.90
+ Predicted: _SEGMENT_=5  = 0.00
+ 
+*------------------------------------------------------------*
+ Node = 12
+*------------------------------------------------------------*
+if STRETCH < 574.5 or MISSING
+AND ORIGINAL < 1608
+AND FASHION >= 109.5
+then 
+ Tree Node Identifier   = 12
+ Number of Observations = 28
+ Predicted: _SEGMENT_=1  = 0.43
+ Predicted: _SEGMENT_=3  = 0.00
+ Predicted: _SEGMENT_=2  = 0.00
+ Predicted: _SEGMENT_=4  = 0.57
+ Predicted: _SEGMENT_=5  = 0.00
+ 
+*------------------------------------------------------------*
+ Node = 14
+*------------------------------------------------------------*
+if STRETCH >= 574.5
+AND LEISURE < 2024 or MISSING
+AND FASHION < 124 AND FASHION >= 22 or MISSING
+then 
+ Tree Node Identifier   = 14
+ Number of Observations = 129
+ Predicted: _SEGMENT_=1  = 0.03
+ Predicted: _SEGMENT_=3  = 0.00
+ Predicted: _SEGMENT_=2  = 0.97
+ Predicted: _SEGMENT_=4  = 0.00
+ Predicted: _SEGMENT_=5  = 0.00
+ 
+*------------------------------------------------------------*
+ Node = 15
+*------------------------------------------------------------*
+if STRETCH >= 574.5
+AND LEISURE < 2024 or MISSING
+AND FASHION >= 124
+then 
+ Tree Node Identifier   = 15
+ Number of Observations = 19
+ Predicted: _SEGMENT_=1  = 0.84
+ Predicted: _SEGMENT_=3  = 0.00
+ Predicted: _SEGMENT_=2  = 0.16
+ Predicted: _SEGMENT_=4  = 0.00
+ Predicted: _SEGMENT_=5  = 0.00
+ 
+*------------------------------------------------------------*
+ Node = 16
+*------------------------------------------------------------*
+if STRETCH < 574.5 or MISSING
+AND ORIGINAL < 1880.5 or MISSING
+AND LEISURE < 1710
+AND FASHION < 109.5 AND FASHION >= 22 or MISSING
+then 
+ Tree Node Identifier   = 16
+ Number of Observations = 17
+ Predicted: _SEGMENT_=1  = 0.00
+ Predicted: _SEGMENT_=3  = 0.94
+ Predicted: _SEGMENT_=2  = 0.00
+ Predicted: _SEGMENT_=4  = 0.06
+ Predicted: _SEGMENT_=5  = 0.00
+ 
+*------------------------------------------------------------*
+ Node = 17
+*------------------------------------------------------------*
+if STRETCH < 574.5 or MISSING
+AND ORIGINAL < 1880.5 or MISSING
+AND LEISURE >= 1710 or MISSING
+AND FASHION < 109.5 AND FASHION >= 22 or MISSING
+then 
+ Tree Node Identifier   = 17
+ Number of Observations = 186
+ Predicted: _SEGMENT_=1  = 0.02
+ Predicted: _SEGMENT_=3  = 0.02
+ Predicted: _SEGMENT_=2  = 0.01
+ Predicted: _SEGMENT_=4  = 0.95
+ Predicted: _SEGMENT_=5  = 0.00
+ 
+*------------------------------------------------------------*
+ Node = 18
+*------------------------------------------------------------*
+if STRETCH < 574.5 or MISSING
+AND ORIGINAL >= 1880.5
+AND LEISURE < 2102.5 or MISSING
+AND FASHION < 109.5 AND FASHION >= 22 or MISSING
+then 
+ Tree Node Identifier   = 18
+ Number of Observations = 156
+ Predicted: _SEGMENT_=1  = 0.01
+ Predicted: _SEGMENT_=3  = 0.97
+ Predicted: _SEGMENT_=2  = 0.02
+ Predicted: _SEGMENT_=4  = 0.00
+ Predicted: _SEGMENT_=5  = 0.00
+ 
+*------------------------------------------------------------*
+ Node = 19
+*------------------------------------------------------------*
+if STRETCH < 574.5 or MISSING
+AND ORIGINAL >= 1880.5
+AND LEISURE >= 2102.5
+AND FASHION < 109.5 AND FASHION >= 22 or MISSING
+then 
+ Tree Node Identifier   = 19
+ Number of Observations = 5
+ Predicted: _SEGMENT_=1  = 0.00
+ Predicted: _SEGMENT_=3  = 0.40
+ Predicted: _SEGMENT_=2  = 0.00
+ Predicted: _SEGMENT_=4  = 0.60
+ Predicted: _SEGMENT_=5  = 0.00
+ 
+*------------------------------------------------------------*
+ Node = 20
+*------------------------------------------------------------*
+if STRETCH < 574.5 or MISSING
+AND ORIGINAL < 2084.5 AND ORIGINAL >= 1608 or MISSING
+AND FASHION >= 109.5
+then 
+ Tree Node Identifier   = 20
+ Number of Observations = 89
+ Predicted: _SEGMENT_=1  = 0.97
+ Predicted: _SEGMENT_=3  = 0.02
+ Predicted: _SEGMENT_=2  = 0.00
+ Predicted: _SEGMENT_=4  = 0.01
+ Predicted: _SEGMENT_=5  = 0.00
+ 
+*------------------------------------------------------------*
+ Node = 30
+*------------------------------------------------------------*
+if STRETCH < 574.5 or MISSING
+AND ORIGINAL >= 2084.5
+AND FASHION < 136 AND FASHION >= 109.5 or MISSING
+then 
+ Tree Node Identifier   = 30
+ Number of Observations = 17
+ Predicted: _SEGMENT_=1  = 0.12
+ Predicted: _SEGMENT_=3  = 0.88
+ Predicted: _SEGMENT_=2  = 0.00
+ Predicted: _SEGMENT_=4  = 0.00
+ Predicted: _SEGMENT_=5  = 0.00
+ 
+*------------------------------------------------------------*
+ Node = 31
+*------------------------------------------------------------*
+if STRETCH < 574.5 or MISSING
+AND ORIGINAL >= 2084.5
+AND FASHION >= 136
+then 
+ Tree Node Identifier   = 31
+ Number of Observations = 13
+ Predicted: _SEGMENT_=1  = 1.00
+ Predicted: _SEGMENT_=3  = 0.00
+ Predicted: _SEGMENT_=2  = 0.00
+ Predicted: _SEGMENT_=4  = 0.00
+ Predicted: _SEGMENT_=5  = 0.00
+ 

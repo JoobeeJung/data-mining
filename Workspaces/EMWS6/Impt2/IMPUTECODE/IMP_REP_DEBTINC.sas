@@ -1,0 +1,4 @@
+label IMP_REP_DEBTINC = 'Imputed: Replacement: DEBTINC';
+length IMP_REP_DEBTINC 8;
+IMP_REP_DEBTINC = REP_DEBTINC;
+if missing(REP_DEBTINC) then IMP_REP_DEBTINC = 33.666534932;

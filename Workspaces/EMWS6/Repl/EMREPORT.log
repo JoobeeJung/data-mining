@@ -1,0 +1,1974 @@
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 20일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "11시26분50초" );
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 리포트 로그";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+*------------------------------------------------------------*
+* 리포트 로그
+날짜:                2018년 11월 20일
+시간:                11시26분50초
+*------------------------------------------------------------*
+MPRINT(EM_DIAGRAM):    filename O34ZDZGE "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMREPORT.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   proc printto print=O34ZDZGE new;
+MPRINT(EM_DIAGRAM):   run;
+25514      %let EMEXCEPTIONSTRING=;
+25515      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+25516      * REPORT: Repl;
+MPRINT(EM_DIAGRAM):   * REPORT: Repl;
+25517      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+25518      %let EM_ACTION = REPORT;
+25519      %let syscc = 0;
+25520      filename x CATALOG 'SASHELP.EMUTIL.EM_VARMACRO.SOURCE';
+MPRINT(EM_DIAGRAM):     filename x CATALOG 'SASHELP.EMUTIL.EM_VARMACRO.SOURCE';
+25521      %inc x;
+NOTE: %INCLUDE(레벨 1) 파일 X은(는) 파일 SASHELP.EMUTIL.EM_VARMACRO.SOURCE입니다.
+25523     +%macro em_varMacro(name=emMacro, metadata=, where=, key=NAME, nummacro=, maxvar=-1);
+25525     +   filename macFile catalog 'work.emutil.macro.source';
+25526     +   %let _METAOBS = 0;
+25527     +   %let _maxvar = &maxvar;
+25528     +   %if "&_maxvar" eq "" %then %let maxvar = -1;
+25530     +   %if (%sysfunc(exist(&metadata))<1 and %sysfunc(exist(&metadata, VIEW))<1)
+25531     +                   or (&metadata eq ) %then %do;
+25532     +       %put * No metadata data set defined;
+25533     +       %goto doend;
+25534     +   %end;
+25536     +   data _null_;
+25537     +      length _STRING_ $80;
+25538     +      retain _STRING_ '' maxvar 0;
+25539     +      set &metadata end=eof;
+25540     +      file macFile;
+25541     +      %if %nrbquote(&where) ne %then %do;
+25542     +          %let whereClause = where (%nrbquote(&where));
+25543     +          %unquote(&whereClause);
+25544     +      %end;
+25545     +      if _N_=1 then do;
+25546     +         string = "%"!!"macro &name;";
+25547     +         put string;
+25548     +      end;
+25549     +      maxvar +1;
+25550     +      if (length(_STRING_) + length(trim(&key))+ 4 < 80) then do;
+25551     +         _STRING_ = trim(_STRING_)!!' '!!trim(&key);
+25552     +         if eof
+25553     +            %if  %sysevalf(&_maxvar > 0) %then %do;
+25554     +                or maxvar >= &maxvar
+25555     +            %end;
+25556     +            then do;
+25557     +            put _STRING_;
+25558     +            string = "%"!!"mend &name;";
+25559     +            put string;
+25560     +            string = strip(put(_N_, best.));
+25561     +            call symput('_METAOBS', string);
+25562     +            %if (&nummacro ne ) %then %do;
+25563     +                put "%" "global &nummacro;";
+25564     +                put "%" "let &nummacro = " string ";";
+25565     +            %end;
+25566     +            stop;
+25567     +         end;
+25568     +      end;
+25569     +      else do;
+25570     +         put _STRING_;
+25571     +         _string_ = TRIM(&key);
+25572     +         if eof
+25573     +            %if  %sysevalf(&_maxvar > 0) %then %do;
+25574     +              or maxvar >= &maxvar
+25575     +           %end;
+25576     +            then do;
+25577     +            put _STRING_;
+25578     +            string = "%"!!"mend &name;";
+25579     +            put string;
+25580     +        end;
+25581     +      end;
+25582     +      if eof
+25583     +         %if  %sysevalf(&_maxvar > 0) %then %do;
+25584     +             or maxvar >= &maxvar
+25585     +         %end;
+25586     +         then do;
+25587     +         string = strip(put(_N_, best.));
+25588     +         call symput('_METAOBS', string);
+25589     +         %if (&nummacro ne ) %then %do;
+25590     +             put "%" "global &nummacro;";
+25591     +             put "%" "let &nummacro = " string ";";
+25592     +         %end;
+25593     +         stop;
+25594     +      end;
+25595     +   run;
+25597     +   %doend:
+25598     +   %if ^&_METAOBS %then %do;
+25599     +       data _null_;
+25600     +          file macFile;
+25601     +          put "%" "macro &name;";
+25602     +          put "%" "mend &name;";
+25603     +          %if (&nummacro ne ) %then %do;
+25604     +              put "%" "global &nummacro;";
+25605     +              put "%" "let &nummacro = 0;";
+25606     +          %end;
+25607     +      run;
+25608     +   %end;
+25609     +   %inc macFile;
+25610     +   filename macFile;
+25611     +%mend em_varMacro;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+25612      filename X;
+MPRINT(EM_DIAGRAM):   filename X;
+NOTE: Fileref X을(를) 삭제했습니다.
+25613       %macro main;
+25614      
+25615         filename temp catalog 'sashelp.emmdfy.Replace_macros.source';
+25616         %include temp;
+25617         filename temp;
+25618      
+25619         %if %upcase(&EM_ACTION) = CREATE %then %do;
+25620      
+25621             filename temp catalog 'sashelp.emmdfy.Replace_create.source';
+25622             %include temp;
+25623             filename temp;
+25624             %create;
+25625         %end;
+25626         %else
+25627         %if %upcase(&EM_ACTION) = TRAIN %then %do;
+25628      
+25629             filename temp catalog 'sashelp.emmdfy.Replace_train.source';
+25630             %include temp;
+25631             filename temp;
+25632             %train;
+25633         %end;
+25634         %else
+25635         %if %upcase(&EM_ACTION) = SCORE %then %do;
+25636      
+25637             filename temp catalog 'sashelp.emmdfy.Replace_score.source';
+25638             %include temp;
+25639             filename temp;
+25640             %score;
+25641         %end;
+25642         %if %upcase(&EM_ACTION) = REPORT %then %do;
+25643      
+25644             filename temp catalog 'sashelp.emmdfy.Replace_report.source';
+25645             %include temp;
+25646             filename temp;
+25647             %report;
+25648         %end;
+25649         %if %upcase(&EM_ACTION) = OPENOUTCLASSTABLE %then %do;
+25650             filename temp catalog 'sashelp.emmdfy.replace_makeoutclass.source';
+25651             %include temp;
+25652             filename temp;
+25653             %em_replace_openoutclass;
+25654         %end;
+25655         %if %upcase(&EM_ACTION) = CLOSEOUTCLASSTABLE %then %do;
+25656             filename temp catalog 'sashelp.emmdfy.replace_makeoutclass.source';
+25657             %include temp;
+25658             filename temp;
+25659             %em_replace_closeoutclass;
+25660         %end;
+25661      %mend main;
+25662      
+25663      %main;
+MPRINT(MAIN):   filename temp catalog 'sashelp.emmdfy.Replace_macros.source';
+NOTE: %INCLUDE(레벨 1) 파일 TEMP은(는) 파일 SASHELP.EMMDFY.REPLACE_MACROS.SOURCE입니다.
+25664     +%macro SetProperties;
+25665     +   %em_checkmacro(name=EM_PROPERTY_UNKNOWNLEVEL,    global=Y, value=MODE);
+25666     +   %em_checkmacro(name=EM_PROPERTY_CALCMETHOD,      global=Y, value=NONE);
+25667     +   %em_checkmacro(name=EM_PROPERTY_PERCENTSCUTOFF,  global=Y, value=0.5);
+25668     +   %em_checkmacro(name=EM_PROPERTY_SPACINGSCUTOFF,  global=Y, value=9);
+25669     +   %em_checkMacro(name=EM_PROPERTY_MADSCUTOFF,      global=Y, value=9);
+25670     +   %em_checkMacro(name=EM_PROPERTY_STDDEVCUTOFF,    global=Y, value=3);
+25671     +   %em_checkmacro(name=EM_PROPERTY_REPLACEMETHOD,   global=Y, value=COMPUTED);
+25672     +   %em_checkmacro(name=EM_PROPERTY_HIDEVARIABLE,    global=Y, value=N);
+25673     +   %em_checkmacro(name=EM_PROPERTY_INTERVALMETHOD,  global=Y, value=NONE);
+25674     +   %em_checkmacro(name=EM_PROPERTY_REPORTCOUNT,     global=Y, value=Y);
+25675     +
+25676     +%mend SetProperties;
+25677     +
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(MAIN):   filename temp;
+NOTE: Fileref TEMP을(를) 삭제했습니다.
+MPRINT(MAIN):   filename temp catalog 'sashelp.emmdfy.Replace_report.source';
+NOTE: %INCLUDE(레벨 1) 파일 TEMP은(는) 파일 SASHELP.EMMDFY.REPLACE_REPORT.SOURCE입니다.
+25678     +%macro makeNameDs(namedata=, limitDs=, classname=);
+25679     +    %let classnum=0;
+25680     +    %let dsid = %sysfunc(open(&classname));
+25681     +    %if &dsid>0 %then %do;
+25682     +        %let classnum = %sysfunc(attrn(&dsid, NOBS));
+25683     +        %let dsid = %sysfunc(close(&dsid));
+25684     +    %end;
+25685     +
+25686     +    %let varnum=0;
+25687     +    %let dsid = %sysfunc(open(&LimitDs));
+25688     +    %if &dsid>0 %then %do;
+25689     +        %let varnum = %sysfunc(attrn(&dsid, NOBS));
+25690     +        %let dsid = %sysfunc(close(&dsid));
+25691     +    %end;
+25692     +    %if ^&varnum and  ^&classnum %then %goto doendmnd;
+25693     +
+25694     +    data &nameData;
+25695     +       set
+25696     +       %if &varnum %then %do;
+25697     +          &limitDs
+25698     +      %end;
+25699     +      %if &classnum %then %do;
+25700     +          &classname
+25701     +      %end;
+25702     +    ;
+25703     +    run;
+25704     +    proc sort data=&nameData;
+25705     +       by name;
+25706     +    run;
+25707     +
+25708     +    %doendmnd:
+25709     +%mend makeNameDs;
+25710     +
+25711     +%macro countReplace(FileRef1=, dataRole=, data=, CountData=);
+25712     +   %if (^%sysfunc(exist(&data)) and ^%sysfunc(exist(&data, VIEW))) or (&data eq ) %then %goto doendm;
+25713     +
+25714     +   data _temp;
+25715     +      length DataRole $8;
+25716     +      DataRole ="&DataRole";
+25717     +      array _ReplaceCount{&ReplaceNum} (
+25718     +      %do i=1 %to &ReplaceNum;
+25719     +          0
+25720     +      %end;
+25721     +      );
+25722     +      array _DIFF{&ReplaceNum};
+25723     +      retain _ReplaceCount1 -- _ReplaceCount&ReplaceNum;
+25724     +      set &data end=eof;
+25725     +      %inc &FileRef1;
+25726     +      do i=1 to &ReplaceNum;
+25727     +         if _DIFF(i) then _ReplaceCount(i) = _ReplaceCount(i)+1;
+25728     +      end;
+25729     +      keep DataRole _ReplaceCount:;
+25730     +      if eof then
+25731     +         output;
+25732     +   run;
+25733     +   proc append base=&CountData data=_temp;
+25734     +   run;
+25735     +   proc datasets lib=WORK nolist;
+25736     +      delete _temp;
+25737     +   run;
+25738     +
+25739     +   %doendm:
+25740     +
+25741     +%mend;
+25742     +
+25743     +%macro makeCountReport(nameData=, outData=countData);
+25744     +   %if ^%sysfunc(exist(&nameData))%then %goto doendmc;
+25745     +
+25746     +   %global ReplaceNum;
+25747     +   %let ReplaceNum=0;
+25748     +   %let dsid = %sysfunc(open(&namedata));
+25749     +   %if &dsid>0 %then %do;
+25750     +       %let ReplaceNum = %sysfunc(attrn(&dsid, NOBS));
+25751     +       %let dsid = %sysfunc(close(&dsid));
+25752     +   %end;
+25753     +   %if ^&ReplaceNum %then %goto doendmc;
+25754     +
+25755     +   %EM_REGISTER(key=DiffCode, TYPE=FILE, EXTENSION=sas);
+25756     +   filename _F1 "&EM_USER_DiffCode";
+25757     +
+25758     +   data _null_;
+25759     +      length string $200;
+25760     +      set &namedata;
+25761     +      file _F1;
+25762     +      string = 'Label '!!'_ReplaceCount'!!strip(put(_N_,BEST.))!!' = "'!!strip(name)!!'";';
+25763     +      put string;
+25764     +      string = 'if '!!strip(NAME)!!' ne '!!strip(newname)!!' then ';
+25765     +      put string;
+25766     +      string = '_DIFF'!!strip(put(_N_,BEST.))!!'= 1;';
+25767     +      put string;
+25768     +      put ' else ';
+25769     +      string = '_DIFF'!!strip(put(_N_,BEST.))!!'= 0;';
+25770     +      put string;
+25771     +   run;
+25772     +   %countReplace(FileRef1=_F1, dataRole=Train, data=&EM_EXPORT_TRAIN,    CountData=_tempCount);
+25773     +   %countReplace(FileRef1=_F1, dataRole=Valide,data=&EM_EXPORT_VALIDATE, CountData=_tempCount);
+25774     +   %countReplace(FileRef1=_F1, dataRole=Test,  data=&EM_EXPORT_TEST,     CountData=_tempCount);
+25775     +
+25776     +   filename _F1;
+25777     +
+25778     +   %let validateFlag = 0;
+25779     +   %let testFlag     = 0;
+25780     +   %if (%sysfunc(exist(&EM_IMPORT_VALIDATE)) or %sysfunc(exist(&EM_IMPORT_VALIDATE, VIEW)))
+25781     +                  and (&EM_IMPORT_VALIDATE ne ) %then %do;
+25782     +        %let validateFlag = 1;
+25783     +    %end;
+25784     +    %if (%sysfunc(exist(&EM_IMPORT_TEST)) or %sysfunc(exist(&EM_IMPORT_TEST, VIEW)))
+25785     +                    and (&EM_IMPORT_TEST ne ) %then %do;
+25786     +          %let testFlag   = 1;
+25787     +    %end;
+25788     +
+25789     +    proc transpose data=_tempCount out=&outData(drop=_NAME_ rename=(_LABEL_=NAME Col1=TRAIN
+25790     +      %if &validateFlag = 1 %then %do;
+25791     +          Col2=VALIDATE
+25792     +      %end;
+25793     +      %if &testFlag = 1 %then %do;
+25794     +          Col3=TEST
+25795     +      %end;
+25796     +
+25797     +      ));
+25798     +   run;
+25799     +
+25800     +   %let lib = WORK;
+25801     +   %if %index(&outData, .) %then %do;
+25802     +       %let lib    = %scan(&outData, 1, .);
+25803     +       %let member = %scan(&outData, 2, .);
+25804     +   %end;
+25805     +   %else
+25806     +       %let member = &outData;
+25807     +  proc sort data=&outdata;
+25808     +     by name;
+25809     +  run;
+25810     +  data &outData;
+25811     +      merge &namedata(keep=NAME ROLE LABEL) &outData;
+25812     +      by NAME;
+25813     +   run;
+25814     +   proc datasets lib=&lib nolist;
+25815     +      modify &member;
+25816     +      label NAME =  "%sysfunc(sasmsg(sashelp.dmine, rpt_variable_vlabel, NOQUOTE))"
+25817     +            ROLE =  "%sysfunc(sasmsg(sashelp.dmine, meta_role_vlabel   , NOQUOTE))"
+25818     +            LABEL=  "%sysfunc(sasmsg(sashelp.dmine, meta_label_vlabel  , NOQUOTE))"
+25819     +            TRAIN=  "%sysfunc(sasmsg(sashelp.dmine, rpt_train_vlabel   , NOQUOTE))"
+25820     +      %if &validateFlag = 1 %then %do;
+25821     +            VALIDATE= "%sysfunc(sasmsg(sashelp.dmine, rpt_validate_vlabel   , NOQUOTE))"
+25822     +      %end;
+25823     +      %if &testFlag = 1 %then %do;
+25824     +            TEST= "%sysfunc(sasmsg(sashelp.dmine, rpt_test_vlabel   , NOQUOTE))"
+25825     +      %end;
+25826     +      ;
+25827     +   run;
+25828     +   proc print data=&em_user_count label;
+25829     +      title9  ' ';
+25830     +      title10 "%sysfunc(sasmsg(sashelp.dmine, rpt_replacecount_title, NOQUOTE))";
+25831     +   run;
+25832     +   title10;
+25833     +   proc datasets lib=WORK nolist;
+25834     +      delete _tempCount;
+25835     +   run;
+25836     +
+25837     +  %doendmc:
+25838     +%mend makeCountReport;
+25839     +
+25840     +%macro report;
+25841     +   %em_getname(key=COUNT,        type=DATA);
+25842     +   %em_getname(key=REPORTLIMITS, type=DATA);
+25843     +   %em_getname(key=LIMITS,       type=DATA);
+25844     +   %em_getname(key=CLASSINFO,    type=DATA);
+25845     +
+25846     +  /* Generating Reports */
+25847     +   %let lib     = %scan(&EM_USER_COUNT, 1, .);
+25848     +   %let member =;
+25849     +   %if %sysfunc(exist(&em_user_reportlimits)) %then %let member = %scan(&EM_USER_REPORTLIMITS, 2, .);
+25850     +   %if %sysfunc(exist(&em_user_count))        %then %let member = &member %scan(&EM_USER_count, 2, .);
+25851     +   %if "&member" ne "" %then %do;
+25852     +       proc datasets lib=&lib nolist;
+25853     +         delete &member;
+25854     +       run;
+25855     +       quit;
+25856     +   %end;
+25857     +
+25858     +   %let limitFlag = %sysfunc(exist(&em_user_limits));
+25859     +    %if ^&limitFlag and  ^%sysfunc(exist(&em_user_classinfo)) %then %goto doendr;
+25860     +
+25861     +    %if &limitFlag %then %do;
+25862     +        data &em_user_reportlimits;
+25863     +           set &em_user_limits;
+25864     +           label REPLACEMETHODUSED = "%sysfunc(sasmsg(sashelp.dmine, rpt_replacemethod_vlabel, NOQUOTE))"
+25865     +                 REPLACEMINUSED    = "%sysfunc(sasmsg(sashelp.dmine, rpt_replacemin_vlabel, NOQUOTE))"
+25866     +                 REPLACEMAXUSED    = "%sysfunc(sasmsg(sashelp.dmine, rpt_replacemax_vlabel, NOQUOTE))";
+25867     +           drop ROLE LEVEL REPLACEMETHOD REPLACEMIN REPLACEMAX;
+25868     +        run;
+25869     +        %EM_REPORT(key=REPORTLIMITS,  viewtype=DATA, block=MODEL, description=ReplaceInterval, autoDisplay=Y);
+25870     +    %end;
+25871     +
+25872     +    %if &em_property_CountReport=Y %then %do;
+25873     +        %makeNameDs(namedata=newVarInfo, limitDs=&em_user_limits, classname=&em_user_classinfo);
+25874     +
+25875     +        %let labeloption = %sysfunc(getoption(label));
+25876     +        options LABEL;run;
+25877     +
+25878     +        %makeCountReport(namedata=newVarInfo, outdata=&EM_USER_COUNT);
+25879     +
+25880     +        options &labeloption;run;
+25881     +
+25882     +        %EM_REPORT(key=COUNT, viewtype=DATA, block=MODEL, description=ReplaceCount, autoDisplay=Y);
+25883     +   %end;
+25884     +   proc datasets lib=WORK nolist;
+25885     +      delete newVarInfo;
+25886     +   run;
+25887     +   %doendr:
+25888     +%mend report;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(MAIN):   filename temp;
+NOTE: Fileref TEMP을(를) 삭제했습니다.
+MPRINT(REPORT):  ;
+MPRINT(REPORT):  ;
+MPRINT(REPORT):  ;
+MPRINT(REPORT):  ;
+MPRINT(REPORT):   data EMWS6.Repl_REPORTLIMITS;
+MPRINT(REPORT):   set EMWS6.Repl_LIMITS;
+MPRINT(REPORT):   label REPLACEMETHODUSED = "대체 방법" REPLACEMINUSED = "대체값 하한" REPLACEMAXUSED = "대체값 상한";
+MPRINT(REPORT):   drop ROLE LEVEL REPLACEMETHOD REPLACEMIN REPLACEMAX;
+MPRINT(REPORT):   run;
+
+NOTE: 10개의 관측값을 데이터셋 EMWS6.REPL_LIMITS.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.REPL_REPORTLIMITS은(는) 10개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(EM_REPORT):   data WORK.EM_USER_REPORT;
+MPRINT(EM_REPORT):   retain id 0;
+MPRINT(EM_REPORT):   id + 1;
+MPRINT(EM_REPORT):   length VIEW 8 NAME $32 VALUE $400;
+MPRINT(EM_REPORT):   NAME = "KEY";
+MPRINT(EM_REPORT):   VALUE = "REPORTLIMITS";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "VIEWTYPE";
+MPRINT(EM_REPORT):   VALUE = "DATA";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "AUTODISPLAY";
+MPRINT(EM_REPORT):   VALUE = "Y";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "SPK";
+MPRINT(EM_REPORT):   VALUE = "Y";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "COMPARE";
+MPRINT(EM_REPORT):   VALUE = "N";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "LOCALIZE";
+MPRINT(EM_REPORT):   VALUE = "N";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "EQUALIZEROWX";
+MPRINT(EM_REPORT):   VALUE = "N";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "EQUALIZEROWY";
+MPRINT(EM_REPORT):   VALUE = "N";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "EQUALIZECOLX";
+MPRINT(EM_REPORT):   VALUE = "N";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "EQUALIZECOLY";
+MPRINT(EM_REPORT):   VALUE = "N";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "NROWS";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "NCOLS";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "DISCRETEX";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "DISCRETEY";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "LATTICEX";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "LATTICEY";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "LATTICETYPE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "ABSOLUTEVALUE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "SORTORDER";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "SORTORDERY";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "ORIENTATION";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "METHOD";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "DIRECTION";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "BYSET";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "RENDERMODE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "DESCRIPTION";
+MPRINT(EM_REPORT):   VALUE = "ReplaceInterval";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "X";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "EXCLUDEVARS";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Z";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "YVARS";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "FREQVARS";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "AXIS";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "FREQ";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "GROUP";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "SUBGROUP";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "BLOCK";
+MPRINT(EM_REPORT):   VALUE = "MODEL";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "COLOR";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "COLORINDEX";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "TIPTEXT";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "TIP";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "TOOLTIP";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "REPORTID";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "IDVALUE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "ID";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "SIZE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "FROM";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "TO";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "VALUE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "VIEWS";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "PARENT";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "NODETEXT";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "ABOVETEXT";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "BELOWTEXT";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "NODESIZE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "STATS";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "CLASSDIST";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "INTDIST";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "FOLDER";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "YPLOTTYPE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "XREF";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "XREF2";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "YREF";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y2REF";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "YREF2";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y2REF2";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "GROUPINDEX";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "JOIN";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "XEXCLUDE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "FREQEXCLUDE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "YEXCLUDE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "NAME";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "HEIGHT";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "WIDTH";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "XAXISLABEL";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y2AXISLABEL";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "YAXISLABEL";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "DISPLAYXLABEL";
+MPRINT(EM_REPORT):   VALUE = "Y";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "DISPLAYYLABEL";
+MPRINT(EM_REPORT):   VALUE = "Y";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "CHOICETEXT";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "SEGMENTVALUE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "LOWERBAND";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "UPPERBAND";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "YLINE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "LINKKEY";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "NODEKEY";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "NODEID";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "NODEVALUE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "NODECOLOR";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "NODESHAPE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "NODESHAPEVAR";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "NODELABEL";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "NODETIP";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "LINKID";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "LINKVALUE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "LINKFROM";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "LINKTO";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "LINKCOLOR";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "LINKWIDTH";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "LINKTIP";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "XFROM";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "XTO";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "YFROM";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "YTO";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "MATRIXVAR";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "RESPONSE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "SERIES";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "DESCARG";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "SLIDER";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "MarkerSize";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Marker";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y1";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y2";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y3";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y4";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y5";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y6";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y7";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y8";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y9";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y10";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y11";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y12";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y13";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y14";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y15";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y16";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "TITLE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "LEGEND";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "LEGENDTITLE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "SHAPE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "METHOD";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "NOBINMISS";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.9422572394564;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   run;
+
+NOTE: 데이터셋 WORK.EM_USER_REPORT은(는) 132개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.09 초
+      cpu 시간            0.09 초
+      
+
+MPRINT(REPORT):  ;
+MPRINT(MAKENAMEDS):   data newVarInfo;
+MPRINT(MAKENAMEDS):   set EMWS6.Repl_LIMITS ;
+MPRINT(MAKENAMEDS):   run;
+
+NOTE: 10개의 관측값을 데이터셋 EMWS6.REPL_LIMITS.에서 읽었습니다.
+NOTE: 데이터셋 WORK.NEWVARINFO은(는) 10개의 관측값과 14개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKENAMEDS):   proc sort data=newVarInfo;
+MPRINT(MAKENAMEDS):   by name;
+MPRINT(MAKENAMEDS):   run;
+
+NOTE: 10개의 관측값을 데이터셋 WORK.NEWVARINFO.에서 읽었습니다.
+NOTE: 데이터셋 WORK.NEWVARINFO은(는) 10개의 관측값과 14개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(REPORT):  ;
+MPRINT(REPORT):   options LABEL;
+MPRINT(REPORT):  run;
+MPRINT(EM_REGISTER):   data WORK.EM_USER_KEY;
+MPRINT(EM_REGISTER):   set WORK.EM_USER_KEY end=eof;
+MPRINT(EM_REGISTER):   output;
+MPRINT(EM_REGISTER):   if eof then do;
+MPRINT(EM_REGISTER):   key = upcase("DiffCode");
+MPRINT(EM_REGISTER):   type = upcase("FILE");
+MPRINT(EM_REGISTER):   file = "DiffCode";
+MPRINT(EM_REGISTER):   folder = "";
+MPRINT(EM_REGISTER):   extension = "sas";
+MPRINT(EM_REGISTER):   AUTODELETE = "Y";
+MPRINT(EM_REGISTER):   property = "N";
+MPRINT(EM_REGISTER):   action = "";
+MPRINT(EM_REGISTER):   cas = "N";
+MPRINT(EM_REGISTER):   output;
+MPRINT(EM_REGISTER):   end;
+MPRINT(EM_REGISTER):   run;
+
+NOTE: 3개의 관측값을 데이터셋 WORK.EM_USER_KEY.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_USER_KEY은(는) 4개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(MAKECOUNTREPORT):  ;
+MPRINT(MAKECOUNTREPORT):   filename _F1 "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\DiffCode.sas";
+MPRINT(MAKECOUNTREPORT):   data _null_;
+MPRINT(MAKECOUNTREPORT):   length string $200;
+MPRINT(MAKECOUNTREPORT):   set newVarInfo;
+MPRINT(MAKECOUNTREPORT):   file _F1;
+MPRINT(MAKECOUNTREPORT):   string = 'Label '!!'_ReplaceCount'!!strip(put(_N_,BEST.))!!' = "'!!strip(name)!!'";';
+MPRINT(MAKECOUNTREPORT):   put string;
+MPRINT(MAKECOUNTREPORT):   string = 'if '!!strip(NAME)!!' ne '!!strip(newname)!!' then ';
+MPRINT(MAKECOUNTREPORT):   put string;
+MPRINT(MAKECOUNTREPORT):   string = '_DIFF'!!strip(put(_N_,BEST.))!!'= 1;';
+MPRINT(MAKECOUNTREPORT):   put string;
+MPRINT(MAKECOUNTREPORT):   put ' else ';
+MPRINT(MAKECOUNTREPORT):   string = '_DIFF'!!strip(put(_N_,BEST.))!!'= 0;';
+MPRINT(MAKECOUNTREPORT):   put string;
+MPRINT(MAKECOUNTREPORT):   run;
+
+NOTE: 파일 _F1:
+      파일 이름=C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\DiffCode.sas,
+      RECFM=V,LRECL=32767,파일 크기 (바이트)=0,
+      마지막 수정일=2018년 11월 20일 11시26분50초,
+      생성 시간=2018년 11월 20일 11시26분50초
+
+NOTE: 50개의 레코드를 파일 _F1에 기록했습니다.
+      최소 레코드 길이는 6입니다.
+      최대 레코드 길이는 33입니다.
+NOTE: 10개의 관측값을 데이터셋 WORK.NEWVARINFO.에서 읽었습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(COUNTREPLACE):   data _temp;
+MPRINT(COUNTREPLACE):   length DataRole $8;
+MPRINT(COUNTREPLACE):   DataRole ="Train";
+MPRINT(COUNTREPLACE):   array _ReplaceCount{10} ( 0 0 0 0 0 0 0 0 0 0 );
+MPRINT(COUNTREPLACE):   array _DIFF{10};
+MPRINT(COUNTREPLACE):   retain _ReplaceCount1 -- _ReplaceCount10;
+MPRINT(COUNTREPLACE):   set EMWS6.Repl_TRAIN end=eof;
+NOTE: %INCLUDE(레벨 1) 파일 _F1은(는) 파일 C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\DiffCode.sas입니다.
+25889     +Label _ReplaceCount1 = "CLAGE";
+MPRINT(COUNTREPLACE):   Label _ReplaceCount1 = "CLAGE";
+25890     +if CLAGE ne REP_CLAGE then
+25891     +_DIFF1= 1;
+MPRINT(COUNTREPLACE):   if CLAGE ne REP_CLAGE then _DIFF1= 1;
+25892     + else
+25893     +_DIFF1= 0;
+MPRINT(COUNTREPLACE):   else _DIFF1= 0;
+25894     +Label _ReplaceCount2 = "CLNO";
+MPRINT(COUNTREPLACE):   Label _ReplaceCount2 = "CLNO";
+25895     +if CLNO ne REP_CLNO then
+25896     +_DIFF2= 1;
+MPRINT(COUNTREPLACE):   if CLNO ne REP_CLNO then _DIFF2= 1;
+25897     + else
+25898     +_DIFF2= 0;
+MPRINT(COUNTREPLACE):   else _DIFF2= 0;
+25899     +Label _ReplaceCount3 = "DEBTINC";
+MPRINT(COUNTREPLACE):   Label _ReplaceCount3 = "DEBTINC";
+25900     +if DEBTINC ne REP_DEBTINC then
+25901     +_DIFF3= 1;
+MPRINT(COUNTREPLACE):   if DEBTINC ne REP_DEBTINC then _DIFF3= 1;
+25902     + else
+25903     +_DIFF3= 0;
+MPRINT(COUNTREPLACE):   else _DIFF3= 0;
+25904     +Label _ReplaceCount4 = "DELINQ";
+MPRINT(COUNTREPLACE):   Label _ReplaceCount4 = "DELINQ";
+25905     +if DELINQ ne REP_DELINQ then
+25906     +_DIFF4= 1;
+MPRINT(COUNTREPLACE):   if DELINQ ne REP_DELINQ then _DIFF4= 1;
+25907     + else
+25908     +_DIFF4= 0;
+MPRINT(COUNTREPLACE):   else _DIFF4= 0;
+25909     +Label _ReplaceCount5 = "DEROG";
+MPRINT(COUNTREPLACE):   Label _ReplaceCount5 = "DEROG";
+25910     +if DEROG ne REP_DEROG then
+25911     +_DIFF5= 1;
+MPRINT(COUNTREPLACE):   if DEROG ne REP_DEROG then _DIFF5= 1;
+25912     + else
+25913     +_DIFF5= 0;
+MPRINT(COUNTREPLACE):   else _DIFF5= 0;
+25914     +Label _ReplaceCount6 = "LOAN";
+MPRINT(COUNTREPLACE):   Label _ReplaceCount6 = "LOAN";
+25915     +if LOAN ne REP_LOAN then
+25916     +_DIFF6= 1;
+MPRINT(COUNTREPLACE):   if LOAN ne REP_LOAN then _DIFF6= 1;
+25917     + else
+25918     +_DIFF6= 0;
+MPRINT(COUNTREPLACE):   else _DIFF6= 0;
+25919     +Label _ReplaceCount7 = "MORTDUE";
+MPRINT(COUNTREPLACE):   Label _ReplaceCount7 = "MORTDUE";
+25920     +if MORTDUE ne REP_MORTDUE then
+25921     +_DIFF7= 1;
+MPRINT(COUNTREPLACE):   if MORTDUE ne REP_MORTDUE then _DIFF7= 1;
+25922     + else
+25923     +_DIFF7= 0;
+MPRINT(COUNTREPLACE):   else _DIFF7= 0;
+25924     +Label _ReplaceCount8 = "NINQ";
+MPRINT(COUNTREPLACE):   Label _ReplaceCount8 = "NINQ";
+25925     +if NINQ ne REP_NINQ then
+25926     +_DIFF8= 1;
+MPRINT(COUNTREPLACE):   if NINQ ne REP_NINQ then _DIFF8= 1;
+25927     + else
+25928     +_DIFF8= 0;
+MPRINT(COUNTREPLACE):   else _DIFF8= 0;
+25929     +Label _ReplaceCount9 = "VALUE";
+MPRINT(COUNTREPLACE):   Label _ReplaceCount9 = "VALUE";
+25930     +if VALUE ne REP_VALUE then
+25931     +_DIFF9= 1;
+MPRINT(COUNTREPLACE):   if VALUE ne REP_VALUE then _DIFF9= 1;
+25932     + else
+25933     +_DIFF9= 0;
+MPRINT(COUNTREPLACE):   else _DIFF9= 0;
+25934     +Label _ReplaceCount10 = "YOJ";
+MPRINT(COUNTREPLACE):   Label _ReplaceCount10 = "YOJ";
+25935     +if YOJ ne REP_YOJ then
+25936     +_DIFF10= 1;
+MPRINT(COUNTREPLACE):   if YOJ ne REP_YOJ then _DIFF10= 1;
+25937     + else
+25938     +_DIFF10= 0;
+MPRINT(COUNTREPLACE):   else _DIFF10= 0;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(COUNTREPLACE):   do i=1 to 10;
+MPRINT(COUNTREPLACE):   if _DIFF(i) then _ReplaceCount(i) = _ReplaceCount(i)+1;
+MPRINT(COUNTREPLACE):   end;
+MPRINT(COUNTREPLACE):   keep DataRole _ReplaceCount:;
+MPRINT(COUNTREPLACE):   if eof then output;
+MPRINT(COUNTREPLACE):   run;
+
+NOTE: View EMWS6.REPL_TRAIN.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.06 초
+      cpu 시간            0.06 초
+      
+NOTE: 4170개의 관측값을 데이터셋 EMWS6.PART4_TRAIN.에서 읽었습니다.
+NOTE: 4170개의 관측값을 데이터셋 EMWS6.REPL_TRAIN.에서 읽었습니다.
+NOTE: 데이터셋 WORK._TEMP은(는) 1개의 관측값과 11개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.09 초
+      cpu 시간            0.09 초
+      
+
+MPRINT(COUNTREPLACE):   proc append base=_tempCount data=_temp;
+MPRINT(COUNTREPLACE):   run;
+
+NOTE: WORK._TEMP 을(를)WORK._TEMPCOUNT(으)로 추가하는 중입니다.
+NOTE: BASE 데이터셋이 존재하지 않습니다. DATA 파일이 BASE 파일에 복사됩니다.
+NOTE: 1개의 관측값을 데이터셋 WORK._TEMP.에서 읽었습니다.
+NOTE: 데이터셋 WORK._TEMPCOUNT은(는) 1개의 관측값과 11개의 변수를 가지고 있습니다.
+NOTE: 프로시저 APPEND 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(COUNTREPLACE):   proc datasets lib=WORK nolist;
+MPRINT(COUNTREPLACE):   delete _temp;
+MPRINT(COUNTREPLACE):   run;
+
+NOTE: WORK._TEMP(memtype=DATA)을(를) 삭제하는 중입니다.
+MPRINT(MAKECOUNTREPORT):  ;
+
+NOTE: 프로시저 DATASETS 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(COUNTREPLACE):   data _temp;
+MPRINT(COUNTREPLACE):   length DataRole $8;
+MPRINT(COUNTREPLACE):   DataRole ="Valide";
+MPRINT(COUNTREPLACE):   array _ReplaceCount{10} ( 0 0 0 0 0 0 0 0 0 0 );
+MPRINT(COUNTREPLACE):   array _DIFF{10};
+MPRINT(COUNTREPLACE):   retain _ReplaceCount1 -- _ReplaceCount10;
+MPRINT(COUNTREPLACE):   set EMWS6.Repl_VALIDATE end=eof;
+NOTE: %INCLUDE(레벨 1) 파일 _F1은(는) 파일 C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\DiffCode.sas입니다.
+25939     +Label _ReplaceCount1 = "CLAGE";
+MPRINT(COUNTREPLACE):   Label _ReplaceCount1 = "CLAGE";
+25940     +if CLAGE ne REP_CLAGE then
+25941     +_DIFF1= 1;
+MPRINT(COUNTREPLACE):   if CLAGE ne REP_CLAGE then _DIFF1= 1;
+25942     + else
+25943     +_DIFF1= 0;
+MPRINT(COUNTREPLACE):   else _DIFF1= 0;
+25944     +Label _ReplaceCount2 = "CLNO";
+MPRINT(COUNTREPLACE):   Label _ReplaceCount2 = "CLNO";
+25945     +if CLNO ne REP_CLNO then
+25946     +_DIFF2= 1;
+MPRINT(COUNTREPLACE):   if CLNO ne REP_CLNO then _DIFF2= 1;
+25947     + else
+25948     +_DIFF2= 0;
+MPRINT(COUNTREPLACE):   else _DIFF2= 0;
+25949     +Label _ReplaceCount3 = "DEBTINC";
+MPRINT(COUNTREPLACE):   Label _ReplaceCount3 = "DEBTINC";
+25950     +if DEBTINC ne REP_DEBTINC then
+25951     +_DIFF3= 1;
+MPRINT(COUNTREPLACE):   if DEBTINC ne REP_DEBTINC then _DIFF3= 1;
+25952     + else
+25953     +_DIFF3= 0;
+MPRINT(COUNTREPLACE):   else _DIFF3= 0;
+25954     +Label _ReplaceCount4 = "DELINQ";
+MPRINT(COUNTREPLACE):   Label _ReplaceCount4 = "DELINQ";
+25955     +if DELINQ ne REP_DELINQ then
+25956     +_DIFF4= 1;
+MPRINT(COUNTREPLACE):   if DELINQ ne REP_DELINQ then _DIFF4= 1;
+25957     + else
+25958     +_DIFF4= 0;
+MPRINT(COUNTREPLACE):   else _DIFF4= 0;
+25959     +Label _ReplaceCount5 = "DEROG";
+MPRINT(COUNTREPLACE):   Label _ReplaceCount5 = "DEROG";
+25960     +if DEROG ne REP_DEROG then
+25961     +_DIFF5= 1;
+MPRINT(COUNTREPLACE):   if DEROG ne REP_DEROG then _DIFF5= 1;
+25962     + else
+25963     +_DIFF5= 0;
+MPRINT(COUNTREPLACE):   else _DIFF5= 0;
+25964     +Label _ReplaceCount6 = "LOAN";
+MPRINT(COUNTREPLACE):   Label _ReplaceCount6 = "LOAN";
+25965     +if LOAN ne REP_LOAN then
+25966     +_DIFF6= 1;
+MPRINT(COUNTREPLACE):   if LOAN ne REP_LOAN then _DIFF6= 1;
+25967     + else
+25968     +_DIFF6= 0;
+MPRINT(COUNTREPLACE):   else _DIFF6= 0;
+25969     +Label _ReplaceCount7 = "MORTDUE";
+MPRINT(COUNTREPLACE):   Label _ReplaceCount7 = "MORTDUE";
+25970     +if MORTDUE ne REP_MORTDUE then
+25971     +_DIFF7= 1;
+MPRINT(COUNTREPLACE):   if MORTDUE ne REP_MORTDUE then _DIFF7= 1;
+25972     + else
+25973     +_DIFF7= 0;
+MPRINT(COUNTREPLACE):   else _DIFF7= 0;
+25974     +Label _ReplaceCount8 = "NINQ";
+MPRINT(COUNTREPLACE):   Label _ReplaceCount8 = "NINQ";
+25975     +if NINQ ne REP_NINQ then
+25976     +_DIFF8= 1;
+MPRINT(COUNTREPLACE):   if NINQ ne REP_NINQ then _DIFF8= 1;
+25977     + else
+25978     +_DIFF8= 0;
+MPRINT(COUNTREPLACE):   else _DIFF8= 0;
+25979     +Label _ReplaceCount9 = "VALUE";
+MPRINT(COUNTREPLACE):   Label _ReplaceCount9 = "VALUE";
+25980     +if VALUE ne REP_VALUE then
+25981     +_DIFF9= 1;
+MPRINT(COUNTREPLACE):   if VALUE ne REP_VALUE then _DIFF9= 1;
+25982     + else
+25983     +_DIFF9= 0;
+MPRINT(COUNTREPLACE):   else _DIFF9= 0;
+25984     +Label _ReplaceCount10 = "YOJ";
+MPRINT(COUNTREPLACE):   Label _ReplaceCount10 = "YOJ";
+25985     +if YOJ ne REP_YOJ then
+25986     +_DIFF10= 1;
+MPRINT(COUNTREPLACE):   if YOJ ne REP_YOJ then _DIFF10= 1;
+25987     + else
+25988     +_DIFF10= 0;
+MPRINT(COUNTREPLACE):   else _DIFF10= 0;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(COUNTREPLACE):   do i=1 to 10;
+MPRINT(COUNTREPLACE):   if _DIFF(i) then _ReplaceCount(i) = _ReplaceCount(i)+1;
+MPRINT(COUNTREPLACE):   end;
+MPRINT(COUNTREPLACE):   keep DataRole _ReplaceCount:;
+MPRINT(COUNTREPLACE):   if eof then output;
+MPRINT(COUNTREPLACE):   run;
+
+NOTE: View EMWS6.REPL_VALIDATE.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.05 초
+      cpu 시간            0.04 초
+      
+NOTE: 1790개의 관측값을 데이터셋 EMWS6.PART4_VALIDATE.에서 읽었습니다.
+NOTE: 1790개의 관측값을 데이터셋 EMWS6.REPL_VALIDATE.에서 읽었습니다.
+NOTE: 데이터셋 WORK._TEMP은(는) 1개의 관측값과 11개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.07 초
+      cpu 시간            0.07 초
+      
+
+MPRINT(COUNTREPLACE):   proc append base=_tempCount data=_temp;
+MPRINT(COUNTREPLACE):   run;
+
+NOTE: WORK._TEMP 을(를)WORK._TEMPCOUNT(으)로 추가하는 중입니다.
+NOTE: 1개의 관측값을 데이터셋 WORK._TEMP.에서 읽었습니다.
+NOTE: 1개 관측값이 추가되었습니다.
+NOTE: 데이터셋 WORK._TEMPCOUNT은(는) 2개의 관측값과 11개의 변수를 가지고 있습니다.
+NOTE: 프로시저 APPEND 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(COUNTREPLACE):   proc datasets lib=WORK nolist;
+MPRINT(COUNTREPLACE):   delete _temp;
+MPRINT(COUNTREPLACE):   run;
+
+NOTE: WORK._TEMP(memtype=DATA)을(를) 삭제하는 중입니다.
+MPRINT(MAKECOUNTREPORT):  ;
+MPRINT(MAKECOUNTREPORT):  ;
+MPRINT(MAKECOUNTREPORT):   filename _F1;
+NOTE: Fileref _F1을(를) 삭제했습니다.
+
+NOTE: 프로시저 DATASETS 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKECOUNTREPORT):   proc transpose data=_tempCount out=EMWS6.Repl_COUNT(drop=_NAME_ rename=(_LABEL_=NAME Col1=TRAIN Col2=VALIDATE ));
+MPRINT(MAKECOUNTREPORT):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK._TEMPCOUNT.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.REPL_COUNT은(는) 10개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: 프로시저 TRANSPOSE 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(MAKECOUNTREPORT):   proc sort data=EMWS6.Repl_COUNT;
+MPRINT(MAKECOUNTREPORT):   by name;
+MPRINT(MAKECOUNTREPORT):   run;
+
+NOTE: 10개의 관측값을 데이터셋 EMWS6.REPL_COUNT.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.REPL_COUNT은(는) 10개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKECOUNTREPORT):   data EMWS6.Repl_COUNT;
+MPRINT(MAKECOUNTREPORT):   merge newVarInfo(keep=NAME ROLE LABEL) EMWS6.Repl_COUNT;
+MPRINT(MAKECOUNTREPORT):   by NAME;
+MPRINT(MAKECOUNTREPORT):   run;
+
+WARNING: 입력 데이터셋으로 BY 변수 NAME에 대해 여러 길이가 지정되었습니다. 예상하지 못한 결과를 발생시킬 수 있습니다.
+NOTE: 10개의 관측값을 데이터셋 WORK.NEWVARINFO.에서 읽었습니다.
+NOTE: 10개의 관측값을 데이터셋 EMWS6.REPL_COUNT.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.REPL_COUNT은(는) 10개의 관측값과 5개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKECOUNTREPORT):   proc datasets lib=EMWS6 nolist;
+MPRINT(MAKECOUNTREPORT):   modify Repl_COUNT;
+MPRINT(MAKECOUNTREPORT):   label NAME = "변수" ROLE = "역할" LABEL= "레이블" TRAIN= "분석" VALIDATE= "평가" ;
+MPRINT(MAKECOUNTREPORT):   run;
+
+NOTE: EMWS6.REPL_COUNT.DATA에 대한 MODIFY에 성공했습니다.
+
+NOTE: 프로시저 DATASETS 실행(총 프로세스 시간):
+      실행 시간           0.12 초
+      cpu 시간            0.12 초
+      
+
+MPRINT(MAKECOUNTREPORT):   proc print data=EMWS6.Repl_COUNT label;
+MPRINT(MAKECOUNTREPORT):   title9 ' ';
+MPRINT(MAKECOUNTREPORT):   title10 "대체 개수";
+MPRINT(MAKECOUNTREPORT):   run;
+NOTE: 10개의 관측값을 데이터셋 EMWS6.REPL_COUNT.에서 읽었습니다.
+NOTE: 출력 결과 (프로시저: PRINT, 페이지: 3)
+NOTE: 프로시저 PRINT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKECOUNTREPORT):   title10;
+MPRINT(MAKECOUNTREPORT):   proc datasets lib=WORK nolist;
+MPRINT(MAKECOUNTREPORT):   delete _tempCount;
+MPRINT(MAKECOUNTREPORT):   run;
+NOTE: WORK._TEMPCOUNT(memtype=DATA)을(를) 삭제하는 중입니다.
+MPRINT(REPORT):  ;
+MPRINT(REPORT):   options LABEL;
+MPRINT(REPORT):  run;
+
+NOTE: 프로시저 DATASETS 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(EM_REPORT):   data WORK.EM_USER_REPORT;
+MPRINT(EM_REPORT):   set WORK.EM_USER_REPORT end=eof;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   if eof then do;
+MPRINT(EM_REPORT):   id+1;
+MPRINT(EM_REPORT):   NAME = "KEY";
+MPRINT(EM_REPORT):   VALUE = "COUNT";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "VIEWTYPE";
+MPRINT(EM_REPORT):   VALUE = "DATA";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "AUTODISPLAY";
+MPRINT(EM_REPORT):   VALUE = "Y";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "SPK";
+MPRINT(EM_REPORT):   VALUE = "Y";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "COMPARE";
+MPRINT(EM_REPORT):   VALUE = "N";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "LOCALIZE";
+MPRINT(EM_REPORT):   VALUE = "N";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "EQUALIZEROWX";
+MPRINT(EM_REPORT):   VALUE = "N";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "EQUALIZEROWY";
+MPRINT(EM_REPORT):   VALUE = "N";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "EQUALIZECOLX";
+MPRINT(EM_REPORT):   VALUE = "N";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "EQUALIZECOLY";
+MPRINT(EM_REPORT):   VALUE = "N";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "NROWS";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "NCOLS";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "DISCRETEX";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "DISCRETEY";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "LATTICEX";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "LATTICEY";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "LATTICETYPE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "ABSOLUTEVALUE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "SORTORDER";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "SORTORDERY";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "ORIENTATION";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "METHOD";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "DIRECTION";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "BYSET";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "RENDERMODE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "DESCRIPTION";
+MPRINT(EM_REPORT):   VALUE = "ReplaceCount";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "X";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "EXCLUDEVARS";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Z";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "YVARS";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "FREQVARS";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "AXIS";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "FREQ";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "GROUP";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "SUBGROUP";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "BLOCK";
+MPRINT(EM_REPORT):   VALUE = "MODEL";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "COLOR";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "COLORINDEX";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "TIPTEXT";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "TIP";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "TOOLTIP";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "REPORTID";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "IDVALUE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "ID";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "SIZE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "FROM";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "TO";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "VALUE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "VIEWS";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "PARENT";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "NODETEXT";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "ABOVETEXT";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "BELOWTEXT";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "NODESIZE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "STATS";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "CLASSDIST";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "INTDIST";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "FOLDER";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "YPLOTTYPE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "XREF";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "XREF2";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "YREF";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y2REF";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "YREF2";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y2REF2";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "GROUPINDEX";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "JOIN";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "XEXCLUDE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "FREQEXCLUDE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "YEXCLUDE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "NAME";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "HEIGHT";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "WIDTH";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "XAXISLABEL";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y2AXISLABEL";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "YAXISLABEL";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "DISPLAYXLABEL";
+MPRINT(EM_REPORT):   VALUE = "Y";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "DISPLAYYLABEL";
+MPRINT(EM_REPORT):   VALUE = "Y";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "CHOICETEXT";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "SEGMENTVALUE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "LOWERBAND";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "UPPERBAND";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "YLINE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "LINKKEY";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "NODEKEY";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "NODEID";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "NODEVALUE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "NODECOLOR";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "NODESHAPE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "NODESHAPEVAR";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "NODELABEL";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "NODETIP";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "LINKID";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "LINKVALUE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "LINKFROM";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "LINKTO";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "LINKCOLOR";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "LINKWIDTH";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "LINKTIP";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "XFROM";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "XTO";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "YFROM";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "YTO";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "MATRIXVAR";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "RESPONSE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "SERIES";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "DESCARG";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "SLIDER";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "MarkerSize";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Marker";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y1";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y2";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y3";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y4";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y5";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y6";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y7";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y8";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y9";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y10";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y11";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y12";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y13";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y14";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y15";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "Y16";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "TITLE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "LEGEND";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "LEGENDTITLE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "SHAPE";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "METHOD";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   NAME = "NOBINMISS";
+MPRINT(EM_REPORT):   VALUE = "";
+MPRINT(EM_REPORT):   VIEW = 0.1132237124784;
+MPRINT(EM_REPORT):   output;
+MPRINT(EM_REPORT):   end;
+MPRINT(EM_REPORT):   run;
+
+NOTE: 132개의 관측값을 데이터셋 WORK.EM_USER_REPORT.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_USER_REPORT은(는) 264개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.09 초
+      cpu 시간            0.09 초
+      
+
+MPRINT(REPORT):  ;
+MPRINT(REPORT):   proc datasets lib=WORK nolist;
+MPRINT(REPORT):   delete newVarInfo;
+MPRINT(REPORT):   run;
+
+NOTE: WORK.NEWVARINFO(memtype=DATA)을(를) 삭제하는 중입니다.
+MPRINT(MAIN):  ;
+MPRINT(EM_DIAGRAM):  ;
+25989      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+25990      * End REPORT: Repl;
+MPRINT(EM_DIAGRAM):   * End REPORT: Repl;
+25991      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+25992      
+25993      /* Reset EM Options */
+25994      options formchar="|----|+|---+=|-/\<>*";
+MPRINT(EM_DIAGRAM):   options formchar="|----|+|---+=|-/\<>*";
+25995      options nocenter ls=256 ps=10000;
+MPRINT(EM_DIAGRAM):   options nocenter ls=256 ps=10000;
+25996      goptions reset=all device=GIF NODISPLAY;
+MPRINT(EM_DIAGRAM):   goptions reset=all device=GIF NODISPLAY;
+
+NOTE: 프로시저 DATASETS 실행(총 프로세스 시간):
+      실행 시간           0.05 초
+      cpu 시간            0.07 초
+      
+
+25997      proc sort data=WORK.EM_USER_REPORT;
+MPRINT(EM_DIAGRAM):   proc sort data=WORK.EM_USER_REPORT;
+25998      by ID VIEW;
+MPRINT(EM_DIAGRAM):   by ID VIEW;
+25999      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 264개의 관측값을 데이터셋 WORK.EM_USER_REPORT.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_USER_REPORT은(는) 264개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(EM_DIAGRAM):    proc printto;
+MPRINT(EM_DIAGRAM):   run;

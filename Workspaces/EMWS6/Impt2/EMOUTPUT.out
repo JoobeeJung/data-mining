@@ -1,0 +1,73 @@
+*------------------------------------------------------------*
+사용자:                Administrator
+날짜:                2018년 11월 20일
+시간:                11시26분58초
+*------------------------------------------------------------*
+* 분석 출력
+*------------------------------------------------------------*
+ 
+ 
+ 
+ 
+변수 요약
+ 
+            측도 레     빈도
+역할           벨       개수
+ 
+INPUT       BINARY        1
+INPUT       INTERVAL     10
+INPUT       NOMINAL       1
+REJECTED    INTERVAL     10
+TARGET      BINARY        1
+
+
+*------------------------------------------------------------*
+* 스코어 출력
+*------------------------------------------------------------*
+
+
+*------------------------------------------------------------*
+* 리포트 출력
+*------------------------------------------------------------*
+ 
+ 
+ 
+결측값 처리 요약
+관측치 수
+ 
+               결측값                                                                                    TRAIN에 대
+                처리     결측값 처리된                               측도 레                             한 결측 개
+변수 이름       방법     변수               결측값 처리     역할        벨              레이블                   수
+ 
+JOB            COUNT     IMP_JOB            Other           INPUT    NOMINAL                                    194
+REASON         COUNT     IMP_REASON         DebtCon         INPUT    BINARY                                     178
+REP_CLAGE      MEAN      IMP_REP_CLAGE      178.17673018    INPUT    INTERVAL    Replacement: CLAGE             223
+REP_CLNO       MEAN      IMP_REP_CLNO       21.279396672    INPUT    INTERVAL    Replacement: CLNO              161
+REP_DEBTINC    MEAN      IMP_REP_DEBTINC    33.666534932    INPUT    INTERVAL    Replacement: DEBTINC           891
+REP_DELINQ     MEAN      IMP_REP_DELINQ     0.4240816807    INPUT    INTERVAL    Replacement: DELINQ            411
+REP_DEROG      MEAN      IMP_REP_DEROG      0.2116898639    INPUT    INTERVAL    Replacement: DEROG             491
+REP_MORTDUE    MEAN      IMP_REP_MORTDUE    73441.205876    INPUT    INTERVAL    Replacement: MORTDUE           355
+REP_NINQ       MEAN      IMP_REP_NINQ       1.1352467601    INPUT    INTERVAL    Replacement: NINQ              371
+REP_VALUE      MEAN      IMP_REP_VALUE      101363.22276    INPUT    INTERVAL    Replacement: VALUE              76
+REP_YOJ        MEAN      IMP_REP_YOJ        8.8683676788    INPUT    INTERVAL    Replacement: YOJ               349
+ 
+ 
+ 
+ 
+변수 분포 분석용 데이터
+ 
+       TRAIN에 대
+       한 결측 개    변수    변수 백
+OBS            수    개수      분율
+ 
+  1           891      1     9.09091
+  2           491      1     9.09091
+  3           411      1     9.09091
+  4           371      1     9.09091
+  5           355      1     9.09091
+  6           349      1     9.09091
+  7           223      1     9.09091
+  8           194      1     9.09091
+  9           178      1     9.09091
+ 10           161      1     9.09091
+ 11            76      1     9.09091

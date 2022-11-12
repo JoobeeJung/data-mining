@@ -1,0 +1,927 @@
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 20일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "11시30분47초" );
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 분석 로그";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+*------------------------------------------------------------*
+* 분석 로그
+날짜:                2018년 11월 20일
+시간:                11시30분47초
+*------------------------------------------------------------*
+MPRINT(EM_DIAGRAM):    filename O3CJ2EXF "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Neural2\EMTRAIN.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   proc printto print=O3CJ2EXF new;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _LOG "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Neural2\EMLOG.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 20일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "11시30분47초" );
+MPRINT(EM_DIAGRAM):   file _LOG;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "사용자:                Administrator";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "사이트:                10503192";
+MPRINT(EM_DIAGRAM):   put "플랫폼:            X64_10HOME";
+MPRINT(EM_DIAGRAM):   put "관리 릴리스: 9.04.01M4P110916";
+MPRINT(EM_DIAGRAM):   put "EM 버전:          14.2";
+MPRINT(EM_DIAGRAM):   put "* ";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _LOGIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Neural2\EMTRAIN.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_COPYFILE):   data _null_;
+MPRINT(EM_COPYFILE):   length line $20000;
+MPRINT(EM_COPYFILE):   file _LOG MOD lrecl=20000;
+MPRINT(EM_COPYFILE):   fid=fopen("_LOGIN",'i',20000,'v');
+MPRINT(EM_COPYFILE):   if fid > 0 then do;
+MPRINT(EM_COPYFILE):   do while(^fread(fid));
+MPRINT(EM_COPYFILE):   rlen = frlen(fid);
+MPRINT(EM_COPYFILE):   rc= fget(fid,line,20000);
+MPRINT(EM_COPYFILE):   start = length(line)-length(left(line))+1;
+MPRINT(EM_COPYFILE):   line=strip(line);
+MPRINT(EM_COPYFILE):   put @start line;
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   if fid > 0 then rc=fclose(fid);
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   run;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _LOGIN;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   file _LOG mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   filename _LOGIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Neural2\EMSCORE.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   file _LOG mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _LOGIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Neural2\EMREPORT.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _LOGIN;
+MPRINT(EM_DIAGRAM):    filename _LOG;
+MPRINT(EM_DIAGRAM):    filename _OUT "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Neural2\EMOUTPUT.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 20일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "11시30분47초" );
+MPRINT(EM_DIAGRAM):   file _OUT;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "사용자:                Administrator";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 분석 출력";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _OUTIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Neural2\EMTRAIN.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   ;
+MPRINT(EM_COPYFILE):   data _null_;
+MPRINT(EM_COPYFILE):   length line $20000;
+MPRINT(EM_COPYFILE):   file _OUT MOD lrecl=20000;
+MPRINT(EM_COPYFILE):   fid=fopen("_OUTIN",'i',20000,'v');
+MPRINT(EM_COPYFILE):   if fid > 0 then do;
+MPRINT(EM_COPYFILE):   do while(^fread(fid));
+MPRINT(EM_COPYFILE):   rlen = frlen(fid);
+MPRINT(EM_COPYFILE):   rc= fget(fid,line,20000);
+MPRINT(EM_COPYFILE):   start = length(line)-length(left(line))+1;
+MPRINT(EM_COPYFILE):   line=strip(line);
+MPRINT(EM_COPYFILE):   put @start line;
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   if fid > 0 then rc=fclose(fid);
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   run;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _OUTIN;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   file _OUT mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   put // "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 스코어 출력";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _OUTIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Neural2\EMSCORE.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _OUTIN;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   file _OUT mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   put // "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 리포트 출력";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _OUTIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Neural2\EMREPORT.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _OUTIN;
+MPRINT(EM_DIAGRAM):    filename _OUT;
+MPRINT(EM_DIAGRAM):    filename _emtool_ 'C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Neural2\EMRUNSTATUS.xml' encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):    filename _emtool_ 'C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Neural2\EMRUNSTATUS.xml' encoding="UTF-8" NOBOM;
+22639      proc freq data=EMWS6.Neural2_VariableSet noprint;
+MPRINT(EM_DIAGRAM):    proc freq data=EMWS6.Neural2_VariableSet noprint;
+22640      table ROLE*LEVEL/out=WORK.Neural2META;
+MPRINT(EM_DIAGRAM):   table ROLE*LEVEL/out=WORK.Neural2META;
+22641      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 23개의 관측값을 데이터셋 EMWS6.NEURAL2_VARIABLESET.에서 읽었습니다.
+NOTE: 데이터셋 WORK.NEURAL2META은(는) 5개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: 프로시저 FREQ 실행(총 프로세스 시간):
+      실행 시간           0.07 초
+      cpu 시간            0.07 초
+      
+
+22642      proc print data=WORK.Neural2META label noobs;
+MPRINT(EM_DIAGRAM):   proc print data=WORK.Neural2META label noobs;
+22643      var ROLE LEVEL COUNT;
+MPRINT(EM_DIAGRAM):   var ROLE LEVEL COUNT;
+22644      label ROLE = "%sysfunc(sasmsg(sashelp.dmine, meta_role_vlabel, NOQUOTE))" LEVEL = "%sysfunc(sasmsg(sashelp.dmine, meta_level_vlabel, NOQUOTE))" COUNT = "%sysfunc(sasmsg(sashelp.dmine, rpt_count_vlabel, NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label ROLE = "역할" LEVEL = "측도 레벨" COUNT = "빈도 개수";
+22645      title9 ' ';
+MPRINT(EM_DIAGRAM):   title9 ' ';
+22646      title10 "%sysfunc(sasmsg(sashelp.dmine, rpt_varSummary_title  , NOQUOTE))";
+MPRINT(EM_DIAGRAM):   title10 "변수 요약";
+MPRINT(EM_DIAGRAM):   run;
+22647      run;
+
+NOTE: 5개의 관측값을 데이터셋 WORK.NEURAL2META.에서 읽었습니다.
+NOTE: 출력 결과 (프로시저: PRINT, 페이지: 1)
+NOTE: 프로시저 PRINT 실행(총 프로세스 시간):
+      실행 시간           0.06 초
+      cpu 시간            0.06 초
+      
+
+22648      title10;
+MPRINT(EM_DIAGRAM):   title10;
+22649      %let EMNORLEN = %DMNORLEN;
+MPRINT(EM_DIAGRAM):   
+EMWS6.Impt2_TRAIN EMWS6.Impt2_TRAIN 
+EMWS6.Impt2_TRAIN EMWS6.Impt2_TRAIN EMWS6 Impt2_TRAIN 
+EMWS6.Impt2_TRAIN EMWS6.Impt2_TRAIN 
+EMWS6.Impt2_TRAIN EMWS6.Impt2_TRAIN EMWS6 Impt2_TRAIN 
+MPRINT(EM_DIAGRAM):    proc dmdb data=EMWS6.Impt2_TRAIN classout=WORK._DMDBCLASSTARGET(keep=NAME NRAW CRAW LEVEL FREQUENCY NMISSPERCENT);
+MPRINT(EM_DIAGRAM):   class BAD(DESC) ;
+MPRINT(EM_DIAGRAM):   run;
+Executing  SASHELP.EMCORE.EMINFOITERATOR.SCL _INIT >> 
+Executing  SASHELP.EMCORE.EMINFOITERATOR.SCL setMetaData >> 
+Executing  SASHELP.EMCORE.EMINFOITERATOR.SCL next >> 
+Executing  SASHELP.EMCORE.EMINFOITERATOR.SCL next >> 
+Executing  SASHELP.EMCORE.EMINFOITERATOR.SCL setMetaData >> 
+Executing  SASHELP.EMCORE.EMINFOITERATOR.SCL next >> 
+Executing  SASHELP.EMCORE.EMINFOITERATOR.SCL next >> 
+Executing  SASHELP.EMCORE.EMINFOITERATOR.SCL _term >> 
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   set WORK._DMDBCLASSTARGET;
+MPRINT(EM_DIAGRAM):   where ^(NRAW eq . and CRAW eq '') and NAME="BAD";
+MPRINT(EM_DIAGRAM):   if _N_=1 then call symput('_newevent', strip(LEVEL));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   proc sort data=WORK._DMDBCLASSTARGET out=_TEMPCLASS(keep=LEVEL FREQUENCY NMISSPERCENT rename=(LEVEL=BAD));
+MPRINT(EM_DIAGRAM):   by LEVEL;
+MPRINT(EM_DIAGRAM):   where ^(NRAW eq . and CRAW eq '') and NAME="BAD";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _TEMPCLASS;
+MPRINT(EM_DIAGRAM):   set _TEMPCLASS;
+MPRINT(EM_DIAGRAM):   NMISSPERCENT= NMISSPERCENT/100;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    proc sort data=EMWS6.Ids5_BAD_DD out=_sortedDecdata;
+MPRINT(EM_DIAGRAM):   by BAD;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   merge _TEMPCLASS(in=_a) _sortedDecdata(in=_b);
+MPRINT(EM_DIAGRAM):   by BAD;
+MPRINT(EM_DIAGRAM):   if (_a and ^_b) or (^_a and _b) then call symput('_emresetDec', '1');
+MPRINT(EM_DIAGRAM):   run;
+22678      data WORK.Neural2_EVENT(KEEP=VARIABLE LABEL LEVEL EVENT NUMLEVELS ORDER);
+MPRINT(EM_DIAGRAM):    data WORK.Neural2_EVENT(KEEP=VARIABLE LABEL LEVEL EVENT NUMLEVELS ORDER);
+22679      length ORDER $20;
+MPRINT(EM_DIAGRAM):   length ORDER $20;
+22680      label VARIABLE = "%sysfunc(sasmsg(sashelp.dmine, rpt_target_vlabel,  NOQUOTE))" EVENT = "%sysfunc(sasmsg(sashelp.dmine, assmt_event_vlabel, NOQUOTE))" NUMLEVELS = "%sysfunc(sasmsg(sashelp.dmine, rpt_numcat_vlabel, NOQUOTE))" LEVEL =
+22681         "%sysfunc(sasmsg(sashelp.dmine, meta_level_vlabel, NOQUOTE))" ORDER = "%sysfunc(sasmsg(sashelp.dmine, meta_order_vlabel, NOQUOTE))" LABEL = "%sysfunc(sasmsg(sashelp.dmine, meta_label_vlabel, NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label VARIABLE = "타겟" EVENT = "이벤트" NUMLEVELS = "레벨 수" LEVEL = "측도 레벨" ORDER = "순서" LABEL = "레이블";
+22682      set EMWS6.IDS5_BAD_DM( where=(_TYPE_="TARGET"));
+MPRINT(EM_DIAGRAM):   set EMWS6.IDS5_BAD_DM( where=(_TYPE_="TARGET"));
+22683      NumLevels=2;
+MPRINT(EM_DIAGRAM):   NumLevels=2;
+22684      select(upcase(ORDER));
+MPRINT(EM_DIAGRAM):   select(upcase(ORDER));
+22685      when('DESC') ORDER = 'Descending';
+MPRINT(EM_DIAGRAM):   when('DESC') ORDER = 'Descending';
+22686      when('ASC') ORDER = 'Ascending';
+MPRINT(EM_DIAGRAM):   when('ASC') ORDER = 'Ascending';
+22687      when('FMTDESC') ORDER = 'Formatted Descending';
+MPRINT(EM_DIAGRAM):   when('FMTDESC') ORDER = 'Formatted Descending';
+22688      when('FMTASC') ORDER = 'Formatted Ascending';
+MPRINT(EM_DIAGRAM):   when('FMTASC') ORDER = 'Formatted Ascending';
+22689      otherwise ORDER = 'Descending';
+MPRINT(EM_DIAGRAM):   otherwise ORDER = 'Descending';
+22690      end;
+MPRINT(EM_DIAGRAM):   end;
+22691      output;
+MPRINT(EM_DIAGRAM):   output;
+22692      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 1개의 관측값을 데이터셋 EMWS6.IDS5_BAD_DM.에서 읽었습니다.
+      WHERE _TYPE_='TARGET';
+NOTE: 데이터셋 WORK.NEURAL2_EVENT은(는) 1개의 관측값과 6개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.06 초
+      cpu 시간            0.04 초
+      
+
+22693      title9 ' ';
+MPRINT(EM_DIAGRAM):   title9 ' ';
+22694      proc print data=WORK.Neural2_EVENT noobs label;
+MPRINT(EM_DIAGRAM):   proc print data=WORK.Neural2_EVENT noobs label;
+22695      var VARIABLE EVENT LEVEL NUMLEVELS ORDER LABEL;
+MPRINT(EM_DIAGRAM):   var VARIABLE EVENT LEVEL NUMLEVELS ORDER LABEL;
+22696      title9 ' ';
+MPRINT(EM_DIAGRAM):   title9 ' ';
+22697      title10 "%sysfunc(sasmsg(sashelp.dmine, rpt_modelEvent_title  , NOQUOTE))";
+MPRINT(EM_DIAGRAM):   title10 "모델 이벤트";
+MPRINT(EM_DIAGRAM):   run;
+22698      run;
+
+NOTE: 1개의 관측값을 데이터셋 WORK.NEURAL2_EVENT.에서 읽었습니다.
+NOTE: 출력 결과 (프로시저: PRINT, 페이지: 2)
+NOTE: 프로시저 PRINT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+22699      title10;
+MPRINT(EM_DIAGRAM):   title10;
+"타겟 "BAD"에 대해 정의된 의사결정이 없습니다." 
+22700      proc print data = EMWS6.Ids5_BAD_DM noobs label;
+MPRINT(EM_DIAGRAM):    proc print data = EMWS6.Ids5_BAD_DM noobs label;
+22701      var _type_ variable label;
+MPRINT(EM_DIAGRAM):   var _type_ variable label;
+22702      where _type_ ^in('MATRIX', 'DECISION', 'TRAINPRIOR', 'DATAPRIOR', 'DECPRIOR');
+MPRINT(EM_DIAGRAM):   where _type_ ^in('MATRIX', 'DECISION', 'TRAINPRIOR', 'DATAPRIOR', 'DECPRIOR');
+22703      label _TYPE_ = "%sysfunc(sasmsg(sashelp.dmine, rpt_type_vlabel,     NOQUOTE))" VARIABLE = "%sysfunc(sasmsg(sashelp.dmine, rpt_variable_vlabel, NOQUOTE))" LABEL = "%sysfunc(sasmsg(sashelp.dmine, meta_label_vlabel, NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label _TYPE_ = "유형" VARIABLE = "변수" LABEL = "레이블";
+22704      title9 ' ';
+MPRINT(EM_DIAGRAM):   title9 ' ';
+22705      title10 "%sysfunc(sasmsg(sashelp.dmine, rpt_predDecVars_title  , NOQUOTE))";
+MPRINT(EM_DIAGRAM):   title10 "예측 및 의사결정 변수";
+MPRINT(EM_DIAGRAM):   run;
+22706      run;
+
+NOTE: 7개의 관측값을 데이터셋 EMWS6.IDS5_BAD_DM.에서 읽었습니다.
+      WHERE _type_ not in ('DATAPRIOR', 'DECISION', 'DECPRIOR', 'MATRIX', 'TRAINPRIOR');
+NOTE: 출력 결과 (프로시저: PRINT, 페이지: 3)
+NOTE: 프로시저 PRINT 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.04 초
+      
+
+22707      title10;
+MPRINT(EM_DIAGRAM):   title10;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Neural2: 분석용 메타데이터 준비;
+MPRINT(EM_DIAGRAM):   ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   data WORK.M088NFWD;
+MPRINT(EM_DIAGRAM):   set WORK.M088NFWD;
+MPRINT(EM_DIAGRAM):   where(use = 'Y' or (role = 'INPUT' and use = 'D'));
+MPRINT(EM_DIAGRAM):   if (role = 'REJECTED') then role = 'INPUT';
+MPRINT(EM_DIAGRAM):   run;
+22717      data WORK.M088NFWD;
+MPRINT(EM_DIAGRAM):    data WORK.M088NFWD;
+22718      set WORK.M088NFWD end=eof;
+MPRINT(EM_DIAGRAM):   set WORK.M088NFWD end=eof;
+22719      output;
+MPRINT(EM_DIAGRAM):   output;
+22720      if eof then do;
+MPRINT(EM_DIAGRAM):   if eof then do;
+22721      NAME="";
+MPRINT(EM_DIAGRAM):   NAME="";
+22722      ROLE="COST";
+MPRINT(EM_DIAGRAM):   ROLE="COST";
+22723      LEVEL="INTERVAL";
+MPRINT(EM_DIAGRAM):   LEVEL="INTERVAL";
+22724      TYPE="N";
+MPRINT(EM_DIAGRAM):   TYPE="N";
+22725      output;
+MPRINT(EM_DIAGRAM):   output;
+22726      end;
+MPRINT(EM_DIAGRAM):   end;
+22727      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 13개의 관측값을 데이터셋 WORK.M088NFWD.에서 읽었습니다.
+NOTE: 데이터셋 WORK.M088NFWD은(는) 14개의 관측값과 21개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+NOTE: 2개의 관측값을 데이터셋 EMWS6.IDS5_BAD_DD.에서 읽었습니다.
+NOTE: 데이터셋 WORK.BAD은(는) 2개의 관측값과 7개의 변수를 가지고 있습니다.
+NOTE: 2개의 관측값을 데이터셋 EMWS6.IDS5_BAD_DD.에서 읽었습니다.
+NOTE: 데이터셋 WORK.BAD은(는) 2개의 관측값과 7개의 변수를 가지고 있습니다.
+22728      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+22729      * Neural2: Create decision matrix;
+MPRINT(EM_DIAGRAM):   * Neural2: Create decision matrix;
+22730      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+22731      data WORK.BAD;
+MPRINT(EM_DIAGRAM):   data WORK.BAD;
+22732        length   BAD                              $  32
+22733                 COUNT                                8
+22734                 DATAPRIOR                            8
+22735                 TRAINPRIOR                           8
+22736                 DECPRIOR                             8
+22737                 DECISION1                            8
+22738                 DECISION2                            8
+22739                 ;
+MPRINT(EM_DIAGRAM):   length BAD $ 32 COUNT 8 DATAPRIOR 8 TRAINPRIOR 8 DECPRIOR 8 DECISION1 8 DECISION2 8 ;
+22740      
+22741        label    COUNT="Level Counts"
+22742                 DATAPRIOR="Data Proportions"
+22743                 TRAINPRIOR="Training Proportions"
+22744                 DECPRIOR="Decision Priors"
+22745                 DECISION1="1"
+22746                 DECISION2="0"
+22747                 ;
+MPRINT(EM_DIAGRAM):   label COUNT= "Level Counts" DATAPRIOR= "Data Proportions" TRAINPRIOR= "Training Proportions" DECPRIOR= "Decision Priors" DECISION1= "1" DECISION2= "0" ;
+22748        format   COUNT 10.
+22749                 ;
+MPRINT(EM_DIAGRAM):   format COUNT 10. ;
+22750      BAD="1"; COUNT=1189; DATAPRIOR=0.1994966443; TRAINPRIOR=0.1994966443; DECPRIOR=.; DECISION1=1; DECISION2=0;
+MPRINT(EM_DIAGRAM):   BAD="1";
+MPRINT(EM_DIAGRAM):   COUNT=1189;
+MPRINT(EM_DIAGRAM):   DATAPRIOR=0.1994966443;
+MPRINT(EM_DIAGRAM):   TRAINPRIOR=0.1994966443;
+MPRINT(EM_DIAGRAM):   DECPRIOR=.;
+MPRINT(EM_DIAGRAM):   DECISION1=1;
+MPRINT(EM_DIAGRAM):   DECISION2=0;
+22751      output;
+MPRINT(EM_DIAGRAM):   output;
+22752      BAD="0"; COUNT=4771; DATAPRIOR=0.8005033557; TRAINPRIOR=0.8005033557; DECPRIOR=.; DECISION1=0; DECISION2=1;
+MPRINT(EM_DIAGRAM):   BAD="0";
+MPRINT(EM_DIAGRAM):   COUNT=4771;
+MPRINT(EM_DIAGRAM):   DATAPRIOR=0.8005033557;
+MPRINT(EM_DIAGRAM):   TRAINPRIOR=0.8005033557;
+MPRINT(EM_DIAGRAM):   DECPRIOR=.;
+MPRINT(EM_DIAGRAM):   DECISION1=0;
+MPRINT(EM_DIAGRAM):   DECISION2=1;
+22753      output;
+MPRINT(EM_DIAGRAM):   output;
+22754      ;
+MPRINT(EM_DIAGRAM):   ;
+22755      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 데이터셋 WORK.BAD은(는) 2개의 관측값과 7개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+22756      proc datasets lib=work nolist;
+MPRINT(EM_DIAGRAM):   proc datasets lib=work nolist;
+22757      modify BAD(type=PROFIT label=BAD);
+MPRINT(EM_DIAGRAM):   modify BAD(type=PROFIT label= BAD);
+MPRINT(EM_DIAGRAM):   label DECISION1= '1';
+MPRINT(EM_DIAGRAM):   label DECISION2= '0';
+MPRINT(EM_DIAGRAM):   run;
+22758      label DECISION1= '1';
+22759      label DECISION2= '0';
+22760      run;
+
+NOTE: WORK.BAD.DATA에 대한 MODIFY에 성공했습니다.
+22761      quit;
+MPRINT(EM_DIAGRAM):   quit;
+
+NOTE: 프로시저 DATASETS 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+22762      data EM_Neural2;
+MPRINT(EM_DIAGRAM):   data EM_Neural2;
+22763      set EMWS6.Impt2_TRAIN(keep=
+22764      BAD IMP_JOB IMP_REASON IMP_REP_CLAGE IMP_REP_CLNO IMP_REP_DEBTINC
+22765      IMP_REP_DELINQ IMP_REP_DEROG IMP_REP_MORTDUE IMP_REP_NINQ IMP_REP_VALUE
+22766      IMP_REP_YOJ REP_LOAN );
+MPRINT(EM_DIAGRAM):   set EMWS6.Impt2_TRAIN(keep= BAD IMP_JOB IMP_REASON IMP_REP_CLAGE IMP_REP_CLNO IMP_REP_DEBTINC IMP_REP_DELINQ IMP_REP_DEROG IMP_REP_MORTDUE IMP_REP_NINQ IMP_REP_VALUE IMP_REP_YOJ REP_LOAN );
+22767      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 4170개의 관측값을 데이터셋 EMWS6.PART4_TRAIN.에서 읽었습니다.
+NOTE: View EMWS6.IMPT2_TRAIN.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.14 초
+      cpu 시간            0.14 초
+      
+NOTE: 4170개의 관측값을 데이터셋 EMWS6.REPL_TRAIN.에서 읽었습니다.
+NOTE: 4170개의 관측값을 데이터셋 EMWS6.IMPT2_TRAIN.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_NEURAL2은(는) 4170개의 관측값과 13개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.18 초
+      cpu 시간            0.18 초
+      
+
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   * Neural2: DMDBClass Macro ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+22768      *------------------------------------------------------------* ;
+22769      * Neural2: DMDBClass Macro ;
+22770      *------------------------------------------------------------* ;
+22771      %macro DMDBClass;
+22772          BAD(DESC) IMP_JOB(ASC) IMP_REASON(ASC)
+22773      %mend DMDBClass;
+22774      *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+22775      * Neural2: DMDBVar Macro ;
+MPRINT(EM_DIAGRAM):   * Neural2: DMDBVar Macro ;
+22776      *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+22777      %macro DMDBVar;
+22778          IMP_REP_CLAGE IMP_REP_CLNO IMP_REP_DEBTINC IMP_REP_DELINQ IMP_REP_DEROG
+22779         IMP_REP_MORTDUE IMP_REP_NINQ IMP_REP_VALUE IMP_REP_YOJ REP_LOAN
+22780      %mend DMDBVar;
+22781      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+22782      * Neural2: Create DMDB;
+MPRINT(EM_DIAGRAM):   * Neural2: Create DMDB;
+22783      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+22784      proc dmdb batch data=WORK.EM_Neural2
+22785      dmdbcat=WORK.Neural2_DMDB
+22786      maxlevel = 513
+22787      ;
+MPRINT(EM_DIAGRAM):   proc dmdb batch data=WORK.EM_Neural2 dmdbcat=WORK.Neural2_DMDB maxlevel = 513 ;
+MPRINT(EM_DIAGRAM):   class
+22788      class %DMDBClass;
+MPRINT(DMDBCLASS):   BAD(DESC) IMP_JOB(ASC) IMP_REASON(ASC)
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   var
+22789      var %DMDBVar;
+MPRINT(DMDBVAR):   IMP_REP_CLAGE IMP_REP_CLNO IMP_REP_DEBTINC IMP_REP_DELINQ IMP_REP_DEROG IMP_REP_MORTDUE IMP_REP_NINQ IMP_REP_VALUE IMP_REP_YOJ REP_LOAN
+MPRINT(EM_DIAGRAM):  ;
+22790      target
+22791      BAD
+22792      ;
+MPRINT(EM_DIAGRAM):   target BAD ;
+22793      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: Records processed = 4170   Memory used = 511K.
+NOTE: 4170개의 관측값을 데이터셋 WORK.EM_NEURAL2.에서 읽었습니다.
+NOTE: 프로시저 DMDB 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(EM_DIAGRAM):   quit;
+MPRINT(EM_DIAGRAM):   *--- end code ---*;
+22794      quit;
+22795      *--- end code ---*;
+
+22796      *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------* ;
+22797      * Neural2: Interval Input Variables Macro ;
+MPRINT(EM_DIAGRAM):   * Neural2: Interval Input Variables Macro ;
+22798      *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+22799      %macro INTINPUTS;
+22800          IMP_REP_CLAGE IMP_REP_CLNO IMP_REP_DEBTINC IMP_REP_DELINQ IMP_REP_DEROG
+22801         IMP_REP_MORTDUE IMP_REP_NINQ IMP_REP_VALUE IMP_REP_YOJ REP_LOAN
+22802      %mend INTINPUTS;
+22803      *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+22804      * Neural2: Binary 입력 Macro ;
+MPRINT(EM_DIAGRAM):   * Neural2: Binary 입력 Macro ;
+22805      *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+22806      %macro BININPUTS;
+22807          IMP_REASON
+22808      %mend BININPUTS;
+22809      *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+22810      * Neural2: Nominal 입력 Macro ;
+MPRINT(EM_DIAGRAM):   * Neural2: Nominal 입력 Macro ;
+22811      *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+22812      %macro NOMINPUTS;
+22813          IMP_JOB
+22814      %mend NOMINPUTS;
+22815      *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+22816      * Neural2: Ordinal 입력 Macro ;
+MPRINT(EM_DIAGRAM):   * Neural2: Ordinal 입력 Macro ;
+22817      *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+22818      %macro ORDINPUTS;
+22819      
+22820      %mend ORDINPUTS;
+22821      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+22822      * 신경망 분석;
+MPRINT(EM_DIAGRAM):   * 신경망 분석;
+22823      ;
+MPRINT(EM_DIAGRAM):   ;
+22824      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+22825      proc neural data=EM_Neural2 dmdbcat=WORK.Neural2_DMDB
+22826      validdata = EMWS6.Impt2_VALIDATE
+22827      random=12345
+22828      ;
+MPRINT(EM_DIAGRAM):   proc neural data=EM_Neural2 dmdbcat=WORK.Neural2_DMDB validdata = EMWS6.Impt2_VALIDATE random=12345 ;
+22829      nloptions
+22830      ;
+MPRINT(EM_DIAGRAM):   nloptions ;
+22831      performance alldetails noutilfile;
+MPRINT(EM_DIAGRAM):   performance alldetails noutilfile;
+22832      netopts
+22833      decay=0;
+MPRINT(EM_DIAGRAM):   netopts decay=0;
+MPRINT(EM_DIAGRAM):   input
+22834      input %INTINPUTS / level=interval id=intvl
+MPRINT(INTINPUTS):   IMP_REP_CLAGE IMP_REP_CLNO IMP_REP_DEBTINC IMP_REP_DELINQ IMP_REP_DEROG IMP_REP_MORTDUE IMP_REP_NINQ IMP_REP_VALUE IMP_REP_YOJ REP_LOAN
+22835      ;
+MPRINT(EM_DIAGRAM):   / level=interval id=intvl ;
+MPRINT(EM_DIAGRAM):   input
+22836      input %BININPUTS / level=nominal id=bin
+MPRINT(BININPUTS):   IMP_REASON
+22837      ;
+MPRINT(EM_DIAGRAM):   / level=nominal id=bin ;
+MPRINT(EM_DIAGRAM):   input
+22838      input %NOMINPUTS / level=nominal id=nom
+MPRINT(NOMINPUTS):   IMP_JOB
+22839      ;
+MPRINT(EM_DIAGRAM):   / level=nominal id=nom ;
+22840      target BAD / level=NOMINAL id=BAD
+22841      bias
+22842      ;
+MPRINT(EM_DIAGRAM):   target BAD / level=NOMINAL id=BAD bias ;
+22843      arch MLP
+22844      Hidden=3
+22845      ;
+MPRINT(EM_DIAGRAM):   arch MLP Hidden=3 ;
+22846      Prelim 5 preiter=10
+22847      pretime=3600
+22848      Outest=EMWS6.Neural2_PRELIM_OUTEST
+22849      ;
+MPRINT(EM_DIAGRAM):   Prelim 5 preiter=10 pretime=3600 Outest=EMWS6.Neural2_PRELIM_OUTEST ;
+NOTE:  Synchronizing the objectives and the Solution.
+NOTE: LEVMAR Optimization cannot be completed.
+NOTE: LEVMAR needs more than 10 iterations or 2147483647 function calls.
+NOTE: LEVMAR Optimization cannot be completed.
+NOTE: LEVMAR needs more than 10 iterations or 2147483647 function calls.
+NOTE: LEVMAR Optimization cannot be completed.
+NOTE: LEVMAR needs more than 10 iterations or 2147483647 function calls.
+NOTE: LEVMAR Optimization cannot be completed.
+NOTE: LEVMAR needs more than 10 iterations or 2147483647 function calls.
+NOTE: LEVMAR Optimization cannot be completed.
+NOTE: LEVMAR needs more than 10 iterations or 2147483647 function calls.
+NOTE: 데이터셋 EMWS6.NEURAL2_PRELIM_OUTEST은(는) 11개의 관측값과 70개의 변수를 가지고 있습니다.
+22850      save network=EMWS6.Neural2_NETWORK.dm_neural;
+MPRINT(EM_DIAGRAM):   save network=EMWS6.Neural2_NETWORK.dm_neural;
+NOTE: Creating a new Catalogue with entry EMWS6.NEURAL2_NETWORK.DM_NEURAL.
+NOTE: Entry EMWS6.NEURAL2_NETWORK.DM_NEURAL has been opened.
+NOTE: Entry EMWS6.NEURAL2_NETWORK.DM_NEURAL has been closed.
+22851      train Maxiter=50
+22852      maxtime=14400
+22853      Outest=EMWS6.Neural2_outest estiter=1
+22854      Outfit=EMWS6.Neural2_OUTFIT
+22855      ;
+MPRINT(EM_DIAGRAM):   train Maxiter=50 maxtime=14400 Outest=EMWS6.Neural2_outest estiter=1 Outfit=EMWS6.Neural2_OUTFIT ;
+WARNING: LEVMAR Optimization cannot be completed.
+NOTE: LEVMAR needs more than 50 iterations or 2147483647 function calls.
+NOTE: 데이터셋 EMWS6.NEURAL2_OUTEST은(는) 108개의 관측값과 70개의 변수를 가지고 있습니다.
+NOTE: 데이터셋 EMWS6.NEURAL2_OUTFIT은(는) 104개의 관측값과 36개의 변수를 가지고 있습니다.
+22856      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 데이터셋 WORK.EM_NEURAL2은(는) 4170개의 관측값과 13개의 변수를 가지고 있습니다.
+NOTE: 데이터셋 EMWS6.IMPT2_VALIDATE은(는) . 개의 관측값과 35개의 변수를 가지고 있습니다.
+NOTE: 1790개의 관측값을 데이터셋 EMWS6.PART4_VALIDATE.에서 읽었습니다.
+NOTE: View EMWS6.IMPT2_VALIDATE.VIEW 실행(총 프로세스 시간):
+      실행 시간           10.43 초
+      cpu 시간            10.25 초
+      
+NOTE: 1790개의 관측값을 데이터셋 EMWS6.REPL_VALIDATE.에서 읽었습니다.
+NOTE: Closing the Neural Application.
+NOTE: 출력 결과 (프로시저: NEURAL, 페이지: 4-7)
+NOTE: 프로시저 NEURAL 실행(총 프로세스 시간):
+      실행 시간           10.53 초
+      cpu 시간            10.34 초
+      
+
+MPRINT(EM_DIAGRAM):   quit;
+22857      quit;
+
+22858      proc sort data=EMWS6.Neural2_OUTFIT(where=(_iter_ ne . and _NAME_="OVERALL")) out=fit_Neural2;
+MPRINT(EM_DIAGRAM):    proc sort data=EMWS6.Neural2_OUTFIT(where=(_iter_ ne . and _NAME_="OVERALL")) out=fit_Neural2;
+22859      by _VAVERR_;
+MPRINT(EM_DIAGRAM):   by _VAVERR_;
+22860      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 52개의 관측값을 데이터셋 EMWS6.NEURAL2_OUTFIT.에서 읽었습니다.
+      WHERE (_iter_ not = .) and (_NAME_='OVERALL');
+NOTE: 데이터셋 WORK.FIT_NEURAL2은(는) 52개의 관측값과 36개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.03 초
+      
+
+22861      %GLOBAL ITER;
+22862      data _null_;
+MPRINT(EM_DIAGRAM):   data _null_;
+22863      set fit_Neural2(obs=1);
+MPRINT(EM_DIAGRAM):   set fit_Neural2(obs=1);
+22864      call symput('ITER',put(_ITER_, 6.));
+MPRINT(EM_DIAGRAM):   call symput('ITER',put(_ITER_, 6.));
+22865      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 1개의 관측값을 데이터셋 WORK.FIT_NEURAL2.에서 읽었습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+22866      data EMWS6.Neural2_INITIAL;
+MPRINT(EM_DIAGRAM):   data EMWS6.Neural2_INITIAL;
+22867      set EMWS6.Neural2_outest(where=(_ITER_ eq &ITER and _OBJ_ ne .));
+MPRINT(EM_DIAGRAM):   set EMWS6.Neural2_outest(where=(_ITER_ eq 0 and _OBJ_ ne .));
+22868      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 1개의 관측값을 데이터셋 EMWS6.NEURAL2_OUTEST.에서 읽었습니다.
+      WHERE (_ITER_=0) and (_OBJ_ not = .);
+NOTE: 데이터셋 EMWS6.NEURAL2_INITIAL은(는) 1개의 관측값과 70개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+22869      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+22870      * 신경망 모델 선택;
+MPRINT(EM_DIAGRAM):   * 신경망 모델 선택;
+22871      ;
+MPRINT(EM_DIAGRAM):   ;
+22872      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+22873      proc neural data=EM_Neural2 dmdbcat=WORK.Neural2_DMDB
+22874      validdata = EMWS6.Impt2_VALIDATE
+22875      network = EMWS6.Neural2_NETWORK.dm_neural
+22876      random=12345
+22877      ;
+MPRINT(EM_DIAGRAM):   proc neural data=EM_Neural2 dmdbcat=WORK.Neural2_DMDB validdata = EMWS6.Impt2_VALIDATE network = EMWS6.Neural2_NETWORK.dm_neural random=12345 ;
+NOTE: Entry EMWS6.NEURAL2_NETWORK.DM_NEURAL has been opened.
+NOTE: Entry EMWS6.NEURAL2_NETWORK.DM_NEURAL has been closed.
+22878      nloptions noprint;
+MPRINT(EM_DIAGRAM):   nloptions noprint;
+22879      performance alldetails noutilfile;
+MPRINT(EM_DIAGRAM):   performance alldetails noutilfile;
+22880      initial inest=EMWS6.Neural2_INITIAL;
+MPRINT(EM_DIAGRAM):   initial inest=EMWS6.Neural2_INITIAL;
+NOTE: 데이터셋 EMWS6.NEURAL2_INITIAL은(는) 1개의 관측값과 70개의 변수를 가지고 있습니다.
+22881      train tech=NONE;
+MPRINT(EM_DIAGRAM):   train tech=NONE;
+NOTE: No optimization performed.
+22882      code file="C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Neural2\SCORECODE.sas"
+22883      group=Neural2
+22884      ;
+MPRINT(EM_DIAGRAM):   code file="C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Neural2\SCORECODE.sas" group=Neural2 ;
+NOTE: External file C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Neural2\SCORECODE.sas opened.
+22885      ;
+MPRINT(EM_DIAGRAM):   ;
+22886      code file="C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Neural2\RESIDUALSCORECODE.sas"
+22887      group=Neural2
+22888      residual
+22889      ;
+MPRINT(EM_DIAGRAM):   code file="C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Neural2\RESIDUALSCORECODE.sas" group=Neural2 residual ;
+NOTE: External file C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Neural2\RESIDUALSCORECODE.sas opened.
+22890      ;
+MPRINT(EM_DIAGRAM):   ;
+22891      score data=EMWS6.Impt2_TRAIN out=_NULL_
+NOTE: View EMWS6.IMPT2_TRAIN.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.13 초
+      cpu 시간            0.14 초
+      
+22892      outfit=WORK.FIT1
+22893      role=TRAIN
+22894      outkey=EMWS6.Neural2_OUTKEY;
+MPRINT(EM_DIAGRAM):   score data=EMWS6.Impt2_TRAIN out=_NULL_ outfit=WORK.FIT1 role=TRAIN outkey=EMWS6.Neural2_OUTKEY;
+NOTE: 데이터셋 EMWS6.NEURAL2_OUTKEY은(는) 31개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: 데이터셋 EMWS6.IMPT2_TRAIN은(는) . 개의 관측값과 35개의 변수를 가지고 있습니다.
+NOTE: 4170개의 관측값을 데이터셋 EMWS6.PART4_TRAIN.에서 읽었습니다.
+NOTE: 4170개의 관측값을 데이터셋 EMWS6.REPL_TRAIN.에서 읽었습니다.
+NOTE: 데이터셋 WORK.FIT1은(는) 2개의 관측값과 23개의 변수를 가지고 있습니다.
+22895      score data=EMWS6.Impt2_VALIDATE out=_NULL_
+NOTE: View EMWS6.IMPT2_VALIDATE.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.12 초
+      cpu 시간            0.12 초
+      
+22896      outfit=WORK.FIT2
+22897      role=VALID
+22898      outkey=EMWS6.Neural2_OUTKEY;
+MPRINT(EM_DIAGRAM):   score data=EMWS6.Impt2_VALIDATE out=_NULL_ outfit=WORK.FIT2 role=VALID outkey=EMWS6.Neural2_OUTKEY;
+NOTE: 데이터셋 EMWS6.NEURAL2_OUTKEY은(는) 31개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: 데이터셋 EMWS6.IMPT2_VALIDATE은(는) . 개의 관측값과 35개의 변수를 가지고 있습니다.
+NOTE: 1790개의 관측값을 데이터셋 EMWS6.PART4_VALIDATE.에서 읽었습니다.
+NOTE: 1790개의 관측값을 데이터셋 EMWS6.REPL_VALIDATE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.FIT2은(는) 2개의 관측값과 15개의 변수를 가지고 있습니다.
+22899      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 데이터셋 WORK.EM_NEURAL2은(는) 4170개의 관측값과 13개의 변수를 가지고 있습니다.
+NOTE: 데이터셋 EMWS6.IMPT2_VALIDATE은(는) . 개의 관측값과 35개의 변수를 가지고 있습니다.
+NOTE: 1790개의 관측값을 데이터셋 EMWS6.PART4_VALIDATE.에서 읽었습니다.
+NOTE: View EMWS6.IMPT2_VALIDATE.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.63 초
+      cpu 시간            0.64 초
+      
+NOTE: 1790개의 관측값을 데이터셋 EMWS6.REPL_VALIDATE.에서 읽었습니다.
+NOTE: Closing the Neural Application.
+NOTE: 프로시저 NEURAL 실행(총 프로세스 시간):
+      실행 시간           0.68 초
+      cpu 시간            0.67 초
+      
+
+MPRINT(EM_DIAGRAM):   quit;
+22900      quit;
+22901      data EMWS6.Neural2_OUTFIT;
+MPRINT(EM_DIAGRAM):   data EMWS6.Neural2_OUTFIT;
+22902      merge WORK.FIT1 WORK.FIT2;
+MPRINT(EM_DIAGRAM):   merge WORK.FIT1 WORK.FIT2;
+22903      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.FIT1.에서 읽었습니다.
+NOTE: 2개의 관측값을 데이터셋 WORK.FIT2.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.NEURAL2_OUTFIT은(는) 2개의 관측값과 36개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+22904      data EMWS6.Neural2_EMESTIMATE;
+MPRINT(EM_DIAGRAM):   data EMWS6.Neural2_EMESTIMATE;
+22905      set EMWS6.Neural2_outest;
+MPRINT(EM_DIAGRAM):   set EMWS6.Neural2_outest;
+22906      if _type_ ^in('HESSIAN' 'GRAD');
+MPRINT(EM_DIAGRAM):   if _type_ ^in('HESSIAN' 'GRAD');
+22907      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 108개의 관측값을 데이터셋 EMWS6.NEURAL2_OUTEST.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.NEURAL2_EMESTIMATE은(는) 52개의 관측값과 70개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+22908      proc datasets lib=work nolist;
+MPRINT(EM_DIAGRAM):   proc datasets lib=work nolist;
+22909      delete EM_Neural2;
+MPRINT(EM_DIAGRAM):   delete EM_Neural2;
+22910      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: WORK.EM_NEURAL2(memtype=DATA)을(를) 삭제하는 중입니다.
+22911      quit;
+MPRINT(EM_DIAGRAM):   quit;
+
+NOTE: 프로시저 DATASETS 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+22912      data EMWS6.Neural2_PLOTDS(where=(_iter_ ne . and _NAME_="OVERALL"));
+MPRINT(EM_DIAGRAM):    data EMWS6.Neural2_PLOTDS(where=(_iter_ ne . and _NAME_="OVERALL"));
+22913      set fit_Neural2;
+MPRINT(EM_DIAGRAM):   set fit_Neural2;
+22914      attrib _ITER_ label="%sysfunc(sasmsg(sashelp.dmine, rpt_trainiterations_vlabel  , NOQUOTE))";
+MPRINT(EM_DIAGRAM):   attrib _ITER_ label="분석 반복";
+22915      attrib _NAME_ label="%sysfunc(sasmsg(sashelp.dmine, rpt_varsel_label_name  , NOQUOTE))";
+MPRINT(EM_DIAGRAM):   attrib _NAME_ label="이름";
+22916      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 52개의 관측값을 데이터셋 WORK.FIT_NEURAL2.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.NEURAL2_PLOTDS은(는) 52개의 관측값과 36개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+22917      proc sort data=EMWS6.Neural2_PLOTDS;
+MPRINT(EM_DIAGRAM):   proc sort data=EMWS6.Neural2_PLOTDS;
+22918      by _ITER_;
+MPRINT(EM_DIAGRAM):   by _ITER_;
+22919      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 52개의 관측값을 데이터셋 EMWS6.NEURAL2_PLOTDS.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.NEURAL2_PLOTDS은(는) 52개의 관측값과 36개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+22920      data tempweight (drop= _tech_ _decay_ _seed_ _nobj_ _obj_ _objerr_ _averr_ _p_num_ where=(_type_ eq "PARMS" and _iter_ eq 0) );
+MPRINT(EM_DIAGRAM):    data tempweight (drop= _tech_ _decay_ _seed_ _nobj_ _obj_ _objerr_ _averr_ _p_num_ where=(_type_ eq "PARMS" and _iter_ eq 0) );
+22921      set EMWS6.Neural2_EMESTIMATE;
+MPRINT(EM_DIAGRAM):   set EMWS6.Neural2_EMESTIMATE;
+22922      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 52개의 관측값을 데이터셋 EMWS6.NEURAL2_EMESTIMATE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.TEMPWEIGHT은(는) 1개의 관측값과 62개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+22923      proc sort;
+MPRINT(EM_DIAGRAM):   proc sort;
+22924      by _name_;
+MPRINT(EM_DIAGRAM):   by _name_;
+22925      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 1개의 관측값을 데이터셋 WORK.TEMPWEIGHT.에서 읽었습니다.
+NOTE: 데이터셋 WORK.TEMPWEIGHT은(는) 1개의 관측값과 62개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+22926      proc transpose data=tempweight out=EMWS6.Neural2_WEIGHTDS;
+MPRINT(EM_DIAGRAM):   proc transpose data=tempweight out=EMWS6.Neural2_WEIGHTDS;
+22927      by _name_;
+MPRINT(EM_DIAGRAM):   by _name_;
+22928      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 1개의 관측값을 데이터셋 WORK.TEMPWEIGHT.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.NEURAL2_WEIGHTDS은(는) 60개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: 프로시저 TRANSPOSE 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+22929      data EMWS6.Neural2_WEIGHTDS;
+MPRINT(EM_DIAGRAM):   data EMWS6.Neural2_WEIGHTDS;
+22930      set EMWS6.Neural2_WEIGHTDS;
+MPRINT(EM_DIAGRAM):   set EMWS6.Neural2_WEIGHTDS;
+22931      FROM = trim(left(scan(_LABEL_, 1, '->')));
+MPRINT(EM_DIAGRAM):   FROM = trim(left(scan(_LABEL_, 1, '->')));
+22932      TO = trim(left(scan(_LABEL_, 2, '>')));
+MPRINT(EM_DIAGRAM):   TO = trim(left(scan(_LABEL_, 2, '>')));
+22933      WEIGHT = COL1;
+MPRINT(EM_DIAGRAM):   WEIGHT = COL1;
+22934      if (TO eq '') or (FROM eq '') then delete;
+MPRINT(EM_DIAGRAM):   if (TO eq '') or (FROM eq '') then delete;
+22935      label _LABEL_ ="%sysfunc(sasmsg(sashelp.dmine, meta_label_vlabel  , NOQUOTE))" FROM = "%sysfunc(sasmsg(sashelp.dmine, rpt_from_vlabel  , NOQUOTE))" TO = "%sysfunc(sasmsg(sashelp.dmine, rpt_into_vlabel  , NOQUOTE))" WEIGHT =
+22936         "%sysfunc(sasmsg(sashelp.dmine, rpt_weight_vlabel  , NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label _LABEL_ = "레이블" FROM = "From" TO = "Into" WEIGHT = "가중치";
+22937      keep FROM TO WEIGHT _LABEL_;
+MPRINT(EM_DIAGRAM):   keep FROM TO WEIGHT _LABEL_;
+22938      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 60개의 관측값을 데이터셋 EMWS6.NEURAL2_WEIGHTDS.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.NEURAL2_WEIGHTDS은(는) 55개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.04 초
+      
+
+22939      proc sort data=EMWS6.Neural2_WEIGHTDS nodupkey;
+MPRINT(EM_DIAGRAM):   proc sort data=EMWS6.Neural2_WEIGHTDS nodupkey;
+22940      by _LABEL_;
+MPRINT(EM_DIAGRAM):   by _LABEL_;
+22941      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 55개의 관측값을 데이터셋 EMWS6.NEURAL2_WEIGHTDS.에서 읽었습니다.
+NOTE: 중복 키값을 가지고 있는 0개의 관측값이 삭제되었습니다.
+NOTE: 데이터셋 EMWS6.NEURAL2_WEIGHTDS은(는) 55개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(EM_DIAGRAM):    proc printto;
+MPRINT(EM_DIAGRAM):   run;

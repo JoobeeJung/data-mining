@@ -1,0 +1,3851 @@
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 20일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "11시26분47초" );
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 스코어 로그";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+*------------------------------------------------------------*
+* 스코어 로그
+날짜:                2018년 11월 20일
+시간:                11시26분47초
+*------------------------------------------------------------*
+MPRINT(EM_DIAGRAM):    filename O3UAC1G0 "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMSCORE.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   proc printto print=O3UAC1G0 new;
+MPRINT(EM_DIAGRAM):   run;
+23548      %let EMEXCEPTIONSTRING=;
+23549      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+23550      * SCORE: Repl;
+MPRINT(EM_DIAGRAM):   * SCORE: Repl;
+23551      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+23552      %let EM_ACTION = SCORE;
+23553      %let syscc = 0;
+23554      filename x CATALOG 'SASHELP.EMUTIL.EM_VARMACRO.SOURCE';
+MPRINT(EM_DIAGRAM):     filename x CATALOG 'SASHELP.EMUTIL.EM_VARMACRO.SOURCE';
+23555      %inc x;
+NOTE: %INCLUDE(레벨 1) 파일 X은(는) 파일 SASHELP.EMUTIL.EM_VARMACRO.SOURCE입니다.
+23557     +%macro em_varMacro(name=emMacro, metadata=, where=, key=NAME, nummacro=, maxvar=-1);
+23559     +   filename macFile catalog 'work.emutil.macro.source';
+23560     +   %let _METAOBS = 0;
+23561     +   %let _maxvar = &maxvar;
+23562     +   %if "&_maxvar" eq "" %then %let maxvar = -1;
+23564     +   %if (%sysfunc(exist(&metadata))<1 and %sysfunc(exist(&metadata, VIEW))<1)
+23565     +                   or (&metadata eq ) %then %do;
+23566     +       %put * No metadata data set defined;
+23567     +       %goto doend;
+23568     +   %end;
+23570     +   data _null_;
+23571     +      length _STRING_ $80;
+23572     +      retain _STRING_ '' maxvar 0;
+23573     +      set &metadata end=eof;
+23574     +      file macFile;
+23575     +      %if %nrbquote(&where) ne %then %do;
+23576     +          %let whereClause = where (%nrbquote(&where));
+23577     +          %unquote(&whereClause);
+23578     +      %end;
+23579     +      if _N_=1 then do;
+23580     +         string = "%"!!"macro &name;";
+23581     +         put string;
+23582     +      end;
+23583     +      maxvar +1;
+23584     +      if (length(_STRING_) + length(trim(&key))+ 4 < 80) then do;
+23585     +         _STRING_ = trim(_STRING_)!!' '!!trim(&key);
+23586     +         if eof
+23587     +            %if  %sysevalf(&_maxvar > 0) %then %do;
+23588     +                or maxvar >= &maxvar
+23589     +            %end;
+23590     +            then do;
+23591     +            put _STRING_;
+23592     +            string = "%"!!"mend &name;";
+23593     +            put string;
+23594     +            string = strip(put(_N_, best.));
+23595     +            call symput('_METAOBS', string);
+23596     +            %if (&nummacro ne ) %then %do;
+23597     +                put "%" "global &nummacro;";
+23598     +                put "%" "let &nummacro = " string ";";
+23599     +            %end;
+23600     +            stop;
+23601     +         end;
+23602     +      end;
+23603     +      else do;
+23604     +         put _STRING_;
+23605     +         _string_ = TRIM(&key);
+23606     +         if eof
+23607     +            %if  %sysevalf(&_maxvar > 0) %then %do;
+23608     +              or maxvar >= &maxvar
+23609     +           %end;
+23610     +            then do;
+23611     +            put _STRING_;
+23612     +            string = "%"!!"mend &name;";
+23613     +            put string;
+23614     +        end;
+23615     +      end;
+23616     +      if eof
+23617     +         %if  %sysevalf(&_maxvar > 0) %then %do;
+23618     +             or maxvar >= &maxvar
+23619     +         %end;
+23620     +         then do;
+23621     +         string = strip(put(_N_, best.));
+23622     +         call symput('_METAOBS', string);
+23623     +         %if (&nummacro ne ) %then %do;
+23624     +             put "%" "global &nummacro;";
+23625     +             put "%" "let &nummacro = " string ";";
+23626     +         %end;
+23627     +         stop;
+23628     +      end;
+23629     +   run;
+23631     +   %doend:
+23632     +   %if ^&_METAOBS %then %do;
+23633     +       data _null_;
+23634     +          file macFile;
+23635     +          put "%" "macro &name;";
+23636     +          put "%" "mend &name;";
+23637     +          %if (&nummacro ne ) %then %do;
+23638     +              put "%" "global &nummacro;";
+23639     +              put "%" "let &nummacro = 0;";
+23640     +          %end;
+23641     +      run;
+23642     +   %end;
+23643     +   %inc macFile;
+23644     +   filename macFile;
+23645     +%mend em_varMacro;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+23646      filename X;
+MPRINT(EM_DIAGRAM):   filename X;
+NOTE: Fileref X을(를) 삭제했습니다.
+23647       %macro main;
+23648      
+23649         filename temp catalog 'sashelp.emmdfy.Replace_macros.source';
+23650         %include temp;
+23651         filename temp;
+23652      
+23653         %if %upcase(&EM_ACTION) = CREATE %then %do;
+23654      
+23655             filename temp catalog 'sashelp.emmdfy.Replace_create.source';
+23656             %include temp;
+23657             filename temp;
+23658             %create;
+23659         %end;
+23660         %else
+23661         %if %upcase(&EM_ACTION) = TRAIN %then %do;
+23662      
+23663             filename temp catalog 'sashelp.emmdfy.Replace_train.source';
+23664             %include temp;
+23665             filename temp;
+23666             %train;
+23667         %end;
+23668         %else
+23669         %if %upcase(&EM_ACTION) = SCORE %then %do;
+23670      
+23671             filename temp catalog 'sashelp.emmdfy.Replace_score.source';
+23672             %include temp;
+23673             filename temp;
+23674             %score;
+23675         %end;
+23676         %if %upcase(&EM_ACTION) = REPORT %then %do;
+23677      
+23678             filename temp catalog 'sashelp.emmdfy.Replace_report.source';
+23679             %include temp;
+23680             filename temp;
+23681             %report;
+23682         %end;
+23683         %if %upcase(&EM_ACTION) = OPENOUTCLASSTABLE %then %do;
+23684             filename temp catalog 'sashelp.emmdfy.replace_makeoutclass.source';
+23685             %include temp;
+23686             filename temp;
+23687             %em_replace_openoutclass;
+23688         %end;
+23689         %if %upcase(&EM_ACTION) = CLOSEOUTCLASSTABLE %then %do;
+23690             filename temp catalog 'sashelp.emmdfy.replace_makeoutclass.source';
+23691             %include temp;
+23692             filename temp;
+23693             %em_replace_closeoutclass;
+23694         %end;
+23695      %mend main;
+23696      
+23697      %main;
+MPRINT(MAIN):   filename temp catalog 'sashelp.emmdfy.Replace_macros.source';
+NOTE: %INCLUDE(레벨 1) 파일 TEMP은(는) 파일 SASHELP.EMMDFY.REPLACE_MACROS.SOURCE입니다.
+23698     +%macro SetProperties;
+23699     +   %em_checkmacro(name=EM_PROPERTY_UNKNOWNLEVEL,    global=Y, value=MODE);
+23700     +   %em_checkmacro(name=EM_PROPERTY_CALCMETHOD,      global=Y, value=NONE);
+23701     +   %em_checkmacro(name=EM_PROPERTY_PERCENTSCUTOFF,  global=Y, value=0.5);
+23702     +   %em_checkmacro(name=EM_PROPERTY_SPACINGSCUTOFF,  global=Y, value=9);
+23703     +   %em_checkMacro(name=EM_PROPERTY_MADSCUTOFF,      global=Y, value=9);
+23704     +   %em_checkMacro(name=EM_PROPERTY_STDDEVCUTOFF,    global=Y, value=3);
+23705     +   %em_checkmacro(name=EM_PROPERTY_REPLACEMETHOD,   global=Y, value=COMPUTED);
+23706     +   %em_checkmacro(name=EM_PROPERTY_HIDEVARIABLE,    global=Y, value=N);
+23707     +   %em_checkmacro(name=EM_PROPERTY_INTERVALMETHOD,  global=Y, value=NONE);
+23708     +   %em_checkmacro(name=EM_PROPERTY_REPORTCOUNT,     global=Y, value=Y);
+23709     +
+23710     +%mend SetProperties;
+23711     +
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(MAIN):   filename temp;
+NOTE: Fileref TEMP을(를) 삭제했습니다.
+MPRINT(MAIN):   filename temp catalog 'sashelp.emmdfy.Replace_score.source';
+NOTE: %INCLUDE(레벨 1) 파일 TEMP은(는) 파일 SASHELP.EMMDFY.REPLACE_SCORE.SOURCE입니다.
+23712     +%macro makeLevelData(data=, outclass=);
+23713     +   data REPLACE_MODE;
+23714     +      set &OUTCLASS;
+23715     +      by NAME;
+23716     +      if first.name then do;
+23717     +         MODEC    = CRAW;
+23718     +         MODEN    = NRAW;
+23719     +         NORMMODE = LEVEL;
+23720     +         output;
+23721     +      end;
+23722     +      keep NAME MODEC MODEN NORMMODE UNKWOWNDEFAULT;
+23723     +   run;
+23725     +   proc sort data=&EM_DATA_VARIABLESET;
+23726     +      by NAME;
+23727     +   run;
+23728     +   data &data;
+23729     +      length UNKWOWNDEFAULT $8;
+23730     +      merge &OUTCLASS(in=_a) REPLACE_MODE &EM_DATA_VARIABLESET(keep=LABEL LENGTH NAME ROLE LEVEL LABEL FORMAT RENAME=(LEVEL=MLEVEL) where=(MLEVEL ne 'INTERVAL'));
+23731     +      by NAME;
+23732     +      if LEVEL = '_UNKNOWN_' then UNKWOWNDEFAULT = "&EM_PROPERTY_UNKNOWNLEVEL";
+23733     +      if _a then output;
+23734     +   run;
+23735     +   proc datasets lib=work nolist;
+23736     +      delete REPLACE_MODE;
+23737     +   run;
+23738     +   quit;
+23739     +%mend makeLevelData;
+23741     +%macro makeNewNames(limitDs=, classValue=, className=);
+23742     +     %let varname = invarname;
+23743     +     %let newname = outname;
+23744     +     proc sort data=&classValue out=&varname nodupkey;
+23745     +        by NAME;
+23746     +        where REPLACE_VALUE ^in('', '_DEFAULT_') or (REPLACE_VALUE eq '_DEFAULT_' and UNKWOWNDEFAULT ne 'NONE');
+23747     +     run;
+23748     +     %let classnum=0;
+23749     +     %let dsid = %sysfunc(open(&varname));
+23750     +     %if &dsid>0 %then %do;
+23751     +         %let classnum = %sysfunc(attrn(&dsid, NOBS));
+23752     +         %let dsid = %sysfunc(close(&dsid));
+23753     +     %end;
+23755     +     %let varnum=0;
+23756     +     %let dsid = %sysfunc(open(&LimitDs));
+23757     +     %if &dsid>0 %then %do;
+23758     +         %let varnum = %sysfunc(attrn(&dsid, NOBS));
+23759     +         %let dsid = %sysfunc(close(&dsid));
+23760     +     %end;
+23762     +     %if ^&classnum and ^&varnum and ^%sysfunc(exist(&classname)) %then %do;
+23763     +         %let lib    = %scan(&classname, 1, .);
+23764     +         %let member = %scan(&classname, 2, .);
+23765     +          proc datasets lib=&lib nolist;
+23766     +             delete &member;
+23767     +          run;
+23768     +          quit;
+23769     +         %goto doendmn;
+23770     +     %end;
+23772     +     data &varname;
+23773     +        set
+23774     +        %if &classnum %then %do;
+23775     +            &varname(keep=NAME)
+23776     +        %end;
+23777     +        %if &varnum %then %do;
+23778     +            &limitDs(keep=NAME)
+23779     +        %end;
+23780     +        ;
+23781     +     run;
+23782     +     proc dmdb data=&varname outtable=&newname(rename=(REP=NEWNAME)) nameserver;
+23783     +        names NAME;
+23784     +        prefix REP_;
+23785     +     run;
+23786     +     proc sort data=&newname;
+23787     +        by NAME;
+23788     +     run;
+23790     +     /* Merge the new names with the limits data set */
+23791     +     %if %sysfunc(exist(&limitDs)) %then %do;
+23792     +         data &limitDs;
+23793     +            merge &newname &limitDs(in=a);
+23794     +            by NAME;
+23795     +            if a then output;
+23796     +         run;
+23798     +         %let lib    = %scan(&limitDs, 1, .);
+23799     +         %let member = %scan(&limitDs, 2, .);
+23800     +          proc datasets lib=&lib nolist;
+23801     +             modify &member;
+23802     +             label NAME    =     "%sysfunc(sasmsg(sashelp.dmine, rpt_variable_vlabel, NOQUOTE))"
+23803     +              NEWNAME =     "%sysfunc(sasmsg(sashelp.dmine, rpt_replacevar_vlabel, NOQUOTE))"
+23804     +              CALCMETHOD =  "%sysfunc(sasmsg(sashelp.dmine, rpt_calcmethod_vlabel , NOQUOTE))"
+23805     +              REPLACEMETHODUSED =  "%sysfunc(sasmsg(sashelp.dmine, rpt_replacemethodused_vlabel, NOQUOTE))"
+23806     +              LOWERLIMIT        =  "%sysfunc(sasmsg(sashelp.dmine, meta_lowerLimit_vlabel, NOQUOTE))"
+23807     +              REPLACEMINUSED    =  "%sysfunc(sasmsg(sashelp.dmine, rpt_replacemin_vlabel, NOQUOTE))"
+23808     +              UPPERLIMIT        =  "%sysfunc(sasmsg(sashelp.dmine, meta_upperLimit_vlabel, NOQUOTE))"
+23809     +              REPLACEDMAXUSED   =  "%sysfunc(sasmsg(sashelp.dmine, rpt_replacemax_vlabel, NOQUOTE))"
+23810     +              REPLACEMETHOD     =  "%sysfunc(sasmsg(sashelp.dmine, rpt_replacemethod_vlabel, NOQUOTE))"
+23811     +              REPLACEMIN =  "%sysfunc(sasmsg(sashelp.dmine, rpt_userreplacemin_vlabel, NOQUOTE))"
+23812     +              REPLACEMAX =  "%sysfunc(sasmsg(sashelp.dmine, rpt_userreplacemax_vlabel, NOQUOTE))"
+23813     +              ROLE       =  "%sysfunc(sasmsg(sashelp.dmine, meta_role_vlabel, NOQUOTE))"
+23814     +              LEVEL      =  "%sysfunc(sasmsg(sashelp.dmine, meta_level_vlabel, NOQUOTE))"
+23815     +              LABEL      =  "%sysfunc(sasmsg(sashelp.dmine, meta_label_vlabel, NOQUOTE))";
+23816     +         run;
+23817     +         quit;
+23818     +     %end;
+23820     +     /* Merge the new names with the Class Value data set */
+23821     +     %if %sysfunc(exist(&classValue)) %then %do;
+23822     +         data length;
+23823     +            retain newlen 0;
+23824     +            set &classValue;
+23825     +            by NAME;
+23826     +            if type eq 'C' then do;
+23827     +               if first.name then do;
+23828     +                  if REPLACE_VALUE ^in('_DEFAULT_', '_MODE_', '_MISSING_') then
+23829     +                     newlen = max(length, length(strip(replace_value)));
+23830     +                  else
+23831     +                     newlen = length;
+23832     +               end;
+23833     +               else do;
+23834     +                  if REPLACE_VALUE ^in('_DEFAULT_', '_MODE_', '_MISSING_') then
+23835     +                     newlen = max(newlen, length(strip(replace_value)));
+23836     +               end;
+23837     +            end;
+23838     +            else newlen = length;
+23839     +            len=length;
+23840     +            if last.name then output;
+23841     +            keep name len newlen role format type label mlevel;
+23842     +         run;
+23843     +         data &className;
+23844     +            length rformat formatroot $32;
+23845     +            merge &newname(in=a) length(in=b);
+23846     +            by NAME;
+23847     +            length=len;
+23848     +            if newlen > len then do;
+23849     +               if type eq 'C' and format ne '' then do;
+23850     +                  rformat = strip(reverse(format));
+23851     +                  do while(indexc(rformat, '.0123456789')=1);
+23852     +                     rformat = substr(rformat, 2);
+23853     +                  end;
+23854     +                  formatroot= upcase(reverse(rformat));
+23855     +                  if strip(formatRoot) in('$','$F','$UPCASE','$CHAR') then do;
+23856     +                     format = strip(formatroot)!!strip(put(newlen, best.))!!'.';
+23857     +                  end;
+23858     +               end;
+23859     +               length = newlen;
+23860     +            end;
+23861     +            if a and b then output;
+23862     +            KEEP name newname role format mlevel type label length;
+23863     +         run;
+23864     +     %end;
+23866     +     proc datasets lib=work nolist;
+23867     +        delete length &varname &newname;
+23868     +     run;
+23869     +     quit;
+23871     +     %doendmn:
+23873     +%mend makeNewNames;
+23875     +%macro makeVarDeltaCode(LimitDs=);
+23876     +    %if ^%sysfunc(exist(&LimitDs)) %then %goto doendd;
+23878     +    filename _F1 "&EM_FILE_CDELTA_TRAIN";
+23879     +     data _null_;
+23880     +        set &LimitDs end=eof;
+23881     +        length string $400;
+23882     +        file _F1;
+23883     +        %if &EM_PROPERTY_HIDEVARIABLE eq Y %then %do;
+23884     +            string = 'if NAME="'!!strip(NAME)!!'" then delete;';  put string;
+23885     +        %end;
+23886     +        %else %do;
+23887     +            string = 'if NAME="'!!strip(NAME)!!'" then do;';        put string;
+23888     +            string = '   ROLE="REJECTED";';                         put string;
+23889     +            string = '   COMMENT= "Replaced by '!!"&EM_NODEID"!!'";'; put string;
+23890     +            string = 'end;';                                        put string;
+23891     +        %end;
+23892     +        put 'else';
+23893     +        string = '   if NAME="'!!strip(NEWNAME)!!'" then do;'; put string;
+23894     +        string = '      ROLE="'!!strip(ROLE)!!'";';            put string;
+23895     +        string = '      LEVEL="'!!strip(LEVEL)!!'";';          put string;
+23896     +        put      'end;';
+23897     +        if ^eof then
+23898     +           put 'else';
+23899     +   run;
+23900     +   filename _F1;
+23902     +    %doendd:
+23903     +%mend makeVarDeltaCode;
+23905     +%macro makeVarScoreCode(LimitDs=, File=);
+23906     +    %if ^%sysfunc(exist(&LimitDs)) or "&File" eq "" %then %goto doendm;
+23908     +     filename sFile "&file";
+23909     +     data &LimitDs;
+23910     +        set &LimitDs end=eof;
+23911     +        length REPLACEMETHODUSED $8 string $400;
+23912     +        file sFile;
+23913     +        put'* ;';
+23914     +        put'* Variable: ' name ';';
+23915     +        put '* ;';
+23916     +        if strip(label) = '' then label = name;
+23917     +        string= 'Label '!!strip(newname)!!"='Replacement: "!!strip(tranwrd(label, "'","''"))!!"';";
+23918     +        put string;
+23919     +        string= 'Length '!!strip(newname)!!' 8;';
+23920     +        put string;
+23921     +        put newname '=' name ';';
+23922     +        REPLACEMETHODUSED = REPLACEMETHOD;
+23923     +        if REPLACEMETHOD = 'DEFAULT' then
+23924     +            %if "&EM_PROPERTY_REPLACEMETHOD" = "COMPUTED" %then %do;
+23925     +                REPLACEMETHODUSED = 'COMPUTED';
+23926     +            %end;
+23927     +            %else
+23928     +            %if "&EM_PROPERTY_REPLACEMETHOD" = "MISSING" %then %do;
+23929     +                REPLACEMETHODUSED = 'MISSING';
+23930     +            %end;
+23931     +            %else %do;
+23932     +                REPLACEMETHODUSED = 'MANUAL';
+23933     +            %end;
+23935     +        put 'if ' name ' eq . then ' newname  '= . ;';
+23936     +        if LowerLimit ne . then do;
+23937     +           select(REPLACEMETHODUSED);
+23938     +              when('COMPUTED') REPLACEMINUSED = lowerLimit;
+23939     +              when('MISSING')  REPLACEMINUSED = .;
+23940     +              when('MANUAL')   REPLACEMINUSED = replaceMin;
+23941     +              otherwise;
+23942     +           end;
+23943     +           put 'else';
+23944     +           put 'if ' name '<' lowerLimit ' then ' newname ' = ' REPLACEMINUSED ';';
+23945     +        end;
+23946     +        if upperLimit ne . then do;
+23947     +           select(REPLACEMETHODUSED);
+23948     +              when('COMPUTED') REPLACEMAXUSED = upperLimit;
+23949     +              when('MISSING')  REPLACEMAXUSED = .;
+23950     +              when('MANUAL')   REPLACEMAXUSED = replaceMax;
+23951     +              otherwise;
+23952     +           end;
+23953     +           put 'else';
+23954     +           put 'if ' name '>' upperLimit  ' then ' newname ' = ' REPLACEMAXUSED ';';
+23955     +        end;
+23956     +        drop string;
+23957     +    run;
+23958     +    filename sfile;
+23959     +    %doendm:
+23960     +%mend makeVarScoreCode;
+23963     +%macro makeUnknownOptCode(Folder=, Data=);
+23964     +    %if ^%sysfunc(exist(&Data)) %then %goto doendu;
+23966     +    %let dsid = %sysfunc(open(&data));
+23967     +    %let nameNum    = %sysfunc(varnum(&dsid, Name));
+23968     +    %let newnameNum = %sysfunc(varnum(&dsid, NewName));
+23970     +    %let oldname=;
+23971     +    %do %while(^%sysfunc(fetch(&dsid)));
+23972     +        %let name    = %sysfunc(getvarc(&dsid, &nameNum));
+23973     +        %let newName = %sysfunc(getvarc(&dsid, &newnameNum));
+23975     +        %if &name ne &oldname %then %do;
+23976     +            filename _F1 "&Folder&em_dsep.&newname..sas" MOD;
+23977     +            data _null_;
+23978     +               set &Data end=eof;
+23979     +               where NAME ="&name";
+23980     +               length string $400;
+23981     +               length newlevel replaceLevel $400;
+23982     +               retain string missingFlag;
+23983     +               file _F1;
+23984     +               if _N_=1 then do;
+23985     +                  put '*;';
+23986     +                  if format ne '' then do;
+23987     +                     string = '_UFORMAT200 = '!!'strip(put('!!strip(NAME)!!','!!strip(format)!!'));';
+23988     +                     put string;
+23989     +                     put 'if ^(_UFORMAT200 in(';
+23990     +                  end;
+23991     +                  else do;
+23992     +                     if type eq 'C' then do;
+23993     +                        string = '_UFORMAT200 = '!!'strip('!!strip(NAME)!!');';
+23994     +                        put string;
+23995     +                        put 'if ^(_UFORMAT200 in(';
+23996     +                     end;
+23997     +                     else
+23998     +                        put 'if (';
+23999     +                  end;
+24000     +                  string='';
+24001     +                  missingFlag = 0;
+24002     +               end;
+24004     +               if ^eof and LEVEL ne '_UNKNOWN_' then do;
+24005     +                  if format ne '' or type eq 'C' then do;
+24006     +                     newlevel = tranwrd(strip(LEVEL),'"','""');
+24007     +                     if strip(newLevel) = '' then missingFlag = 1;
+24008     +                     if length(strip(newlevel))+length(strip(string))+4<80 then do;
+24009     +                        if string='' then
+24010     +                           string = strip(string)!!' "'!!strip(newlevel)!!'" ';
+24011     +                        else
+24012     +                           string = strip(string)!!', "'!!strip(newlevel)!!'" ';
+24013     +                     end;
+24014     +                     else do;
+24015     +                        put string;
+24016     +                        string =', "'!!tranwrd(strip(LEVEL),'"','""')!!'"';
+24017     +                     end;
+24018     +                  end;
+24019     +                  else do;
+24020     +                     string = strip(name)!!' ne '!!strip(level)!!' and ';
+24021     +                     put string;
+24022     +                  end;
+24023     +                  newlevel = ' ';
+24024     +               end;
+24025     +               else do;
+24026     +                  if format ne '' or type eq 'C' then do;
+24027     +                     put string;
+24028     +                     if ^missingFlag then
+24029     +                        string = ', "" )) then ';
+24030     +                     else
+24031     +                        string = ')) then ';
+24032     +                  end;
+24033     +                  else
+24034     +                     string = strip(name)!!' ne . ) then ';
+24035     +                  put string;
+24037     +                 select(REPLACE_VALUE);
+24038     +                 when('_MODE_') do;
+24039     +                    if type eq 'C' then
+24040     +                       replaceLevel = NORMMODE;
+24041     +                    else
+24042     +                       replaceLevel =strip(put(MODEN,BEST.));
+24043     +                 end;
+24044     +                 when('_MISSING_') do;
+24045     +                    if type eq 'C' then replaceLevel = '';
+24046     +                    else replaceLevel = '.';
+24047     +                 end;
+24048     +                 when('_DEFAULT_') do;
+24049     +                    %if &EM_PROPERTY_UNKNOWNLEVEL = MODE %then %do;
+24050     +                        if type eq 'C' then
+24051     +                           replaceLevel = NORMMODE;
+24052     +                        else
+24053     +                           replaceLevel = strip(put(MODEN,BEST.));
+24054     +                    %end;
+24055     +                    %else %do;
+24056     +                        if type eq 'C' then replaceLevel = '';
+24057     +                         else replaceLevel = '.';
+24058     +                    %end;
+24059     +                  end;
+24060     +                  when('') do;
+24061     +                  end;
+24062     +                  otherwise do;
+24063     +                     if type eq 'C' then replaceLevel= replace_Value;
+24064     +                     else replaceLevel = replace_Value;
+24065     +                  end;
+24066     +               end;
+24067     +               if type eq 'C' then do;
+24068     +                  string = strip(newname)!!'= "'!!tranwrd(strip(replaceLevel),'"','""')!!'";';
+24069     +               end;
+24070     +               else do;
+24071     +                  string = strip(newname)!!'= '!!strip(replaceLevel)!!';';
+24072     +               end;
+24073     +               put string;
+24074     +            end;
+24076     +           run;
+24077     +           filename _F1;
+24078     +           proc datasets lib=work nolist;
+24079     +              delete _temp;
+24080     +           run;
+24081     +           quit;
+24083     +           %let oldname = &name;
+24084     +        %end;
+24085     +    %end;
+24086     +    %let dsid = %sysfunc(close(&dsid));
+24088     +    %doendu:
+24089     +%mend makeUnknownOptCode;
+24091     +%macro makeUnknownCode(ScoreFile=, Data=);
+24092     +   %if ^%sysfunc(exist(&Data)) %then %goto doendm;
+24094     +   filename _F1 "&ScoreFile" MOD;
+24095     +   data _null_;
+24096     +      set &Data;
+24097     +      length string $400;
+24098     +      length newlevel replaceLevel $200;
+24099     +      retain string missingFlag;
+24100     +      file _F1;
+24101     +      by NAME;
+24103     +      if _N_=1 then do;
+24104     +         put '* ;';
+24105     +         put '* Replace Unknown Class Levels ;';
+24106     +         put '* ;';
+24107     +         put 'length _UFORMAT200 $200;';
+24108     +         put 'drop   _UFORMAT200;';
+24109     +         put '_UFORMAT200 = " ";';
+24110     +      end;
+24112     +      if first.name then do;
+24113     +         missingFlag = 0;
+24114     +         put '*;';
+24116     +         if format ne '' then do;
+24117     +            call symput('UFormatFlag', '1');
+24118     +            string = '_UFORMAT200 = '!!'strip(put('!!strip(NAME)!!','!!strip(format)!!'));';
+24119     +            put string;
+24120     +            put 'if ^(_UFORMAT200 in(';
+24121     +         end;
+24122     +         else do;
+24123     +            if type eq 'C' then do;
+24124     +               call symput('UFormatFlag', '1');
+24125     +               string = '_UFORMAT200 = '!!'strip('!!strip(NAME)!!');';
+24126     +               put string;
+24127     +               put 'if ^(_UFORMAT200 in(';
+24128     +            end;
+24129     +            else
+24130     +               put 'if (';
+24131     +         end;
+24132     +         string='';
+24133     +      end;
+24135     +      if ^last.name and LEVEL ne '_UNKNOWN_' then do;
+24136     +        if format ne '' or type eq 'C' then do;
+24137     +           newlevel = tranwrd(strip(LEVEL),'"','""');
+24138     +           if strip(newLevel) = '' then missingFlag = 1;
+24139     +           if length(strip(newlevel))+length(strip(string))+4<80 then do;
+24140     +              if string='' then
+24141     +                 string = strip(string)!!' "'!!strip(newlevel)!!'" ';
+24142     +              else
+24143     +                 string = strip(string)!!', "'!!strip(newlevel)!!'" ';
+24144     +           end;
+24145     +           else do;
+24146     +              put string;
+24147     +              string =', "'!!tranwrd(strip(LEVEL),'"','""')!!'"';
+24148     +           end;
+24149     +        end;
+24150     +        else do;
+24151     +           string = strip(name)!!' ne '!!strip(level)!!' and ';
+24152     +           put string;
+24153     +        end;
+24154     +        newlevel = ' ';
+24155     +     end;
+24156     +     else do;
+24157     +        if format ne '' or type eq 'C' then do;
+24158     +           put string;
+24159     +           if ^missingFlag then
+24160     +              string = ', "" )) then ';
+24161     +           else
+24162     +              string = ')) then ';
+24163     +        end;
+24164     +        else
+24165     +           string = strip(name)!!' ne . ) then ';
+24166     +        put string;
+24168     +        select(REPLACE_VALUE);
+24169     +           when('_MODE_') do;
+24170     +              if type eq 'C' then
+24171     +                 replaceLevel = NORMMODE;
+24172     +              else
+24173     +                 replaceLevel =strip(put(MODEN,BEST.));
+24174     +           end;
+24175     +           when('_MISSING_') do;
+24176     +              if type eq 'C' then replaceLevel = '';
+24177     +              else replaceLevel = '.';
+24178     +           end;
+24179     +           when('_DEFAULT_') do;
+24180     +              %if &EM_PROPERTY_UNKNOWNLEVEL = MODE %then %do;
+24181     +                  if type eq 'C' then
+24182     +                     replaceLevel = NORMMODE;
+24183     +                  else
+24184     +                     replaceLevel = strip(put(MODEN,BEST.));
+24185     +              %end;
+24186     +              %else %do;
+24187     +                  if type eq 'C' then replaceLevel = '';
+24188     +                  else replaceLevel = '.';
+24189     +              %end;
+24190     +           end;
+24191     +           when('') do;
+24192     +           end;
+24193     +           otherwise do;
+24194     +               if type eq 'C' then replaceLevel= replace_Value;
+24195     +               else replaceLevel = replace_Value;
+24196     +           end;
+24197     +        end;
+24198     +        if type eq 'C' then do;
+24199     +           string = strip(newname)!!'= "'!!tranwrd(strip(replaceLevel),'"','""')!!'";';
+24200     +        end;
+24201     +        else do;
+24202     +           string = strip(newname)!!'= '!!strip(replaceLevel)!!';';
+24203     +        end;
+24204     +        put string;
+24205     +     end;
+24207     +     run;
+24208     +     filename _F1;
+24209     +    %doendm:
+24210     +%mend makeUnknownCode;
+24212     +%macro makeReplaceCode(ScoreFile=, Data=);
+24213     +   filename _F1 "&ScoreFile"  MOD;
+24214     +   data _null_;
+24215     +      length string $400;
+24216     +      set &data end=eof;
+24217     +      file _F1;
+24218     +      by NAME;
+24219     +      if _N_=1 then do;
+24220     +         put '   ';
+24221     +         put '* ;';
+24222     +         put '* Replace Specific Class Levels ;';
+24223     +         put '* ;';
+24224     +         put 'length _UFormat200 $200;';
+24225     +         put 'drop   _UFORMAT200;';
+24226     +         put '_UFORMAT200 = " ";';
+24227     +      end;
+24228     +      if first.name then do;
+24229     +         put '* ;';
+24230     +         string = '* Variable: '!!strip(NAME)!!';';
+24231     +         put string;
+24232     +         put '* ;';
+24233     +         if format ne '' then do;
+24234     +            call symput('UFormatFlag', '1');
+24235     +            string = "_UFORMAT200 = strip("; put string;
+24236     +            string ='put('!!strip(NAME)!!','!!strip(format)!!'));';
+24237     +            put string;
+24238     +         end;
+24239     +         else
+24240     +           if type eq 'C' then do;
+24241     +              call symput('UFormatFlag', '1');
+24242     +              string = "_UFORMAT200 = strip("!!strip(NAME)!!');';
+24243     +              put string;
+24244     +           end;
+24245     +      end;
+24246     +      if ^first.name then
+24247     +         put 'else';
+24248     +      if format ne '' then do;
+24249     +         string = tranwrd(strip(LEVEL),'"','""');
+24250     +         string =' if _UFORMAT200 =  "'!!strip(string)!!'" then ';
+24251     +         put string;
+24252     +      end;
+24253     +      else do;
+24254     +         if type eq 'N' then do;
+24255     +            string = 'if '!!strip(name)!!' = '!!strip(put(nraw, BEST.))!!' then ';
+24256     +            put string;
+24257     +         end;
+24258     +         else do;
+24259     +            string = tranwrd(strip(craw),'"','""');
+24260     +            string = ' if _UFORMAT200 =  "'!!strip(string)!!'" then ';
+24261     +            put string;
+24262     +         end;
+24263     +      end;
+24264     +      string = strip(newname)!!'=';
+24265     +      if type eq 'C' then do;
+24266     +         if upcase(replace_value) eq '_MISSING_' or
+24267     +            (upcase(replace_value) eq '_DEFAULT_' and (upcase(UNKWOWNDEFAULT)= 'MISSING')) then replace_Value ='';
+24268     +         else
+24269     +           if upcase(replace_value) eq '_MODE_' or
+24270     +            (upcase(replace_value) eq '_DEFAULT_' and (upcase(UNKWOWNDEFAULT)= 'MODE'))
+24271     +            then replace_Value =modec;
+24272     +           string = strip(string)!!'"'!!tranwrd(strip(replace_Value),'"','""')!!'";';
+24273     +      end;
+24274     +      else do;
+24275     +         if upcase(replace_value) eq '_MISSING_' or
+24276     +            (upcase(replace_value) eq '_DEFAULT_' and (upcase(UNKWOWNDEFAULT) = 'MISSING')) then replace_Value ='.';
+24277     +         else
+24278     +           if upcase(replace_value) eq '_MODE_' or
+24279     +            (upcase(replace_value) eq '_DEFAULT_' and (upcase(UNKWOWNDEFAULT) = 'MODE')) then
+24280     +                  replace_Value =strip(put(moden, BEST.));
+24282     +         string = strip(string)!!''!!strip(replace_value)!!';';
+24283     +      end;
+24284     +      put string;
+24285     +    run;
+24286     +    filename _F1;
+24288     +%mend makeReplaceCode;
+24290     +%macro makeReplaceOptCode(Folder=, Data=);
+24291     +    %if ^%sysfunc(exist(&Data)) %then %goto doendr;
+24293     +    %let dsid = %sysfunc(open(&data));
+24294     +    %let nameNum    = %sysfunc(varnum(&dsid, Name));
+24295     +    %let newnameNum = %sysfunc(varnum(&dsid, NewName));
+24297     +    %let oldname=;
+24298     +    %do %while(^%sysfunc(fetch(&dsid)));
+24299     +        %let name    = %sysfunc(getvarc(&dsid, &nameNum));
+24300     +        %let newName = %sysfunc(getvarc(&dsid, &newnameNum));
+24302     +        %if &name ne &oldname %then %do;
+24303     +            filename _F1 "&Folder&em_dsep.&newname..sas" MOD;
+24304     +            data _null_;
+24305     +               length string $400;
+24306     +               set &Data end=eof;
+24307     +               by NAME;
+24308     +               where NAME ="&name";
+24309     +               file _F1;
+24310     +               if _N_=1 then do;
+24311     +                  put '* ;';
+24312     +                  string = '* Variable: '!!strip(NAME)!!';';
+24313     +                  put string;
+24314     +                  put '* ;';
+24315     +                  if format ne '' then do;
+24316     +                     string = "_UFORMAT200 = strip("; put string;
+24317     +                     string ='put('!!strip(NAME)!!','!!strip(format)!!'));';
+24318     +                     put string;
+24319     +                  end;
+24320     +                  else
+24321     +                     if type eq 'C' then do;
+24322     +                        call symput('UFormatFlag', '1');
+24323     +                        string = "_UFORMAT200 = strip("!!strip(NAME)!!');';
+24324     +                        put string;
+24325     +                    end;
+24326     +               end;
+24327     +               if ^first.name then
+24328     +                  put 'else';
+24329     +               if format ne '' then do;
+24330     +                  string = tranwrd(strip(LEVEL),'"','""');
+24331     +                  string =' if _UFORMAT200 =  "'!!strip(string)!!'" then ';
+24332     +                  put string;
+24333     +               end;
+24334     +               else do;
+24335     +                  if type eq 'N' then do;
+24336     +                     string = 'if '!!strip(name)!!' = '!!strip(put(nraw, BEST.))!!' then ';
+24337     +                     put string;
+24338     +                  end;
+24339     +                  else do;
+24340     +                     string = tranwrd(strip(craw),'"','""');
+24341     +                     string = ' if _UFORMAT200 =  "'!!strip(string)!!'" then ';
+24342     +                     put string;
+24343     +                  end;
+24344     +               end;
+24345     +               string = strip(newname)!!'=';
+24346     +               if type eq 'C' then do;
+24347     +                  if upcase(replace_value) eq '_MISSING_' or
+24348     +                     (upcase(replace_value) eq '_DEFAULT_' and (upcase(UNKWOWNDEFAULT)= 'MISSING')) then replace_Value ='';
+24349     +                  else
+24350     +                     if upcase(replace_value) eq '_MODE_' or
+24351     +                       (upcase(replace_value) eq '_DEFAULT_' and (upcase(UNKWOWNDEFAULT)= 'MODE'))
+24352     +                       then replace_Value =modec;
+24353     +                          string = strip(string)!!'"'!!tranwrd(strip(replace_Value),'"','""')!!'";';
+24354     +               end;
+24355     +              else do;
+24356     +                 if upcase(replace_value) eq '_MISSING_' or
+24357     +                    (upcase(replace_value) eq '_DEFAULT_' and (upcase(UNKWOWNDEFAULT) = 'MISSING')) then replace_Value ='.';
+24358     +                 else
+24359     +                    if upcase(replace_value) eq '_MODE_' or
+24360     +                       (upcase(replace_value) eq '_DEFAULT_' and (upcase(UNKWOWNDEFAULT) = 'MODE')) then
+24361     +                        replace_Value =strip(put(moden, BEST.));
+24363     +                 string = strip(string)!!''!!strip(replace_value)!!';';
+24364     +              end;
+24365     +             put string;
+24366     +          run;
+24367     +          filename _F1;
+24369     +           %let oldname = &name;
+24370     +        %end;
+24371     +    %end;
+24372     +    %let dsid = %sysfunc(close(&dsid));
+24374     +    %doendr:
+24376     +%mend makeReplaceOptCode;
+24379     +%macro makeNewVarCode(ScoreFile=, Data=);
+24380     +   filename _F1 "&ScoreFile"  MOD;
+24381     +   data _null_;
+24382     +     length string $400;
+24383     +      set &data end=eof;
+24384     +      file _F1;
+24385     +      if _N_=1 then do;
+24386     +         put '   ';
+24387     +         put '* ;';
+24388     +         put '* Defining New Variables;';
+24389     +         put '* ;';
+24390     +      end;
+24391     +      if type eq 'C' then do;
+24392     +         string = 'Length '!!strip(newname)!!' $'!!strip(put(length,BEST12.))!!';';
+24393     +         put string;
+24394     +      end;
+24395     +      else do;
+24396     +         string = 'Length '!!strip(newname)!!' 8;';
+24397     +         put string;
+24398     +      end;
+24400     +      if strip(label) = '' then label = name;
+24401     +      string= 'Label '!!strip(newname)!!"='Replacement: "!!strip(tranwrd(label, "'","''"))!!"';";
+24402     +      put string;
+24404     +      if format ne '' then do;
+24405     +         string ='format '!!strip(newname)!!' '!!strip(format)!!';';
+24406     +         put string;
+24407     +      end;
+24408     +      string = strip(newname)!!'= '!!strip(NAME)!!';';
+24409     +      put string;
+24410     +   run;
+24411     +%mend makeNewVarCode;
+24413     +%macro makeNewVarOptCode(Folder=, Data=);
+24414     +    %if ^%sysfunc(exist(&data)) or "&Folder" eq "" %then %goto doendo;
+24415     +    data _temp_;set &data;run;
+24416     +    %let dsid = %sysfunc(open(_temp_));
+24417     +    %let nobs  = %sysfunc(attrn(&dsid, NLOBS));
+24418     +    %do %while(^%sysfunc(fetch(&dsid)));
+24419     +        %let newNum     = %sysfunc(varnum(&dsid, NewName));
+24420     +        %let newname = %sysfunc(getvarc(&dsid, &newNum));
+24422     +        filename _F1 "&Folder.&em_dsep.&newname..sas";
+24423     +        data _null_;
+24424     +           length string $400;
+24425     +           set &data;
+24426     +           where NEWNAME="&newname";
+24427     +           file _F1;
+24428     +           put '   ';
+24429     +           put '* ;';
+24430     +           put "* Defining: &newname;";
+24431     +           put '* ;';
+24432     +           if type eq 'C' then  do;
+24433     +              string = 'Length '!!strip(newname)!!'$'!!strip(put(length, best.))!!';';
+24434     +              put string;
+24435     +           end;
+24436     +           else do;
+24437     +              string = 'Length '!!strip(newname)!!' 8;';
+24438     +              put string;
+24439     +           end;
+24440     +           if strip(label) = '' then label = name;
+24441     +           string= 'Label '!!strip(newname)!!"='Replacement: "!!strip(tranwrd(label, "'","''"))!!"';";
+24442     +           put string;
+24443     +           if format ne '' then do;
+24444     +              string= 'format '!!strip(newname)!!' '!!strip(format)!!';';
+24445     +              put string;
+24446     +           end;
+24447     +           string = strip(newname)!!'='!!strip(name)!!';';
+24448     +           put string;
+24449     +        run;
+24450     +    %end;
+24451     +    %let dsid = %sysfunc(close(&dsid));
+24452     +   %doendo:
+24453     +%mend makeNewVarOptCode;
+24455     +%macro makeClassScoreCode(LevelData=, nameData=_newNames);
+24456     +   %let UFormatFlag = 0;
+24458     +   %em_register(key=REPLACECODE, type=FOLDER);
+24460     +   /* Generating New Variable Score Code */
+24461     +   %makeNewVarCode(ScoreFile=&EM_FILE_EMFLOWSCORECODE,  Data=&nameData);
+24463     +   data _tempNewVars;
+24464     +      set &nameData;
+24465     +      where ROLE ne 'TARGET';
+24466     +   run;
+24467     +   %makeNewVarCode(ScoreFile=&EM_FILE_EMPUBLISHSCORECODE, Data=_tempNewVars);
+24468     +   %makeNewVarOptCode(Folder=&em_user_replacecode, Data=_tempNewVars);
+24470     +   proc datasets lib=WORK nolist;
+24471     +      delete _tempNewVars;
+24472     +   run;
+24473     +   quit;
+24475     +   /* Generating Publish Score Code */
+24476     +   data _temp;
+24477     +      set &LevelData;
+24478     +      where ROLE ne 'TARGET' and LEVEL='_UNKNOWN_' and (REPLACE_VALUE ^in('', '_DEFAULT_') or
+24479     +                             (REPLACE_VALUE='_DEFAULT_' and UNKWOWNDEFAULT ne 'NONE'));
+24480     +      keep NAME;
+24481     +   run;
+24483     +   data _temp;
+24484     +      merge _temp(in=_a) &Leveldata &nameData;
+24485     +      by NAME;
+24486     +      if _a then output;
+24487     +   run;
+24489     +   %makeUnknownCode(ScoreFile=&EM_FILE_EMPUBLISHSCORECODE, Data=_temp);
+24490     +   %makeUnknownOptCode(Folder=&em_user_replacecode,        Data=_temp);
+24491     +   proc datasets lib=work nolist;
+24492     +      delete _temp;
+24493     +   run;
+24494     +   quit;
+24496     +   data _temp;
+24497     +      merge &LevelData(in=_a where=( ROLE ne 'TARGET' and LEVEL ne '_UNKNOWN_' and
+24498     +        (REPLACE_VALUE ^in('', '_DEFAULT_') or (REPLACE_VALUE='_DEFAULT_' and UNKWOWNDEFAULT ne 'NONE')) ))  &nameData;
+24499     +      by NAME;
+24500     +      if _a then output;
+24501     +   run;
+24503     +   %makeReplaceCode(ScoreFile=&EM_FILE_EMPUBLISHSCORECODE, Data=_temp);
+24504     +   %makeReplaceOptCode(Folder=&em_user_replacecode,        Data=_temp);
+24506     +   /* Generating Flow Score Code */
+24507     +   data _temp;
+24508     +      set &LevelData;
+24509     +      where LEVEL='_UNKNOWN_' and (REPLACE_VALUE ^in('', '_DEFAULT_') or
+24510     +                             (REPLACE_VALUE='_DEFAULT_' and UNKWOWNDEFAULT ne 'NONE'));
+24511     +      keep NAME;
+24512     +   run;
+24514     +   data _temp;
+24515     +      merge _temp(in=_a) &Leveldata &nameData;
+24516     +      by NAME;
+24517     +      if _a then output;
+24518     +   run;
+24519     +   %makeUnknownCode(ScoreFile=&EM_FILE_EMFLOWSCORECODE, Data=_temp);
+24521     +   data _temp;
+24522     +      merge &LevelData(in=_a where=(LEVEL ne '_UNKNOWN_' and (REPLACE_VALUE ^in('', '_DEFAULT_') or
+24523     +                             (REPLACE_VALUE='_DEFAULT_' and UNKWOWNDEFAULT ne 'NONE')) )) &nameData;
+24524     +      by NAME;
+24525     +      if _a then output;
+24526     +   run;
+24528     +   %makeReplaceCode(ScoreFile=&EM_FILE_EMFLOWSCORECODE, Data=_temp);
+24530     +   %if "&UFormatFlag" = "1" %then %do;
+24531     +       filename _F1 "&em_user_replacecode&em_dsep._ALL_.sas" MOD;
+24532     +       data _null_;
+24533     +          file _F1;
+24534     +          put 'length _UFormat200 $200;';
+24535     +          put 'drop   _UFORMAT200;';
+24536     +          put '_UFORMAT200 = " ";';
+24537     +       run;
+24538     +       filename _F1;
+24539     +   %end;
+24541     +%mend makeClassScoreCode;
+24543     +%macro makeClassDeltaCode(nameData=_newNames);
+24544     +   %if ^%sysfunc(exist(&nameData)) %then %goto doendm;
+24546     +   filename _F1 "&EM_FILE_CDELTA_TRAIN" MOD;
+24547     +   data _null_;
+24548     +        set &nameData end=eof;
+24549     +        length string $400;
+24550     +        file _F1;
+24551     +        %if &EM_PROPERTY_HIDEVARIABLE eq Y %then %do;
+24552     +            string = 'if NAME="'!!strip(NAME)!!'" then delete;';  put string;
+24553     +        %end;
+24554     +        %else %do;
+24555     +            string = 'if NAME="'!!strip(NAME)!!'" then ROLE="REJECTED";'; put string;
+24556     +        %end;
+24557     +        put 'else';
+24558     +        string = '   if NAME="'!!strip(NEWNAME)!!'" then do;'; put string;
+24559     +        string = '      ROLE="'!!strip(ROLE)!!'";';            put string;
+24560     +        string = '      LEVEL="'!!strip(MLEVEL)!!'";';         put string;
+24561     +        put      'end;';
+24562     +        if ^eof then
+24563     +           put 'else';
+24564     +   run;
+24565     +   %doendm:
+24566     +   filename _F1;
+24567     +%mend makeClassDeltaCode;
+24569     +%macro makeValueReport(Data=, outData=);
+24570     +   data &outData;
+24571     +      set &data;
+24572     +      where REPLACE_VALUE ^in('', '_DEFAULT_') or (REPLACE_VALUE eq '_DEFAULT_' and UNKWOWNDEFAULT ne 'NONE');
+24573     +      if LEVEL = '_UNKNOWN_' then do;
+24574     +         LEVEL='Unknown';
+24575     +         %if &EM_PROPERTY_UNKNOWNLEVEL = MODE %then %do;
+24576     +         if REPLACE_VALUE in('_MODE_', '_DEFAULT_') then REPLACE_VALUE = strip(NORMMODE);
+24577     +         else
+24578     +            if REPLACE_VALUE ='_MISSING_' then do;
+24579     +               if type eq 'N' then REPLACE_VALUE='.';
+24580     +               else REPLACE_VALUE='_blank_';
+24581     +            end;
+24582     +         %end;
+24583     +         %else  %do;
+24584     +         if REPLACE_VALUE = '_MODE_' then REPLACE_VALUE = strip(NORMMODE);
+24585     +         else
+24586     +            if REPLACE_VALUE in('_MISSING_', '_DEFAULT_') then do;
+24587     +               if type eq 'N' then REPLACE_VALUE='.';
+24588     +               else REPLACE_VALUE='_blank_';
+24589     +            end;
+24590     +         %end;
+24591     +      end;
+24592     +      else do;
+24593     +         if REPLACE_VALUE ='_MISSING_' then do;
+24594     +            if type eq 'N' then REPLACE_VALUE='.';
+24595     +            else REPLACE_VALUE='_blank_';
+24596     +         end;
+24597     +         else
+24598     +            if REPLACE_VALUE = '_MODE_' then REPLACE_VALUE = strip(NORMMODE);
+24599     +      end;
+24600     +      keep NAME LEVEL CRAW NRAW REPLACE_VALUE TYPE LABEL ;
+24601     +   run;
+24602     +%mend makeValueReport;
+24604     +%macro makeVarOptCode(LimitDs=, Folder=);
+24605     +    %if ^%sysfunc(exist(&LimitDs)) or "&Folder" eq "" %then %goto doendo;
+24607     +    %let dsid = %sysfunc(open(&limitDs));
+24608     +    %do %while(^%sysfunc(fetch(&dsid)));
+24609     +        %let newNum     = %sysfunc(varnum(&dsid, NewName));
+24610     +        %let newname = %sysfunc(getvarc(&dsid, &newNum));
+24612     +    filename sfile "&Folder.&em_dsep.&newname..sas";
+24613     +    data _null_;
+24614     +       length string $400;
+24615     +       set &LimitDs;
+24616     +       where NEWNAME="&newname";
+24617     +       file sfile;
+24618     +       put '* ;';
+24619     +       string = '*Variable: '!!strip(name)!!';';
+24620     +       put string;
+24621     +       put '* ;';
+24622     +       if label eq '' then
+24623     +          string = 'Label '!!strip(newname)!!"= 'Replacement: "!!strip(name)!!"';";
+24624     +       else
+24625     +          string = 'Label '!!strip(newname)!!"= 'Replacement: "!!strip(tranwrd(label, "'", "''"))!!"';";
+24626     +       put string;
+24627     +       string = 'length '!!strip(newname)!!' 8;';
+24628     +       put string;
+24629     +       string = strip(newname)!!'= '!!strip(NAME)!!';';
+24630     +       put string;
+24631     +       replacemin = .;
+24632     +       string = 'if '!!strip(name)!!' eq . then '!!strip(newname)!!' = .;';
+24633     +       put string;
+24634     +       if LowerLimit ne . then do;
+24635     +          if ReplaceMethodUsed="COMPUTED" then replaceMin=LowerLimit;
+24636     +          if ReplaceMethodUsed="MANUAL"   then replaceMin = ReplaceMinUsed;
+24637     +          put 'else';
+24638     +          string = 'if '!!strip(name)!!'<'!!strip(put(lowerlimit,best.))
+24639     +                    !!' then '!!strip(newname)!!'='!!strip(put(replaceMin,best.))!!';';
+24640     +          put string;
+24641     +       end;
+24642     +       if UpperLimit ne . then do;
+24643     +          if ReplaceMethodUsed="COMPUTED" then replaceMax=UpperLimit;
+24644     +          if ReplaceMethodUsed="MANUAL"   then replaceMax = ReplaceMaxUsed;
+24645     +          put 'else';
+24646     +          string = 'if '!!strip(name)!!'>'!!strip(put(upperlimit,best.))
+24647     +                    !!' then '!!strip(newname)!!'='!!strip(put(replaceMax,best.))!!';';
+24648     +          put string;
+24649     +       end;
+24650     +        run;
+24651     +        filename sfile;
+24652     +    %end;
+24653     +    %let dsid = %sysfunc(close(&dsid));
+24655     +    %doendo:
+24656     +%mend makeVarOptCode;
+24658     +%macro score;
+24659     +   %em_register(key=REPLACECODE, type=FOLDER);
+24661     +   filename x catalog 'sashelp.emutil.em_deldir.source';
+24662     +   %inc x;
+24663     +   filename x;
+24664     +   %delDir(folder=%nrbquote(&em_user_replacecode));
+24666     +   data _null_; length rc $200;
+24667     +      rc = dcreate('REPLACECODE', "&EM_NODEDIR");
+24668     +   run;
+24670     +   filename _F1 "&EM_FILE_EMFLOWSCORECODE";
+24671     +   filename _F2 "&EM_FILE_EMPUBLISHSCORECODE";
+24672     +   filename _F3 "&EM_FILE_CDELTA_TRAIN";
+24673     +   data _null_;
+24674     +      rc=fdelete('_F1');
+24675     +      rc=fdelete('_F2');
+24676     +      rc=fdelete('_F3');
+24677     +   run;
+24678     +   filename _F1;
+24679     +   filename _F2;
+24680     +   filename _F3;
+24682     +   %em_getname(key=OUTCLASS,  type=DATA);
+24683     +   %em_getname(key=LIMITS, type=DATA);
+24684     +   %em_getname(key=CLASSINFO, type=DATA);
+24686     +   /* Retrieve Replacement Values for Class Variables */
+24687     +   %makeLevelData(outclass=&em_user_outclass, data=CLASSTEMP);
+24689     +   /* Generate Names for Replaced Variables */
+24690     +   %makeNewNames(limitDs =&em_user_limits, classValue=CLASSTEMP, classname=&em_user_classinfo);
+24692     +   /* Generate score and delta code for Var Variables */
+24693     +   %if %sysfunc(exist(&EM_USER_LIMITS)) %then %do;
+24694     +       %makeVarScoreCode(LimitDs = &EM_USER_LIMITS, File=&EM_FILE_EMFLOWSCORECODE);
+24695     +       %makeVarScoreCode(LimitDs = &EM_USER_LIMITS, File=&EM_FILE_EMPUBLISHSCORECODE);
+24696     +       %makeVarOptCode(LimitDs= &EM_USER_LIMITS,    Folder=&em_user_replacecode);
+24697     +       %makeVarDeltaCode(LimitDs = &EM_USER_LIMITS);
+24699     +       proc print data=&EM_USER_LIMITS label noobs;
+24700     +          var Name newname lowerLimit REPLACEMINUSED UpperLimit REPLACEMAXUSED;
+24701     +          label REPLACEMINUSED  =  "%sysfunc(sasmsg(sashelp.dmine, rpt_replacemin_vlabel, NOQUOTE))"
+24702     +                REPLACEMAXUSED  =  "%sysfunc(sasmsg(sashelp.dmine, rpt_replacemax_vlabel, NOQUOTE))";
+24703     +          title9  ' ';
+24704     +          title10 "%sysfunc(sasmsg(sashelp.dmine, rpt_varlimits_title, NOQUOTE))";
+24705     +       run;
+24706     +       title10;
+24707     +  %end;
+24709     +   %if %sysfunc(exist(&EM_USER_CLASSINFO)) %then %do;
+24710     +       %makeClassScoreCode(LevelData=CLASSTEMP, nameData=&em_user_classinfo);
+24711     +       %makeClassDeltaCode(nameData=&em_user_classinfo);
+24712     +   %end;
+24714     +   %em_getname(key=VALUES, type=DATA);
+24715     +   %makeValueReport(data=CLASSTEMP, outData=&EM_USER_VALUES);
+24716     +   %if %sysfunc(exist(&EM_USER_VALUES)) %then %do;
+24717     +       %let nobs = 0;
+24718     +       %let dsid = %sysfunc(open(&EM_USER_VALUES));
+24719     +       %if &dsid %then %do;
+24720     +           %let nobs =  %sysfunc(attrn(&dsid, NOBS));
+24721     +           %let dsid = %sysfunc(close(&dsid));
+24722     +       %end;
+24723     +       %if &nobs %then
+24724     +           %EM_REPORT(key=VALUES, viewtype=DATA, block=MODEL, description=ReplaceLevels,autoDisplay=N);
+24725     +   %end;
+24727     +   %if %sysfunc(exist(&EM_USER_VALUES)) %then %do;
+24728     +       proc print data=&EM_USER_VALUES label noobs;
+24729     +          title9  ' ';
+24730     +          title10 "%sysfunc(sasmsg(sashelp.dmine, rpt_classreplacement_title, NOQUOTE))";
+24731     +      run;
+24732     +      title10;
+24733     +  %end;
+24735     +   proc datasets lib=work nolist;
+24736     +      delete CLASSTEMP;
+24737     +   run;
+24738     +   quit;
+24740     +   %em_register(key=EMSCOREVAR, type=DATA);
+24741     +   %let scorevarDs = %scan(&em_user_emscorevar, 2, .);
+24742     +   proc datasets lib=&em_lib nolist;
+24743     +      delete &scorevarDs;
+24744     +   run;
+24745     +   quit;
+24747     +   %let filrf=mydir;
+24748     +   %let rc=%sysfunc(filename(filrf,&em_user_replacecode));
+24749     +   %let did=%sysfunc(dopen(&filrf));
+24751     +   %if &did %then %do;
+24752     +       %let memcount=%sysfunc(dnum(&did));
+24753     +       %if &memcount > 0 %then %do;
+24754     +           data &em_user_emscorevar;
+24755     +              length Name $32 formula $70 file $200;
+24756     +              keep NAME Formula file;
+24758     +           %if %sysfunc(fileexist(&em_user_replacecode&em_dsep._ALL_.sas)) %then %do;
+24759     +               name=''; file="REPLACECODE&em_dsep._ALL_.sas";
+24760     +               output;
+24761     +           %end;
+24762     +           %do i=1 %to &memcount;
+24763     +               %let name =%nrbquote(%sysfunc(dread(&did,&i)));
+24764     +               %let newvar = %scan(&name, 1, .);
+24765     +               %if "&newvar" ne "_ALL_" %then %do;
+24766     +                   name = "&newvar"; file="REPLACECODE&em_dsep&name";
+24767     +                   output;
+24768     +               %end;
+24769     +           %end;
+24770     +           run;
+24771     +       %end;
+24772     +  %end;
+24773     +  %if &did %then %let did = %sysfunc(dclose(&did));
+24776     +%mend score;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(MAIN):   filename temp;
+NOTE: Fileref TEMP을(를) 삭제했습니다.
+MPRINT(EM_REGISTER):   data WORK.EM_USER_KEY;
+MPRINT(EM_REGISTER):   length KEY $32 TYPE $10 FILE $200 FOLDER $32 EXTENSION $8 AUTODELETE $1 property $1 action $8 cas $1;
+MPRINT(EM_REGISTER):   key = upcase("REPLACECODE");
+MPRINT(EM_REGISTER):   type = upcase("FOLDER");
+MPRINT(EM_REGISTER):   file = "REPLACECODE";
+MPRINT(EM_REGISTER):   folder = "";
+MPRINT(EM_REGISTER):   extension = "";
+MPRINT(EM_REGISTER):   AUTODELETE = "Y";
+MPRINT(EM_REGISTER):   property = "N";
+MPRINT(EM_REGISTER):   action = "";
+MPRINT(EM_REGISTER):   cas = "N";
+MPRINT(EM_REGISTER):   run;
+
+NOTE: 데이터셋 WORK.EM_USER_KEY은(는) 1개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(SCORE):  ;
+MPRINT(SCORE):   filename x catalog 'sashelp.emutil.em_deldir.source';
+NOTE: %INCLUDE(레벨 1) 파일 X은(는) 파일 SASHELP.EMUTIL.EM_DELDIR.SOURCE입니다.
+24777     +%macro delDir(folder=);
+24778     +   %let filrf=mydir;
+24779     +   %let rc=%sysfunc(filename(filrf,&folder));
+24780     +   %let did=%sysfunc(dopen(&filrf));
+24781     +
+24782     +   %if &did %then %do;
+24783     +       %let memcount=%sysfunc(dnum(&did));
+24784     +       %if &memcount > 0 %then %do;
+24785     +           %do i=1 %to &memcount;
+24786     +               %let name =%nrbquote(%sysfunc(dread(&did,&i)));
+24787     +               data _null_;
+24788     +                  fname="_temp&i";
+24789     +                  rc=filename(fname,"&folder&em_dsep.&name");
+24790     +                  if rc = 0 and fexist(fname) then
+24791     +                     rc=fdelete(fname);
+24792     +                  rc=filename(fname);
+24793     +               run;
+24794     +           %end;
+24795     +       %end;
+24796     +       %let rc=%sysfunc(dclose(&did));
+24797     +   %end;
+24798     +   %let rc = %sysfunc(fdelete(&filrf));
+24799     +   %let rc=%sysfunc(filename(filrf));
+24800     +%mend delDir;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(SCORE):   filename x;
+NOTE: Fileref X을(를) 삭제했습니다.
+MPRINT(SCORE):  ;
+MPRINT(SCORE):   data _null_;
+MPRINT(SCORE):   length rc $200;
+MPRINT(SCORE):   rc = dcreate('REPLACECODE', "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl");
+MPRINT(SCORE):   run;
+
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(SCORE):   filename _F1 "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMFLOWSCORE.sas";
+MPRINT(SCORE):   filename _F2 "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMPUBLISHSCORE.sas";
+MPRINT(SCORE):   filename _F3 "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\CDELTA_TRAIN.sas";
+MPRINT(SCORE):   data _null_;
+MPRINT(SCORE):   rc=fdelete('_F1');
+MPRINT(SCORE):   rc=fdelete('_F2');
+MPRINT(SCORE):   rc=fdelete('_F3');
+MPRINT(SCORE):   run;
+
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(SCORE):   filename _F1;
+NOTE: Fileref _F1을(를) 삭제했습니다.
+MPRINT(SCORE):   filename _F2;
+NOTE: Fileref _F2을(를) 삭제했습니다.
+MPRINT(SCORE):   filename _F3;
+NOTE: Fileref _F3을(를) 삭제했습니다.
+MPRINT(SCORE):  ;
+MPRINT(SCORE):  ;
+MPRINT(SCORE):  ;
+MPRINT(MAKELEVELDATA):   data REPLACE_MODE;
+MPRINT(MAKELEVELDATA):   set EMWS6.Repl_OUTCLASS;
+MPRINT(MAKELEVELDATA):   by NAME;
+MPRINT(MAKELEVELDATA):   if first.name then do;
+MPRINT(MAKELEVELDATA):   MODEC = CRAW;
+MPRINT(MAKELEVELDATA):   MODEN = NRAW;
+MPRINT(MAKELEVELDATA):   NORMMODE = LEVEL;
+MPRINT(MAKELEVELDATA):   output;
+MPRINT(MAKELEVELDATA):   end;
+MPRINT(MAKELEVELDATA):   keep NAME MODEC MODEN NORMMODE UNKWOWNDEFAULT;
+MPRINT(MAKELEVELDATA):   run;
+
+WARNING: DROP, KEEP 또는 RENAME의 변수 UNKWOWNDEFAULT은(는) 참조되지 않습니다.
+NOTE: 15개의 관측값을 데이터셋 EMWS6.REPL_OUTCLASS.에서 읽었습니다.
+NOTE: 데이터셋 WORK.REPLACE_MODE은(는) 3개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKELEVELDATA):   proc sort data=EMWS6.Repl_VariableSet;
+MPRINT(MAKELEVELDATA):   by NAME;
+MPRINT(MAKELEVELDATA):   run;
+
+NOTE: 13개의 관측값을 데이터셋 EMWS6.REPL_VARIABLESET.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.REPL_VARIABLESET은(는) 13개의 관측값과 27개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKELEVELDATA):   data CLASSTEMP;
+MPRINT(MAKELEVELDATA):   length UNKWOWNDEFAULT $8;
+MPRINT(MAKELEVELDATA):   merge EMWS6.Repl_OUTCLASS(in=_a) REPLACE_MODE EMWS6.Repl_VariableSet(keep=LABEL LENGTH NAME ROLE LEVEL LABEL FORMAT RENAME=(LEVEL=MLEVEL) where=(MLEVEL ne 'INTERVAL'));
+MPRINT(MAKELEVELDATA):   by NAME;
+MPRINT(MAKELEVELDATA):   if LEVEL = '_UNKNOWN_' then UNKWOWNDEFAULT = "NONE";
+MPRINT(MAKELEVELDATA):   if _a then output;
+MPRINT(MAKELEVELDATA):   run;
+
+WARNING: 입력 데이터셋으로 BY 변수 Name에 대해 여러 길이가 지정되었습니다. 예상하지 못한 결과를 발생시킬 수 있습니다.
+NOTE: 15개의 관측값을 데이터셋 EMWS6.REPL_OUTCLASS.에서 읽었습니다.
+NOTE: 3개의 관측값을 데이터셋 WORK.REPLACE_MODE.에서 읽었습니다.
+NOTE: 3개의 관측값을 데이터셋 EMWS6.REPL_VARIABLESET.에서 읽었습니다.
+      WHERE MLEVEL not = 'INTERVAL';
+NOTE: 데이터셋 WORK.CLASSTEMP은(는) 15개의 관측값과 16개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKELEVELDATA):   proc datasets lib=work nolist;
+MPRINT(MAKELEVELDATA):   delete REPLACE_MODE;
+MPRINT(MAKELEVELDATA):   run;
+
+NOTE: WORK.REPLACE_MODE(memtype=DATA)을(를) 삭제하는 중입니다.
+MPRINT(MAKELEVELDATA):   quit;
+
+NOTE: 프로시저 DATASETS 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(SCORE):  ;
+MPRINT(MAKENEWNAMES):   proc sort data=CLASSTEMP out=invarname nodupkey;
+MPRINT(MAKENEWNAMES):   by NAME;
+MPRINT(MAKENEWNAMES):   where REPLACE_VALUE ^in('', '_DEFAULT_') or (REPLACE_VALUE eq '_DEFAULT_' and UNKWOWNDEFAULT ne 'NONE');
+MPRINT(MAKENEWNAMES):   run;
+
+NOTE: 입력 데이터셋이 비어 있습니다.
+NOTE: 중복 키값을 가지고 있는 0개의 관측값이 삭제되었습니다.
+NOTE: 0개의 관측값을 데이터셋 WORK.CLASSTEMP.에서 읽었습니다.
+      WHERE REPLACE_VALUE not in (' ', '_DEFAULT_') or ((REPLACE_VALUE='_DEFAULT_') and (UNKWOWNDEFAULT not = 'NONE'));
+NOTE: 데이터셋 WORK.INVARNAME은(는) 0개의 관측값과 16개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKENEWNAMES):   data invarname;
+MPRINT(MAKENEWNAMES):   set EMWS6.Repl_LIMITS(keep=NAME) ;
+MPRINT(MAKENEWNAMES):   run;
+
+NOTE: 10개의 관측값을 데이터셋 EMWS6.REPL_LIMITS.에서 읽었습니다.
+NOTE: 데이터셋 WORK.INVARNAME은(는) 10개의 관측값과 1개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKENEWNAMES):   proc dmdb data=invarname outtable=outname(rename=(REP=NEWNAME)) nameserver;
+MPRINT(MAKENEWNAMES):   names NAME;
+MPRINT(MAKENEWNAMES):   prefix REP_;
+MPRINT(MAKENEWNAMES):   run;
+
+NOTE: 10개의 관측값을 데이터셋 WORK.INVARNAME.에서 읽었습니다.
+NOTE: 데이터셋 WORK.OUTNAME은(는) 10개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: 프로시저 DMDB 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKENEWNAMES):   proc sort data=outname;
+MPRINT(MAKENEWNAMES):   by NAME;
+MPRINT(MAKENEWNAMES):   run;
+
+NOTE: 10개의 관측값을 데이터셋 WORK.OUTNAME.에서 읽었습니다.
+NOTE: 데이터셋 WORK.OUTNAME은(는) 10개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKENEWNAMES):   data EMWS6.Repl_LIMITS;
+MPRINT(MAKENEWNAMES):   merge outname EMWS6.Repl_LIMITS(in=a);
+MPRINT(MAKENEWNAMES):   by NAME;
+MPRINT(MAKENEWNAMES):   if a then output;
+MPRINT(MAKENEWNAMES):   run;
+
+NOTE: 10개의 관측값을 데이터셋 WORK.OUTNAME.에서 읽었습니다.
+NOTE: 10개의 관측값을 데이터셋 EMWS6.REPL_LIMITS.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.REPL_LIMITS은(는) 10개의 관측값과 11개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKENEWNAMES):   proc datasets lib=EMWS6 nolist;
+MPRINT(MAKENEWNAMES):   modify Repl_LIMITS;
+WARNING: 변수 REPLACEMETHODUSED을(를) 데이터셋 EMWS6.REPL_LIMITS에서 찾을 수 없습니다.
+WARNING: 변수 REPLACEMINUSED을(를) 데이터셋 EMWS6.REPL_LIMITS에서 찾을 수 없습니다.
+WARNING: 변수 REPLACEDMAXUSED을(를) 데이터셋 EMWS6.REPL_LIMITS에서 찾을 수 없습니다.
+MPRINT(MAKENEWNAMES):   label NAME = "변수" NEWNAME = "변수 대체" CALCMETHOD = "한계 방법" REPLACEMETHODUSED = "사용한 대체 방법" LOWERLIMIT = "하한" REPLACEMINUSED = "대체값 하한" UPPERLIMIT = "상한" REPLACEDMAXUSED = "대체값 상한" REPLACEMETHOD = "대체 
+방법" REPLACEMIN = "사용자 지정 대체값 하한" REPLACEMAX = "사용자 지정 대체값 상한" ROLE = "역할" LEVEL = "측도 레벨" LABEL = "레이블";
+MPRINT(MAKENEWNAMES):   run;
+
+NOTE: EMWS6.REPL_LIMITS.DATA에 대한 MODIFY에 성공했습니다.
+MPRINT(MAKENEWNAMES):   quit;
+
+NOTE: 프로시저 DATASETS 실행(총 프로세스 시간):
+      실행 시간           0.18 초
+      cpu 시간            0.18 초
+      
+
+MPRINT(MAKENEWNAMES):   data length;
+MPRINT(MAKENEWNAMES):   retain newlen 0;
+MPRINT(MAKENEWNAMES):   set CLASSTEMP;
+MPRINT(MAKENEWNAMES):   by NAME;
+MPRINT(MAKENEWNAMES):   if type eq 'C' then do;
+MPRINT(MAKENEWNAMES):   if first.name then do;
+MPRINT(MAKENEWNAMES):   if REPLACE_VALUE ^in('_DEFAULT_', '_MODE_', '_MISSING_') then newlen = max(length, length(strip(replace_value)));
+MPRINT(MAKENEWNAMES):   else newlen = length;
+MPRINT(MAKENEWNAMES):   end;
+MPRINT(MAKENEWNAMES):   else do;
+MPRINT(MAKENEWNAMES):   if REPLACE_VALUE ^in('_DEFAULT_', '_MODE_', '_MISSING_') then newlen = max(newlen, length(strip(replace_value)));
+MPRINT(MAKENEWNAMES):   end;
+MPRINT(MAKENEWNAMES):   end;
+MPRINT(MAKENEWNAMES):   else newlen = length;
+MPRINT(MAKENEWNAMES):   len=length;
+MPRINT(MAKENEWNAMES):   if last.name then output;
+MPRINT(MAKENEWNAMES):   keep name len newlen role format type label mlevel;
+MPRINT(MAKENEWNAMES):   run;
+
+NOTE: 15개의 관측값을 데이터셋 WORK.CLASSTEMP.에서 읽었습니다.
+NOTE: 데이터셋 WORK.LENGTH은(는) 3개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKENEWNAMES):   data EMWS6.Repl_CLASSINFO;
+MPRINT(MAKENEWNAMES):   length rformat formatroot $32;
+MPRINT(MAKENEWNAMES):   merge outname(in=a) length(in=b);
+MPRINT(MAKENEWNAMES):   by NAME;
+MPRINT(MAKENEWNAMES):   length=len;
+MPRINT(MAKENEWNAMES):   if newlen > len then do;
+MPRINT(MAKENEWNAMES):   if type eq 'C' and format ne '' then do;
+MPRINT(MAKENEWNAMES):   rformat = strip(reverse(format));
+MPRINT(MAKENEWNAMES):   do while(indexc(rformat, '.0123456789')=1);
+MPRINT(MAKENEWNAMES):   rformat = substr(rformat, 2);
+MPRINT(MAKENEWNAMES):   end;
+MPRINT(MAKENEWNAMES):   formatroot= upcase(reverse(rformat));
+MPRINT(MAKENEWNAMES):   if strip(formatRoot) in('$','$F','$UPCASE','$CHAR') then do;
+MPRINT(MAKENEWNAMES):   format = strip(formatroot)!!strip(put(newlen, best.))!!'.';
+MPRINT(MAKENEWNAMES):   end;
+MPRINT(MAKENEWNAMES):   end;
+MPRINT(MAKENEWNAMES):   length = newlen;
+MPRINT(MAKENEWNAMES):   end;
+MPRINT(MAKENEWNAMES):   if a and b then output;
+MPRINT(MAKENEWNAMES):   KEEP name newname role format mlevel type label length;
+MPRINT(MAKENEWNAMES):   run;
+
+WARNING: 입력 데이터셋으로 BY 변수 NAME에 대해 여러 길이가 지정되었습니다. 예상하지 못한 결과를 발생시킬 수 있습니다.
+NOTE: 10개의 관측값을 데이터셋 WORK.OUTNAME.에서 읽었습니다.
+NOTE: 3개의 관측값을 데이터셋 WORK.LENGTH.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.REPL_CLASSINFO은(는) 0개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKENEWNAMES):   proc datasets lib=work nolist;
+MPRINT(MAKENEWNAMES):   delete length invarname outname;
+MPRINT(MAKENEWNAMES):   run;
+
+NOTE: WORK.LENGTH(memtype=DATA)을(를) 삭제하는 중입니다.
+NOTE: WORK.INVARNAME(memtype=DATA)을(를) 삭제하는 중입니다.
+NOTE: WORK.OUTNAME(memtype=DATA)을(를) 삭제하는 중입니다.
+MPRINT(MAKENEWNAMES):   quit;
+
+NOTE: 프로시저 DATASETS 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(SCORE):  ;
+MPRINT(MAKEVARSCORECODE):   filename sFile "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMFLOWSCORE.sas";
+MPRINT(MAKEVARSCORECODE):   data EMWS6.Repl_LIMITS;
+MPRINT(MAKEVARSCORECODE):   set EMWS6.Repl_LIMITS end=eof;
+MPRINT(MAKEVARSCORECODE):   length REPLACEMETHODUSED $8 string $400;
+MPRINT(MAKEVARSCORECODE):   file sFile;
+MPRINT(MAKEVARSCORECODE):   put'* ;';
+MPRINT(MAKEVARSCORECODE):   put'* Variable: ' name ';';
+MPRINT(MAKEVARSCORECODE):   put '* ;';
+MPRINT(MAKEVARSCORECODE):   if strip(label) = '' then label = name;
+MPRINT(MAKEVARSCORECODE):   string= 'Label '!!strip(newname)!!"='Replacement: "!!strip(tranwrd(label, "'","''"))!!"';";
+MPRINT(MAKEVARSCORECODE):   put string;
+MPRINT(MAKEVARSCORECODE):   string= 'Length '!!strip(newname)!!' 8;';
+MPRINT(MAKEVARSCORECODE):   put string;
+MPRINT(MAKEVARSCORECODE):   put newname '=' name ';';
+MPRINT(MAKEVARSCORECODE):   REPLACEMETHODUSED = REPLACEMETHOD;
+MPRINT(MAKEVARSCORECODE):   if REPLACEMETHOD = 'DEFAULT' then REPLACEMETHODUSED = 'COMPUTED';
+MPRINT(MAKEVARSCORECODE):   put 'if ' name ' eq . then ' newname '= . ;';
+MPRINT(MAKEVARSCORECODE):   if LowerLimit ne . then do;
+MPRINT(MAKEVARSCORECODE):   select(REPLACEMETHODUSED);
+MPRINT(MAKEVARSCORECODE):   when('COMPUTED') REPLACEMINUSED = lowerLimit;
+MPRINT(MAKEVARSCORECODE):   when('MISSING') REPLACEMINUSED = .;
+MPRINT(MAKEVARSCORECODE):   when('MANUAL') REPLACEMINUSED = replaceMin;
+MPRINT(MAKEVARSCORECODE):   otherwise;
+MPRINT(MAKEVARSCORECODE):   end;
+MPRINT(MAKEVARSCORECODE):   put 'else';
+MPRINT(MAKEVARSCORECODE):   put 'if ' name '<' lowerLimit ' then ' newname ' = ' REPLACEMINUSED ';';
+MPRINT(MAKEVARSCORECODE):   end;
+MPRINT(MAKEVARSCORECODE):   if upperLimit ne . then do;
+MPRINT(MAKEVARSCORECODE):   select(REPLACEMETHODUSED);
+MPRINT(MAKEVARSCORECODE):   when('COMPUTED') REPLACEMAXUSED = upperLimit;
+MPRINT(MAKEVARSCORECODE):   when('MISSING') REPLACEMAXUSED = .;
+MPRINT(MAKEVARSCORECODE):   when('MANUAL') REPLACEMAXUSED = replaceMax;
+MPRINT(MAKEVARSCORECODE):   otherwise;
+MPRINT(MAKEVARSCORECODE):   end;
+MPRINT(MAKEVARSCORECODE):   put 'else';
+MPRINT(MAKEVARSCORECODE):   put 'if ' name '>' upperLimit ' then ' newname ' = ' REPLACEMAXUSED ';';
+MPRINT(MAKEVARSCORECODE):   end;
+MPRINT(MAKEVARSCORECODE):   drop string;
+MPRINT(MAKEVARSCORECODE):   run;
+
+NOTE: 파일 SFILE:
+      파일 이름=C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMFLOWSCORE.sas,
+      RECFM=V,LRECL=32767,파일 크기 (바이트)=0,
+      마지막 수정일=2018년 11월 20일 11시26분48초,
+      생성 시간=2018년 11월 20일 11시21분01초
+
+NOTE: 110개의 레코드를 파일 SFILE에 기록했습니다.
+      최소 레코드 길이는 3입니다.
+      최대 레코드 길이는 60입니다.
+NOTE: 10개의 관측값을 데이터셋 EMWS6.REPL_LIMITS.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.REPL_LIMITS은(는) 10개의 관측값과 14개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(MAKEVARSCORECODE):   filename sfile;
+NOTE: Fileref SFILE을(를) 삭제했습니다.
+MPRINT(SCORE):  ;
+MPRINT(MAKEVARSCORECODE):   filename sFile "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMPUBLISHSCORE.sas";
+MPRINT(MAKEVARSCORECODE):   data EMWS6.Repl_LIMITS;
+MPRINT(MAKEVARSCORECODE):   set EMWS6.Repl_LIMITS end=eof;
+MPRINT(MAKEVARSCORECODE):   length REPLACEMETHODUSED $8 string $400;
+MPRINT(MAKEVARSCORECODE):   file sFile;
+MPRINT(MAKEVARSCORECODE):   put'* ;';
+MPRINT(MAKEVARSCORECODE):   put'* Variable: ' name ';';
+MPRINT(MAKEVARSCORECODE):   put '* ;';
+MPRINT(MAKEVARSCORECODE):   if strip(label) = '' then label = name;
+MPRINT(MAKEVARSCORECODE):   string= 'Label '!!strip(newname)!!"='Replacement: "!!strip(tranwrd(label, "'","''"))!!"';";
+MPRINT(MAKEVARSCORECODE):   put string;
+MPRINT(MAKEVARSCORECODE):   string= 'Length '!!strip(newname)!!' 8;';
+MPRINT(MAKEVARSCORECODE):   put string;
+MPRINT(MAKEVARSCORECODE):   put newname '=' name ';';
+MPRINT(MAKEVARSCORECODE):   REPLACEMETHODUSED = REPLACEMETHOD;
+MPRINT(MAKEVARSCORECODE):   if REPLACEMETHOD = 'DEFAULT' then REPLACEMETHODUSED = 'COMPUTED';
+MPRINT(MAKEVARSCORECODE):   put 'if ' name ' eq . then ' newname '= . ;';
+MPRINT(MAKEVARSCORECODE):   if LowerLimit ne . then do;
+MPRINT(MAKEVARSCORECODE):   select(REPLACEMETHODUSED);
+MPRINT(MAKEVARSCORECODE):   when('COMPUTED') REPLACEMINUSED = lowerLimit;
+MPRINT(MAKEVARSCORECODE):   when('MISSING') REPLACEMINUSED = .;
+MPRINT(MAKEVARSCORECODE):   when('MANUAL') REPLACEMINUSED = replaceMin;
+MPRINT(MAKEVARSCORECODE):   otherwise;
+MPRINT(MAKEVARSCORECODE):   end;
+MPRINT(MAKEVARSCORECODE):   put 'else';
+MPRINT(MAKEVARSCORECODE):   put 'if ' name '<' lowerLimit ' then ' newname ' = ' REPLACEMINUSED ';';
+MPRINT(MAKEVARSCORECODE):   end;
+MPRINT(MAKEVARSCORECODE):   if upperLimit ne . then do;
+MPRINT(MAKEVARSCORECODE):   select(REPLACEMETHODUSED);
+MPRINT(MAKEVARSCORECODE):   when('COMPUTED') REPLACEMAXUSED = upperLimit;
+MPRINT(MAKEVARSCORECODE):   when('MISSING') REPLACEMAXUSED = .;
+MPRINT(MAKEVARSCORECODE):   when('MANUAL') REPLACEMAXUSED = replaceMax;
+MPRINT(MAKEVARSCORECODE):   otherwise;
+MPRINT(MAKEVARSCORECODE):   end;
+MPRINT(MAKEVARSCORECODE):   put 'else';
+MPRINT(MAKEVARSCORECODE):   put 'if ' name '>' upperLimit ' then ' newname ' = ' REPLACEMAXUSED ';';
+MPRINT(MAKEVARSCORECODE):   end;
+MPRINT(MAKEVARSCORECODE):   drop string;
+MPRINT(MAKEVARSCORECODE):   run;
+
+NOTE: 파일 SFILE:
+      파일 이름=C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMPUBLISHSCORE.sas,
+      RECFM=V,LRECL=32767,파일 크기 (바이트)=0,
+      마지막 수정일=2018년 11월 20일 11시26분48초,
+      생성 시간=2018년 11월 20일 11시21분01초
+
+NOTE: 110개의 레코드를 파일 SFILE에 기록했습니다.
+      최소 레코드 길이는 3입니다.
+      최대 레코드 길이는 60입니다.
+NOTE: 10개의 관측값을 데이터셋 EMWS6.REPL_LIMITS.에서 읽었습니다.
+NOTE: 데이터셋 EMWS6.REPL_LIMITS은(는) 10개의 관측값과 14개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(MAKEVARSCORECODE):   filename sfile;
+NOTE: Fileref SFILE을(를) 삭제했습니다.
+MPRINT(SCORE):  ;
+MPRINT(MAKEVAROPTCODE):   filename sfile "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\REPLACECODE\REP_CLAGE.sas";
+MPRINT(MAKEVAROPTCODE):   data _null_;
+MPRINT(MAKEVAROPTCODE):   length string $400;
+MPRINT(MAKEVAROPTCODE):   set EMWS6.Repl_LIMITS;
+MPRINT(MAKEVAROPTCODE):   where NEWNAME="REP_CLAGE";
+MPRINT(MAKEVAROPTCODE):   file sfile;
+MPRINT(MAKEVAROPTCODE):   put '* ;';
+MPRINT(MAKEVAROPTCODE):   string = '*Variable: '!!strip(name)!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   put '* ;';
+MPRINT(MAKEVAROPTCODE):   if label eq '' then string = 'Label '!!strip(newname)!!"= 'Replacement: "!!strip(name)!!"';";
+MPRINT(MAKEVAROPTCODE):   else string = 'Label '!!strip(newname)!!"= 'Replacement: "!!strip(tranwrd(label, "'", "''"))!!"';";
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   string = 'length '!!strip(newname)!!' 8;';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   string = strip(newname)!!'= '!!strip(NAME)!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   replacemin = .;
+MPRINT(MAKEVAROPTCODE):   string = 'if '!!strip(name)!!' eq . then '!!strip(newname)!!' = .;';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   if LowerLimit ne . then do;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="COMPUTED" then replaceMin=LowerLimit;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="MANUAL" then replaceMin = ReplaceMinUsed;
+MPRINT(MAKEVAROPTCODE):   put 'else';
+MPRINT(MAKEVAROPTCODE):   string = 'if '!!strip(name)!!'<'!!strip(put(lowerlimit,best.)) !!' then '!!strip(newname)!!'='!!strip(put(replaceMin,best.))!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   end;
+MPRINT(MAKEVAROPTCODE):   if UpperLimit ne . then do;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="COMPUTED" then replaceMax=UpperLimit;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="MANUAL" then replaceMax = ReplaceMaxUsed;
+MPRINT(MAKEVAROPTCODE):   put 'else';
+MPRINT(MAKEVAROPTCODE):   string = 'if '!!strip(name)!!'>'!!strip(put(upperlimit,best.)) !!' then '!!strip(newname)!!'='!!strip(put(replaceMax,best.))!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   end;
+MPRINT(MAKEVAROPTCODE):   run;
+
+NOTE: 파일 SFILE:
+      파일 이름=C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\REPLACECODE\REP_CLAGE.sas,
+      RECFM=V,LRECL=32767,파일 크기 (바이트)=0,
+      마지막 수정일=2018년 11월 20일 11시26분48초,
+      생성 시간=2018년 11월 20일 11시26분48초
+
+NOTE: 11개의 레코드를 파일 SFILE에 기록했습니다.
+      최소 레코드 길이는 3입니다.
+      최대 레코드 길이는 50입니다.
+NOTE: 1개의 관측값을 데이터셋 EMWS6.REPL_LIMITS.에서 읽었습니다.
+      WHERE NEWNAME='REP_CLAGE';
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKEVAROPTCODE):   filename sfile;
+NOTE: Fileref SFILE을(를) 삭제했습니다.
+MPRINT(MAKEVAROPTCODE):   filename sfile "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\REPLACECODE\REP_CLNO.sas";
+MPRINT(MAKEVAROPTCODE):   data _null_;
+MPRINT(MAKEVAROPTCODE):   length string $400;
+MPRINT(MAKEVAROPTCODE):   set EMWS6.Repl_LIMITS;
+MPRINT(MAKEVAROPTCODE):   where NEWNAME="REP_CLNO";
+MPRINT(MAKEVAROPTCODE):   file sfile;
+MPRINT(MAKEVAROPTCODE):   put '* ;';
+MPRINT(MAKEVAROPTCODE):   string = '*Variable: '!!strip(name)!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   put '* ;';
+MPRINT(MAKEVAROPTCODE):   if label eq '' then string = 'Label '!!strip(newname)!!"= 'Replacement: "!!strip(name)!!"';";
+MPRINT(MAKEVAROPTCODE):   else string = 'Label '!!strip(newname)!!"= 'Replacement: "!!strip(tranwrd(label, "'", "''"))!!"';";
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   string = 'length '!!strip(newname)!!' 8;';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   string = strip(newname)!!'= '!!strip(NAME)!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   replacemin = .;
+MPRINT(MAKEVAROPTCODE):   string = 'if '!!strip(name)!!' eq . then '!!strip(newname)!!' = .;';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   if LowerLimit ne . then do;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="COMPUTED" then replaceMin=LowerLimit;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="MANUAL" then replaceMin = ReplaceMinUsed;
+MPRINT(MAKEVAROPTCODE):   put 'else';
+MPRINT(MAKEVAROPTCODE):   string = 'if '!!strip(name)!!'<'!!strip(put(lowerlimit,best.)) !!' then '!!strip(newname)!!'='!!strip(put(replaceMin,best.))!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   end;
+MPRINT(MAKEVAROPTCODE):   if UpperLimit ne . then do;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="COMPUTED" then replaceMax=UpperLimit;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="MANUAL" then replaceMax = ReplaceMaxUsed;
+MPRINT(MAKEVAROPTCODE):   put 'else';
+MPRINT(MAKEVAROPTCODE):   string = 'if '!!strip(name)!!'>'!!strip(put(upperlimit,best.)) !!' then '!!strip(newname)!!'='!!strip(put(replaceMax,best.))!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   end;
+MPRINT(MAKEVAROPTCODE):   run;
+
+NOTE: 파일 SFILE:
+      파일 이름=C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\REPLACECODE\REP_CLNO.sas,
+      RECFM=V,LRECL=32767,파일 크기 (바이트)=0,
+      마지막 수정일=2018년 11월 20일 11시26분48초,
+      생성 시간=2018년 11월 20일 11시26분48초
+
+NOTE: 11개의 레코드를 파일 SFILE에 기록했습니다.
+      최소 레코드 길이는 3입니다.
+      최대 레코드 길이는 48입니다.
+NOTE: 1개의 관측값을 데이터셋 EMWS6.REPL_LIMITS.에서 읽었습니다.
+      WHERE NEWNAME='REP_CLNO';
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKEVAROPTCODE):   filename sfile;
+NOTE: Fileref SFILE을(를) 삭제했습니다.
+MPRINT(MAKEVAROPTCODE):   filename sfile "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\REPLACECODE\REP_DEBTINC.sas";
+MPRINT(MAKEVAROPTCODE):   data _null_;
+MPRINT(MAKEVAROPTCODE):   length string $400;
+MPRINT(MAKEVAROPTCODE):   set EMWS6.Repl_LIMITS;
+MPRINT(MAKEVAROPTCODE):   where NEWNAME="REP_DEBTINC";
+MPRINT(MAKEVAROPTCODE):   file sfile;
+MPRINT(MAKEVAROPTCODE):   put '* ;';
+MPRINT(MAKEVAROPTCODE):   string = '*Variable: '!!strip(name)!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   put '* ;';
+MPRINT(MAKEVAROPTCODE):   if label eq '' then string = 'Label '!!strip(newname)!!"= 'Replacement: "!!strip(name)!!"';";
+MPRINT(MAKEVAROPTCODE):   else string = 'Label '!!strip(newname)!!"= 'Replacement: "!!strip(tranwrd(label, "'", "''"))!!"';";
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   string = 'length '!!strip(newname)!!' 8;';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   string = strip(newname)!!'= '!!strip(NAME)!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   replacemin = .;
+MPRINT(MAKEVAROPTCODE):   string = 'if '!!strip(name)!!' eq . then '!!strip(newname)!!' = .;';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   if LowerLimit ne . then do;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="COMPUTED" then replaceMin=LowerLimit;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="MANUAL" then replaceMin = ReplaceMinUsed;
+MPRINT(MAKEVAROPTCODE):   put 'else';
+MPRINT(MAKEVAROPTCODE):   string = 'if '!!strip(name)!!'<'!!strip(put(lowerlimit,best.)) !!' then '!!strip(newname)!!'='!!strip(put(replaceMin,best.))!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   end;
+MPRINT(MAKEVAROPTCODE):   if UpperLimit ne . then do;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="COMPUTED" then replaceMax=UpperLimit;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="MANUAL" then replaceMax = ReplaceMaxUsed;
+MPRINT(MAKEVAROPTCODE):   put 'else';
+MPRINT(MAKEVAROPTCODE):   string = 'if '!!strip(name)!!'>'!!strip(put(upperlimit,best.)) !!' then '!!strip(newname)!!'='!!strip(put(replaceMax,best.))!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   end;
+MPRINT(MAKEVAROPTCODE):   run;
+
+NOTE: 파일 SFILE:
+      파일 이름=C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\REPLACECODE\REP_DEBTINC.sas,
+      RECFM=V,LRECL=32767,파일 크기 (바이트)=0,
+      마지막 수정일=2018년 11월 20일 11시26분48초,
+      생성 시간=2018년 11월 20일 11시26분48초
+
+NOTE: 11개의 레코드를 파일 SFILE에 기록했습니다.
+      최소 레코드 길이는 3입니다.
+      최대 레코드 길이는 54입니다.
+NOTE: 1개의 관측값을 데이터셋 EMWS6.REPL_LIMITS.에서 읽었습니다.
+      WHERE NEWNAME='REP_DEBTINC';
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKEVAROPTCODE):   filename sfile;
+NOTE: Fileref SFILE을(를) 삭제했습니다.
+MPRINT(MAKEVAROPTCODE):   filename sfile "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\REPLACECODE\REP_DELINQ.sas";
+MPRINT(MAKEVAROPTCODE):   data _null_;
+MPRINT(MAKEVAROPTCODE):   length string $400;
+MPRINT(MAKEVAROPTCODE):   set EMWS6.Repl_LIMITS;
+MPRINT(MAKEVAROPTCODE):   where NEWNAME="REP_DELINQ";
+MPRINT(MAKEVAROPTCODE):   file sfile;
+MPRINT(MAKEVAROPTCODE):   put '* ;';
+MPRINT(MAKEVAROPTCODE):   string = '*Variable: '!!strip(name)!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   put '* ;';
+MPRINT(MAKEVAROPTCODE):   if label eq '' then string = 'Label '!!strip(newname)!!"= 'Replacement: "!!strip(name)!!"';";
+MPRINT(MAKEVAROPTCODE):   else string = 'Label '!!strip(newname)!!"= 'Replacement: "!!strip(tranwrd(label, "'", "''"))!!"';";
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   string = 'length '!!strip(newname)!!' 8;';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   string = strip(newname)!!'= '!!strip(NAME)!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   replacemin = .;
+MPRINT(MAKEVAROPTCODE):   string = 'if '!!strip(name)!!' eq . then '!!strip(newname)!!' = .;';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   if LowerLimit ne . then do;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="COMPUTED" then replaceMin=LowerLimit;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="MANUAL" then replaceMin = ReplaceMinUsed;
+MPRINT(MAKEVAROPTCODE):   put 'else';
+MPRINT(MAKEVAROPTCODE):   string = 'if '!!strip(name)!!'<'!!strip(put(lowerlimit,best.)) !!' then '!!strip(newname)!!'='!!strip(put(replaceMin,best.))!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   end;
+MPRINT(MAKEVAROPTCODE):   if UpperLimit ne . then do;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="COMPUTED" then replaceMax=UpperLimit;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="MANUAL" then replaceMax = ReplaceMaxUsed;
+MPRINT(MAKEVAROPTCODE):   put 'else';
+MPRINT(MAKEVAROPTCODE):   string = 'if '!!strip(name)!!'>'!!strip(put(upperlimit,best.)) !!' then '!!strip(newname)!!'='!!strip(put(replaceMax,best.))!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   end;
+MPRINT(MAKEVAROPTCODE):   run;
+
+NOTE: 파일 SFILE:
+      파일 이름=C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\REPLACECODE\REP_DELINQ.sas,
+      RECFM=V,LRECL=32767,파일 크기 (바이트)=0,
+      마지막 수정일=2018년 11월 20일 11시26분48초,
+      생성 시간=2018년 11월 20일 11시26분48초
+
+NOTE: 11개의 레코드를 파일 SFILE에 기록했습니다.
+      최소 레코드 길이는 3입니다.
+      최대 레코드 길이는 52입니다.
+NOTE: 1개의 관측값을 데이터셋 EMWS6.REPL_LIMITS.에서 읽었습니다.
+      WHERE NEWNAME='REP_DELINQ';
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKEVAROPTCODE):   filename sfile;
+NOTE: Fileref SFILE을(를) 삭제했습니다.
+MPRINT(MAKEVAROPTCODE):   filename sfile "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\REPLACECODE\REP_DEROG.sas";
+MPRINT(MAKEVAROPTCODE):   data _null_;
+MPRINT(MAKEVAROPTCODE):   length string $400;
+MPRINT(MAKEVAROPTCODE):   set EMWS6.Repl_LIMITS;
+MPRINT(MAKEVAROPTCODE):   where NEWNAME="REP_DEROG";
+MPRINT(MAKEVAROPTCODE):   file sfile;
+MPRINT(MAKEVAROPTCODE):   put '* ;';
+MPRINT(MAKEVAROPTCODE):   string = '*Variable: '!!strip(name)!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   put '* ;';
+MPRINT(MAKEVAROPTCODE):   if label eq '' then string = 'Label '!!strip(newname)!!"= 'Replacement: "!!strip(name)!!"';";
+MPRINT(MAKEVAROPTCODE):   else string = 'Label '!!strip(newname)!!"= 'Replacement: "!!strip(tranwrd(label, "'", "''"))!!"';";
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   string = 'length '!!strip(newname)!!' 8;';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   string = strip(newname)!!'= '!!strip(NAME)!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   replacemin = .;
+MPRINT(MAKEVAROPTCODE):   string = 'if '!!strip(name)!!' eq . then '!!strip(newname)!!' = .;';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   if LowerLimit ne . then do;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="COMPUTED" then replaceMin=LowerLimit;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="MANUAL" then replaceMin = ReplaceMinUsed;
+MPRINT(MAKEVAROPTCODE):   put 'else';
+MPRINT(MAKEVAROPTCODE):   string = 'if '!!strip(name)!!'<'!!strip(put(lowerlimit,best.)) !!' then '!!strip(newname)!!'='!!strip(put(replaceMin,best.))!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   end;
+MPRINT(MAKEVAROPTCODE):   if UpperLimit ne . then do;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="COMPUTED" then replaceMax=UpperLimit;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="MANUAL" then replaceMax = ReplaceMaxUsed;
+MPRINT(MAKEVAROPTCODE):   put 'else';
+MPRINT(MAKEVAROPTCODE):   string = 'if '!!strip(name)!!'>'!!strip(put(upperlimit,best.)) !!' then '!!strip(newname)!!'='!!strip(put(replaceMax,best.))!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   end;
+MPRINT(MAKEVAROPTCODE):   run;
+
+NOTE: 파일 SFILE:
+      파일 이름=C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\REPLACECODE\REP_DEROG.sas,
+      RECFM=V,LRECL=32767,파일 크기 (바이트)=0,
+      마지막 수정일=2018년 11월 20일 11시26분48초,
+      생성 시간=2018년 11월 20일 11시26분48초
+
+NOTE: 11개의 레코드를 파일 SFILE에 기록했습니다.
+      최소 레코드 길이는 3입니다.
+      최대 레코드 길이는 50입니다.
+NOTE: 1개의 관측값을 데이터셋 EMWS6.REPL_LIMITS.에서 읽었습니다.
+      WHERE NEWNAME='REP_DEROG';
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKEVAROPTCODE):   filename sfile;
+NOTE: Fileref SFILE을(를) 삭제했습니다.
+MPRINT(MAKEVAROPTCODE):   filename sfile "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\REPLACECODE\REP_LOAN.sas";
+MPRINT(MAKEVAROPTCODE):   data _null_;
+MPRINT(MAKEVAROPTCODE):   length string $400;
+MPRINT(MAKEVAROPTCODE):   set EMWS6.Repl_LIMITS;
+MPRINT(MAKEVAROPTCODE):   where NEWNAME="REP_LOAN";
+MPRINT(MAKEVAROPTCODE):   file sfile;
+MPRINT(MAKEVAROPTCODE):   put '* ;';
+MPRINT(MAKEVAROPTCODE):   string = '*Variable: '!!strip(name)!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   put '* ;';
+MPRINT(MAKEVAROPTCODE):   if label eq '' then string = 'Label '!!strip(newname)!!"= 'Replacement: "!!strip(name)!!"';";
+MPRINT(MAKEVAROPTCODE):   else string = 'Label '!!strip(newname)!!"= 'Replacement: "!!strip(tranwrd(label, "'", "''"))!!"';";
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   string = 'length '!!strip(newname)!!' 8;';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   string = strip(newname)!!'= '!!strip(NAME)!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   replacemin = .;
+MPRINT(MAKEVAROPTCODE):   string = 'if '!!strip(name)!!' eq . then '!!strip(newname)!!' = .;';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   if LowerLimit ne . then do;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="COMPUTED" then replaceMin=LowerLimit;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="MANUAL" then replaceMin = ReplaceMinUsed;
+MPRINT(MAKEVAROPTCODE):   put 'else';
+MPRINT(MAKEVAROPTCODE):   string = 'if '!!strip(name)!!'<'!!strip(put(lowerlimit,best.)) !!' then '!!strip(newname)!!'='!!strip(put(replaceMin,best.))!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   end;
+MPRINT(MAKEVAROPTCODE):   if UpperLimit ne . then do;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="COMPUTED" then replaceMax=UpperLimit;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="MANUAL" then replaceMax = ReplaceMaxUsed;
+MPRINT(MAKEVAROPTCODE):   put 'else';
+MPRINT(MAKEVAROPTCODE):   string = 'if '!!strip(name)!!'>'!!strip(put(upperlimit,best.)) !!' then '!!strip(newname)!!'='!!strip(put(replaceMax,best.))!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   end;
+MPRINT(MAKEVAROPTCODE):   run;
+
+NOTE: 파일 SFILE:
+      파일 이름=C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\REPLACECODE\REP_LOAN.sas,
+      RECFM=V,LRECL=32767,파일 크기 (바이트)=0,
+      마지막 수정일=2018년 11월 20일 11시26분48초,
+      생성 시간=2018년 11월 20일 11시26분48초
+
+NOTE: 11개의 레코드를 파일 SFILE에 기록했습니다.
+      최소 레코드 길이는 3입니다.
+      최대 레코드 길이는 48입니다.
+NOTE: 1개의 관측값을 데이터셋 EMWS6.REPL_LIMITS.에서 읽었습니다.
+      WHERE NEWNAME='REP_LOAN';
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKEVAROPTCODE):   filename sfile;
+NOTE: Fileref SFILE을(를) 삭제했습니다.
+MPRINT(MAKEVAROPTCODE):   filename sfile "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\REPLACECODE\REP_MORTDUE.sas";
+MPRINT(MAKEVAROPTCODE):   data _null_;
+MPRINT(MAKEVAROPTCODE):   length string $400;
+MPRINT(MAKEVAROPTCODE):   set EMWS6.Repl_LIMITS;
+MPRINT(MAKEVAROPTCODE):   where NEWNAME="REP_MORTDUE";
+MPRINT(MAKEVAROPTCODE):   file sfile;
+MPRINT(MAKEVAROPTCODE):   put '* ;';
+MPRINT(MAKEVAROPTCODE):   string = '*Variable: '!!strip(name)!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   put '* ;';
+MPRINT(MAKEVAROPTCODE):   if label eq '' then string = 'Label '!!strip(newname)!!"= 'Replacement: "!!strip(name)!!"';";
+MPRINT(MAKEVAROPTCODE):   else string = 'Label '!!strip(newname)!!"= 'Replacement: "!!strip(tranwrd(label, "'", "''"))!!"';";
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   string = 'length '!!strip(newname)!!' 8;';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   string = strip(newname)!!'= '!!strip(NAME)!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   replacemin = .;
+MPRINT(MAKEVAROPTCODE):   string = 'if '!!strip(name)!!' eq . then '!!strip(newname)!!' = .;';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   if LowerLimit ne . then do;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="COMPUTED" then replaceMin=LowerLimit;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="MANUAL" then replaceMin = ReplaceMinUsed;
+MPRINT(MAKEVAROPTCODE):   put 'else';
+MPRINT(MAKEVAROPTCODE):   string = 'if '!!strip(name)!!'<'!!strip(put(lowerlimit,best.)) !!' then '!!strip(newname)!!'='!!strip(put(replaceMin,best.))!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   end;
+MPRINT(MAKEVAROPTCODE):   if UpperLimit ne . then do;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="COMPUTED" then replaceMax=UpperLimit;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="MANUAL" then replaceMax = ReplaceMaxUsed;
+MPRINT(MAKEVAROPTCODE):   put 'else';
+MPRINT(MAKEVAROPTCODE):   string = 'if '!!strip(name)!!'>'!!strip(put(upperlimit,best.)) !!' then '!!strip(newname)!!'='!!strip(put(replaceMax,best.))!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   end;
+MPRINT(MAKEVAROPTCODE):   run;
+
+NOTE: 파일 SFILE:
+      파일 이름=C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\REPLACECODE\REP_MORTDUE.sas,
+      RECFM=V,LRECL=32767,파일 크기 (바이트)=0,
+      마지막 수정일=2018년 11월 20일 11시26분48초,
+      생성 시간=2018년 11월 20일 11시26분48초
+
+NOTE: 11개의 레코드를 파일 SFILE에 기록했습니다.
+      최소 레코드 길이는 3입니다.
+      최대 레코드 길이는 54입니다.
+NOTE: 1개의 관측값을 데이터셋 EMWS6.REPL_LIMITS.에서 읽었습니다.
+      WHERE NEWNAME='REP_MORTDUE';
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKEVAROPTCODE):   filename sfile;
+NOTE: Fileref SFILE을(를) 삭제했습니다.
+MPRINT(MAKEVAROPTCODE):   filename sfile "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\REPLACECODE\REP_NINQ.sas";
+MPRINT(MAKEVAROPTCODE):   data _null_;
+MPRINT(MAKEVAROPTCODE):   length string $400;
+MPRINT(MAKEVAROPTCODE):   set EMWS6.Repl_LIMITS;
+MPRINT(MAKEVAROPTCODE):   where NEWNAME="REP_NINQ";
+MPRINT(MAKEVAROPTCODE):   file sfile;
+MPRINT(MAKEVAROPTCODE):   put '* ;';
+MPRINT(MAKEVAROPTCODE):   string = '*Variable: '!!strip(name)!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   put '* ;';
+MPRINT(MAKEVAROPTCODE):   if label eq '' then string = 'Label '!!strip(newname)!!"= 'Replacement: "!!strip(name)!!"';";
+MPRINT(MAKEVAROPTCODE):   else string = 'Label '!!strip(newname)!!"= 'Replacement: "!!strip(tranwrd(label, "'", "''"))!!"';";
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   string = 'length '!!strip(newname)!!' 8;';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   string = strip(newname)!!'= '!!strip(NAME)!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   replacemin = .;
+MPRINT(MAKEVAROPTCODE):   string = 'if '!!strip(name)!!' eq . then '!!strip(newname)!!' = .;';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   if LowerLimit ne . then do;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="COMPUTED" then replaceMin=LowerLimit;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="MANUAL" then replaceMin = ReplaceMinUsed;
+MPRINT(MAKEVAROPTCODE):   put 'else';
+MPRINT(MAKEVAROPTCODE):   string = 'if '!!strip(name)!!'<'!!strip(put(lowerlimit,best.)) !!' then '!!strip(newname)!!'='!!strip(put(replaceMin,best.))!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   end;
+MPRINT(MAKEVAROPTCODE):   if UpperLimit ne . then do;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="COMPUTED" then replaceMax=UpperLimit;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="MANUAL" then replaceMax = ReplaceMaxUsed;
+MPRINT(MAKEVAROPTCODE):   put 'else';
+MPRINT(MAKEVAROPTCODE):   string = 'if '!!strip(name)!!'>'!!strip(put(upperlimit,best.)) !!' then '!!strip(newname)!!'='!!strip(put(replaceMax,best.))!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   end;
+MPRINT(MAKEVAROPTCODE):   run;
+
+NOTE: 파일 SFILE:
+      파일 이름=C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\REPLACECODE\REP_NINQ.sas,
+      RECFM=V,LRECL=32767,파일 크기 (바이트)=0,
+      마지막 수정일=2018년 11월 20일 11시26분48초,
+      생성 시간=2018년 11월 20일 11시26분48초
+
+NOTE: 11개의 레코드를 파일 SFILE에 기록했습니다.
+      최소 레코드 길이는 3입니다.
+      최대 레코드 길이는 48입니다.
+NOTE: 1개의 관측값을 데이터셋 EMWS6.REPL_LIMITS.에서 읽었습니다.
+      WHERE NEWNAME='REP_NINQ';
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKEVAROPTCODE):   filename sfile;
+NOTE: Fileref SFILE을(를) 삭제했습니다.
+MPRINT(MAKEVAROPTCODE):   filename sfile "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\REPLACECODE\REP_VALUE.sas";
+MPRINT(MAKEVAROPTCODE):   data _null_;
+MPRINT(MAKEVAROPTCODE):   length string $400;
+MPRINT(MAKEVAROPTCODE):   set EMWS6.Repl_LIMITS;
+MPRINT(MAKEVAROPTCODE):   where NEWNAME="REP_VALUE";
+MPRINT(MAKEVAROPTCODE):   file sfile;
+MPRINT(MAKEVAROPTCODE):   put '* ;';
+MPRINT(MAKEVAROPTCODE):   string = '*Variable: '!!strip(name)!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   put '* ;';
+MPRINT(MAKEVAROPTCODE):   if label eq '' then string = 'Label '!!strip(newname)!!"= 'Replacement: "!!strip(name)!!"';";
+MPRINT(MAKEVAROPTCODE):   else string = 'Label '!!strip(newname)!!"= 'Replacement: "!!strip(tranwrd(label, "'", "''"))!!"';";
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   string = 'length '!!strip(newname)!!' 8;';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   string = strip(newname)!!'= '!!strip(NAME)!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   replacemin = .;
+MPRINT(MAKEVAROPTCODE):   string = 'if '!!strip(name)!!' eq . then '!!strip(newname)!!' = .;';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   if LowerLimit ne . then do;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="COMPUTED" then replaceMin=LowerLimit;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="MANUAL" then replaceMin = ReplaceMinUsed;
+MPRINT(MAKEVAROPTCODE):   put 'else';
+MPRINT(MAKEVAROPTCODE):   string = 'if '!!strip(name)!!'<'!!strip(put(lowerlimit,best.)) !!' then '!!strip(newname)!!'='!!strip(put(replaceMin,best.))!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   end;
+MPRINT(MAKEVAROPTCODE):   if UpperLimit ne . then do;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="COMPUTED" then replaceMax=UpperLimit;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="MANUAL" then replaceMax = ReplaceMaxUsed;
+MPRINT(MAKEVAROPTCODE):   put 'else';
+MPRINT(MAKEVAROPTCODE):   string = 'if '!!strip(name)!!'>'!!strip(put(upperlimit,best.)) !!' then '!!strip(newname)!!'='!!strip(put(replaceMax,best.))!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   end;
+MPRINT(MAKEVAROPTCODE):   run;
+
+NOTE: 파일 SFILE:
+      파일 이름=C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\REPLACECODE\REP_VALUE.sas,
+      RECFM=V,LRECL=32767,파일 크기 (바이트)=0,
+      마지막 수정일=2018년 11월 20일 11시26분48초,
+      생성 시간=2018년 11월 20일 11시26분48초
+
+NOTE: 11개의 레코드를 파일 SFILE에 기록했습니다.
+      최소 레코드 길이는 3입니다.
+      최대 레코드 길이는 50입니다.
+NOTE: 1개의 관측값을 데이터셋 EMWS6.REPL_LIMITS.에서 읽었습니다.
+      WHERE NEWNAME='REP_VALUE';
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKEVAROPTCODE):   filename sfile;
+NOTE: Fileref SFILE을(를) 삭제했습니다.
+MPRINT(MAKEVAROPTCODE):   filename sfile "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\REPLACECODE\REP_YOJ.sas";
+MPRINT(MAKEVAROPTCODE):   data _null_;
+MPRINT(MAKEVAROPTCODE):   length string $400;
+MPRINT(MAKEVAROPTCODE):   set EMWS6.Repl_LIMITS;
+MPRINT(MAKEVAROPTCODE):   where NEWNAME="REP_YOJ";
+MPRINT(MAKEVAROPTCODE):   file sfile;
+MPRINT(MAKEVAROPTCODE):   put '* ;';
+MPRINT(MAKEVAROPTCODE):   string = '*Variable: '!!strip(name)!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   put '* ;';
+MPRINT(MAKEVAROPTCODE):   if label eq '' then string = 'Label '!!strip(newname)!!"= 'Replacement: "!!strip(name)!!"';";
+MPRINT(MAKEVAROPTCODE):   else string = 'Label '!!strip(newname)!!"= 'Replacement: "!!strip(tranwrd(label, "'", "''"))!!"';";
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   string = 'length '!!strip(newname)!!' 8;';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   string = strip(newname)!!'= '!!strip(NAME)!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   replacemin = .;
+MPRINT(MAKEVAROPTCODE):   string = 'if '!!strip(name)!!' eq . then '!!strip(newname)!!' = .;';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   if LowerLimit ne . then do;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="COMPUTED" then replaceMin=LowerLimit;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="MANUAL" then replaceMin = ReplaceMinUsed;
+MPRINT(MAKEVAROPTCODE):   put 'else';
+MPRINT(MAKEVAROPTCODE):   string = 'if '!!strip(name)!!'<'!!strip(put(lowerlimit,best.)) !!' then '!!strip(newname)!!'='!!strip(put(replaceMin,best.))!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   end;
+MPRINT(MAKEVAROPTCODE):   if UpperLimit ne . then do;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="COMPUTED" then replaceMax=UpperLimit;
+MPRINT(MAKEVAROPTCODE):   if ReplaceMethodUsed="MANUAL" then replaceMax = ReplaceMaxUsed;
+MPRINT(MAKEVAROPTCODE):   put 'else';
+MPRINT(MAKEVAROPTCODE):   string = 'if '!!strip(name)!!'>'!!strip(put(upperlimit,best.)) !!' then '!!strip(newname)!!'='!!strip(put(replaceMax,best.))!!';';
+MPRINT(MAKEVAROPTCODE):   put string;
+MPRINT(MAKEVAROPTCODE):   end;
+MPRINT(MAKEVAROPTCODE):   run;
+
+NOTE: 파일 SFILE:
+      파일 이름=C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\REPLACECODE\REP_YOJ.sas,
+      RECFM=V,LRECL=32767,파일 크기 (바이트)=0,
+      마지막 수정일=2018년 11월 20일 11시26분48초,
+      생성 시간=2018년 11월 20일 11시26분48초
+
+NOTE: 11개의 레코드를 파일 SFILE에 기록했습니다.
+      최소 레코드 길이는 3입니다.
+      최대 레코드 길이는 46입니다.
+NOTE: 1개의 관측값을 데이터셋 EMWS6.REPL_LIMITS.에서 읽었습니다.
+      WHERE NEWNAME='REP_YOJ';
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKEVAROPTCODE):   filename sfile;
+NOTE: Fileref SFILE을(를) 삭제했습니다.
+MPRINT(SCORE):  ;
+MPRINT(MAKEVARDELTACODE):   filename _F1 "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\CDELTA_TRAIN.sas";
+MPRINT(MAKEVARDELTACODE):   data _null_;
+MPRINT(MAKEVARDELTACODE):   set EMWS6.Repl_LIMITS end=eof;
+MPRINT(MAKEVARDELTACODE):   length string $400;
+MPRINT(MAKEVARDELTACODE):   file _F1;
+MPRINT(MAKEVARDELTACODE):   string = 'if NAME="'!!strip(NAME)!!'" then do;';
+MPRINT(MAKEVARDELTACODE):   put string;
+MPRINT(MAKEVARDELTACODE):   string = '   ROLE="REJECTED";';
+MPRINT(MAKEVARDELTACODE):   put string;
+MPRINT(MAKEVARDELTACODE):   string = '   COMMENT= "Replaced by '!!"Repl"!!'";';
+MPRINT(MAKEVARDELTACODE):   put string;
+MPRINT(MAKEVARDELTACODE):   string = 'end;';
+MPRINT(MAKEVARDELTACODE):   put string;
+MPRINT(MAKEVARDELTACODE):   put 'else';
+MPRINT(MAKEVARDELTACODE):   string = '   if NAME="'!!strip(NEWNAME)!!'" then do;';
+MPRINT(MAKEVARDELTACODE):   put string;
+MPRINT(MAKEVARDELTACODE):   string = '      ROLE="'!!strip(ROLE)!!'";';
+MPRINT(MAKEVARDELTACODE):   put string;
+MPRINT(MAKEVARDELTACODE):   string = '      LEVEL="'!!strip(LEVEL)!!'";';
+MPRINT(MAKEVARDELTACODE):   put string;
+MPRINT(MAKEVARDELTACODE):   put 'end;';
+MPRINT(MAKEVARDELTACODE):   if ^eof then put 'else';
+MPRINT(MAKEVARDELTACODE):   run;
+
+NOTE: 파일 _F1:
+      파일 이름=C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\CDELTA_TRAIN.sas,
+      RECFM=V,LRECL=32767,파일 크기 (바이트)=0,
+      마지막 수정일=2018년 11월 20일 11시26분48초,
+      생성 시간=2018년 11월 20일 11시21분01초
+
+NOTE: 99개의 레코드를 파일 _F1에 기록했습니다.
+      최소 레코드 길이는 4입니다.
+      최대 레코드 길이는 30입니다.
+NOTE: 10개의 관측값을 데이터셋 EMWS6.REPL_LIMITS.에서 읽었습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKEVARDELTACODE):   filename _F1;
+NOTE: Fileref _F1을(를) 삭제했습니다.
+MPRINT(SCORE):  ;
+MPRINT(SCORE):   proc print data=EMWS6.Repl_LIMITS label noobs;
+MPRINT(SCORE):   var Name newname lowerLimit REPLACEMINUSED UpperLimit REPLACEMAXUSED;
+MPRINT(SCORE):   label REPLACEMINUSED = "대체값 하한" REPLACEMAXUSED = "대체값 상한";
+MPRINT(SCORE):   title9 ' ';
+MPRINT(SCORE):   title10 "구간 변수에 대한 제한 및 대체값";
+MPRINT(SCORE):   run;
+
+NOTE: 10개의 관측값을 데이터셋 EMWS6.REPL_LIMITS.에서 읽었습니다.
+NOTE: 출력 결과 (프로시저: PRINT, 페이지: 2)
+NOTE: 프로시저 PRINT 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(SCORE):   title10;
+MPRINT(EM_REGISTER):   data WORK.EM_USER_KEY;
+MPRINT(EM_REGISTER):   set WORK.EM_USER_KEY end=eof;
+MPRINT(EM_REGISTER):   output;
+MPRINT(EM_REGISTER):   if eof then do;
+MPRINT(EM_REGISTER):   key = upcase("REPLACECODE");
+MPRINT(EM_REGISTER):   type = upcase("FOLDER");
+MPRINT(EM_REGISTER):   file = "REPLACECODE";
+MPRINT(EM_REGISTER):   folder = "";
+MPRINT(EM_REGISTER):   extension = "";
+MPRINT(EM_REGISTER):   AUTODELETE = "Y";
+MPRINT(EM_REGISTER):   property = "N";
+MPRINT(EM_REGISTER):   action = "";
+MPRINT(EM_REGISTER):   cas = "N";
+MPRINT(EM_REGISTER):   output;
+MPRINT(EM_REGISTER):   end;
+MPRINT(EM_REGISTER):   run;
+
+NOTE: 1개의 관측값을 데이터셋 WORK.EM_USER_KEY.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_USER_KEY은(는) 2개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(MAKECLASSSCORECODE):  ;
+MPRINT(MAKENEWVARCODE):   filename _F1 "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMFLOWSCORE.sas" MOD;
+MPRINT(MAKENEWVARCODE):   data _null_;
+MPRINT(MAKENEWVARCODE):   length string $400;
+MPRINT(MAKENEWVARCODE):   set EMWS6.Repl_CLASSINFO end=eof;
+MPRINT(MAKENEWVARCODE):   file _F1;
+MPRINT(MAKENEWVARCODE):   if _N_=1 then do;
+MPRINT(MAKENEWVARCODE):   put '   ';
+MPRINT(MAKENEWVARCODE):   put '* ;';
+MPRINT(MAKENEWVARCODE):   put '* Defining New Variables;';
+MPRINT(MAKENEWVARCODE):   put '* ;';
+MPRINT(MAKENEWVARCODE):   end;
+MPRINT(MAKENEWVARCODE):   if type eq 'C' then do;
+MPRINT(MAKENEWVARCODE):   string = 'Length '!!strip(newname)!!' $'!!strip(put(length,BEST12.))!!';';
+MPRINT(MAKENEWVARCODE):   put string;
+MPRINT(MAKENEWVARCODE):   end;
+MPRINT(MAKENEWVARCODE):   else do;
+MPRINT(MAKENEWVARCODE):   string = 'Length '!!strip(newname)!!' 8;';
+MPRINT(MAKENEWVARCODE):   put string;
+MPRINT(MAKENEWVARCODE):   end;
+MPRINT(MAKENEWVARCODE):   if strip(label) = '' then label = name;
+MPRINT(MAKENEWVARCODE):   string= 'Label '!!strip(newname)!!"='Replacement: "!!strip(tranwrd(label, "'","''"))!!"';";
+MPRINT(MAKENEWVARCODE):   put string;
+MPRINT(MAKENEWVARCODE):   if format ne '' then do;
+MPRINT(MAKENEWVARCODE):   string ='format '!!strip(newname)!!' '!!strip(format)!!';';
+MPRINT(MAKENEWVARCODE):   put string;
+MPRINT(MAKENEWVARCODE):   end;
+MPRINT(MAKENEWVARCODE):   string = strip(newname)!!'= '!!strip(NAME)!!';';
+MPRINT(MAKENEWVARCODE):   put string;
+MPRINT(MAKENEWVARCODE):   run;
+
+NOTE: 파일 _F1:
+      파일 이름=C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMFLOWSCORE.sas,
+      RECFM=V,LRECL=32767,파일 크기 (바이트)=2756,
+      마지막 수정일=2018년 11월 20일 11시26분48초,
+      생성 시간=2018년 11월 20일 11시21분01초
+
+NOTE: 0개의 레코드를 파일 _F1에 기록했습니다.
+NOTE: 0개의 관측값을 데이터셋 EMWS6.REPL_CLASSINFO.에서 읽었습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(MAKECLASSSCORECODE):  ;
+MPRINT(MAKECLASSSCORECODE):   data _tempNewVars;
+MPRINT(MAKECLASSSCORECODE):   set EMWS6.Repl_CLASSINFO;
+MPRINT(MAKECLASSSCORECODE):   where ROLE ne 'TARGET';
+MPRINT(MAKECLASSSCORECODE):   run;
+
+NOTE: 0개의 관측값을 데이터셋 EMWS6.REPL_CLASSINFO.에서 읽었습니다.
+      WHERE ROLE not = 'TARGET';
+NOTE: 데이터셋 WORK._TEMPNEWVARS은(는) 0개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(MAKENEWVARCODE):   filename _F1 "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMPUBLISHSCORE.sas" MOD;
+MPRINT(MAKENEWVARCODE):   data _null_;
+MPRINT(MAKENEWVARCODE):   length string $400;
+MPRINT(MAKENEWVARCODE):   set _tempNewVars end=eof;
+MPRINT(MAKENEWVARCODE):   file _F1;
+MPRINT(MAKENEWVARCODE):   if _N_=1 then do;
+MPRINT(MAKENEWVARCODE):   put '   ';
+MPRINT(MAKENEWVARCODE):   put '* ;';
+MPRINT(MAKENEWVARCODE):   put '* Defining New Variables;';
+MPRINT(MAKENEWVARCODE):   put '* ;';
+MPRINT(MAKENEWVARCODE):   end;
+MPRINT(MAKENEWVARCODE):   if type eq 'C' then do;
+MPRINT(MAKENEWVARCODE):   string = 'Length '!!strip(newname)!!' $'!!strip(put(length,BEST12.))!!';';
+MPRINT(MAKENEWVARCODE):   put string;
+MPRINT(MAKENEWVARCODE):   end;
+MPRINT(MAKENEWVARCODE):   else do;
+MPRINT(MAKENEWVARCODE):   string = 'Length '!!strip(newname)!!' 8;';
+MPRINT(MAKENEWVARCODE):   put string;
+MPRINT(MAKENEWVARCODE):   end;
+MPRINT(MAKENEWVARCODE):   if strip(label) = '' then label = name;
+MPRINT(MAKENEWVARCODE):   string= 'Label '!!strip(newname)!!"='Replacement: "!!strip(tranwrd(label, "'","''"))!!"';";
+MPRINT(MAKENEWVARCODE):   put string;
+MPRINT(MAKENEWVARCODE):   if format ne '' then do;
+MPRINT(MAKENEWVARCODE):   string ='format '!!strip(newname)!!' '!!strip(format)!!';';
+MPRINT(MAKENEWVARCODE):   put string;
+MPRINT(MAKENEWVARCODE):   end;
+MPRINT(MAKENEWVARCODE):   string = strip(newname)!!'= '!!strip(NAME)!!';';
+MPRINT(MAKENEWVARCODE):   put string;
+MPRINT(MAKENEWVARCODE):   run;
+
+NOTE: 파일 _F1:
+      파일 이름=C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMPUBLISHSCORE.sas,
+      RECFM=V,LRECL=32767,파일 크기 (바이트)=2756,
+      마지막 수정일=2018년 11월 20일 11시26분48초,
+      생성 시간=2018년 11월 20일 11시21분01초
+
+NOTE: 0개의 레코드를 파일 _F1에 기록했습니다.
+NOTE: 0개의 관측값을 데이터셋 WORK._TEMPNEWVARS.에서 읽었습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(MAKECLASSSCORECODE):  ;
+MPRINT(MAKENEWVAROPTCODE):   data _temp_;
+MPRINT(MAKENEWVAROPTCODE):  set _tempNewVars;
+MPRINT(MAKENEWVAROPTCODE):  run;
+
+NOTE: 0개의 관측값을 데이터셋 WORK._TEMPNEWVARS.에서 읽었습니다.
+NOTE: 데이터셋 WORK._TEMP_은(는) 0개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(MAKECLASSSCORECODE):  ;
+MPRINT(MAKECLASSSCORECODE):   proc datasets lib=WORK nolist;
+MPRINT(MAKECLASSSCORECODE):   delete _tempNewVars;
+MPRINT(MAKECLASSSCORECODE):   run;
+
+NOTE: WORK._TEMPNEWVARS(memtype=DATA)을(를) 삭제하는 중입니다.
+MPRINT(MAKECLASSSCORECODE):   quit;
+
+NOTE: 프로시저 DATASETS 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKECLASSSCORECODE):   data _temp;
+MPRINT(MAKECLASSSCORECODE):   set CLASSTEMP;
+MPRINT(MAKECLASSSCORECODE):   where ROLE ne 'TARGET' and LEVEL='_UNKNOWN_' and (REPLACE_VALUE ^in('', '_DEFAULT_') or (REPLACE_VALUE='_DEFAULT_' and UNKWOWNDEFAULT ne 'NONE'));
+MPRINT(MAKECLASSSCORECODE):   keep NAME;
+MPRINT(MAKECLASSSCORECODE):   run;
+
+NOTE: 0개의 관측값을 데이터셋 WORK.CLASSTEMP.에서 읽었습니다.
+      WHERE (ROLE not = 'TARGET') and (LEVEL='_UNKNOWN_') and (REPLACE_VALUE not in (' ', '_DEFAULT_') or ((REPLACE_VALUE='_DEFAULT_') and (UNKWOWNDEFAULT not = 'NONE')));
+NOTE: 데이터셋 WORK._TEMP은(는) 0개의 관측값과 1개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKECLASSSCORECODE):   data _temp;
+MPRINT(MAKECLASSSCORECODE):   merge _temp(in=_a) CLASSTEMP EMWS6.Repl_CLASSINFO;
+MPRINT(MAKECLASSSCORECODE):   by NAME;
+MPRINT(MAKECLASSSCORECODE):   if _a then output;
+MPRINT(MAKECLASSSCORECODE):   run;
+
+NOTE: 0개의 관측값을 데이터셋 WORK._TEMP.에서 읽었습니다.
+NOTE: 15개의 관측값을 데이터셋 WORK.CLASSTEMP.에서 읽었습니다.
+NOTE: 0개의 관측값을 데이터셋 EMWS6.REPL_CLASSINFO.에서 읽었습니다.
+NOTE: 데이터셋 WORK._TEMP은(는) 0개의 관측값과 17개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(MAKEUNKNOWNCODE):   filename _F1 "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMPUBLISHSCORE.sas" MOD;
+MPRINT(MAKEUNKNOWNCODE):   data _null_;
+MPRINT(MAKEUNKNOWNCODE):   set _temp;
+MPRINT(MAKEUNKNOWNCODE):   length string $400;
+MPRINT(MAKEUNKNOWNCODE):   length newlevel replaceLevel $200;
+MPRINT(MAKEUNKNOWNCODE):   retain string missingFlag;
+MPRINT(MAKEUNKNOWNCODE):   file _F1;
+MPRINT(MAKEUNKNOWNCODE):   by NAME;
+MPRINT(MAKEUNKNOWNCODE):   if _N_=1 then do;
+MPRINT(MAKEUNKNOWNCODE):   put '* ;';
+MPRINT(MAKEUNKNOWNCODE):   put '* Replace Unknown Class Levels ;';
+MPRINT(MAKEUNKNOWNCODE):   put '* ;';
+MPRINT(MAKEUNKNOWNCODE):   put 'length _UFORMAT200 $200;';
+MPRINT(MAKEUNKNOWNCODE):   put 'drop   _UFORMAT200;';
+MPRINT(MAKEUNKNOWNCODE):   put '_UFORMAT200 = " ";';
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   if first.name then do;
+MPRINT(MAKEUNKNOWNCODE):   missingFlag = 0;
+MPRINT(MAKEUNKNOWNCODE):   put '*;';
+MPRINT(MAKEUNKNOWNCODE):   if format ne '' then do;
+MPRINT(MAKEUNKNOWNCODE):   call symput('UFormatFlag', '1');
+MPRINT(MAKEUNKNOWNCODE):   string = '_UFORMAT200 = '!!'strip(put('!!strip(NAME)!!','!!strip(format)!!'));';
+MPRINT(MAKEUNKNOWNCODE):   put string;
+MPRINT(MAKEUNKNOWNCODE):   put 'if ^(_UFORMAT200 in(';
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   else do;
+MPRINT(MAKEUNKNOWNCODE):   if type eq 'C' then do;
+MPRINT(MAKEUNKNOWNCODE):   call symput('UFormatFlag', '1');
+MPRINT(MAKEUNKNOWNCODE):   string = '_UFORMAT200 = '!!'strip('!!strip(NAME)!!');';
+MPRINT(MAKEUNKNOWNCODE):   put string;
+MPRINT(MAKEUNKNOWNCODE):   put 'if ^(_UFORMAT200 in(';
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   else put 'if (';
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   string='';
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   if ^last.name and LEVEL ne '_UNKNOWN_' then do;
+MPRINT(MAKEUNKNOWNCODE):   if format ne '' or type eq 'C' then do;
+MPRINT(MAKEUNKNOWNCODE):   newlevel = tranwrd(strip(LEVEL),'"','""');
+MPRINT(MAKEUNKNOWNCODE):   if strip(newLevel) = '' then missingFlag = 1;
+MPRINT(MAKEUNKNOWNCODE):   if length(strip(newlevel))+length(strip(string))+4<80 then do;
+MPRINT(MAKEUNKNOWNCODE):   if string='' then string = strip(string)!!' "'!!strip(newlevel)!!'" ';
+MPRINT(MAKEUNKNOWNCODE):   else string = strip(string)!!', "'!!strip(newlevel)!!'" ';
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   else do;
+MPRINT(MAKEUNKNOWNCODE):   put string;
+MPRINT(MAKEUNKNOWNCODE):   string =', "'!!tranwrd(strip(LEVEL),'"','""')!!'"';
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   else do;
+MPRINT(MAKEUNKNOWNCODE):   string = strip(name)!!' ne '!!strip(level)!!' and ';
+MPRINT(MAKEUNKNOWNCODE):   put string;
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   newlevel = ' ';
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   else do;
+MPRINT(MAKEUNKNOWNCODE):   if format ne '' or type eq 'C' then do;
+MPRINT(MAKEUNKNOWNCODE):   put string;
+MPRINT(MAKEUNKNOWNCODE):   if ^missingFlag then string = ', "" )) then ';
+MPRINT(MAKEUNKNOWNCODE):   else string = ')) then ';
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   else string = strip(name)!!' ne . ) then ';
+MPRINT(MAKEUNKNOWNCODE):   put string;
+MPRINT(MAKEUNKNOWNCODE):   select(REPLACE_VALUE);
+MPRINT(MAKEUNKNOWNCODE):   when('_MODE_') do;
+MPRINT(MAKEUNKNOWNCODE):   if type eq 'C' then replaceLevel = NORMMODE;
+MPRINT(MAKEUNKNOWNCODE):   else replaceLevel =strip(put(MODEN,BEST.));
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   when('_MISSING_') do;
+MPRINT(MAKEUNKNOWNCODE):   if type eq 'C' then replaceLevel = '';
+MPRINT(MAKEUNKNOWNCODE):   else replaceLevel = '.';
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   when('_DEFAULT_') do;
+MPRINT(MAKEUNKNOWNCODE):   if type eq 'C' then replaceLevel = '';
+MPRINT(MAKEUNKNOWNCODE):   else replaceLevel = '.';
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   when('') do;
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   otherwise do;
+MPRINT(MAKEUNKNOWNCODE):   if type eq 'C' then replaceLevel= replace_Value;
+MPRINT(MAKEUNKNOWNCODE):   else replaceLevel = replace_Value;
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   if type eq 'C' then do;
+MPRINT(MAKEUNKNOWNCODE):   string = strip(newname)!!'= "'!!tranwrd(strip(replaceLevel),'"','""')!!'";';
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   else do;
+MPRINT(MAKEUNKNOWNCODE):   string = strip(newname)!!'= '!!strip(replaceLevel)!!';';
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   put string;
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   run;
+
+NOTE: 파일 _F1:
+      파일 이름=C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMPUBLISHSCORE.sas,
+      RECFM=V,LRECL=32767,파일 크기 (바이트)=2756,
+      마지막 수정일=2018년 11월 20일 11시26분48초,
+      생성 시간=2018년 11월 20일 11시21분01초
+
+NOTE: 0개의 레코드를 파일 _F1에 기록했습니다.
+NOTE: 0개의 관측값을 데이터셋 WORK._TEMP.에서 읽었습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(MAKEUNKNOWNCODE):   filename _F1;
+NOTE: Fileref _F1을(를) 삭제했습니다.
+MPRINT(MAKECLASSSCORECODE):  ;
+MPRINT(MAKECLASSSCORECODE):  ;
+MPRINT(MAKECLASSSCORECODE):   proc datasets lib=work nolist;
+MPRINT(MAKECLASSSCORECODE):   delete _temp;
+MPRINT(MAKECLASSSCORECODE):   run;
+
+NOTE: WORK._TEMP(memtype=DATA)을(를) 삭제하는 중입니다.
+MPRINT(MAKECLASSSCORECODE):   quit;
+
+NOTE: 프로시저 DATASETS 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKECLASSSCORECODE):   data _temp;
+MPRINT(MAKECLASSSCORECODE):   merge CLASSTEMP(in=_a where=( ROLE ne 'TARGET' and LEVEL ne '_UNKNOWN_' and (REPLACE_VALUE ^in('', '_DEFAULT_') or (REPLACE_VALUE='_DEFAULT_' and UNKWOWNDEFAULT ne 'NONE')) )) EMWS6.Repl_CLASSINFO;
+MPRINT(MAKECLASSSCORECODE):   by NAME;
+MPRINT(MAKECLASSSCORECODE):   if _a then output;
+MPRINT(MAKECLASSSCORECODE):   run;
+
+NOTE: 0개의 관측값을 데이터셋 WORK.CLASSTEMP.에서 읽었습니다.
+      WHERE (ROLE not = 'TARGET') and (LEVEL not = '_UNKNOWN_') and (REPLACE_VALUE not in (' ', '_DEFAULT_') or ((REPLACE_VALUE='_DEFAULT_') and (UNKWOWNDEFAULT not = 'NONE')));
+NOTE: 0개의 관측값을 데이터셋 EMWS6.REPL_CLASSINFO.에서 읽었습니다.
+NOTE: 데이터셋 WORK._TEMP은(는) 0개의 관측값과 17개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKEREPLACECODE):   filename _F1 "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMPUBLISHSCORE.sas" MOD;
+MPRINT(MAKEREPLACECODE):   data _null_;
+MPRINT(MAKEREPLACECODE):   length string $400;
+MPRINT(MAKEREPLACECODE):   set _temp end=eof;
+MPRINT(MAKEREPLACECODE):   file _F1;
+MPRINT(MAKEREPLACECODE):   by NAME;
+MPRINT(MAKEREPLACECODE):   if _N_=1 then do;
+MPRINT(MAKEREPLACECODE):   put '   ';
+MPRINT(MAKEREPLACECODE):   put '* ;';
+MPRINT(MAKEREPLACECODE):   put '* Replace Specific Class Levels ;';
+MPRINT(MAKEREPLACECODE):   put '* ;';
+MPRINT(MAKEREPLACECODE):   put 'length _UFormat200 $200;';
+MPRINT(MAKEREPLACECODE):   put 'drop   _UFORMAT200;';
+MPRINT(MAKEREPLACECODE):   put '_UFORMAT200 = " ";';
+MPRINT(MAKEREPLACECODE):   end;
+MPRINT(MAKEREPLACECODE):   if first.name then do;
+MPRINT(MAKEREPLACECODE):   put '* ;';
+MPRINT(MAKEREPLACECODE):   string = '* Variable: '!!strip(NAME)!!';';
+MPRINT(MAKEREPLACECODE):   put string;
+MPRINT(MAKEREPLACECODE):   put '* ;';
+MPRINT(MAKEREPLACECODE):   if format ne '' then do;
+MPRINT(MAKEREPLACECODE):   call symput('UFormatFlag', '1');
+MPRINT(MAKEREPLACECODE):   string = "_UFORMAT200 = strip(";
+MPRINT(MAKEREPLACECODE):   put string;
+MPRINT(MAKEREPLACECODE):   string ='put('!!strip(NAME)!!','!!strip(format)!!'));';
+MPRINT(MAKEREPLACECODE):   put string;
+MPRINT(MAKEREPLACECODE):   end;
+MPRINT(MAKEREPLACECODE):   else if type eq 'C' then do;
+MPRINT(MAKEREPLACECODE):   call symput('UFormatFlag', '1');
+MPRINT(MAKEREPLACECODE):   string = "_UFORMAT200 = strip("!!strip(NAME)!!');';
+MPRINT(MAKEREPLACECODE):   put string;
+MPRINT(MAKEREPLACECODE):   end;
+MPRINT(MAKEREPLACECODE):   end;
+MPRINT(MAKEREPLACECODE):   if ^first.name then put 'else';
+MPRINT(MAKEREPLACECODE):   if format ne '' then do;
+MPRINT(MAKEREPLACECODE):   string = tranwrd(strip(LEVEL),'"','""');
+MPRINT(MAKEREPLACECODE):   string =' if _UFORMAT200 =  "'!!strip(string)!!'" then ';
+MPRINT(MAKEREPLACECODE):   put string;
+MPRINT(MAKEREPLACECODE):   end;
+MPRINT(MAKEREPLACECODE):   else do;
+MPRINT(MAKEREPLACECODE):   if type eq 'N' then do;
+MPRINT(MAKEREPLACECODE):   string = 'if '!!strip(name)!!' = '!!strip(put(nraw, BEST.))!!' then ';
+MPRINT(MAKEREPLACECODE):   put string;
+MPRINT(MAKEREPLACECODE):   end;
+MPRINT(MAKEREPLACECODE):   else do;
+MPRINT(MAKEREPLACECODE):   string = tranwrd(strip(craw),'"','""');
+MPRINT(MAKEREPLACECODE):   string = ' if _UFORMAT200 =  "'!!strip(string)!!'" then ';
+MPRINT(MAKEREPLACECODE):   put string;
+MPRINT(MAKEREPLACECODE):   end;
+MPRINT(MAKEREPLACECODE):   end;
+MPRINT(MAKEREPLACECODE):   string = strip(newname)!!'=';
+MPRINT(MAKEREPLACECODE):   if type eq 'C' then do;
+MPRINT(MAKEREPLACECODE):   if upcase(replace_value) eq '_MISSING_' or (upcase(replace_value) eq '_DEFAULT_' and (upcase(UNKWOWNDEFAULT)= 'MISSING')) then replace_Value ='';
+MPRINT(MAKEREPLACECODE):   else if upcase(replace_value) eq '_MODE_' or (upcase(replace_value) eq '_DEFAULT_' and (upcase(UNKWOWNDEFAULT)= 'MODE')) then replace_Value =modec;
+MPRINT(MAKEREPLACECODE):   string = strip(string)!!'"'!!tranwrd(strip(replace_Value),'"','""')!!'";';
+MPRINT(MAKEREPLACECODE):   end;
+MPRINT(MAKEREPLACECODE):   else do;
+MPRINT(MAKEREPLACECODE):   if upcase(replace_value) eq '_MISSING_' or (upcase(replace_value) eq '_DEFAULT_' and (upcase(UNKWOWNDEFAULT) = 'MISSING')) then replace_Value ='.';
+MPRINT(MAKEREPLACECODE):   else if upcase(replace_value) eq '_MODE_' or (upcase(replace_value) eq '_DEFAULT_' and (upcase(UNKWOWNDEFAULT) = 'MODE')) then replace_Value =strip(put(moden, BEST.));
+MPRINT(MAKEREPLACECODE):   string = strip(string)!!''!!strip(replace_value)!!';';
+MPRINT(MAKEREPLACECODE):   end;
+MPRINT(MAKEREPLACECODE):   put string;
+MPRINT(MAKEREPLACECODE):   run;
+
+NOTE: 파일 _F1:
+      파일 이름=C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMPUBLISHSCORE.sas,
+      RECFM=V,LRECL=32767,파일 크기 (바이트)=2756,
+      마지막 수정일=2018년 11월 20일 11시26분48초,
+      생성 시간=2018년 11월 20일 11시21분01초
+
+NOTE: 0개의 레코드를 파일 _F1에 기록했습니다.
+NOTE: 0개의 관측값을 데이터셋 WORK._TEMP.에서 읽었습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKEREPLACECODE):   filename _F1;
+NOTE: Fileref _F1을(를) 삭제했습니다.
+MPRINT(MAKECLASSSCORECODE):  ;
+MPRINT(MAKECLASSSCORECODE):  ;
+MPRINT(MAKECLASSSCORECODE):   data _temp;
+MPRINT(MAKECLASSSCORECODE):   set CLASSTEMP;
+MPRINT(MAKECLASSSCORECODE):   where LEVEL='_UNKNOWN_' and (REPLACE_VALUE ^in('', '_DEFAULT_') or (REPLACE_VALUE='_DEFAULT_' and UNKWOWNDEFAULT ne 'NONE'));
+MPRINT(MAKECLASSSCORECODE):   keep NAME;
+MPRINT(MAKECLASSSCORECODE):   run;
+
+NOTE: 0개의 관측값을 데이터셋 WORK.CLASSTEMP.에서 읽었습니다.
+      WHERE (LEVEL='_UNKNOWN_') and (REPLACE_VALUE not in (' ', '_DEFAULT_') or ((REPLACE_VALUE='_DEFAULT_') and (UNKWOWNDEFAULT not = 'NONE')));
+NOTE: 데이터셋 WORK._TEMP은(는) 0개의 관측값과 1개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKECLASSSCORECODE):   data _temp;
+MPRINT(MAKECLASSSCORECODE):   merge _temp(in=_a) CLASSTEMP EMWS6.Repl_CLASSINFO;
+MPRINT(MAKECLASSSCORECODE):   by NAME;
+MPRINT(MAKECLASSSCORECODE):   if _a then output;
+MPRINT(MAKECLASSSCORECODE):   run;
+
+NOTE: 0개의 관측값을 데이터셋 WORK._TEMP.에서 읽었습니다.
+NOTE: 15개의 관측값을 데이터셋 WORK.CLASSTEMP.에서 읽었습니다.
+NOTE: 0개의 관측값을 데이터셋 EMWS6.REPL_CLASSINFO.에서 읽었습니다.
+NOTE: 데이터셋 WORK._TEMP은(는) 0개의 관측값과 17개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKEUNKNOWNCODE):   filename _F1 "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMFLOWSCORE.sas" MOD;
+MPRINT(MAKEUNKNOWNCODE):   data _null_;
+MPRINT(MAKEUNKNOWNCODE):   set _temp;
+MPRINT(MAKEUNKNOWNCODE):   length string $400;
+MPRINT(MAKEUNKNOWNCODE):   length newlevel replaceLevel $200;
+MPRINT(MAKEUNKNOWNCODE):   retain string missingFlag;
+MPRINT(MAKEUNKNOWNCODE):   file _F1;
+MPRINT(MAKEUNKNOWNCODE):   by NAME;
+MPRINT(MAKEUNKNOWNCODE):   if _N_=1 then do;
+MPRINT(MAKEUNKNOWNCODE):   put '* ;';
+MPRINT(MAKEUNKNOWNCODE):   put '* Replace Unknown Class Levels ;';
+MPRINT(MAKEUNKNOWNCODE):   put '* ;';
+MPRINT(MAKEUNKNOWNCODE):   put 'length _UFORMAT200 $200;';
+MPRINT(MAKEUNKNOWNCODE):   put 'drop   _UFORMAT200;';
+MPRINT(MAKEUNKNOWNCODE):   put '_UFORMAT200 = " ";';
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   if first.name then do;
+MPRINT(MAKEUNKNOWNCODE):   missingFlag = 0;
+MPRINT(MAKEUNKNOWNCODE):   put '*;';
+MPRINT(MAKEUNKNOWNCODE):   if format ne '' then do;
+MPRINT(MAKEUNKNOWNCODE):   call symput('UFormatFlag', '1');
+MPRINT(MAKEUNKNOWNCODE):   string = '_UFORMAT200 = '!!'strip(put('!!strip(NAME)!!','!!strip(format)!!'));';
+MPRINT(MAKEUNKNOWNCODE):   put string;
+MPRINT(MAKEUNKNOWNCODE):   put 'if ^(_UFORMAT200 in(';
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   else do;
+MPRINT(MAKEUNKNOWNCODE):   if type eq 'C' then do;
+MPRINT(MAKEUNKNOWNCODE):   call symput('UFormatFlag', '1');
+MPRINT(MAKEUNKNOWNCODE):   string = '_UFORMAT200 = '!!'strip('!!strip(NAME)!!');';
+MPRINT(MAKEUNKNOWNCODE):   put string;
+MPRINT(MAKEUNKNOWNCODE):   put 'if ^(_UFORMAT200 in(';
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   else put 'if (';
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   string='';
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   if ^last.name and LEVEL ne '_UNKNOWN_' then do;
+MPRINT(MAKEUNKNOWNCODE):   if format ne '' or type eq 'C' then do;
+MPRINT(MAKEUNKNOWNCODE):   newlevel = tranwrd(strip(LEVEL),'"','""');
+MPRINT(MAKEUNKNOWNCODE):   if strip(newLevel) = '' then missingFlag = 1;
+MPRINT(MAKEUNKNOWNCODE):   if length(strip(newlevel))+length(strip(string))+4<80 then do;
+MPRINT(MAKEUNKNOWNCODE):   if string='' then string = strip(string)!!' "'!!strip(newlevel)!!'" ';
+MPRINT(MAKEUNKNOWNCODE):   else string = strip(string)!!', "'!!strip(newlevel)!!'" ';
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   else do;
+MPRINT(MAKEUNKNOWNCODE):   put string;
+MPRINT(MAKEUNKNOWNCODE):   string =', "'!!tranwrd(strip(LEVEL),'"','""')!!'"';
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   else do;
+MPRINT(MAKEUNKNOWNCODE):   string = strip(name)!!' ne '!!strip(level)!!' and ';
+MPRINT(MAKEUNKNOWNCODE):   put string;
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   newlevel = ' ';
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   else do;
+MPRINT(MAKEUNKNOWNCODE):   if format ne '' or type eq 'C' then do;
+MPRINT(MAKEUNKNOWNCODE):   put string;
+MPRINT(MAKEUNKNOWNCODE):   if ^missingFlag then string = ', "" )) then ';
+MPRINT(MAKEUNKNOWNCODE):   else string = ')) then ';
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   else string = strip(name)!!' ne . ) then ';
+MPRINT(MAKEUNKNOWNCODE):   put string;
+MPRINT(MAKEUNKNOWNCODE):   select(REPLACE_VALUE);
+MPRINT(MAKEUNKNOWNCODE):   when('_MODE_') do;
+MPRINT(MAKEUNKNOWNCODE):   if type eq 'C' then replaceLevel = NORMMODE;
+MPRINT(MAKEUNKNOWNCODE):   else replaceLevel =strip(put(MODEN,BEST.));
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   when('_MISSING_') do;
+MPRINT(MAKEUNKNOWNCODE):   if type eq 'C' then replaceLevel = '';
+MPRINT(MAKEUNKNOWNCODE):   else replaceLevel = '.';
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   when('_DEFAULT_') do;
+MPRINT(MAKEUNKNOWNCODE):   if type eq 'C' then replaceLevel = '';
+MPRINT(MAKEUNKNOWNCODE):   else replaceLevel = '.';
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   when('') do;
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   otherwise do;
+MPRINT(MAKEUNKNOWNCODE):   if type eq 'C' then replaceLevel= replace_Value;
+MPRINT(MAKEUNKNOWNCODE):   else replaceLevel = replace_Value;
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   if type eq 'C' then do;
+MPRINT(MAKEUNKNOWNCODE):   string = strip(newname)!!'= "'!!tranwrd(strip(replaceLevel),'"','""')!!'";';
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   else do;
+MPRINT(MAKEUNKNOWNCODE):   string = strip(newname)!!'= '!!strip(replaceLevel)!!';';
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   put string;
+MPRINT(MAKEUNKNOWNCODE):   end;
+MPRINT(MAKEUNKNOWNCODE):   run;
+
+NOTE: 파일 _F1:
+      파일 이름=C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMFLOWSCORE.sas,
+      RECFM=V,LRECL=32767,파일 크기 (바이트)=2756,
+      마지막 수정일=2018년 11월 20일 11시26분48초,
+      생성 시간=2018년 11월 20일 11시21분01초
+
+NOTE: 0개의 레코드를 파일 _F1에 기록했습니다.
+NOTE: 0개의 관측값을 데이터셋 WORK._TEMP.에서 읽었습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKEUNKNOWNCODE):   filename _F1;
+NOTE: Fileref _F1을(를) 삭제했습니다.
+MPRINT(MAKECLASSSCORECODE):  ;
+MPRINT(MAKECLASSSCORECODE):   data _temp;
+MPRINT(MAKECLASSSCORECODE):   merge CLASSTEMP(in=_a where=(LEVEL ne '_UNKNOWN_' and (REPLACE_VALUE ^in('', '_DEFAULT_') or (REPLACE_VALUE='_DEFAULT_' and UNKWOWNDEFAULT ne 'NONE')) )) EMWS6.Repl_CLASSINFO;
+MPRINT(MAKECLASSSCORECODE):   by NAME;
+MPRINT(MAKECLASSSCORECODE):   if _a then output;
+MPRINT(MAKECLASSSCORECODE):   run;
+
+NOTE: 0개의 관측값을 데이터셋 WORK.CLASSTEMP.에서 읽었습니다.
+      WHERE (LEVEL not = '_UNKNOWN_') and (REPLACE_VALUE not in (' ', '_DEFAULT_') or ((REPLACE_VALUE='_DEFAULT_') and (UNKWOWNDEFAULT not = 'NONE')));
+NOTE: 0개의 관측값을 데이터셋 EMWS6.REPL_CLASSINFO.에서 읽었습니다.
+NOTE: 데이터셋 WORK._TEMP은(는) 0개의 관측값과 17개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKEREPLACECODE):   filename _F1 "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMFLOWSCORE.sas" MOD;
+MPRINT(MAKEREPLACECODE):   data _null_;
+MPRINT(MAKEREPLACECODE):   length string $400;
+MPRINT(MAKEREPLACECODE):   set _temp end=eof;
+MPRINT(MAKEREPLACECODE):   file _F1;
+MPRINT(MAKEREPLACECODE):   by NAME;
+MPRINT(MAKEREPLACECODE):   if _N_=1 then do;
+MPRINT(MAKEREPLACECODE):   put '   ';
+MPRINT(MAKEREPLACECODE):   put '* ;';
+MPRINT(MAKEREPLACECODE):   put '* Replace Specific Class Levels ;';
+MPRINT(MAKEREPLACECODE):   put '* ;';
+MPRINT(MAKEREPLACECODE):   put 'length _UFormat200 $200;';
+MPRINT(MAKEREPLACECODE):   put 'drop   _UFORMAT200;';
+MPRINT(MAKEREPLACECODE):   put '_UFORMAT200 = " ";';
+MPRINT(MAKEREPLACECODE):   end;
+MPRINT(MAKEREPLACECODE):   if first.name then do;
+MPRINT(MAKEREPLACECODE):   put '* ;';
+MPRINT(MAKEREPLACECODE):   string = '* Variable: '!!strip(NAME)!!';';
+MPRINT(MAKEREPLACECODE):   put string;
+MPRINT(MAKEREPLACECODE):   put '* ;';
+MPRINT(MAKEREPLACECODE):   if format ne '' then do;
+MPRINT(MAKEREPLACECODE):   call symput('UFormatFlag', '1');
+MPRINT(MAKEREPLACECODE):   string = "_UFORMAT200 = strip(";
+MPRINT(MAKEREPLACECODE):   put string;
+MPRINT(MAKEREPLACECODE):   string ='put('!!strip(NAME)!!','!!strip(format)!!'));';
+MPRINT(MAKEREPLACECODE):   put string;
+MPRINT(MAKEREPLACECODE):   end;
+MPRINT(MAKEREPLACECODE):   else if type eq 'C' then do;
+MPRINT(MAKEREPLACECODE):   call symput('UFormatFlag', '1');
+MPRINT(MAKEREPLACECODE):   string = "_UFORMAT200 = strip("!!strip(NAME)!!');';
+MPRINT(MAKEREPLACECODE):   put string;
+MPRINT(MAKEREPLACECODE):   end;
+MPRINT(MAKEREPLACECODE):   end;
+MPRINT(MAKEREPLACECODE):   if ^first.name then put 'else';
+MPRINT(MAKEREPLACECODE):   if format ne '' then do;
+MPRINT(MAKEREPLACECODE):   string = tranwrd(strip(LEVEL),'"','""');
+MPRINT(MAKEREPLACECODE):   string =' if _UFORMAT200 =  "'!!strip(string)!!'" then ';
+MPRINT(MAKEREPLACECODE):   put string;
+MPRINT(MAKEREPLACECODE):   end;
+MPRINT(MAKEREPLACECODE):   else do;
+MPRINT(MAKEREPLACECODE):   if type eq 'N' then do;
+MPRINT(MAKEREPLACECODE):   string = 'if '!!strip(name)!!' = '!!strip(put(nraw, BEST.))!!' then ';
+MPRINT(MAKEREPLACECODE):   put string;
+MPRINT(MAKEREPLACECODE):   end;
+MPRINT(MAKEREPLACECODE):   else do;
+MPRINT(MAKEREPLACECODE):   string = tranwrd(strip(craw),'"','""');
+MPRINT(MAKEREPLACECODE):   string = ' if _UFORMAT200 =  "'!!strip(string)!!'" then ';
+MPRINT(MAKEREPLACECODE):   put string;
+MPRINT(MAKEREPLACECODE):   end;
+MPRINT(MAKEREPLACECODE):   end;
+MPRINT(MAKEREPLACECODE):   string = strip(newname)!!'=';
+MPRINT(MAKEREPLACECODE):   if type eq 'C' then do;
+MPRINT(MAKEREPLACECODE):   if upcase(replace_value) eq '_MISSING_' or (upcase(replace_value) eq '_DEFAULT_' and (upcase(UNKWOWNDEFAULT)= 'MISSING')) then replace_Value ='';
+MPRINT(MAKEREPLACECODE):   else if upcase(replace_value) eq '_MODE_' or (upcase(replace_value) eq '_DEFAULT_' and (upcase(UNKWOWNDEFAULT)= 'MODE')) then replace_Value =modec;
+MPRINT(MAKEREPLACECODE):   string = strip(string)!!'"'!!tranwrd(strip(replace_Value),'"','""')!!'";';
+MPRINT(MAKEREPLACECODE):   end;
+MPRINT(MAKEREPLACECODE):   else do;
+MPRINT(MAKEREPLACECODE):   if upcase(replace_value) eq '_MISSING_' or (upcase(replace_value) eq '_DEFAULT_' and (upcase(UNKWOWNDEFAULT) = 'MISSING')) then replace_Value ='.';
+MPRINT(MAKEREPLACECODE):   else if upcase(replace_value) eq '_MODE_' or (upcase(replace_value) eq '_DEFAULT_' and (upcase(UNKWOWNDEFAULT) = 'MODE')) then replace_Value =strip(put(moden, BEST.));
+MPRINT(MAKEREPLACECODE):   string = strip(string)!!''!!strip(replace_value)!!';';
+MPRINT(MAKEREPLACECODE):   end;
+MPRINT(MAKEREPLACECODE):   put string;
+MPRINT(MAKEREPLACECODE):   run;
+
+NOTE: 파일 _F1:
+      파일 이름=C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMFLOWSCORE.sas,
+      RECFM=V,LRECL=32767,파일 크기 (바이트)=2756,
+      마지막 수정일=2018년 11월 20일 11시26분48초,
+      생성 시간=2018년 11월 20일 11시21분01초
+
+NOTE: 0개의 레코드를 파일 _F1에 기록했습니다.
+NOTE: 0개의 관측값을 데이터셋 WORK._TEMP.에서 읽었습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAKEREPLACECODE):   filename _F1;
+NOTE: Fileref _F1을(를) 삭제했습니다.
+MPRINT(MAKECLASSSCORECODE):  ;
+MPRINT(SCORE):  ;
+MPRINT(MAKECLASSDELTACODE):   filename _F1 "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\CDELTA_TRAIN.sas" MOD;
+MPRINT(MAKECLASSDELTACODE):   data _null_;
+MPRINT(MAKECLASSDELTACODE):   set EMWS6.Repl_CLASSINFO end=eof;
+MPRINT(MAKECLASSDELTACODE):   length string $400;
+MPRINT(MAKECLASSDELTACODE):   file _F1;
+MPRINT(MAKECLASSDELTACODE):   string = 'if NAME="'!!strip(NAME)!!'" then ROLE="REJECTED";';
+MPRINT(MAKECLASSDELTACODE):   put string;
+MPRINT(MAKECLASSDELTACODE):   put 'else';
+MPRINT(MAKECLASSDELTACODE):   string = '   if NAME="'!!strip(NEWNAME)!!'" then do;';
+MPRINT(MAKECLASSDELTACODE):   put string;
+MPRINT(MAKECLASSDELTACODE):   string = '      ROLE="'!!strip(ROLE)!!'";';
+MPRINT(MAKECLASSDELTACODE):   put string;
+MPRINT(MAKECLASSDELTACODE):   string = '      LEVEL="'!!strip(MLEVEL)!!'";';
+MPRINT(MAKECLASSDELTACODE):   put string;
+MPRINT(MAKECLASSDELTACODE):   put 'end;';
+MPRINT(MAKECLASSDELTACODE):   if ^eof then put 'else';
+MPRINT(MAKECLASSDELTACODE):   run;
+
+NOTE: 파일 _F1:
+      파일 이름=C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\CDELTA_TRAIN.sas,
+      RECFM=V,LRECL=32767,파일 크기 (바이트)=1614,
+      마지막 수정일=2018년 11월 20일 11시26분48초,
+      생성 시간=2018년 11월 20일 11시21분01초
+
+NOTE: 0개의 레코드를 파일 _F1에 기록했습니다.
+NOTE: 0개의 관측값을 데이터셋 EMWS6.REPL_CLASSINFO.에서 읽었습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(MAKECLASSDELTACODE):   filename _F1;
+NOTE: Fileref _F1을(를) 삭제했습니다.
+MPRINT(SCORE):  ;
+MPRINT(SCORE):  ;
+MPRINT(MAKEVALUEREPORT):   data EMWS6.Repl_VALUES;
+MPRINT(MAKEVALUEREPORT):   set CLASSTEMP;
+MPRINT(MAKEVALUEREPORT):   where REPLACE_VALUE ^in('', '_DEFAULT_') or (REPLACE_VALUE eq '_DEFAULT_' and UNKWOWNDEFAULT ne 'NONE');
+MPRINT(MAKEVALUEREPORT):   if LEVEL = '_UNKNOWN_' then do;
+MPRINT(MAKEVALUEREPORT):   LEVEL='Unknown';
+MPRINT(MAKEVALUEREPORT):   if REPLACE_VALUE = '_MODE_' then REPLACE_VALUE = strip(NORMMODE);
+MPRINT(MAKEVALUEREPORT):   else if REPLACE_VALUE in('_MISSING_', '_DEFAULT_') then do;
+MPRINT(MAKEVALUEREPORT):   if type eq 'N' then REPLACE_VALUE='.';
+MPRINT(MAKEVALUEREPORT):   else REPLACE_VALUE='_blank_';
+MPRINT(MAKEVALUEREPORT):   end;
+MPRINT(MAKEVALUEREPORT):   end;
+MPRINT(MAKEVALUEREPORT):   else do;
+MPRINT(MAKEVALUEREPORT):   if REPLACE_VALUE ='_MISSING_' then do;
+MPRINT(MAKEVALUEREPORT):   if type eq 'N' then REPLACE_VALUE='.';
+MPRINT(MAKEVALUEREPORT):   else REPLACE_VALUE='_blank_';
+MPRINT(MAKEVALUEREPORT):   end;
+MPRINT(MAKEVALUEREPORT):   else if REPLACE_VALUE = '_MODE_' then REPLACE_VALUE = strip(NORMMODE);
+MPRINT(MAKEVALUEREPORT):   end;
+MPRINT(MAKEVALUEREPORT):   keep NAME LEVEL CRAW NRAW REPLACE_VALUE TYPE LABEL ;
+MPRINT(MAKEVALUEREPORT):   run;
+
+NOTE: 0개의 관측값을 데이터셋 WORK.CLASSTEMP.에서 읽었습니다.
+      WHERE REPLACE_VALUE not in (' ', '_DEFAULT_') or ((REPLACE_VALUE='_DEFAULT_') and (UNKWOWNDEFAULT not = 'NONE'));
+NOTE: 데이터셋 EMWS6.REPL_VALUES은(는) 0개의 관측값과 7개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(SCORE):  ;
+MPRINT(SCORE):   proc print data=EMWS6.Repl_VALUES label noobs;
+MPRINT(SCORE):   title9 ' ';
+MPRINT(SCORE):   title10 "Class 변수에 대한 대체값";
+MPRINT(SCORE):   run;
+
+NOTE: 데이터셋 'EMWS6.REPL_VALUES'에 관측값이 없습니다.
+NOTE: 프로시저 PRINT 실행(총 프로세스 시간):
+      실행 시간           0.00 초
+      cpu 시간            0.00 초
+      
+
+MPRINT(SCORE):   title10;
+MPRINT(SCORE):   proc datasets lib=work nolist;
+MPRINT(SCORE):   delete CLASSTEMP;
+MPRINT(SCORE):   run;
+
+NOTE: WORK.CLASSTEMP(memtype=DATA)을(를) 삭제하는 중입니다.
+MPRINT(SCORE):   quit;
+
+NOTE: 프로시저 DATASETS 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(EM_REGISTER):   data WORK.EM_USER_KEY;
+MPRINT(EM_REGISTER):   set WORK.EM_USER_KEY end=eof;
+MPRINT(EM_REGISTER):   output;
+MPRINT(EM_REGISTER):   if eof then do;
+MPRINT(EM_REGISTER):   key = upcase("EMSCOREVAR");
+MPRINT(EM_REGISTER):   type = upcase("DATA");
+MPRINT(EM_REGISTER):   file = "Repl_EMSCOREVAR";
+MPRINT(EM_REGISTER):   folder = "";
+MPRINT(EM_REGISTER):   extension = "";
+MPRINT(EM_REGISTER):   AUTODELETE = "Y";
+MPRINT(EM_REGISTER):   property = "N";
+MPRINT(EM_REGISTER):   action = "";
+MPRINT(EM_REGISTER):   cas = "N";
+MPRINT(EM_REGISTER):   output;
+MPRINT(EM_REGISTER):   end;
+MPRINT(EM_REGISTER):   run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.EM_USER_KEY.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_USER_KEY은(는) 3개의 관측값과 9개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(SCORE):  ;
+MPRINT(SCORE):   proc datasets lib=EMWS6 nolist;
+MPRINT(SCORE):   delete Repl_EMSCOREVAR;
+MPRINT(SCORE):   run;
+
+NOTE: 파일 EMWS6.REPL_EMSCOREVAR(memtype=DATA)을(를) 찾을 수 없지만, DELETE 문장에 나타납니다.
+MPRINT(SCORE):   quit;
+
+NOTE: 프로시저 DATASETS 실행(총 프로세스 시간):
+      실행 시간           0.09 초
+      cpu 시간            0.09 초
+      
+
+MPRINT(SCORE):   data EMWS6.Repl_EMSCOREVAR;
+MPRINT(SCORE):   length Name $32 formula $70 file $200;
+MPRINT(SCORE):   keep NAME Formula file;
+MPRINT(SCORE):   name = "REP_CLAGE";
+MPRINT(SCORE):   file="REPLACECODE\REP_CLAGE.sas";
+MPRINT(SCORE):   output;
+MPRINT(SCORE):   name = "REP_CLNO";
+MPRINT(SCORE):   file="REPLACECODE\REP_CLNO.sas";
+MPRINT(SCORE):   output;
+MPRINT(SCORE):   name = "REP_DEBTINC";
+MPRINT(SCORE):   file="REPLACECODE\REP_DEBTINC.sas";
+MPRINT(SCORE):   output;
+MPRINT(SCORE):   name = "REP_DELINQ";
+MPRINT(SCORE):   file="REPLACECODE\REP_DELINQ.sas";
+MPRINT(SCORE):   output;
+MPRINT(SCORE):   name = "REP_DEROG";
+MPRINT(SCORE):   file="REPLACECODE\REP_DEROG.sas";
+MPRINT(SCORE):   output;
+MPRINT(SCORE):   name = "REP_LOAN";
+MPRINT(SCORE):   file="REPLACECODE\REP_LOAN.sas";
+MPRINT(SCORE):   output;
+MPRINT(SCORE):   name = "REP_MORTDUE";
+MPRINT(SCORE):   file="REPLACECODE\REP_MORTDUE.sas";
+MPRINT(SCORE):   output;
+MPRINT(SCORE):   name = "REP_NINQ";
+MPRINT(SCORE):   file="REPLACECODE\REP_NINQ.sas";
+MPRINT(SCORE):   output;
+MPRINT(SCORE):   name = "REP_VALUE";
+MPRINT(SCORE):   file="REPLACECODE\REP_VALUE.sas";
+MPRINT(SCORE):   output;
+MPRINT(SCORE):   name = "REP_YOJ";
+MPRINT(SCORE):   file="REPLACECODE\REP_YOJ.sas";
+MPRINT(SCORE):   output;
+MPRINT(SCORE):   run;
+
+NOTE: 변수 formula이(가) 초기화되지 않았습니다.
+NOTE: 데이터셋 EMWS6.REPL_EMSCOREVAR은(는) 10개의 관측값과 3개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.01 초
+      
+
+MPRINT(MAIN):  ;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * End SCORE: Repl;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+24801      *------------------------------------------------------------*;
+24802      * End SCORE: Repl;
+24803      *------------------------------------------------------------*;
+24804      
+
+24805      filename emflow "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMFLOWSCORE.sas";
+MPRINT(EM_DIAGRAM):    filename emflow "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMFLOWSCORE.sas";
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Repl: Scoring DATA data;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+24806      *------------------------------------------------------------*;
+24807      * Repl: Scoring DATA data;
+24808      *------------------------------------------------------------*;
+24809      data EMWS6.Repl_TRAIN
+24810      / view=EMWS6.Repl_TRAIN
+24811      ;
+MPRINT(EM_DIAGRAM):   data EMWS6.Repl_TRAIN / view=EMWS6.Repl_TRAIN ;
+24812      set EMWS6.Part4_TRAIN
+24813      ;
+MPRINT(EM_DIAGRAM):   set EMWS6.Part4_TRAIN ;
+24814      %inc emflow;
+NOTE: %INCLUDE(레벨 1) 파일 EMFLOW은(는) 파일 C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMFLOWSCORE.sas입니다.
+24815     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+24816     +* Variable: CLAGE ;
+MPRINT(EM_DIAGRAM):   * Variable: CLAGE ;
+24817     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+24818     +Label REP_CLAGE='Replacement: CLAGE';
+MPRINT(EM_DIAGRAM):   Label REP_CLAGE= 'Replacement: CLAGE';
+24819     +Length REP_CLAGE 8;
+MPRINT(EM_DIAGRAM):   Length REP_CLAGE 8;
+24820     +REP_CLAGE =CLAGE ;
+MPRINT(EM_DIAGRAM):   REP_CLAGE =CLAGE ;
+24821     +if CLAGE  eq . then REP_CLAGE = . ;
+MPRINT(EM_DIAGRAM):   if CLAGE eq . then REP_CLAGE = . ;
+24822     +else
+24823     +if CLAGE <-5.558879874  then REP_CLAGE  = -5.558879874 ;
+MPRINT(EM_DIAGRAM):   else if CLAGE <-5.558879874 then REP_CLAGE = -5.558879874 ;
+24824     +else
+24825     +if CLAGE >347.33581333  then REP_CLAGE  = 347.33581333 ;
+MPRINT(EM_DIAGRAM):   else if CLAGE >347.33581333 then REP_CLAGE = 347.33581333 ;
+24826     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+24827     +* Variable: CLNO ;
+MPRINT(EM_DIAGRAM):   * Variable: CLNO ;
+24828     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+24829     +Label REP_CLNO='Replacement: CLNO';
+MPRINT(EM_DIAGRAM):   Label REP_CLNO= 'Replacement: CLNO';
+24830     +Length REP_CLNO 8;
+MPRINT(EM_DIAGRAM):   Length REP_CLNO 8;
+24831     +REP_CLNO =CLNO ;
+MPRINT(EM_DIAGRAM):   REP_CLNO =CLNO ;
+24832     +if CLNO  eq . then REP_CLNO = . ;
+MPRINT(EM_DIAGRAM):   if CLNO eq . then REP_CLNO = . ;
+24833     +else
+24834     +if CLNO <-9.46221842  then REP_CLNO  = -9.46221842 ;
+MPRINT(EM_DIAGRAM):   else if CLNO <-9.46221842 then REP_CLNO = -9.46221842 ;
+24835     +else
+24836     +if CLNO >52.110759203  then REP_CLNO  = 52.110759203 ;
+MPRINT(EM_DIAGRAM):   else if CLNO >52.110759203 then REP_CLNO = 52.110759203 ;
+24837     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+24838     +* Variable: DEBTINC ;
+MPRINT(EM_DIAGRAM):   * Variable: DEBTINC ;
+24839     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+24840     +Label REP_DEBTINC='Replacement: DEBTINC';
+MPRINT(EM_DIAGRAM):   Label REP_DEBTINC= 'Replacement: DEBTINC';
+24841     +Length REP_DEBTINC 8;
+MPRINT(EM_DIAGRAM):   Length REP_DEBTINC 8;
+24842     +REP_DEBTINC =DEBTINC ;
+MPRINT(EM_DIAGRAM):   REP_DEBTINC =DEBTINC ;
+24843     +if DEBTINC  eq . then REP_DEBTINC = . ;
+MPRINT(EM_DIAGRAM):   if DEBTINC eq . then REP_DEBTINC = . ;
+24844     +else
+24845     +if DEBTINC <7.2115575199  then REP_DEBTINC  = 7.2115575199 ;
+MPRINT(EM_DIAGRAM):   else if DEBTINC <7.2115575199 then REP_DEBTINC = 7.2115575199 ;
+24846     +else
+24847     +if DEBTINC >60.389780717  then REP_DEBTINC  = 60.389780717 ;
+MPRINT(EM_DIAGRAM):   else if DEBTINC >60.389780717 then REP_DEBTINC = 60.389780717 ;
+24848     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+24849     +* Variable: DELINQ ;
+MPRINT(EM_DIAGRAM):   * Variable: DELINQ ;
+24850     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+24851     +Label REP_DELINQ='Replacement: DELINQ';
+MPRINT(EM_DIAGRAM):   Label REP_DELINQ= 'Replacement: DELINQ';
+24852     +Length REP_DELINQ 8;
+MPRINT(EM_DIAGRAM):   Length REP_DELINQ 8;
+24853     +REP_DELINQ =DELINQ ;
+MPRINT(EM_DIAGRAM):   REP_DELINQ =DELINQ ;
+24854     +if DELINQ  eq . then REP_DELINQ = . ;
+MPRINT(EM_DIAGRAM):   if DELINQ eq . then REP_DELINQ = . ;
+24855     +else
+24856     +if DELINQ <-3.077582316  then REP_DELINQ  = -3.077582316 ;
+MPRINT(EM_DIAGRAM):   else if DELINQ <-3.077582316 then REP_DELINQ = -3.077582316 ;
+24857     +else
+24858     +if DELINQ >4.0155977459  then REP_DELINQ  = 4.0155977459 ;
+MPRINT(EM_DIAGRAM):   else if DELINQ >4.0155977459 then REP_DELINQ = 4.0155977459 ;
+24859     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+24860     +* Variable: DEROG ;
+MPRINT(EM_DIAGRAM):   * Variable: DEROG ;
+24861     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+24862     +Label REP_DEROG='Replacement: DEROG';
+MPRINT(EM_DIAGRAM):   Label REP_DEROG= 'Replacement: DEROG';
+24863     +Length REP_DEROG 8;
+MPRINT(EM_DIAGRAM):   Length REP_DEROG 8;
+24864     +REP_DEROG =DEROG ;
+MPRINT(EM_DIAGRAM):   REP_DEROG =DEROG ;
+24865     +if DEROG  eq . then REP_DEROG = . ;
+MPRINT(EM_DIAGRAM):   if DEROG eq . then REP_DEROG = . ;
+24866     +else
+24867     +if DEROG <-2.234030943  then REP_DEROG  = -2.234030943 ;
+MPRINT(EM_DIAGRAM):   else if DEROG <-2.234030943 then REP_DEROG = -2.234030943 ;
+24868     +else
+24869     +if DEROG >2.7357977278  then REP_DEROG  = 2.7357977278 ;
+MPRINT(EM_DIAGRAM):   else if DEROG >2.7357977278 then REP_DEROG = 2.7357977278 ;
+24870     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+24871     +* Variable: LOAN ;
+MPRINT(EM_DIAGRAM):   * Variable: LOAN ;
+24872     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+24873     +Label REP_LOAN='Replacement: LOAN';
+MPRINT(EM_DIAGRAM):   Label REP_LOAN= 'Replacement: LOAN';
+24874     +Length REP_LOAN 8;
+MPRINT(EM_DIAGRAM):   Length REP_LOAN 8;
+24875     +REP_LOAN =LOAN ;
+MPRINT(EM_DIAGRAM):   REP_LOAN =LOAN ;
+24876     +if LOAN  eq . then REP_LOAN = . ;
+MPRINT(EM_DIAGRAM):   if LOAN eq . then REP_LOAN = . ;
+24877     +else
+24878     +if LOAN <-15417.34721  then REP_LOAN  = -15417.34721 ;
+MPRINT(EM_DIAGRAM):   else if LOAN <-15417.34721 then REP_LOAN = -15417.34721 ;
+24879     +else
+24880     +if LOAN >52848.042656  then REP_LOAN  = 52848.042656 ;
+MPRINT(EM_DIAGRAM):   else if LOAN >52848.042656 then REP_LOAN = 52848.042656 ;
+24881     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+24882     +* Variable: MORTDUE ;
+MPRINT(EM_DIAGRAM):   * Variable: MORTDUE ;
+24883     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+24884     +Label REP_MORTDUE='Replacement: MORTDUE';
+MPRINT(EM_DIAGRAM):   Label REP_MORTDUE= 'Replacement: MORTDUE';
+24885     +Length REP_MORTDUE 8;
+MPRINT(EM_DIAGRAM):   Length REP_MORTDUE 8;
+24886     +REP_MORTDUE =MORTDUE ;
+MPRINT(EM_DIAGRAM):   REP_MORTDUE =MORTDUE ;
+24887     +if MORTDUE  eq . then REP_MORTDUE = . ;
+MPRINT(EM_DIAGRAM):   if MORTDUE eq . then REP_MORTDUE = . ;
+24888     +else
+24889     +if MORTDUE <-57533.85598  then REP_MORTDUE  = -57533.85598 ;
+MPRINT(EM_DIAGRAM):   else if MORTDUE <-57533.85598 then REP_MORTDUE = -57533.85598 ;
+24890     +else
+24891     +if MORTDUE >205763.33706  then REP_MORTDUE  = 205763.33706 ;
+MPRINT(EM_DIAGRAM):   else if MORTDUE >205763.33706 then REP_MORTDUE = 205763.33706 ;
+24892     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+24893     +* Variable: NINQ ;
+MPRINT(EM_DIAGRAM):   * Variable: NINQ ;
+24894     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+24895     +Label REP_NINQ='Replacement: NINQ';
+MPRINT(EM_DIAGRAM):   Label REP_NINQ= 'Replacement: NINQ';
+24896     +Length REP_NINQ 8;
+MPRINT(EM_DIAGRAM):   Length REP_NINQ 8;
+24897     +REP_NINQ =NINQ ;
+MPRINT(EM_DIAGRAM):   REP_NINQ =NINQ ;
+24898     +if NINQ  eq . then REP_NINQ = . ;
+MPRINT(EM_DIAGRAM):   if NINQ eq . then REP_NINQ = . ;
+24899     +else
+24900     +if NINQ <-4.016729639  then REP_NINQ  = -4.016729639 ;
+MPRINT(EM_DIAGRAM):   else if NINQ <-4.016729639 then REP_NINQ = -4.016729639 ;
+24901     +else
+24902     +if NINQ >6.391038668  then REP_NINQ  = 6.391038668 ;
+MPRINT(EM_DIAGRAM):   else if NINQ >6.391038668 then REP_NINQ = 6.391038668 ;
+24903     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+24904     +* Variable: VALUE ;
+MPRINT(EM_DIAGRAM):   * Variable: VALUE ;
+24905     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+24906     +Label REP_VALUE='Replacement: VALUE';
+MPRINT(EM_DIAGRAM):   Label REP_VALUE= 'Replacement: VALUE';
+24907     +Length REP_VALUE 8;
+MPRINT(EM_DIAGRAM):   Length REP_VALUE 8;
+24908     +REP_VALUE =VALUE ;
+MPRINT(EM_DIAGRAM):   REP_VALUE =VALUE ;
+24909     +if VALUE  eq . then REP_VALUE = . ;
+MPRINT(EM_DIAGRAM):   if VALUE eq . then REP_VALUE = . ;
+24910     +else
+24911     +if VALUE <-71528.22897  then REP_VALUE  = -71528.22897 ;
+MPRINT(EM_DIAGRAM):   else if VALUE <-71528.22897 then REP_VALUE = -71528.22897 ;
+24912     +else
+24913     +if VALUE >276305.26513  then REP_VALUE  = 276305.26513 ;
+MPRINT(EM_DIAGRAM):   else if VALUE >276305.26513 then REP_VALUE = 276305.26513 ;
+24914     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+24915     +* Variable: YOJ ;
+MPRINT(EM_DIAGRAM):   * Variable: YOJ ;
+24916     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+24917     +Label REP_YOJ='Replacement: YOJ';
+MPRINT(EM_DIAGRAM):   Label REP_YOJ= 'Replacement: YOJ';
+24918     +Length REP_YOJ 8;
+MPRINT(EM_DIAGRAM):   Length REP_YOJ 8;
+24919     +REP_YOJ =YOJ ;
+MPRINT(EM_DIAGRAM):   REP_YOJ =YOJ ;
+24920     +if YOJ  eq . then REP_YOJ = . ;
+MPRINT(EM_DIAGRAM):   if YOJ eq . then REP_YOJ = . ;
+24921     +else
+24922     +if YOJ <-14.03331528  then REP_YOJ  = -14.03331528 ;
+MPRINT(EM_DIAGRAM):   else if YOJ <-14.03331528 then REP_YOJ = -14.03331528 ;
+24923     +else
+24924     +if YOJ >31.805181283  then REP_YOJ  = 31.805181283 ;
+MPRINT(EM_DIAGRAM):   else if YOJ >31.805181283 then REP_YOJ = 31.805181283 ;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(EM_DIAGRAM):   run;
+24925      run;
+
+NOTE: DATA STEP 뷰가 파일 EMWS6.REPL_TRAIN에 저장되었습니다.
+NOTE: 저장된 DATA STEP 뷰는 다른 운영 체제에서 실행할 수 없습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(EM_DIAGRAM):   quit;
+24926      quit;
+24927      filename emflow;
+MPRINT(EM_DIAGRAM):   filename emflow;
+NOTE: Fileref EMFLOW을(를) 삭제했습니다.
+24928      filename emflow "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMFLOWSCORE.sas";
+MPRINT(EM_DIAGRAM):    filename emflow "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMFLOWSCORE.sas";
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Repl: Scoring VALIDATE data;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+24929      *------------------------------------------------------------*;
+24930      * Repl: Scoring VALIDATE data;
+24931      *------------------------------------------------------------*;
+24932      data EMWS6.Repl_VALIDATE
+24933      / view=EMWS6.Repl_VALIDATE
+24934      ;
+MPRINT(EM_DIAGRAM):   data EMWS6.Repl_VALIDATE / view=EMWS6.Repl_VALIDATE ;
+24935      set EMWS6.Part4_VALIDATE
+24936      ;
+MPRINT(EM_DIAGRAM):   set EMWS6.Part4_VALIDATE ;
+24937      %inc emflow;
+NOTE: %INCLUDE(레벨 1) 파일 EMFLOW은(는) 파일 C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\EMFLOWSCORE.sas입니다.
+24938     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+24939     +* Variable: CLAGE ;
+MPRINT(EM_DIAGRAM):   * Variable: CLAGE ;
+24940     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+24941     +Label REP_CLAGE='Replacement: CLAGE';
+MPRINT(EM_DIAGRAM):   Label REP_CLAGE= 'Replacement: CLAGE';
+24942     +Length REP_CLAGE 8;
+MPRINT(EM_DIAGRAM):   Length REP_CLAGE 8;
+24943     +REP_CLAGE =CLAGE ;
+MPRINT(EM_DIAGRAM):   REP_CLAGE =CLAGE ;
+24944     +if CLAGE  eq . then REP_CLAGE = . ;
+MPRINT(EM_DIAGRAM):   if CLAGE eq . then REP_CLAGE = . ;
+24945     +else
+24946     +if CLAGE <-5.558879874  then REP_CLAGE  = -5.558879874 ;
+MPRINT(EM_DIAGRAM):   else if CLAGE <-5.558879874 then REP_CLAGE = -5.558879874 ;
+24947     +else
+24948     +if CLAGE >347.33581333  then REP_CLAGE  = 347.33581333 ;
+MPRINT(EM_DIAGRAM):   else if CLAGE >347.33581333 then REP_CLAGE = 347.33581333 ;
+24949     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+24950     +* Variable: CLNO ;
+MPRINT(EM_DIAGRAM):   * Variable: CLNO ;
+24951     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+24952     +Label REP_CLNO='Replacement: CLNO';
+MPRINT(EM_DIAGRAM):   Label REP_CLNO= 'Replacement: CLNO';
+24953     +Length REP_CLNO 8;
+MPRINT(EM_DIAGRAM):   Length REP_CLNO 8;
+24954     +REP_CLNO =CLNO ;
+MPRINT(EM_DIAGRAM):   REP_CLNO =CLNO ;
+24955     +if CLNO  eq . then REP_CLNO = . ;
+MPRINT(EM_DIAGRAM):   if CLNO eq . then REP_CLNO = . ;
+24956     +else
+24957     +if CLNO <-9.46221842  then REP_CLNO  = -9.46221842 ;
+MPRINT(EM_DIAGRAM):   else if CLNO <-9.46221842 then REP_CLNO = -9.46221842 ;
+24958     +else
+24959     +if CLNO >52.110759203  then REP_CLNO  = 52.110759203 ;
+MPRINT(EM_DIAGRAM):   else if CLNO >52.110759203 then REP_CLNO = 52.110759203 ;
+24960     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+24961     +* Variable: DEBTINC ;
+MPRINT(EM_DIAGRAM):   * Variable: DEBTINC ;
+24962     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+24963     +Label REP_DEBTINC='Replacement: DEBTINC';
+MPRINT(EM_DIAGRAM):   Label REP_DEBTINC= 'Replacement: DEBTINC';
+24964     +Length REP_DEBTINC 8;
+MPRINT(EM_DIAGRAM):   Length REP_DEBTINC 8;
+24965     +REP_DEBTINC =DEBTINC ;
+MPRINT(EM_DIAGRAM):   REP_DEBTINC =DEBTINC ;
+24966     +if DEBTINC  eq . then REP_DEBTINC = . ;
+MPRINT(EM_DIAGRAM):   if DEBTINC eq . then REP_DEBTINC = . ;
+24967     +else
+24968     +if DEBTINC <7.2115575199  then REP_DEBTINC  = 7.2115575199 ;
+MPRINT(EM_DIAGRAM):   else if DEBTINC <7.2115575199 then REP_DEBTINC = 7.2115575199 ;
+24969     +else
+24970     +if DEBTINC >60.389780717  then REP_DEBTINC  = 60.389780717 ;
+MPRINT(EM_DIAGRAM):   else if DEBTINC >60.389780717 then REP_DEBTINC = 60.389780717 ;
+24971     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+24972     +* Variable: DELINQ ;
+MPRINT(EM_DIAGRAM):   * Variable: DELINQ ;
+24973     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+24974     +Label REP_DELINQ='Replacement: DELINQ';
+MPRINT(EM_DIAGRAM):   Label REP_DELINQ= 'Replacement: DELINQ';
+24975     +Length REP_DELINQ 8;
+MPRINT(EM_DIAGRAM):   Length REP_DELINQ 8;
+24976     +REP_DELINQ =DELINQ ;
+MPRINT(EM_DIAGRAM):   REP_DELINQ =DELINQ ;
+24977     +if DELINQ  eq . then REP_DELINQ = . ;
+MPRINT(EM_DIAGRAM):   if DELINQ eq . then REP_DELINQ = . ;
+24978     +else
+24979     +if DELINQ <-3.077582316  then REP_DELINQ  = -3.077582316 ;
+MPRINT(EM_DIAGRAM):   else if DELINQ <-3.077582316 then REP_DELINQ = -3.077582316 ;
+24980     +else
+24981     +if DELINQ >4.0155977459  then REP_DELINQ  = 4.0155977459 ;
+MPRINT(EM_DIAGRAM):   else if DELINQ >4.0155977459 then REP_DELINQ = 4.0155977459 ;
+24982     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+24983     +* Variable: DEROG ;
+MPRINT(EM_DIAGRAM):   * Variable: DEROG ;
+24984     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+24985     +Label REP_DEROG='Replacement: DEROG';
+MPRINT(EM_DIAGRAM):   Label REP_DEROG= 'Replacement: DEROG';
+24986     +Length REP_DEROG 8;
+MPRINT(EM_DIAGRAM):   Length REP_DEROG 8;
+24987     +REP_DEROG =DEROG ;
+MPRINT(EM_DIAGRAM):   REP_DEROG =DEROG ;
+24988     +if DEROG  eq . then REP_DEROG = . ;
+MPRINT(EM_DIAGRAM):   if DEROG eq . then REP_DEROG = . ;
+24989     +else
+24990     +if DEROG <-2.234030943  then REP_DEROG  = -2.234030943 ;
+MPRINT(EM_DIAGRAM):   else if DEROG <-2.234030943 then REP_DEROG = -2.234030943 ;
+24991     +else
+24992     +if DEROG >2.7357977278  then REP_DEROG  = 2.7357977278 ;
+MPRINT(EM_DIAGRAM):   else if DEROG >2.7357977278 then REP_DEROG = 2.7357977278 ;
+24993     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+24994     +* Variable: LOAN ;
+MPRINT(EM_DIAGRAM):   * Variable: LOAN ;
+24995     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+24996     +Label REP_LOAN='Replacement: LOAN';
+MPRINT(EM_DIAGRAM):   Label REP_LOAN= 'Replacement: LOAN';
+24997     +Length REP_LOAN 8;
+MPRINT(EM_DIAGRAM):   Length REP_LOAN 8;
+24998     +REP_LOAN =LOAN ;
+MPRINT(EM_DIAGRAM):   REP_LOAN =LOAN ;
+24999     +if LOAN  eq . then REP_LOAN = . ;
+MPRINT(EM_DIAGRAM):   if LOAN eq . then REP_LOAN = . ;
+25000     +else
+25001     +if LOAN <-15417.34721  then REP_LOAN  = -15417.34721 ;
+MPRINT(EM_DIAGRAM):   else if LOAN <-15417.34721 then REP_LOAN = -15417.34721 ;
+25002     +else
+25003     +if LOAN >52848.042656  then REP_LOAN  = 52848.042656 ;
+MPRINT(EM_DIAGRAM):   else if LOAN >52848.042656 then REP_LOAN = 52848.042656 ;
+25004     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+25005     +* Variable: MORTDUE ;
+MPRINT(EM_DIAGRAM):   * Variable: MORTDUE ;
+25006     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+25007     +Label REP_MORTDUE='Replacement: MORTDUE';
+MPRINT(EM_DIAGRAM):   Label REP_MORTDUE= 'Replacement: MORTDUE';
+25008     +Length REP_MORTDUE 8;
+MPRINT(EM_DIAGRAM):   Length REP_MORTDUE 8;
+25009     +REP_MORTDUE =MORTDUE ;
+MPRINT(EM_DIAGRAM):   REP_MORTDUE =MORTDUE ;
+25010     +if MORTDUE  eq . then REP_MORTDUE = . ;
+MPRINT(EM_DIAGRAM):   if MORTDUE eq . then REP_MORTDUE = . ;
+25011     +else
+25012     +if MORTDUE <-57533.85598  then REP_MORTDUE  = -57533.85598 ;
+MPRINT(EM_DIAGRAM):   else if MORTDUE <-57533.85598 then REP_MORTDUE = -57533.85598 ;
+25013     +else
+25014     +if MORTDUE >205763.33706  then REP_MORTDUE  = 205763.33706 ;
+MPRINT(EM_DIAGRAM):   else if MORTDUE >205763.33706 then REP_MORTDUE = 205763.33706 ;
+25015     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+25016     +* Variable: NINQ ;
+MPRINT(EM_DIAGRAM):   * Variable: NINQ ;
+25017     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+25018     +Label REP_NINQ='Replacement: NINQ';
+MPRINT(EM_DIAGRAM):   Label REP_NINQ= 'Replacement: NINQ';
+25019     +Length REP_NINQ 8;
+MPRINT(EM_DIAGRAM):   Length REP_NINQ 8;
+25020     +REP_NINQ =NINQ ;
+MPRINT(EM_DIAGRAM):   REP_NINQ =NINQ ;
+25021     +if NINQ  eq . then REP_NINQ = . ;
+MPRINT(EM_DIAGRAM):   if NINQ eq . then REP_NINQ = . ;
+25022     +else
+25023     +if NINQ <-4.016729639  then REP_NINQ  = -4.016729639 ;
+MPRINT(EM_DIAGRAM):   else if NINQ <-4.016729639 then REP_NINQ = -4.016729639 ;
+25024     +else
+25025     +if NINQ >6.391038668  then REP_NINQ  = 6.391038668 ;
+MPRINT(EM_DIAGRAM):   else if NINQ >6.391038668 then REP_NINQ = 6.391038668 ;
+25026     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+25027     +* Variable: VALUE ;
+MPRINT(EM_DIAGRAM):   * Variable: VALUE ;
+25028     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+25029     +Label REP_VALUE='Replacement: VALUE';
+MPRINT(EM_DIAGRAM):   Label REP_VALUE= 'Replacement: VALUE';
+25030     +Length REP_VALUE 8;
+MPRINT(EM_DIAGRAM):   Length REP_VALUE 8;
+25031     +REP_VALUE =VALUE ;
+MPRINT(EM_DIAGRAM):   REP_VALUE =VALUE ;
+25032     +if VALUE  eq . then REP_VALUE = . ;
+MPRINT(EM_DIAGRAM):   if VALUE eq . then REP_VALUE = . ;
+25033     +else
+25034     +if VALUE <-71528.22897  then REP_VALUE  = -71528.22897 ;
+MPRINT(EM_DIAGRAM):   else if VALUE <-71528.22897 then REP_VALUE = -71528.22897 ;
+25035     +else
+25036     +if VALUE >276305.26513  then REP_VALUE  = 276305.26513 ;
+MPRINT(EM_DIAGRAM):   else if VALUE >276305.26513 then REP_VALUE = 276305.26513 ;
+25037     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+25038     +* Variable: YOJ ;
+MPRINT(EM_DIAGRAM):   * Variable: YOJ ;
+25039     +* ;
+MPRINT(EM_DIAGRAM):   * ;
+25040     +Label REP_YOJ='Replacement: YOJ';
+MPRINT(EM_DIAGRAM):   Label REP_YOJ= 'Replacement: YOJ';
+25041     +Length REP_YOJ 8;
+MPRINT(EM_DIAGRAM):   Length REP_YOJ 8;
+25042     +REP_YOJ =YOJ ;
+MPRINT(EM_DIAGRAM):   REP_YOJ =YOJ ;
+25043     +if YOJ  eq . then REP_YOJ = . ;
+MPRINT(EM_DIAGRAM):   if YOJ eq . then REP_YOJ = . ;
+25044     +else
+25045     +if YOJ <-14.03331528  then REP_YOJ  = -14.03331528 ;
+MPRINT(EM_DIAGRAM):   else if YOJ <-14.03331528 then REP_YOJ = -14.03331528 ;
+25046     +else
+25047     +if YOJ >31.805181283  then REP_YOJ  = 31.805181283 ;
+MPRINT(EM_DIAGRAM):   else if YOJ >31.805181283 then REP_YOJ = 31.805181283 ;
+NOTE: %INCLUDE(레벨 1)를 종료 중입니다.
+MPRINT(EM_DIAGRAM):   run;
+25048      run;
+
+NOTE: DATA STEP 뷰가 파일 EMWS6.REPL_VALIDATE에 저장되었습니다.
+NOTE: 저장된 DATA STEP 뷰는 다른 운영 체제에서 실행할 수 없습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(EM_DIAGRAM):   quit;
+25049      quit;
+25050      filename emflow;
+MPRINT(EM_DIAGRAM):   filename emflow;
+NOTE: Fileref EMFLOW을(를) 삭제했습니다.
+25052      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):     *------------------------------------------------------------*;
+25053      * Repl: Computing metadata for TRAIN data;
+MPRINT(EM_DIAGRAM):   * Repl: Computing metadata for TRAIN data;
+25054      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+
+NOTE: View EMWS6.REPL_TRAIN.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.05 초
+      cpu 시간            0.04 초
+      
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * &nodeid: Computing Metadata for TRAIN data;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   filename _delta "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS6\Repl\CDELTA_TRAIN.sas";
+MPRINT(EMADVISECOLUMNS):   proc display c=sashelp.emmeta.advisecolumns.scl;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    options validvarname=any;
+MPRINT(EMADVISECOLUMNS):   proc contents data=EMWS6.Repl_TRAIN out=_tempAdvisor noprint;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):   options validvarname=V7;
+MPRINT(EMADVISECOLUMNS):    data _null_;
+MPRINT(EMADVISECOLUMNS):   dsid = open('EMWS6.Repl_TRAIN');
+MPRINT(EMADVISECOLUMNS):   call symput('_dsidTable', strip(put(dsid, best.)));
+MPRINT(EMADVISECOLUMNS):   if dsid then do;
+MPRINT(EMADVISECOLUMNS):   call symput('_engineTable', attrc(dsid, 'ENGINE'));
+MPRINT(EMADVISECOLUMNS):   dsid = close(dsid);
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    proc contents data=EMWS6.Repl_TRAIN out=WORK.M1EZSUYI noprint;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    data WORK.M1EZSUYI;
+MPRINT(EMADVISECOLUMNS):   length NAME $ 64 TYPE $ 1 LABEL $ 200 FORMAT $ 36 INFORMAT $36 INDEX $ 1 INDEXTYPE $ 9;
+MPRINT(EMADVISECOLUMNS):   label NAME =;
+MPRINT(EMADVISECOLUMNS):   set WORK.M1EZSUYI(keep=name type length label format formatl formatd informat informl informd idxusage rename=(type=itype));
+MPRINT(EMADVISECOLUMNS):   if itype = 1 then type = 'N';
+MPRINT(EMADVISECOLUMNS):   else type = 'C';
+MPRINT(EMADVISECOLUMNS):   if formatl > 0 then do;
+MPRINT(EMADVISECOLUMNS):   if format ne '' then do;
+MPRINT(EMADVISECOLUMNS):   if type='N' then format = strip(format)!!strip(put(formatl, best12.))!!'.'!!strip(put(formatd, best12.));
+MPRINT(EMADVISECOLUMNS):   else format = strip(format)!!strip(put(formatl, best12.))!!'.';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else format = strip(put(formatl, best12.))!!'.'!!strip(put(formatd, best12.));
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else if format ne '' then format = strip(format)!!'.';
+MPRINT(EMADVISECOLUMNS):   if informl > 0 then do;
+MPRINT(EMADVISECOLUMNS):   if informat ne ' ' then do;
+MPRINT(EMADVISECOLUMNS):   if type='N' then informat = strip(informat)!!strip(put(informl, best12.))!!'.'!!strip(put(informd, best12.));
+MPRINT(EMADVISECOLUMNS):   else informat = strip(informat)!!strip(put(informl, best12.))!!'.';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else informat = strip(put(informl, best12.))!!'.'!!strip(put(informd, best12.));
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else if informat ne '' then informat = strip(informat)!!'.';
+MPRINT(EMADVISECOLUMNS):   if idxusage = 'NONE' then index ="N";
+MPRINT(EMADVISECOLUMNS):   else index = "Y";
+MPRINT(EMADVISECOLUMNS):   indextype = idxusage;
+MPRINT(EMADVISECOLUMNS):   drop idxusage itype formatl formatd informl informd;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    data WORK.M1EZSUYI;
+MPRINT(EMADVISECOLUMNS):   length UNAME $64;
+MPRINT(EMADVISECOLUMNS):   set WORK.M1EZSUYI;
+MPRINT(EMADVISECOLUMNS):   UNAME = upcase(NAME);
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    proc sort data=WORK.M1F4R4SW NOTHREADS;
+MPRINT(EMADVISECOLUMNS):   by UNAME;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    data WORK.M1F4R4SW;
+MPRINT(EMADVISECOLUMNS):   drop UNAME;
+MPRINT(EMADVISECOLUMNS):   set WORK.M1F4R4SW;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    data WORK.M2VREWCW(keep=NAME ATTR);
+MPRINT(EMADVISECOLUMNS):   length ATTR $ 20;
+MPRINT(EMADVISECOLUMNS):   set WORK.M1F4R4SW;
+MPRINT(EMADVISECOLUMNS):   if level ne "INTERVAL" then do;
+MPRINT(EMADVISECOLUMNS):   if order = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   attr = 'ORDER';
+MPRINT(EMADVISECOLUMNS):   output;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if format ne ' ' and formattype = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   attr = 'FORMATTYPE';
+MPRINT(EMADVISECOLUMNS):   output;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if role = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   attr = 'ROLE';
+MPRINT(EMADVISECOLUMNS):   output;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if level = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   attr = 'LEVEL';
+MPRINT(EMADVISECOLUMNS):   output;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if type = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   attr = 'TYPE';
+MPRINT(EMADVISECOLUMNS):   output;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if index = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   attr = 'INDEX';
+MPRINT(EMADVISECOLUMNS):   output;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if report = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   attr = 'REPORT';
+MPRINT(EMADVISECOLUMNS):   output;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):   proc sort NOTHREADS;
+MPRINT(EMADVISECOLUMNS):   by attr;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    data WORK.M1F4R4SW;
+MPRINT(EMADVISECOLUMNS):   length NAME $64 ROLE $ 32 LEVEL $ 10 ORDER $ 8 CREATOR $32 FORMATTYPE $ 10 FAMILY $ 10 LOWERLIMIT 8 UPPERLIMIT 8 REPORT $1 DISTRIBUTION $ 20 COMMENT $64;
+MPRINT(EMADVISECOLUMNS):   length levelAssigned 8 roleAssigned 8 PRICE 8;
+MPRINT(EMADVISECOLUMNS):   set WORK.M1F4R4SW;
+MPRINT(EMADVISECOLUMNS):   if formattype = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   if format ne ' ' then do;
+MPRINT(EMADVISECOLUMNS):   if type = 'N' then do;
+MPRINT(EMADVISECOLUMNS):   pos = indexc(format,'.1234567890');
+MPRINT(EMADVISECOLUMNS):   if pos > 1 then tempfmt = substr(format,1, pos-1);
+MPRINT(EMADVISECOLUMNS):   else tempfmt = ' ';
+MPRINT(EMADVISECOLUMNS):   flen = length(tempfmt);
+MPRINT(EMADVISECOLUMNS):   select;
+MPRINT(EMADVISECOLUMNS):   when(tempfmt in ("DATE" "DAY" "DDMMYY" "DOWNAME" "JULDAY" "JULIAN" "MMDDYY" "MMDDYYD" "MMDDYYC" "MMDDYYN" "MMDDYYP" "MMDDYYS" "MONNAME" "MONTH" "MONYY" "NENGO" "QTR" "QTRR" "WEEKDATE" "WEEKDATX" "WEEKDAY" "WORDDATE" "WORDDATX" 
+"YEAR" "YYMMDD" "YYMON" "YYMMDDC" "YYMMDDD" "YYMMDDN" "YYMMDDP" "YYMMDDS" "EURDFDE" "NJDATE" "NLDATE" "EURDFDD" "EURDFDWN" "EURDFMN" "EURDFMY" "EURDFWK" "EURDFWKX" "EURDFWDX" "EURDFDN" "EURDFDE" )) formattype = 'DATE';
+MPRINT(EMADVISECOLUMNS):   when(tempfmt in ("DATETIME" "EURDFDT" "TOD" )) formattype = "DATETIME";
+MPRINT(EMADVISECOLUMNS):   when(tempfmt in ("HHMM" "HOUR" "MMSS" "TIME" "TIMEAMPM" )) formattype = "TIME";
+MPRINT(EMADVISECOLUMNS):   when(tempfmt in ("COMMA" "COMMAX" "DOLLAR" "DOLLARX" "E" "FRACT" "NEGPAREN" "PERCENT")) formattype="QUANTITY";
+MPRINT(EMADVISECOLUMNS):   when(tempfmt in ("BINARY" "HEX" "IB" "OCTAL" "PD" "PIB" "PK" "RB" "SSN" "Z" "ZD")) formattype = "CODING";
+MPRINT(EMADVISECOLUMNS):   otherwise do;
+MPRINT(EMADVISECOLUMNS):   formattype = "USER";
+MPRINT(EMADVISECOLUMNS):   if compress(tempfmt, '0123456789.', '') = '' then formattype='NUM';
+MPRINT(EMADVISECOLUMNS):   else if substr(tempfmt, 1, 6)='NLDATE' then formattype = "DATE";
+MPRINT(EMADVISECOLUMNS):   else if substr(tempfmt, 1, 6)='NLDATM' then formattype = "DATETIME";
+MPRINT(EMADVISECOLUMNS):   else if substr(tempfmt, 1, 4)='NLTIM' then formattype = "TIME";
+MPRINT(EMADVISECOLUMNS):   else if flen >= 4 then do;
+MPRINT(EMADVISECOLUMNS):   str = substr(tempfmt,1,4);
+MPRINT(EMADVISECOLUMNS):   if str in ("MMYY" "YYMM" "YYQR") then formattype ="DATE";
+MPRINT(EMADVISECOLUMNS):   else if str = "S370" then formattype = "CODING";
+MPRINT(EMADVISECOLUMNS):   else if str = "BEST" then formattype = "NUM";
+MPRINT(EMADVISECOLUMNS):   drop str;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else if flen >=3 and substr(tempfmt,1,3) = "YYQ" then formatType = "DATE";
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   drop flen tempfmt pos;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else do;
+MPRINT(EMADVISECOLUMNS):   formatType = "CATEGORY";
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if formatType = "NUM" then do;
+MPRINT(EMADVISECOLUMNS):   if index = "Y" then formatType = "DISCRETE";
+MPRINT(EMADVISECOLUMNS):   else formatType = "QUANTITY";
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if level = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   if formatType in ("CATEGORY", "CODING", "ID") or type = "C" then level = "NOMINAL";
+MPRINT(EMADVISECOLUMNS):   else level = "INTERVAL";
+MPRINT(EMADVISECOLUMNS):   levelAssigned = 1;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else level = upcase(level);
+MPRINT(EMADVISECOLUMNS):   if role = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   length name_prefix $8 _uname $64;
+MPRINT(EMADVISECOLUMNS):   drop name_prefix _uname _freqflag;
+MPRINT(EMADVISECOLUMNS):   retain _freqflag;
+MPRINT(EMADVISECOLUMNS):   if LENGTH> 80 then ROLE = 'TEXT';
+MPRINT(EMADVISECOLUMNS):   _uname = upcase(NAME);
+MPRINT(EMADVISECOLUMNS):   select(_uname);
+MPRINT(EMADVISECOLUMNS):   when('_PARTIND_') do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'ID';
+MPRINT(EMADVISECOLUMNS):   LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   when('_WARN_') ROLE = 'ASSESS';
+MPRINT(EMADVISECOLUMNS):   when('EM_SEGMENT') do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'SEGMENT';
+MPRINT(EMADVISECOLUMNS):   LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   when('_NODE_') do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'SEGMENT';
+MPRINT(EMADVISECOLUMNS):   LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   when('EM_CLASSTARGET') ROLE = 'ASSESS';
+MPRINT(EMADVISECOLUMNS):   when('EM_VALUETARGET') ROLE = 'ASSESS';
+MPRINT(EMADVISECOLUMNS):   when('EM_PREDICTION') ROLE = 'PREDICT';
+MPRINT(EMADVISECOLUMNS):   when('EM_PROBABILITY') ROLE = 'PREDICT';
+MPRINT(EMADVISECOLUMNS):   when('EM_EVENTPROBABILITY') ROLE = 'PREDICT';
+MPRINT(EMADVISECOLUMNS):   when('EM_CLASSIFICATION') ROLE = 'CLASSIFICATION';
+MPRINT(EMADVISECOLUMNS):   when('EM_DECISION') ROLE = 'DECISION';
+MPRINT(EMADVISECOLUMNS):   when('EM_PROFIT') ROLE = 'ASSESS';
+MPRINT(EMADVISECOLUMNS):   when('EM_LOSS') ROLE = 'ASSESS';
+MPRINT(EMADVISECOLUMNS):   when('EM_ROI') ROLE = 'ASSESS';
+MPRINT(EMADVISECOLUMNS):   when('URI') ROLE = 'URL';
+MPRINT(EMADVISECOLUMNS):   when('FILTERED') ROLE = 'TEXTLOC';
+MPRINT(EMADVISECOLUMNS):   otherwise do;
+MPRINT(EMADVISECOLUMNS):   if upcase(NAME) =: 'ZIP' then do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'REJECTED';
+MPRINT(EMADVISECOLUMNS):   LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   COMMENT = 'Rejected by: Exceed the maximum class level of %s';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else if upcase(NAME) in('FREQ', 'FREQUENCY') then do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'FREQ';
+MPRINT(EMADVISECOLUMNS):   if TYPE = 'C' then ROLE = 'INPUT';
+MPRINT(EMADVISECOLUMNS):   else if _freqflag =1 then ROLE='REJECTED';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else do;
+MPRINT(EMADVISECOLUMNS):   name_prefix = scan(_uname, 1, '_');
+MPRINT(EMADVISECOLUMNS):   if scan(_uname, 2, '_') = '' then name_prefix='';
+MPRINT(EMADVISECOLUMNS):   if name_prefix in('F', 'I', 'U') then do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'CLASSIFICATION';
+MPRINT(EMADVISECOLUMNS):   LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else if name_prefix in('Q') then ROLE = 'ASSESS';
+MPRINT(EMADVISECOLUMNS):   else if name_prefix in('P', 'V') then ROLE = 'PREDICT';
+MPRINT(EMADVISECOLUMNS):   else if name_prefix in('R', 'RS', 'RT', 'RD', 'RDS', 'RDT', 'RA', 'RAS', 'RAT') then ROLE = 'RESIDUAL';
+MPRINT(EMADVISECOLUMNS):   else if name_prefix ='D' then do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'DECISION';
+MPRINT(EMADVISECOLUMNS):   LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else if name_prefix ='B' then do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'SEGMENT';
+MPRINT(EMADVISECOLUMNS):   LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else if name_prefix in('EP', 'BP', 'CP', 'EL', 'CL', 'BL', 'W', 'ROI', 'IC') then ROLE = 'ASSESS';
+MPRINT(EMADVISECOLUMNS):   else do;
+MPRINT(EMADVISECOLUMNS):   array _ROLE_ (19) $32 _TEMPORARY_ ('ASSESS','CLASSIFICATION','CENSOR', 'COST', 'CROSSID', 'DECISION', 'ID','INPUT', 'LABEL', 'MISSING','PREDICT','REFERRER','REJECTED', 'RESIDUAL','SEGMENT', 'SEQUENCE','TARGET', 'TEXT', 'TIMEID');
+MPRINT(EMADVISECOLUMNS):   drop _found_ i;
+MPRINT(EMADVISECOLUMNS):   _found_=0;
+MPRINT(EMADVISECOLUMNS):   do i=1 to 19 until(_found_=1);
+MPRINT(EMADVISECOLUMNS):   if index(_uname, trim(_ROLE_{i}))=1 then do;
+MPRINT(EMADVISECOLUMNS):   ROLE=_ROLE_{i};
+MPRINT(EMADVISECOLUMNS):   if ROLE = 'ID' then LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   else if ROLE = 'SEGMENT' then LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   else if ROLE = 'TIMEID' and TYPE='N' then LEVEL = 'INTERVAL';
+MPRINT(EMADVISECOLUMNS):   _found_=1;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if length(_uname)>2 then do;
+MPRINT(EMADVISECOLUMNS):   if substr(reverse(trim(_uname)), 1, 3) = 'DI_' then do;
+MPRINT(EMADVISECOLUMNS):   ROLE = 'ID';
+MPRINT(EMADVISECOLUMNS):   LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if ROLE='FREQ' then _freqflag=1;
+MPRINT(EMADVISECOLUMNS):   else if ROLE = 'CLASSIFICATION' then LEVEL = 'NOMINAL';
+MPRINT(EMADVISECOLUMNS):   if symexist('RATEMKG_ROLE') then do;
+MPRINT(EMADVISECOLUMNS):   if upcase(symget('RATEMKG_ROLE')) in('Y', 'YES') then do;
+MPRINT(EMADVISECOLUMNS):   if _uname =: 'POLICY' then ROLE = 'POLICYID';
+MPRINT(EMADVISECOLUMNS):   else if _uname in ('PARTITION', '_PARTIND_') then ROLE = 'PARTITION';
+MPRINT(EMADVISECOLUMNS):   else if type = 'N' then do;
+MPRINT(EMADVISECOLUMNS):   if _uname = 'EXPOSURE' then ROLE = 'EXPOSURE';
+MPRINT(EMADVISECOLUMNS):   else if _uname = 'YEAR' then ROLE = 'YEAR';
+MPRINT(EMADVISECOLUMNS):   else if _uname = 'WEIGHT' then ROLE = 'WEIGHT';
+MPRINT(EMADVISECOLUMNS):   else if _uname = 'OFFSET' then ROLE = 'OFFSET';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   if role = ' ' then do;
+MPRINT(EMADVISECOLUMNS):   if formattype in('DATE', 'DATETIME', 'TIME') then role = 'TIMEID';
+MPRINT(EMADVISECOLUMNS):   else role = 'INPUT';
+MPRINT(EMADVISECOLUMNS):   roleAssigned = 1;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   else role = upcase(role);
+MPRINT(EMADVISECOLUMNS):   if REPORT = '' then REPORT = 'N';
+MPRINT(EMADVISECOLUMNS):   if symexist('dmwb_product') then do;
+MPRINT(EMADVISECOLUMNS):   if upcase(symget('dmwb_product')) = 'FACTORYMINER_DATASOURCE' then do;
+MPRINT(EMADVISECOLUMNS):   if ROLE ^in('INPUT', 'TARGET', 'REJECTED', 'SEGMENT', 'FREQ', 'ID', 'KEY') then ROLE='REJECTED';
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   end;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):    data WORK.M1F4R4SW;
+MPRINT(EMADVISECOLUMNS):   set WORK.M1F4R4SW;
+MPRINT(EMADVISECOLUMNS):   label NAME = "변수 이름" TYPE = "유형" ROLE = "역할" LEVEL= "측도 레벨" ORDER= "순서" CREATOR= "생성자" FORMATTYPE= "출력형식 유형" FAMILY= "군" DISTRIBUTION= "분포" PRICE= "가격" LOWERLIMIT= "하한" UPPERLIMIT= "상한" REPORT= 
+"리 포트" COMMENT= "주석" INDEX= "인덱스" INDEXTYPE= "인덱스 유형" LABEL= "레이블" LENGTH= "길이";
+MPRINT(EMADVISECOLUMNS):   drop levelAssigned roleAssigned;
+MPRINT(EMADVISECOLUMNS):   run;
+MPRINT(EMADVISECOLUMNS):   
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   proc sort data=WORK.COLUMNMETA;
+MPRINT(EM_DIAGRAM):   by NAME;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * &nodeid: Merge incoming metadata;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   proc contents data=EMWS6.Part4_TRAIN noprint out=_temp2(keep=NAME);
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   proc sort data=_temp2;
+MPRINT(EM_DIAGRAM):   by NAME;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   proc sort data=EMWS6.Part4_CMeta_TRAIN out=_temp;
+MPRINT(EM_DIAGRAM):   by NAME;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data EMWS6.Repl_CMeta_TRAIN;
+MPRINT(EM_DIAGRAM):   merge WORK.COLUMNMETA(in=_a) _temp2(in=_b) _temp(drop=FORMAT INFORMAT LENGTH INDEX INDEXTYPE in=_c) end=_eof_;
+MPRINT(EM_DIAGRAM):   by NAME;
+MPRINT(EM_DIAGRAM):   if (^_a and _b) or (^_c and _a and _b) then delete;
+MPRINT(EM_DIAGRAM):   if ^_b then CREATOR = "Repl";
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Repl: Apply Delta Code;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   if NAME="CLAGE" then do;
+MPRINT(EM_DIAGRAM):   ROLE="REJECTED";
+MPRINT(EM_DIAGRAM):   COMMENT= "Replaced by Repl";
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else if NAME="REP_CLAGE" then do;
+MPRINT(EM_DIAGRAM):   ROLE="INPUT";
+MPRINT(EM_DIAGRAM):   LEVEL="INTERVAL";
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else if NAME="CLNO" then do;
+MPRINT(EM_DIAGRAM):   ROLE="REJECTED";
+MPRINT(EM_DIAGRAM):   COMMENT= "Replaced by Repl";
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else if NAME="REP_CLNO" then do;
+MPRINT(EM_DIAGRAM):   ROLE="INPUT";
+MPRINT(EM_DIAGRAM):   LEVEL="INTERVAL";
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else if NAME="DEBTINC" then do;
+MPRINT(EM_DIAGRAM):   ROLE="REJECTED";
+MPRINT(EM_DIAGRAM):   COMMENT= "Replaced by Repl";
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else if NAME="REP_DEBTINC" then do;
+MPRINT(EM_DIAGRAM):   ROLE="INPUT";
+MPRINT(EM_DIAGRAM):   LEVEL="INTERVAL";
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else if NAME="DELINQ" then do;
+MPRINT(EM_DIAGRAM):   ROLE="REJECTED";
+MPRINT(EM_DIAGRAM):   COMMENT= "Replaced by Repl";
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else if NAME="REP_DELINQ" then do;
+MPRINT(EM_DIAGRAM):   ROLE="INPUT";
+MPRINT(EM_DIAGRAM):   LEVEL="INTERVAL";
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else if NAME="DEROG" then do;
+MPRINT(EM_DIAGRAM):   ROLE="REJECTED";
+MPRINT(EM_DIAGRAM):   COMMENT= "Replaced by Repl";
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else if NAME="REP_DEROG" then do;
+MPRINT(EM_DIAGRAM):   ROLE="INPUT";
+MPRINT(EM_DIAGRAM):   LEVEL="INTERVAL";
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else if NAME="LOAN" then do;
+MPRINT(EM_DIAGRAM):   ROLE="REJECTED";
+MPRINT(EM_DIAGRAM):   COMMENT= "Replaced by Repl";
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else if NAME="REP_LOAN" then do;
+MPRINT(EM_DIAGRAM):   ROLE="INPUT";
+MPRINT(EM_DIAGRAM):   LEVEL="INTERVAL";
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else if NAME="MORTDUE" then do;
+MPRINT(EM_DIAGRAM):   ROLE="REJECTED";
+MPRINT(EM_DIAGRAM):   COMMENT= "Replaced by Repl";
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else if NAME="REP_MORTDUE" then do;
+MPRINT(EM_DIAGRAM):   ROLE="INPUT";
+MPRINT(EM_DIAGRAM):   LEVEL="INTERVAL";
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else if NAME="NINQ" then do;
+MPRINT(EM_DIAGRAM):   ROLE="REJECTED";
+MPRINT(EM_DIAGRAM):   COMMENT= "Replaced by Repl";
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else if NAME="REP_NINQ" then do;
+MPRINT(EM_DIAGRAM):   ROLE="INPUT";
+MPRINT(EM_DIAGRAM):   LEVEL="INTERVAL";
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else if NAME="VALUE" then do;
+MPRINT(EM_DIAGRAM):   ROLE="REJECTED";
+MPRINT(EM_DIAGRAM):   COMMENT= "Replaced by Repl";
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else if NAME="REP_VALUE" then do;
+MPRINT(EM_DIAGRAM):   ROLE="INPUT";
+MPRINT(EM_DIAGRAM):   LEVEL="INTERVAL";
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else if NAME="YOJ" then do;
+MPRINT(EM_DIAGRAM):   ROLE="REJECTED";
+MPRINT(EM_DIAGRAM):   COMMENT= "Replaced by Repl";
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   else if NAME="REP_YOJ" then do;
+MPRINT(EM_DIAGRAM):   ROLE="INPUT";
+MPRINT(EM_DIAGRAM):   LEVEL="INTERVAL";
+MPRINT(EM_DIAGRAM):   end;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   filename _delta;
+NOTE: View EMWS6.REPL_TRAIN.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.04 초
+      
+NOTE: View EMWS6.REPL_VALIDATE.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.04 초
+      
+MPRINT(EM_DIAGRAM):    proc printto;
+MPRINT(EM_DIAGRAM):   run;

@@ -1,0 +1,275 @@
+*------------------------------------------------------------*
+사용자:                Administrator
+날짜:                2018년 11월 20일
+시간:                10시24분21초
+*------------------------------------------------------------*
+* 분석 출력
+*------------------------------------------------------------*
+ 
+ 
+ 
+ 
+변수 요약
+ 
+            측도 레     빈도
+역할           벨       개수
+ 
+INPUT       BINARY        6
+INPUT       INTERVAL      7
+INPUT       NOMINAL       3
+REJECTED    INTERVAL      8
+TARGET      BINARY        1
+ 
+ 
+ 
+ 
+ 
+The DMINE Procedure
+ 
+            R-Squares for Target Variable: RESPOND
+ 
+Effect                      DF        R-Square
+ 
+Class: LOC*OWNHOME          23        0.024574
+Group: LOC*OWNHOME           7        0.024151
+Class: LOC*MARRIED          23        0.023371
+Group: LOC*MARRIED           6        0.023078
+Class: LOC*SEX              23        0.022333
+Class: LOC*ORGSRC           63        0.022250
+Group: LOC*SEX               6        0.022063
+Group: LOC*ORGSRC            9        0.021904
+Class: MARRIED*ORGSRC       22        0.017200
+Group: MARRIED*ORGSRC        6        0.017043
+Class: ORGSRC*OWNHOME       22        0.016588
+Group: ORGSRC*OWNHOME        6        0.016372
+Class: CLIMATE*OWNHOME       8        0.015289
+Group: CLIMATE*OWNHOME       5        0.015119
+Class: ORGSRC*SEX           22        0.013927
+Group: ORGSRC*SEX            4        0.013825
+Class: CLIMATE*SEX           8        0.013060
+Group: CLIMATE*SEX           4        0.012965
+AOV16: VALUE24              15        0.012754
+Class: CLIMATE*MARRIED       8        0.012676
+Group: CLIMATE*MARRIED       5        0.012614
+Class: MARRIED*RETURN24      5        0.011290
+Group: MARRIED*RETURN24      4        0.011288
+Class: CLIMATE*ORGSRC       23        0.011124
+Group: CLIMATE*ORGSRC        6        0.010996
+Class: COA6*LOC             15        0.010954
+Group: COA6*LOC              6        0.010748
+Class: COA6*OWNHOME          5        0.010311
+Class: COA6*MARRIED          5        0.010290
+Class: MARRIED*OWNHOME       4        0.010241
+Group: MARRIED*OWNHOME       3        0.010239
+Group: COA6*OWNHOME          3        0.010161
+Group: COA6*MARRIED          3        0.010145
+AOV16: AGE                  15        0.010077
+Class: OWNHOME*RETURN24      5        0.009283
+Group: OWNHOME*RETURN24      3        0.009222
+Class: DISCBUY*OWNHOME       5        0.008856
+Group: DISCBUY*OWNHOME       3        0.008698
+AOV16: BUY18                 3        0.008481
+Class: COA6*SEX              5        0.008472
+Group: COA6*SEX              3        0.008443
+Class: OWNHOME*SEX           4        0.008347
+Class: DISCBUY*MARRIED       5        0.008250
+Group: OWNHOME*SEX           2        0.008231
+Class: OWNHOME               2        0.008231
+Group: DISCBUY*MARRIED       3        0.008108
+Var:   BUY18                 1        0.008055
+Class: RETURN24*SEX          5        0.008033
+Class: LOC*RETURN24         15        0.007985
+Class: MARRIED*SEX           4        0.007980
+Group: RETURN24*SEX          3        0.007963
+Class: MARRIED               2        0.007962
+Group: MARRIED*SEX           2        0.007962
+Group: LOC*RETURN24          7        0.007864
+Class: DISCBUY*LOC          15        0.007120
+Class: CLIMATE*COA6          5        0.007114
+Class: COA6*ORGSRC          15        0.007114
+Group: CLIMATE*COA6          3        0.007049
+Group: DISCBUY*LOC           5        0.007005
+Group: COA6*ORGSRC           5        0.006988
+AOV16: FICO                 15        0.006833
+Class: DISCBUY*SEX           5        0.006536
+Var:   VALUE24               1        0.006471
+Group: DISCBUY*SEX           2        0.006432
+Class: SEX                   2        0.006312
+Group: SEX                   1        0.006293
+Class: CLIMATE*LOC           7        0.006253
+Class: LOC                   7        0.006253
+Group: LOC                   4        0.006168
+Group: CLIMATE*LOC           4        0.006168
+Class: ORGSRC*RETURN24      15        0.006085
+Group: ORGSRC*RETURN24       6        0.006006
+Class: DISCBUY*ORGSRC       15        0.004892    R2 < MINR2
+Class: CLIMATE*DISCBUY       5        0.004844    R2 < MINR2
+Group: CLIMATE*DISCBUY       3        0.004831    R2 < MINR2
+Class: CLIMATE*RETURN24      5        0.004830    R2 < MINR2
+Group: DISCBUY*ORGSRC        5        0.004809    R2 < MINR2
+Group: CLIMATE*RETURN24      2        0.004794    R2 < MINR2
+Class: CLIMATE               2        0.004581    R2 < MINR2
+Class: COA6*RETURN24         3        0.003717    R2 < MINR2
+Group: COA6*RETURN24         2        0.003716    R2 < MINR2
+AOV16: INCOME               15        0.003639    R2 < MINR2
+Class: ORGSRC                7        0.003318    R2 < MINR2
+Group: ORGSRC                3        0.003281    R2 < MINR2
+Var:   FICO                  1        0.002981    R2 < MINR2
+Class: COA6*DISCBUY          3        0.002303    R2 < MINR2
+Group: COA6*DISCBUY          2        0.002302    R2 < MINR2
+Class: COA6                  1        0.002167    R2 < MINR2
+Var:   AGE                   1        0.002074    R2 < MINR2
+AOV16: BUY12                 2        0.001927    R2 < MINR2
+Var:   BUY12                 1        0.001557    R2 < MINR2
+Var:   INCOME                1        0.000705    R2 < MINR2
+AOV16: BUY6                  2        0.000558    R2 < MINR2
+Var:   BUY6                  1        0.000479    R2 < MINR2
+Class: DISCBUY*RETURN24      3        0.000375    R2 < MINR2
+Class: DISCBUY               1        0.000121    R2 < MINR2
+Class: RETURN24              1     0.000030674    R2 < MINR2
+ 
+ 
+ 
+ 
+ 
+The DMINE Procedure
+ 
+                                   Effects Chosen for Target: RESPOND
+ 
+                                                                                   Sum of      Error Mean
+Effect                      DF        R-Square         F Value    p-Value         Squares          Square
+ 
+Class: OWNHOME               2        0.008231       16.582382     <.0001        2.332978        0.070345
+Var:   BUY18                 1        0.007774       31.561416     <.0001        2.203339        0.069811
+Group: LOC                   4        0.005611        5.722152     0.0001        1.590361        0.069483
+Class: MARRIED               1        0.001092        4.456893     0.0348        0.309409        0.069422
+ 
+ 
+ 
+ 
+ 
+The DMINE Procedure
+ 
+     The Final ANOVA Table for Target: RESPOND
+ 
+                                              Sum of
+Effect            DF        R-Square         Squares
+ 
+Model              8        0.022708        6.436086
+Error           3990               .      276.995772
+Total           3998               .      283.431858
+ 
+ 
+ 
+ 
+ 
+The DMINE Procedure
+ 
+                         Effects Not Chosen for Target: RESPOND
+ 
+                                                                                   Sum of
+Effect                      DF        R-Square         F Value    p-Value         Squares
+ 
+Var:   VALUE24               1        0.000488        1.991438     0.1583        0.138216
+Group: SEX                   0               0               0     1.0000               0
+ 
+ 
+ 
+ 
+ 
+The DMINE Procedure
+ 
+         Estimating logistic
+ 
+ Iter           Alpha            Beta
+ 
+    0       -2.017749        4.018256
+    1       -5.380360        8.338089
+    2       -7.350612       10.721130
+    3       -7.620305       11.045907
+    4       -7.624383       11.050830
+    4       -7.624383       11.050830
+ 
+ 
+ 
+ 
+ 
+The DMINE Procedure
+ 
+Classification Table for CUTOFF = 0.5000
+ 
+         Accuracy =  92.32
+ 
+                      Predicted
+Observed               1           0
+ 
+1                      0         307
+0                      0        3692
+Missing                0           0
+ 
+ 
+ 
+ 
+ 
+The DMSPLIT Procedure
+ 
+       Effect Summary
+ 
+              Node     Total
+               1st     Times
+Effect       Split     Split
+ 
+VALUE24          1         4
+MARRIED          2         1
+LOC              4         2
+AGE              5         1
+CLIMATE          6         1
+INCOME           7         3
+ORGSRC           8         4
+BUY18           10         3
+OWNHOME         23         1
+BUY6            27         1
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+-------------------------------------------------------------------
+분석에서 변수 선택 요약
+-------------------------------------------------------------------
+ 
+ 
+타겟 이름 : RESPOND
+타겟 레벨 : BINARY
+변수 선택 모델 : R 제곱 및 카이제곱
+ 
+총 Input 수 : 16
+사용된 총 Input 수 : 16
+사용되지 않은 총 Input 수 : 0
+기각된 총 Input 수 : 13
+ 
+최대 결측 비율: 50
+NOTE: 최대 결측 비율에 의해 기각된 변수가 없습니다.
+ 
+최대 클래스 레벨 : 100
+NOTE: 최대 클래스 레벨에 의해 기각된 변수가 없습니다.
+ 
+NOTE: 1개의 그룹 변수가 생성되었습니다.
+
+
+*------------------------------------------------------------*
+* 스코어 출력
+*------------------------------------------------------------*
+
+
+*------------------------------------------------------------*
+* 리포트 출력
+*------------------------------------------------------------*

@@ -1,0 +1,628 @@
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 28일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "22시04분27초" );
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 분석 로그";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+*------------------------------------------------------------*
+* 분석 로그
+날짜:                2018년 11월 28일
+시간:                22시04분27초
+*------------------------------------------------------------*
+MPRINT(EM_DIAGRAM):    filename O0FF2TIT "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\Assoc3\EMTRAIN.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   proc printto print=O0FF2TIT new;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _LOG "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\Assoc3\EMLOG.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 28일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "22시04분27초" );
+MPRINT(EM_DIAGRAM):   file _LOG;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "사용자:                Administrator";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "사이트:                10503192";
+MPRINT(EM_DIAGRAM):   put "플랫폼:            X64_10HOME";
+MPRINT(EM_DIAGRAM):   put "관리 릴리스: 9.04.01M4P110916";
+MPRINT(EM_DIAGRAM):   put "EM 버전:          14.2";
+MPRINT(EM_DIAGRAM):   put "* ";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _LOGIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\Assoc3\EMTRAIN.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_COPYFILE):   data _null_;
+MPRINT(EM_COPYFILE):   length line $20000;
+MPRINT(EM_COPYFILE):   file _LOG MOD lrecl=20000;
+MPRINT(EM_COPYFILE):   fid=fopen("_LOGIN",'i',20000,'v');
+MPRINT(EM_COPYFILE):   if fid > 0 then do;
+MPRINT(EM_COPYFILE):   do while(^fread(fid));
+MPRINT(EM_COPYFILE):   rlen = frlen(fid);
+MPRINT(EM_COPYFILE):   rc= fget(fid,line,20000);
+MPRINT(EM_COPYFILE):   start = length(line)-length(left(line))+1;
+MPRINT(EM_COPYFILE):   line=strip(line);
+MPRINT(EM_COPYFILE):   put @start line;
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   if fid > 0 then rc=fclose(fid);
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   run;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _LOGIN;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   file _LOG mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   filename _LOGIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\Assoc3\EMSCORE.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   file _LOG mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _LOGIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\Assoc3\EMREPORT.log" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _LOGIN;
+MPRINT(EM_DIAGRAM):    filename _LOG;
+MPRINT(EM_DIAGRAM):    filename _OUT "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\Assoc3\EMOUTPUT.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   call symput('NLDATE', strip(put(date(), NLDATE.)));
+MPRINT(EM_DIAGRAM):   call symput('NLTIME', strip(put(datetime(), NLTIME.)));
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):   data _null_;
+MPRINT(EM_DIAGRAM):   nldate= sasmsg("sashelp.dmine", "log_date_note", 'N', "2018년 11월 28일" );
+MPRINT(EM_DIAGRAM):   nltime= sasmsg("sashelp.dmine", "log_time_note", 'N', "22시04분27초" );
+MPRINT(EM_DIAGRAM):   file _OUT;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "사용자:                Administrator";
+MPRINT(EM_DIAGRAM):   put nldate;
+MPRINT(EM_DIAGRAM):   put nltime;
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 분석 출력";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _OUTIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\Assoc3\EMTRAIN.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):   ;
+MPRINT(EM_COPYFILE):   data _null_;
+MPRINT(EM_COPYFILE):   length line $20000;
+MPRINT(EM_COPYFILE):   file _OUT MOD lrecl=20000;
+MPRINT(EM_COPYFILE):   fid=fopen("_OUTIN",'i',20000,'v');
+MPRINT(EM_COPYFILE):   if fid > 0 then do;
+MPRINT(EM_COPYFILE):   do while(^fread(fid));
+MPRINT(EM_COPYFILE):   rlen = frlen(fid);
+MPRINT(EM_COPYFILE):   rc= fget(fid,line,20000);
+MPRINT(EM_COPYFILE):   start = length(line)-length(left(line))+1;
+MPRINT(EM_COPYFILE):   line=strip(line);
+MPRINT(EM_COPYFILE):   put @start line;
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   if fid > 0 then rc=fclose(fid);
+MPRINT(EM_COPYFILE):   end;
+MPRINT(EM_COPYFILE):   run;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _OUTIN;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   file _OUT mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   put // "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 스코어 출력";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _OUTIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\Assoc3\EMSCORE.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _OUTIN;
+MPRINT(EM_DIAGRAM):    data _null_;
+MPRINT(EM_DIAGRAM):   file _OUT mod;
+MPRINT(EM_DIAGRAM):   put _page_;
+MPRINT(EM_DIAGRAM):   put // "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   put "* 리포트 출력";
+MPRINT(EM_DIAGRAM):   put "*------------------------------------------------------------*";
+MPRINT(EM_DIAGRAM):   run;
+MPRINT(EM_DIAGRAM):    filename _OUTIN "C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\Assoc3\EMREPORT.out" encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):  ;
+MPRINT(EM_DIAGRAM):   filename _OUTIN;
+MPRINT(EM_DIAGRAM):    filename _OUT;
+MPRINT(EM_DIAGRAM):    filename _emtool_ 'C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\Assoc3\EMRUNSTATUS.xml' encoding="UTF-8" NOBOM;
+MPRINT(EM_DIAGRAM):    filename _emtool_ 'C:\Users\Administrator\DM_Proj\DataMining2018\Workspaces\EMWS5\Assoc3\EMRUNSTATUS.xml' encoding="UTF-8" NOBOM;
+27974      proc freq data=EMWS5.Assoc3_VariableSet noprint;
+MPRINT(EM_DIAGRAM):    proc freq data=EMWS5.Assoc3_VariableSet noprint;
+27975      table ROLE*LEVEL/out=WORK.Assoc3META;
+MPRINT(EM_DIAGRAM):   table ROLE*LEVEL/out=WORK.Assoc3META;
+27976      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 2개의 관측값을 데이터셋 EMWS5.ASSOC3_VARIABLESET.에서 읽었습니다.
+NOTE: 데이터셋 WORK.ASSOC3META은(는) 2개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: 프로시저 FREQ 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.04 초
+      
+
+27977      proc print data=WORK.Assoc3META label noobs;
+MPRINT(EM_DIAGRAM):   proc print data=WORK.Assoc3META label noobs;
+27978      var ROLE LEVEL COUNT;
+MPRINT(EM_DIAGRAM):   var ROLE LEVEL COUNT;
+27979      label ROLE = "%sysfunc(sasmsg(sashelp.dmine, meta_role_vlabel, NOQUOTE))" LEVEL = "%sysfunc(sasmsg(sashelp.dmine, meta_level_vlabel, NOQUOTE))" COUNT = "%sysfunc(sasmsg(sashelp.dmine, rpt_count_vlabel, NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label ROLE = "역할" LEVEL = "측도 레벨" COUNT = "빈도 개수";
+27980      title9 ' ';
+MPRINT(EM_DIAGRAM):   title9 ' ';
+27981      title10 "%sysfunc(sasmsg(sashelp.dmine, rpt_varSummary_title  , NOQUOTE))";
+MPRINT(EM_DIAGRAM):   title10 "변수 요약";
+MPRINT(EM_DIAGRAM):   run;
+27982      run;
+
+NOTE: 2개의 관측값을 데이터셋 WORK.ASSOC3META.에서 읽었습니다.
+NOTE: 출력 결과 (프로시저: PRINT, 페이지: 4)
+NOTE: 프로시저 PRINT 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+27983      title10;
+MPRINT(EM_DIAGRAM):   title10;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   * Assoc3: 분석용 메타데이터 분석;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   data WORK.M0IEFWC2;
+MPRINT(EM_DIAGRAM):   set WORK.M0IEFWC2;
+MPRINT(EM_DIAGRAM):   where USE = 'Y';
+MPRINT(EM_DIAGRAM):   run;
+27991      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+27992      * Assoc3: 분석용 데이터 정렬;
+MPRINT(EM_DIAGRAM):   * Assoc3: 분석용 데이터 정렬;
+27993      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+27994      proc sort data=EMWS5.Ids9_DATA(keep= Term _DOCUMENT_) out=WORK.SORTEDTRAIN;
+MPRINT(EM_DIAGRAM):   proc sort data=EMWS5.Ids9_DATA(keep= Term _DOCUMENT_) out=WORK.SORTEDTRAIN;
+27995      by _DOCUMENT_;
+MPRINT(EM_DIAGRAM):   by _DOCUMENT_;
+27996      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 3289개의 관측값을 데이터셋 EMWS5.IDS9_DATA.에서 읽었습니다.
+NOTE: View EMWS5.IDS9_DATA.VIEW 실행(총 프로세스 시간):
+      실행 시간           0.18 초
+      cpu 시간            0.14 초
+      
+NOTE: 3289개의 관측값을 데이터셋 DM_LIB.ASSOCIATION_BEEKMAN_N.에서 읽었습니다.
+NOTE: 데이터셋 WORK.SORTEDTRAIN은(는) 3289개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.21 초
+      cpu 시간            0.20 초
+      
+
+27997      *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------* ;
+27998      * EM: DMDBClass Macro ;
+MPRINT(EM_DIAGRAM):   * EM: DMDBClass Macro ;
+27999      *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+28000      %macro DMDBClass;
+28001          Term(DESC)
+28002      %mend DMDBClass;
+28003      *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+28004      * EM: DMDBVar Macro ;
+MPRINT(EM_DIAGRAM):   * EM: DMDBVar Macro ;
+28005      *------------------------------------------------------------* ;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------* ;
+28006      %macro DMDBVar;
+28007      
+28008      %mend DMDBVar;
+28009      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+28010      * EM: Create DMDB;
+MPRINT(EM_DIAGRAM):   * EM: Create DMDB;
+28011      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+28012      proc dmdb batch data=WORK.SORTEDTRAIN
+28013      dmdbcat=WORK.EM_DMDB
+28014      maxlevel = 100001
+28015      normlen= 256
+28016      out=WORK.EM_DMDB
+28017      ;
+MPRINT(EM_DIAGRAM):   proc dmdb batch data=WORK.SORTEDTRAIN dmdbcat=WORK.EM_DMDB maxlevel = 100001 normlen= 256 out=WORK.EM_DMDB ;
+28018      id
+28019      _DOCUMENT_
+28020      ;
+MPRINT(EM_DIAGRAM):   id _DOCUMENT_ ;
+MPRINT(EM_DIAGRAM):   class
+28021      class %DMDBClass;
+MPRINT(DMDBCLASS):   Term(DESC)
+MPRINT(EM_DIAGRAM):  ;
+28022      target
+28023      Term
+28024      ;
+MPRINT(EM_DIAGRAM):   target Term ;
+28025      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: Records processed = 3289   Memory used = 511K.
+NOTE: 3289개의 관측값을 데이터셋 WORK.SORTEDTRAIN.에서 읽었습니다.
+NOTE: 데이터셋 WORK.EM_DMDB은(는) 3289개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: 프로시저 DMDB 실행(총 프로세스 시간):
+      실행 시간           0.01 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(EM_DIAGRAM):   quit;
+28026      quit;
+
+number_of_elements=0 
+number_of_elements=1 
+28027      options nocleanup;
+MPRINT(EM_DIAGRAM):    options nocleanup;
+28028      proc assoc dmdb dmdbcat=WORK.EM_DMDB out=EMWS5.Assoc3_ASSOC data=WORK.EM_DMDB
+28029      pctsup = 1
+28030      items=2
+28031      ;
+MPRINT(EM_DIAGRAM):   proc assoc dmdb dmdbcat=WORK.EM_DMDB out=EMWS5.Assoc3_ASSOC data=WORK.EM_DMDB pctsup = 1 items=2 ;
+28032      customer
+28033      _DOCUMENT_
+28034      ;
+MPRINT(EM_DIAGRAM):   customer _DOCUMENT_ ;
+28035      target
+28036      TERM
+28037      ;
+MPRINT(EM_DIAGRAM):   target TERM ;
+28038      run;
+MPRINT(EM_DIAGRAM):   run;
+
+
+----- Potential 1 item sets = 1144 -----
+Counting items, records read:     3289
+Number of customers:               439
+Support level for item sets:         1
+Maximum count for a set:           134
+Sets meeting support level:       1144
+Megs of memory used:              0.51
+
+----- Potential 2 item sets = 653796 -----
+Counting items, records read:     3289
+Maximum count for a set:            33
+Sets meeting support level:      19123
+Megs of memory used:             42.50
+NOTE: 데이터셋 EMWS5.ASSOC3_ASSOC은(는) 20268개의 관측값과 4개의 변수를 가지고 있습니다.
+NOTE: 프로시저 ASSOC 실행(총 프로세스 시간):
+      실행 시간           0.58 초
+      cpu 시간            0.36 초
+      
+
+MPRINT(EM_DIAGRAM):   quit;
+28039      quit;
+28040      
+28041      
+
+28042      proc rulegen in = EMWS5.Assoc3_ASSOC out=EMWS5.Assoc3_RULE minconf = 1
+28043      ;
+MPRINT(EM_DIAGRAM):    proc rulegen in = EMWS5.Assoc3_ASSOC out=EMWS5.Assoc3_RULE minconf = 1 ;
+28044      run;
+MPRINT(EM_DIAGRAM):   run;
+
+write set 1
+write set 2
+NOTE: 20268개의 관측값을 데이터셋 EMWS5.ASSOC3_ASSOC.에서 읽었습니다.
+NOTE: 데이터셋 EMWS5.ASSOC3_RULE은(는) 38953개의 관측값과 12개의 변수를 가지고 있습니다.
+NOTE: 프로시저 RULEGEN 실행(총 프로세스 시간):
+      실행 시간           0.23 초
+      cpu 시간            0.21 초
+      
+
+MPRINT(EM_DIAGRAM):   quit;
+28045      quit;
+28046      
+
+28047      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+28048      * Assoc3: 규칙 선택;
+MPRINT(EM_DIAGRAM):   * Assoc3: 규칙 선택;
+28049      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+28050      proc sort data=EMWS5.Assoc3_RULE;
+MPRINT(EM_DIAGRAM):   proc sort data=EMWS5.Assoc3_RULE;
+28051      by descending LIFT;
+MPRINT(EM_DIAGRAM):   by descending LIFT;
+28052      where SET_SIZE>1;
+MPRINT(EM_DIAGRAM):   where SET_SIZE>1;
+28053      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 37809개의 관측값을 데이터셋 EMWS5.ASSOC3_RULE.에서 읽었습니다.
+      WHERE SET_SIZE>1;
+NOTE: 데이터셋 EMWS5.ASSOC3_RULE은(는) 37809개의 관측값과 12개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.21 초
+      cpu 시간            0.20 초
+      
+
+28054      data WORK.ASSOCSUBSET;
+MPRINT(EM_DIAGRAM):   data WORK.ASSOCSUBSET;
+28055      set EMWS5.Assoc3_RULE(obs=10000);
+MPRINT(EM_DIAGRAM):   set EMWS5.Assoc3_RULE(obs=10000);
+28056      index=_N_;
+MPRINT(EM_DIAGRAM):   index=_N_;
+28057      label index = "%sysfunc(sasmsg(sashelp.dmine, rpt_ruleIndex_vlabel,  NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label index = "규칙 인덱스";
+28058      label _LHAND = "%sysfunc(sasmsg(sashelp.dmine, rpt_leftHandSide_vlabel,  NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label _LHAND = "규칙 왼쪽";
+28059      label _RHAND = "%sysfunc(sasmsg(sashelp.dmine, rpt_rightHandSide_vlabel,  NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label _RHAND = "규칙 오른쪽";
+28060      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 10000개의 관측값을 데이터셋 EMWS5.ASSOC3_RULE.에서 읽었습니다.
+NOTE: 데이터셋 WORK.ASSOCSUBSET은(는) 10000개의 관측값과 13개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.10 초
+      cpu 시간            0.10 초
+      
+
+28061      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+28062      * Assoc3: 링크 및 노드 데이터셋 생성;
+MPRINT(EM_DIAGRAM):   * Assoc3: 링크 및 노드 데이터셋 생성;
+28063      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+28064      data EMWS5.Assoc3_LINKS(keep=LINKID _LHAND _RHAND LIFT EXP_CONF CONF SUPPORT COUNT rename=(_RHAND=TO _LHAND=FROM)) WORK.LEFT(keep=_LHAND rename=(_LHAND=ITEM)) WORK.RIGHT(keep=_RHAND rename=(_RHAND=ITEM));
+MPRINT(EM_DIAGRAM):   data EMWS5.Assoc3_LINKS(keep=LINKID _LHAND _RHAND LIFT EXP_CONF CONF SUPPORT COUNT rename=(_RHAND=TO _LHAND=FROM)) WORK.LEFT(keep=_LHAND rename=(_LHAND=ITEM)) WORK.RIGHT(keep=_RHAND rename=(_RHAND=ITEM));
+28065      label _RHAND= "%sysfunc(sasmsg(sashelp.dmine, rpt_to_vlabel ,            NOQUOTE))" _LHAND= "%sysfunc(sasmsg(sashelp.dmine, rpt_from_vlabel,           NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label _RHAND= "종료" _LHAND= "From";
+28066      set WORK.ASSOCSUBSET;
+MPRINT(EM_DIAGRAM):   set WORK.ASSOCSUBSET;
+28067      label LINKID = "%sysfunc(sasmsg(sashelp.dmine, rpt_varclus_label_linkid , NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label LINKID = "링크 ID";
+28068      LINKID = _N_;
+MPRINT(EM_DIAGRAM):   LINKID = _N_;
+28069      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 10000개의 관측값을 데이터셋 WORK.ASSOCSUBSET.에서 읽었습니다.
+NOTE: 데이터셋 EMWS5.ASSOC3_LINKS은(는) 10000개의 관측값과 8개의 변수를 가지고 있습니다.
+NOTE: 데이터셋 WORK.LEFT은(는) 10000개의 관측값과 1개의 변수를 가지고 있습니다.
+NOTE: 데이터셋 WORK.RIGHT은(는) 10000개의 관측값과 1개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.22 초
+      cpu 시간            0.15 초
+      
+
+28070      data WORK.ASSOCTEMP;
+MPRINT(EM_DIAGRAM):   data WORK.ASSOCTEMP;
+28071      set WORK.LEFT WORK.RIGHT;
+MPRINT(EM_DIAGRAM):   set WORK.LEFT WORK.RIGHT;
+28072      where ITEM ne '';
+MPRINT(EM_DIAGRAM):   where ITEM ne '';
+28073      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 10000개의 관측값을 데이터셋 WORK.LEFT.에서 읽었습니다.
+      WHERE ITEM not = ' ';
+NOTE: 10000개의 관측값을 데이터셋 WORK.RIGHT.에서 읽었습니다.
+      WHERE ITEM not = ' ';
+NOTE: 데이터셋 WORK.ASSOCTEMP은(는) 20000개의 관측값과 1개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.05 초
+      cpu 시간            0.04 초
+      
+
+28074      proc sort data=WORK.ASSOCTEMP nodup;
+MPRINT(EM_DIAGRAM):   proc sort data=WORK.ASSOCTEMP nodup;
+28075      by ITEM;
+MPRINT(EM_DIAGRAM):   by ITEM;
+28076      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 20000개의 관측값을 데이터셋 WORK.ASSOCTEMP.에서 읽었습니다.
+NOTE: 19038개의 중복 관측값이 삭제되었습니다.
+NOTE: 데이터셋 WORK.ASSOCTEMP은(는) 962개의 관측값과 1개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.06 초
+      cpu 시간            0.06 초
+      
+
+28077      data WORK.ITEMS (keep=ITEM COUNT);
+MPRINT(EM_DIAGRAM):   data WORK.ITEMS (keep=ITEM COUNT);
+28078      set EMWS5.Assoc3_ASSOC;
+MPRINT(EM_DIAGRAM):   set EMWS5.Assoc3_ASSOC;
+28079      where set_size=1;
+MPRINT(EM_DIAGRAM):   where set_size=1;
+28080      ITEM = ITEM1;
+MPRINT(EM_DIAGRAM):   ITEM = ITEM1;
+28081      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 1144개의 관측값을 데이터셋 EMWS5.ASSOC3_ASSOC.에서 읽었습니다.
+      WHERE set_size=1;
+NOTE: 데이터셋 WORK.ITEMS은(는) 1144개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.01 초
+      
+
+28082      proc sort data=WORK.ITEMS;
+MPRINT(EM_DIAGRAM):   proc sort data=WORK.ITEMS;
+28083      by ITEM;
+MPRINT(EM_DIAGRAM):   by ITEM;
+28084      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 1144개의 관측값을 데이터셋 WORK.ITEMS.에서 읽었습니다.
+NOTE: 데이터셋 WORK.ITEMS은(는) 1144개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.04 초
+      
+
+28085      data EMWS5.Assoc3_NODES;
+MPRINT(EM_DIAGRAM):   data EMWS5.Assoc3_NODES;
+28086      merge WORK.ASSOCTEMP(in=a) WORK.ITEMS;
+MPRINT(EM_DIAGRAM):   merge WORK.ASSOCTEMP(in=a) WORK.ITEMS;
+28087      by ITEM;
+MPRINT(EM_DIAGRAM):   by ITEM;
+28088      if COUNT=. then COUNT=-1;
+MPRINT(EM_DIAGRAM):   if COUNT=. then COUNT=-1;
+28089      if a then output;
+MPRINT(EM_DIAGRAM):   if a then output;
+28090      label ITEM = "%sysfunc(sasmsg(sashelp.dmine, rpt_item_vlabel ,     NOQUOTE))" COUNT = "%sysfunc(sasmsg(sashelp.dmine, rpt_count_vlabel ,    NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label ITEM = "항목" COUNT = "빈도 개수";
+28091      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 962개의 관측값을 데이터셋 WORK.ASSOCTEMP.에서 읽었습니다.
+NOTE: 1144개의 관측값을 데이터셋 WORK.ITEMS.에서 읽었습니다.
+NOTE: 데이터셋 EMWS5.ASSOC3_NODES은(는) 962개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.07 초
+      cpu 시간            0.06 초
+      
+
+28092      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+28093      * Assoc3: 규칙 데이터셋 생성;
+MPRINT(EM_DIAGRAM):   * Assoc3: 규칙 데이터셋 생성;
+28094      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+28095      proc sort data=WORK.ASSOCSUBSET out=EMWS5.Assoc3_RULES;
+MPRINT(EM_DIAGRAM):   proc sort data=WORK.ASSOCSUBSET out=EMWS5.Assoc3_RULES;
+28096      by descending LIFT _RHAND;
+MPRINT(EM_DIAGRAM):   by descending LIFT _RHAND;
+28097      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 10000개의 관측값을 데이터셋 WORK.ASSOCSUBSET.에서 읽었습니다.
+NOTE: 데이터셋 EMWS5.ASSOC3_RULES은(는) 10000개의 관측값과 13개의 변수를 가지고 있습니다.
+NOTE: 프로시저 SORT 실행(총 프로세스 시간):
+      실행 시간           0.10 초
+      cpu 시간            0.09 초
+      
+
+28098      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):    *------------------------------------------------------------*;
+28099      * Assoc3: 전치할 규칙 작성;
+MPRINT(EM_DIAGRAM):   * Assoc3: 전치할 규칙 작성;
+28100      *------------------------------------------------------------*;
+MPRINT(EM_DIAGRAM):   *------------------------------------------------------------*;
+28101      data EMWS5.Assoc3_RULES;
+MPRINT(EM_DIAGRAM):   data EMWS5.Assoc3_RULES;
+28102      set EMWS5.Assoc3_RULES;
+MPRINT(EM_DIAGRAM):   set EMWS5.Assoc3_RULES;
+28103      label Transpose= "%sysfunc(sasmsg(sashelp.dmine, rpt_transposeRule_vlabel,  NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label Transpose= "규칙 전치";
+28104      if _N_ <= 5000 then Transpose=1;
+MPRINT(EM_DIAGRAM):   if _N_ <= 5000 then Transpose=1;
+28105      else Transpose=0;
+MPRINT(EM_DIAGRAM):   else Transpose=0;
+28106      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 10000개의 관측값을 데이터셋 EMWS5.ASSOC3_RULES.에서 읽었습니다.
+NOTE: 데이터셋 EMWS5.ASSOC3_RULES은(는) 10000개의 관측값과 14개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.07 초
+      cpu 시간            0.07 초
+      
+
+28107      %let numtransrules = 0;
+28108      data WORK.RULEID;
+MPRINT(EM_DIAGRAM):    data WORK.RULEID;
+28109      set EMWS5.Assoc3_RULES(where=(transpose=1)) end=eof;
+MPRINT(EM_DIAGRAM):   set EMWS5.Assoc3_RULES(where=(transpose=1)) end=eof;
+28110      ruleid = _N_;
+MPRINT(EM_DIAGRAM):   ruleid = _N_;
+28111      drop transpose;
+MPRINT(EM_DIAGRAM):   drop transpose;
+28112      if eof then call symput('numtransrules', strip(put(_N_, best.)));
+MPRINT(EM_DIAGRAM):   if eof then call symput('numtransrules', strip(put(_N_, best.)));
+28113      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 5000개의 관측값을 데이터셋 EMWS5.ASSOC3_RULES.에서 읽었습니다.
+      WHERE transpose=1;
+NOTE: 데이터셋 WORK.RULEID은(는) 5000개의 관측값과 14개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.05 초
+      cpu 시간            0.03 초
+      
+
+NOTE: 이 SAS 세션은 WORK 내의 임의의 레지스트리를 사용합니다. 이 세션을 종료할 때 모든 변경 사항은 저장되지 않습니다.
+28114      proc print data = EMWS5.Assoc3_RULES(drop=Transpose obs=25) noobs label;
+MPRINT(EM_DIAGRAM):    proc print data = EMWS5.Assoc3_RULES(drop=Transpose obs=25) noobs label;
+28115      title9 ' ';
+MPRINT(EM_DIAGRAM):   title9 ' ';
+28116      title10 "%sysfunc(sasmsg(sashelp.dmine, rpt_association_title  , NOQUOTE))";
+MPRINT(EM_DIAGRAM):   title10 "연결 리포트";
+MPRINT(EM_DIAGRAM):   run;
+28117      run;
+
+NOTE: 25개의 관측값을 데이터셋 EMWS5.ASSOC3_RULES.에서 읽었습니다.
+NOTE: 출력 결과 (프로시저: PRINT, 페이지: 5)
+NOTE: 프로시저 PRINT 실행(총 프로세스 시간):
+      실행 시간           0.02 초
+      cpu 시간            0.03 초
+      
+
+28118      proc means data=EMWS5.Assoc3_RULES min max mean;
+MPRINT(EM_DIAGRAM):   proc means data=EMWS5.Assoc3_RULES min max mean;
+28119      var exp_conf conf support lift;
+MPRINT(EM_DIAGRAM):   var exp_conf conf support lift;
+28120      title9 ' ';
+MPRINT(EM_DIAGRAM):   title9 ' ';
+28121      title10 "%sysfunc(sasmsg(sashelp.dmine, rpt_ruleStatistics_title  , NOQUOTE))";
+MPRINT(EM_DIAGRAM):   title10 "규칙 통계량";
+MPRINT(EM_DIAGRAM):   run;
+28122      run;
+
+NOTE: 10000개의 관측값을 데이터셋 EMWS5.ASSOC3_RULES.에서 읽었습니다.
+NOTE: 출력 결과 (프로시저: MEANS, 페이지: 6)
+NOTE: 프로시저 MEANS 실행(총 프로세스 시간):
+      실행 시간           0.07 초
+      cpu 시간            0.06 초
+      
+
+28123      proc freq data=EMWS5.Assoc3_RULES;
+MPRINT(EM_DIAGRAM):   proc freq data=EMWS5.Assoc3_RULES;
+28124      table set_size;
+MPRINT(EM_DIAGRAM):   table set_size;
+28125      title9;
+MPRINT(EM_DIAGRAM):   title9;
+28126      title10 "%sysfunc(sasmsg(sashelp.dmine, rpt_sequence_title  , NOQUOTE))";
+MPRINT(EM_DIAGRAM):   title10 "순차분석 리포트";
+MPRINT(EM_DIAGRAM):   run;
+28127      run;
+
+NOTE: 10000개의 관측값을 데이터셋 EMWS5.ASSOC3_RULES.에서 읽었습니다.
+NOTE: 출력 결과 (프로시저: FREQ, 페이지: 7)
+NOTE: 프로시저 FREQ 실행(총 프로세스 시간):
+      실행 시간           0.04 초
+      cpu 시간            0.04 초
+      
+
+28128      title10;
+MPRINT(EM_DIAGRAM):   title10;
+28129      data EMWS5.Assoc3_RULEMAP(keep=map rule);
+MPRINT(EM_DIAGRAM):    data EMWS5.Assoc3_RULEMAP(keep=map rule);
+28130      length map $8;
+MPRINT(EM_DIAGRAM):   length map $8;
+28131      label map = "%sysfunc(sasmsg(sashelp.dmine, rpt_map_vlabel,  NOQUOTE))";
+MPRINT(EM_DIAGRAM):   label map = "Map";
+28132      set EMWS5.Assoc3_RULES;
+MPRINT(EM_DIAGRAM):   set EMWS5.Assoc3_RULES;
+28133      map = "RULE"!!left(trim(put(_n_, 12.0)));
+MPRINT(EM_DIAGRAM):   map = "RULE"!!left(trim(put(_n_, 12.0)));
+28134      run;
+MPRINT(EM_DIAGRAM):   run;
+
+NOTE: 10000개의 관측값을 데이터셋 EMWS5.ASSOC3_RULES.에서 읽었습니다.
+NOTE: 데이터셋 EMWS5.ASSOC3_RULEMAP은(는) 10000개의 관측값과 2개의 변수를 가지고 있습니다.
+NOTE: DATA 문장 실행(총 프로세스 시간):
+      실행 시간           0.03 초
+      cpu 시간            0.03 초
+      
+
+MPRINT(EM_DIAGRAM):    proc printto;
+MPRINT(EM_DIAGRAM):   run;
